@@ -1,0 +1,51 @@
+<<Faltmarke>>
+<<Adressfeld>>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Beitragsrechnung
+
+Bei der Gründung am 10.12.2001  haben wir uns als Ziele gesetzt, die lokale Jugendgruppe des Umweltschutzvereins zu fördern. Die Unterstützung wird durch Mitgliedsbeiträge und Spenden aufgebracht. Für diese Unterstützung möchten wir Ihnen recht herzlich danken. Wenn Sie uns auch weiterhin unterstützen wollen wäre Ihr Beitrag für das Jahr   <<Beitrag.Jahr>>   fällig. Sie haben uns dafür eine Einzugsermächtigung erteilt. Prüfen Sie dazu bitte die unten aufgeführten Angaben.
+
+Viele Grüße und herzlichen Dank.
+
+
+
+
+
+<<datum.heute>>,  <<club.name>>
+
+
+
+
+Ihre Kontoverbindung:<<##>>Ihr Beitrag: <<Mitglied.Beitrag>> €<<##>>Ihre Zahlart: <<Mitglied.Zahlart>><<##>>Ihre IBAN: <<Mitglied.IBAN-kurz>>
+
+
+Unsere Kontoverbindung:<<##>>IBAN: <<club.IBAN>><<##>>BIC: <<club.BIC>><<##>>Bank: <<club.Bank>>
+
+________________________________________________________________________
+<<club.name>>, <<club.straße>>, <<club.plz>> <<club.ort>><<##>>Email: <<club.mail>>, Web: <<club.Webseite>>

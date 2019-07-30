@@ -1,0 +1,72 @@
+<<COURIER>>
+Vereinsdaten
+=============
+
+Name:           <<club.Name>>
+Ort:            <<club.Ort>>
+PLZ:            <<club.PLZ>>
+Straße:         <<club.Straße>>
+Telefon:        <<club.Telefon>>
+Mail:           <<club.Mail>>
+Webseite:       <<club.Webseite>>
+
+KontoNr:        <<club.KontoNr>>
+BIC:            <<club.BIC>>
+IBAN:           <<club.IBAN>>
+Bank:           <<club.Bank>>
+GläubigerId:    <<club.GläubigerId>>
+
+
+
+
+Mitgliedsdaten
+===============
+
+Nr:             <<Mitglied.Nr>>
+Anrede:         <<Mitglied.Anrede>>
+Nachname:       <<Mitglied.Nachname>>
+Vorname:        <<Mitglied.Vorname>>
+
+Beitrag:        <<Mitglied.Beitrag>>
+Beitragssatz:   <<Mitglied.Beitragssatz>>
+Status:         <<Mitglied.Status>>
+Text:           <<Mitglied.Text>>
+
+Email:          <<Mitglied.Email>>
+Straße:         <<Mitglied.Straße>>
+PLZ:            <<Mitglied.PLZ>>
+Ort:            <<Mitglied.Ort>>
+Land:           <<Mitglied.Land>>
+Telefon:        <<Mitglied.Telefon>>
+
+Bank:           <<Mitglied.Bank>>
+IBAN:           <<Mitglied.IBAN>>
+IBAN kurz:      <<Mitglied.IBAN-kurz>>
+BIC:            <<Mitglied.BIC>>
+Kontoinhaber:   <<Mitglied.Kontoinhaber>>
+Zahlart:        <<Mitglied.Zahlart>>
+
+Beitritt:       <<Mitglied.Beitritt>>
+Erstelldatum:   <<Mitglied.Erstelldatum>>
+Zahlungsbeginn: <<Mitglied.Zahlungsbeginn>>
+Sepabeginn:     <<Mitglied.Sepabeginn>>
+
+
+
+
+Beitrag
+========
+
+Nr:             <<Beitrag.Nr>>
+M. Nr:          <<Beitrag.M.Nr>>
+M. Nachname:    <<Beitrag.M.Nachname>>
+Betrag:         <<Beitrag.Betrag>>
+
+Jahr:           <<Beitrag.Jahr>>
+Zahlart:        <<Beitrag.Zahlart>>
+Bezahlt:        <<Beitrag.Bezahlt>>
+Rechnung:       <<Beitrag.Rechnung>>
+SpendenQ:       <<Beitrag.SpendenQ>>
+Erstelldatum:   <<Beitrag.Erstelldatum>>
+Text:           <<Beitrag.Text>>
+
