@@ -101,7 +101,7 @@ public class ProgStartFactory {
         PInit.initLib(null, ProgConst.PROGRAMMNAME,
                 ProgConst.CSS_FILE, ProgInfos.getUserAgent(),
                 ProgData.debug, ProgData.duration);
-        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
+        PButton.setHlpImage(GetIcon.getImageView("button-help.png", 16, 16));
     }
 
     /**

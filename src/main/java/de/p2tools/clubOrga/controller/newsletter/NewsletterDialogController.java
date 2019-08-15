@@ -212,7 +212,7 @@ public class NewsletterDialogController extends PDialogExtra {
 
     private boolean setDestPath() {
         destPath = pCboNewsletterPath.getSelValue();
-        final String destFile = pCboNewsletterFile.getSelValue();
+        destFile = pCboNewsletterFile.getSelValue();
 
         if (ClubFactory.getDestinationPath(getStage(), destPath, destFile).isEmpty()) {
             return false;

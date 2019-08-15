@@ -117,7 +117,7 @@ public class GeneralController extends AnchorPane {
         btnHelp.setGraphic(new ProgIcons().ICON_BUTTON_HELP);
         btnHelp.setOnAction(a -> PAlert.showHelpAlert(stage, "Programmupdate suchen",
                 "Beim Programmstart wird geprüft, ob es eine neue Version des Programms gibt. " +
-                        "Ist eine aktualisierte Version vorhanden, wird das dann gemeldet." + PConst.LINE_SEPARATOR +
+                        "Ist eine aktualisierte Version vorhanden, dann wird es gemeldet." + PConst.LINE_SEPARATOR +
                         "Das Programm wird aber nicht ungefragt ersetzt."));
         GridPane.setHalignment(btnHelp, HPos.RIGHT);
         gridPane.add(btnHelp, 1, 0);
@@ -132,6 +132,10 @@ public class GeneralController extends AnchorPane {
         Button btnNow = new Button("Jetzt suchen");
         btnNow.setMaxWidth(Double.MAX_VALUE);
 //        btnNow.setOnAction(event -> new SearchProgramUpdate().checkVersion(true, true /* anzeigen */));
+//        btnNow.setOnAction(event -> new SearchProgInfo().checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
+//                ProgramTools.getProgVersionInt(),
+//                ProgConfig.SYSTEM_INFOS_NR, true, true));
+
 
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(10, 0, 0, 0));
