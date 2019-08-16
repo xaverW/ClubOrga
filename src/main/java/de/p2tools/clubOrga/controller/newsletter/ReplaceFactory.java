@@ -19,7 +19,6 @@ package de.p2tools.clubOrga.controller.newsletter;
 
 import de.p2tools.clubOrga.data.clubData.ClubData;
 import de.p2tools.clubOrga.data.feeData.FeeData;
-import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
@@ -73,28 +72,23 @@ public class ReplaceFactory {
     }
 
     public static List<ReplaceData> getReplaceList(ClubData clubData) {
-        return getReplaceList(clubData, null, null, null);
+        return getReplaceList(clubData, null, null);
     }
 
     public static List<ReplaceData> getReplaceList(ClubData clubData, MemberData memberData) {
-        return getReplaceList(clubData, memberData, null, null);
+        return getReplaceList(clubData, memberData, null);
     }
 
     public static List<ReplaceData> getReplaceList(ClubData clubData, FeeData feeData) {
         MemberData memberData = feeData.getMemberData();
-        return getReplaceList(clubData, memberData, feeData, null);
+        return getReplaceList(clubData, memberData, feeData);
     }
 
-    public static List<ReplaceData> getReplaceList(ClubData clubData, FinanceData financeData) {
-        return getReplaceList(clubData, null, null, financeData);
-    }
-
-    public static List<ReplaceData> getReplaceList(ClubData clubData,
-                                                   MemberData memberData,
-                                                   FeeData feeData,
-                                                   FinanceData financeData) {
+    private static List<ReplaceData> getReplaceList(ClubData clubData,
+                                                    MemberData memberData,
+                                                    FeeData feeData) {
         List<ReplaceData> list = new ArrayList<>();
-        Config[] configs;
+        Config[] configsArr;
 
         // systemtags
         for (NewsletterFactory.TAGS tag : NewsletterFactory.TAGS.values()) {
@@ -103,30 +97,24 @@ public class ReplaceFactory {
 
         // clubdata
         if (clubData != null) {
-            configs = clubData.getConfigsArr();
-            addData(configs, list, NewsletterFactory.NEWSLETTER_TAG_CLUB_DATA);
+            configsArr = clubData.getConfigsArr();
+            addData(configsArr, list, NewsletterFactory.NEWSLETTER_TAG_CLUB_DATA);
         }
 
         // membertags
         if (memberData != null) {
-            configs = memberData.getConfigsArr(true);
-            addData(configs, list, NewsletterFactory.NEWSLETTER_TAG_MEMBER_DATA);
+            configsArr = memberData.getConfigsForNewsletter();
+            addData(configsArr, list, NewsletterFactory.NEWSLETTER_TAG_MEMBER_DATA);
 
         } else if (feeData != null && feeData.getMemberData() != null) {
-            configs = feeData.getMemberData().getConfigsArr(true);
-            addData(configs, list, NewsletterFactory.NEWSLETTER_TAG_MEMBER_DATA);
+            configsArr = feeData.getMemberData().getConfigsForNewsletter();
+            addData(configsArr, list, NewsletterFactory.NEWSLETTER_TAG_MEMBER_DATA);
         }
 
         // feetags
         if (feeData != null) {
-            configs = feeData.getConfigsArr(true);
-            addData(configs, list, NewsletterFactory.NEWSLETTER_TAG_FEE_DATA);
-        }
-
-        // financetags
-        if (financeData != null) {
-            configs = financeData.getConfigsArr();
-            addData(configs, list, NewsletterFactory.NEWSLETTER_TAG_FINANCE_DATA);
+            configsArr = feeData.getConfigsForNewsletter();
+            addData(configsArr, list, NewsletterFactory.NEWSLETTER_TAG_FEE_DATA);
         }
 
         return list;

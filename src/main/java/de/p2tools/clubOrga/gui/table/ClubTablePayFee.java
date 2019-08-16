@@ -22,6 +22,7 @@ import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
+import de.p2tools.p2Lib.guiTools.PTableFactory;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -55,6 +56,7 @@ public class ClubTablePayFee {
 
         final TableColumn<FeeData, Long> betragColumn = new TableColumn<>(FeeFieldNames.BETRAG);
         betragColumn.setCellValueFactory(new PropertyValueFactory<>("betrag"));
+        betragColumn.setCellFactory((final TableColumn<FeeData, Long> param) -> new PTableFactory.PCellMoney<>());
 
         final TableColumn<FeeData, String> jahrColumn = new TableColumn<>(FeeFieldNames.JAHR);
         jahrColumn.setCellValueFactory(new PropertyValueFactory<>("jahr"));

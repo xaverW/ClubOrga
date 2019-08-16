@@ -28,10 +28,18 @@ import de.p2tools.p2Lib.tools.date.PDateFactory;
 import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
 import javafx.beans.property.*;
+import javafx.util.converter.NumberStringConverter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FeeDataBase extends PDataSample<FeeData> {
+    private static final DecimalFormat DF;
+
+    static {
+        DF = new DecimalFormat("###,##0.00");
+    }
+
     public static final String TAG = "FeeData";
 
     private final LongProperty id = new SimpleLongProperty(0);
@@ -78,16 +86,20 @@ public class FeeDataBase extends PDataSample<FeeData> {
         }
     }
 
-    public ConfigExtra[] getConfigsArr(boolean replaceList) {
-        if (!replaceList) {
-            return getConfigsArr();
-        }
-
+    public ConfigExtra[] getConfigsForNewsletter() {
         ConfigExtra[] arr = getConfigsArr();
         ArrayList<Config> list = new ArrayList<>();
 
         for (ConfigExtra config : arr) {
-            if (config.getName().equals(FeeFieldNames.ZAHLART)) {
+            if (config.getName().equals(FeeFieldNames.BETRAG)) {
+                StringProperty st = new SimpleStringProperty();
+                double d = 0.01 * getBetrag();
+                st.setValue(new NumberStringConverter(DF).toString(d));
+                ConfigStringPropExtra conf = new ConfigStringPropExtra("betrag",
+                        FeeFieldNames.BETRAG, st);
+                list.add(conf);
+
+            } else if (config.getName().equals(FeeFieldNames.ZAHLART)) {
                 StringProperty st = new SimpleStringProperty();
                 st.setValue(paymentTypeData.get().getName());
                 ConfigStringPropExtra conf = new ConfigStringPropExtra("zahlart",

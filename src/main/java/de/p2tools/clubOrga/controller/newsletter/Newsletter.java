@@ -20,7 +20,6 @@ package de.p2tools.clubOrga.controller.newsletter;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.controller.newsletter.document.pdfFile.CreatePdfFile;
 import de.p2tools.clubOrga.data.feeData.FeeData;
-import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 
 import java.util.List;
@@ -34,35 +33,33 @@ public class Newsletter {
     public static void createDocument(ClubConfig clubConfig, NewsletterFactory.NEWSLETTER_TYPE newsletterType,
                                       List<MemberData> memberDataList,
                                       List<FeeData> feeDataList,
-                                      List<FinanceData> financeDataList,
                                       String sourceFile,
                                       String destPath,
                                       String destFile) {
 
         create(clubConfig, newsletterType,
-                memberDataList, feeDataList, financeDataList,
+                memberDataList, feeDataList,
                 sourceFile, destPath, destFile);
     }
 
     public static void memberNewsletter(ClubConfig clubConfig, List<MemberData> memberDataList) {
-        createNewsletter(clubConfig, memberDataList, null, null);
+        createNewsletter(clubConfig, memberDataList, null);
     }
 
     public static void feeNewsletter(ClubConfig clubConfig, List<FeeData> feeDataList) {
-        createNewsletter(clubConfig, null, feeDataList, null);
+        createNewsletter(clubConfig, null, feeDataList);
     }
 
     private static void createNewsletter(ClubConfig clubConfig,
                                          List<MemberData> memberDataList,
-                                         List<FeeData> feeDataList,
-                                         List<FinanceData> financeDataList) {
+                                         List<FeeData> feeDataList) {
 
         NewsletterDialogController newsletterDialogController = new NewsletterDialogController(clubConfig);
 
         if (newsletterDialogController.isOk()) {
 
             create(clubConfig, newsletterDialogController.getNewsletterType(),
-                    memberDataList, feeDataList, financeDataList,
+                    memberDataList, feeDataList,
                     newsletterDialogController.getSourceFile(),
                     newsletterDialogController.getDestPath(),
                     newsletterDialogController.getDestFile());
@@ -73,12 +70,11 @@ public class Newsletter {
     private static void create(ClubConfig clubConfig, NewsletterFactory.NEWSLETTER_TYPE exportType,
                                List<MemberData> memberDataList,
                                List<FeeData> feeDataList,
-                               List<FinanceData> financeDataList,
                                String sourceFile,
                                String destPath,
                                String destFile) {
 
-        new CreatePdfFile(clubConfig).createPdfNewsletter(memberDataList, feeDataList, financeDataList,
+        new CreatePdfFile(clubConfig).createPdfNewsletter(memberDataList, feeDataList,
                 sourceFile, destPath, destFile);
     }
 

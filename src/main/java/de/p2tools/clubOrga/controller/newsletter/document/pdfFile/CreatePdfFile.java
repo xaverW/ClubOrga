@@ -34,7 +34,6 @@ import de.p2tools.clubOrga.controller.newsletter.ReplaceData;
 import de.p2tools.clubOrga.controller.newsletter.ReplaceFactory;
 import de.p2tools.clubOrga.controller.newsletter.document.CreateDocumentFactory;
 import de.p2tools.clubOrga.data.feeData.FeeData;
-import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -61,7 +60,6 @@ public class CreatePdfFile {
 
     public void createPdfNewsletter(List<MemberData> memberDataList,
                                     List<FeeData> feeDataList,
-                                    List<FinanceData> financeDataList,
                                     String srcFile,
                                     String destPath,
                                     String destFileName) {
@@ -95,16 +93,6 @@ public class CreatePdfFile {
                 ReplaceFactory.getAddressData(addressList, clubConfig.clubData, feeData.getMemberData());
                 final List<ReplaceData> replaceDataList =
                         ReplaceFactory.getReplaceList(clubConfig.clubData, feeData);
-                replaceFile(replaceDataList, this.srcFile);
-
-            });
-
-        } else if (financeDataList != null) {
-            // Finanzdaten
-            financeDataList.stream().forEach(financeData -> {
-
-                final List<ReplaceData> replaceDataList =
-                        ReplaceFactory.getReplaceList(clubConfig.clubData, financeData);
                 replaceFile(replaceDataList, this.srcFile);
 
             });

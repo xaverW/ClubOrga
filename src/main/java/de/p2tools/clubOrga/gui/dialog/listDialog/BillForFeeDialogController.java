@@ -230,7 +230,7 @@ public class BillForFeeDialogController extends abListDialogController {
             }
 
             Newsletter.createDocument(clubConfig, newsletterType,
-                    null, feeDataList, null,
+                    null, feeDataList,
                     sourceFile, destP, destF);
         }
 

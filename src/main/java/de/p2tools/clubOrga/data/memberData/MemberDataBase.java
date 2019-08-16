@@ -27,10 +27,18 @@ import de.p2tools.p2Lib.configFile.config.*;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import de.p2tools.p2Lib.tools.date.PLocalDate;
 import javafx.beans.property.*;
+import javafx.util.converter.NumberStringConverter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MemberDataBase extends PDataSample<MemberData> {
+    private static final DecimalFormat DF;
+
+    static {
+        DF = new DecimalFormat("###,##0.00");
+    }
+
     public static final String TAG = "MemberData";
 
     private final LongProperty id = new SimpleLongProperty(0);
@@ -101,11 +109,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
     }
 
 
-    public Config[] getConfigsArr(boolean replaceList) {
-        if (!replaceList) {
-            return getConfigsArr();
-        }
-
+    public Config[] getConfigsForNewsletter() {
         Config[] arr = getConfigsArr();
         ArrayList<Config> list = new ArrayList<>();
 
@@ -113,7 +117,15 @@ public class MemberDataBase extends PDataSample<MemberData> {
                 new SimpleStringProperty(MemberFactory.getShortIban(iban.getValueSafe()))));
 
         for (Config config : arr) {
-            if (config.getName().equals(MemberFieldNames.STATUS)) {
+            if (config.getName().equals(MemberFieldNames.BEITRAG)) {
+                StringProperty st = new SimpleStringProperty();
+                double d = 0.01 * getBeitrag();
+                st.setValue(new NumberStringConverter(DF).toString(d));
+                ConfigStringPropExtra conf = new ConfigStringPropExtra("beitrag",
+                        MemberFieldNames.BEITRAG, st);
+                list.add(conf);
+
+            } else if (config.getName().equals(MemberFieldNames.STATUS)) {
                 StringProperty st = new SimpleStringProperty();
                 st.setValue(stateData.get().getName());
                 ConfigStringPropExtra conf = new ConfigStringPropExtra("status",

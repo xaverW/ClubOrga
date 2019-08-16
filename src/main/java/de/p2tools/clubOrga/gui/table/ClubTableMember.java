@@ -89,7 +89,6 @@ public class ClubTableMember {
         beitragColumn.setCellFactory((final TableColumn<MemberData, Long> param) -> new PTableFactory.PCellMoney<>());
 
         final TableColumn<MemberData, Object> beitragssatzColumn = new TableColumn<>(MemberFieldNames.BEITRAGSSATZ);
-//        beitragssatzColumn.setCellFactory(cellFactoryBeitragssatz);
         beitragssatzColumn.setCellValueFactory(new PropertyValueFactory<>("feeRateData"));
 
         final TableColumn<MemberData, Object> zahlartColumn = new TableColumn<>(MemberFieldNames.ZAHLART);
