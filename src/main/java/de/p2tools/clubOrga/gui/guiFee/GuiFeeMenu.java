@@ -59,23 +59,24 @@ public class GuiFeeMenu extends VBox {
         mb.setGraphic(new ProgIcons().ICON_TOOLBAR_MENU);
         mb.getStyleClass().add("btnFunction");
 
-        MenuItem miFeeBill = new MenuItem("Rechnung erstellen");
+        MenuItem miFeeBill = new MenuItem("Rechnungen für Auswahl erstellen");
         miFeeBill.setOnAction(a -> createBillForFee(BillForFeeDialogController.TYPE.BILL));
 
-        MenuItem miPayFee = new MenuItem("Beitrag bezahlen");
+        MenuItem miPayFee = new MenuItem("Auswahl an Beiträgen bezahlen");
         miPayFee.setOnAction(a -> payFee());
 
-        MenuItem miSQ = new MenuItem("Spendenquittung erstellen");
+        MenuItem miSQ = new MenuItem("Spendenquittungen für Auswahl erstellen");
         miSQ.setOnAction(a -> createBillForFee(BillForFeeDialogController.TYPE.SQ));
 
-        MenuItem miNewsletter = new MenuItem("Serienbrief erstellen");
+        MenuItem miNewsletter = new MenuItem("Serienbrief für Auswahl erstellen");
         miNewsletter.setOnAction(event -> feeNewsletter());
 
         mb.getItems().addAll(miFeeBill, miPayFee, miSQ, miNewsletter);
 
 
         // Buttons
-        Button btnDel = PButton.getButton(new ProgIcons().ICON_BUTTON_REMOVE, "Beitrag löschen");
+        Button btnDel = PButton.getButton(new ProgIcons().ICON_BUTTON_REMOVE,
+                "alle markierten Beiträge löschen");
         btnDel.setOnAction(a -> {
             List<FeeData> feeData = guiFee.getSelList();
             if (!feeData.isEmpty()) {
@@ -83,10 +84,11 @@ public class GuiFeeMenu extends VBox {
             }
         });
 
-        Button btnChange = PButton.getButton(new ProgIcons().ICON_BUTTON_MEMBER_CHANGE, "Beitrag ändern");
+        Button btnChange = PButton.getButton(new ProgIcons().ICON_BUTTON_MEMBER_CHANGE,
+                "den markierten Beitrag ändern");
         btnChange.setOnAction(a -> guiFee.changeFee());
 
-        Button btnPay = PButton.getButton(new ProgIcons().ICON_EURO, "Beitrag bezahlen");
+        Button btnPay = PButton.getButton(new ProgIcons().ICON_EURO, "markierte Beiträge bezahlen");
         btnPay.setOnAction(a -> payFee());
         getChildren().addAll(mb, btnDel, btnChange, btnPay);
     }
@@ -111,9 +113,9 @@ public class GuiFeeMenu extends VBox {
     }
 
     private void feeNewsletter() {
-        List<FeeData> feeData = clubConfig.guiFee.getSelList();
-        if (!feeData.isEmpty()) {
-            Newsletter.feeNewsletter(clubConfig, feeData);
+        List<FeeData> list = clubConfig.guiFee.getSelList();
+        if (!list.isEmpty()) {
+            Newsletter.feeNewsletter(clubConfig, list);
         }
     }
 

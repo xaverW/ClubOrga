@@ -1,11 +1,18 @@
 /*  Programmweites style sheet */
 .root *{
+     /* A light grey that is the base color for objects.  Instead of using
+     * -fx-base directly, the sections in this file will typically use -fx-color.
+
+        -fx-base: #ececec;
+     */
+
     -style-border-color-1: royalblue;
     -style-border-color-2: royalblue;
     -style-text-color-1: mediumblue;
     -style-border-color-lbl: royalblue;
     -style-border-color-tab: cornflowerblue;
 }
+
 
 
 /*** Top-level menu itself (not selected / hovered) ***/

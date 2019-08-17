@@ -28,7 +28,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -103,9 +102,9 @@ public abstract class abListDialogController extends PDialogExtra {
         btnCancel.setOnAction(a -> close());
 
         btnHelp = PButton.helpButton(getStage(), helpHeader, helpText);
-        HBox hBoxHelp = new HBox();
-        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-        hBoxHelp.getChildren().addAll(btnHelp);
+//        HBox hBoxHelp = new HBox();
+//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
+//        hBoxHelp.getChildren().addAll(btnHelp);
 
         HBox hBox = new HBox();
         HBox.setHgrow(hBox, Priority.ALWAYS);

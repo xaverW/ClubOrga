@@ -22,13 +22,11 @@ import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
-import de.p2tools.clubOrga.icon.GetIcon;
 import de.p2tools.p2Lib.PConst;
 import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
-import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -101,7 +99,7 @@ public class ProgStartFactory {
         PInit.initLib(null, ProgConst.PROGRAMMNAME,
                 ProgConst.CSS_FILE, ProgInfos.getUserAgent(),
                 ProgData.debug, ProgData.duration);
-        PButton.setHlpImage(GetIcon.getImageView("button-help.png", 16, 16));
+//        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
     }
 
     /**

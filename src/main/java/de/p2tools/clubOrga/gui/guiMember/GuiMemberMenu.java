@@ -30,7 +30,6 @@ import de.p2tools.p2Lib.guiTools.PButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
@@ -64,10 +63,10 @@ public class GuiMemberMenu extends VBox {
         mb.getStyleClass().add("btnFunction");
 
         // Beitrag
-        MenuItem miAddFee = new MenuItem("Beitrag anlegen");
-        miAddFee.setOnAction(a -> FeeFactory.generateFeeForMembers(clubConfig, clubConfig.guiMember.getSelList()));
+        MenuItem miAddFee = new MenuItem("einen Beitrag anlegen");
+        miAddFee.setOnAction(a -> FeeFactory.generateFeeForMember(clubConfig, clubConfig.guiMember.getSel()));
 
-        MenuItem miMemberFee = new MenuItem("fehlende Beiträge anlegen");
+        MenuItem miMemberFee = new MenuItem("fehlende Beiträge für Auswahl anlegen");
         miMemberFee.setOnAction(a -> {
             ArrayList<MemberData> memberDataList = clubConfig.guiMember.getSelList();
             if (memberDataList.isEmpty()) {
@@ -86,24 +85,25 @@ public class GuiMemberMenu extends VBox {
         });
 
         // Serienbriefe
-        MenuItem miNewsletter = new MenuItem("Serienbrief erstellen");
+        MenuItem miNewsletter = new MenuItem("Serienbrief für Auswahl erstellen");
         miNewsletter.setOnAction(event -> createNewsletter());
 
-        // Export
-        MenuItem miExportSelMember = new MenuItem("Auswahl in CSV-Datei exportieren");
-        miExportSelMember.setOnAction(event -> exportSelMember());
+//        // Export
+//        MenuItem miExportSelMember = new MenuItem("Auswahl in CSV-Datei exportieren");
+//        miExportSelMember.setOnAction(event -> exportSelMember());
+//
+//        MenuItem miExportMember = new MenuItem("alle in CSV-Datei exportieren");
+//        miExportMember.setOnAction(event -> exportMember());
+//
+//        MenuItem miImportMember = new MenuItem("aus CSV-Datei importieren");
+//        miImportMember.setOnAction(event -> importMember());
+//
+//
+//        // Menü
+//        Menu menuExport = new Menu("Mitglieder exoprtieren");
+//        menuExport.getItems().addAll(miExportSelMember, miExportMember, miImportMember);
 
-        MenuItem miExportMember = new MenuItem("alle in CSV-Datei exportieren");
-        miExportMember.setOnAction(event -> exportMember());
-
-        MenuItem miImportMember = new MenuItem("aus CSV-Datei importieren");
-        miImportMember.setOnAction(event -> importMember());
-
-
-        // Menü
-        Menu menuExport = new Menu("Mitglieder exoprtieren");
-        menuExport.getItems().addAll(miExportSelMember, miExportMember, miImportMember);
-        mb.getItems().addAll(miAddFee, miMemberFee, miAllMemberFee, miNewsletter, menuExport);
+        mb.getItems().addAll(miAddFee, miMemberFee, miAllMemberFee, miNewsletter);
 
         // extra Buttons
         Button btnNew = PButton.getButton(new ProgIcons().ICON_BUTTON_ADD, "neues Mitglied anlegen");

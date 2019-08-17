@@ -32,6 +32,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class FeeFactory {
 
@@ -141,6 +142,30 @@ public class FeeFactory {
             clubConfig.feeDataList.addAktFeeForMember(clubConfig, list);
         }
 
+    }
+
+    /**
+     * Beitrag für ein Mitglied erstellen
+     *
+     * @param clubConfig
+     * @param optionalMemberData
+     */
+    public static void generateFeeForMember(ClubConfig clubConfig, Optional<MemberData> optionalMemberData) {
+        if (!optionalMemberData.isPresent()) {
+            return;
+        }
+
+        final MemberData memberData = optionalMemberData.get();
+        if (memberData.memberIsFeeFree()) {
+            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag anlegen", "Das Mitglied ist, " +
+                    "Beitragsfrei. Für dieses wird kein Beitrag angelegt.");
+        }
+
+        FeeData feeData = getNewFeeForMember(clubConfig, memberData);
+        if (new DataDialogController(clubConfig, DataDialogController.OPEN.FEE_PANE,
+                memberData, feeData, null, null).isOk()) {
+            clubConfig.feeDataList.add(feeData);
+        }
     }
 
     /**
