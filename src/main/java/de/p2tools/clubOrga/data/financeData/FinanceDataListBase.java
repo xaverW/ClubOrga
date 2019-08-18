@@ -89,13 +89,13 @@ public class FinanceDataListBase extends SimpleListProperty<FinanceData> impleme
     }
 
     public void initAfterAdding() {
-        makeJahrList();
+        makeYearList();
 //        sort();
         setListChanged();
     }
 
     public void initAfterRemoval() {
-        makeJahrList();
+        makeYearList();
         setListChanged();
     }
 
@@ -164,12 +164,12 @@ public class FinanceDataListBase extends SimpleListProperty<FinanceData> impleme
         return no;
     }
 
-    private void makeJahrList() {
+    private void makeYearList() {
         this.stream().forEach(feeData -> {
-            final int jahr = feeData.getGeschaeftsJahr();
-            Optional<Integer> jj = geschaeftsJahrList.stream().filter(j -> j.equals(jahr)).findAny();
+            final int year = feeData.getGeschaeftsJahr();
+            Optional<Integer> jj = geschaeftsJahrList.stream().filter(j -> j.equals(year)).findAny();
             if (!jj.isPresent()) {
-                geschaeftsJahrList.add(jahr);
+                geschaeftsJahrList.add(year);
             }
         });
 

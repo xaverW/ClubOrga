@@ -109,6 +109,8 @@ public class DemoFinanceDataFactory {
             FinanceData financeData = FinanceFactory.getNewFinanceWithId(clubConfig);
             financeData.setText(arrText[random.nextInt(arrText.length)]);
 
+            FinanceAccountData fa = random.nextBoolean() ? financeAccountDataBar : financeAccountDataGiro;
+            financeData.setFinanceAccountData(fa);
 
             // Datum
             LocalDateTime dateTime = DemoDataFactory.getRandomDate();
@@ -121,8 +123,8 @@ public class DemoFinanceDataFactory {
             TransactionDataList transactionDataList = financeData.getTransactionDataList();
             TransactionData transactionData = new TransactionData(transactionDataList.getNextNr(), clubConfig);
 
-            FinanceAccountData fa = random.nextBoolean() ? financeAccountDataBar : financeAccountDataGiro;
-            transactionData.setFinanceAccountData(fa);
+//            FinanceAccountData fa = random.nextBoolean() ? financeAccountDataBar : financeAccountDataGiro;
+//            transactionData.setFinanceAccountData(fa);
 
             final int size = financeCategoryData.size();
             FinanceCategoryData fc = financeCategoryData.get(random.nextInt(size));

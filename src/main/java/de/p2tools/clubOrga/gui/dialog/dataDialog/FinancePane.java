@@ -27,10 +27,13 @@ import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.configFile.config.ConfigIntPropExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
+import de.p2tools.p2Lib.guiTools.PComboBoxObject;
 import de.p2tools.p2Lib.guiTools.PTextField;
 import de.p2tools.p2Lib.guiTools.PYearPicker;
 import de.p2tools.p2Lib.tools.PException;
 import de.p2tools.p2Lib.tools.log.PLog;
+import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -98,9 +101,10 @@ public class FinancePane extends VBox {
                 } else if (config.getName().equals(FinanceFieldNames.GESAMTBETRAG)) {
                     control = ((ConfigExtra) config).getControl();
 
-                } else if (config.getName().equals(FinanceFieldNames.KONTO) ||
-                        config.getName().equals(FinanceFieldNames.KATEGORIE)) {
+                } else if (config.getName().equals(FinanceFieldNames.KONTO)) {
+                    control = getPComboObject(financeData.financeAccountDataProperty(), clubConfig.financeAccountDataList);
 
+                } else if (config.getName().equals(FinanceFieldNames.KATEGORIE)) {
                     control = new PTextField(config.getActValueString(), true);
 
                 } else if (config.getName().equals(FinanceFieldNames.ERSTELLDATUM)) {
@@ -129,6 +133,14 @@ public class FinancePane extends VBox {
         } catch (PException ex) {
             PLog.errorLog(951203647, ex);
         }
+    }
+
+    private PComboBoxObject getPComboObject(ObjectProperty objectProperty, ObservableList cbo_list) {
+        final PComboBoxObject cboStatus = new PComboBoxObject<>();
+        cboStatus.setMaxWidth(Double.MAX_VALUE);
+        cboStatus.init(cbo_list, objectProperty);
+
+        return cboStatus;
     }
 
     private boolean check() {

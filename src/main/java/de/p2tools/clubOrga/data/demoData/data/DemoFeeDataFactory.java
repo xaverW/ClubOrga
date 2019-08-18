@@ -210,8 +210,7 @@ public class DemoFeeDataFactory {
 //                    transactionData.setBelegNr(transactionData.getNr() + "");
                     trList.add(transactionData);
 
-                    transactionData.setFinanceAccountData(financeAccountData);
-                    transactionData.setFinanceCategoryData(financeCategoryData);
+//                    transactionData.setFinanceCategoryData(financeCategoryData);
                     transactionData.setBetrag(feeData.getBetrag());
                     transactionData.setFeeData(feeData);
                 }

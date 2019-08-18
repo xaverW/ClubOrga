@@ -27,29 +27,16 @@ public class TransactionDataList extends TransactionDataListBase {
 
     @Override
     public synchronized boolean add(TransactionData transactionData) {
-        addListener(transactionData);
-        boolean ret = super.add(transactionData);
-        setListChanged();
-        return ret;
+        return super.add(transactionData);
     }
-
 
     @Override
     public synchronized boolean addAll(Collection<? extends TransactionData> transactionData) {
-        transactionData.stream().forEach(tr -> addListener(tr));
-        boolean ret = super.addAll(transactionData);
-        setListChanged();
-        return ret;
+        return super.addAll(transactionData);
     }
 
     public void sort() {
         Collections.sort(this);
-    }
-
-    private void addListener(TransactionData transactionData) {
-        transactionData.changedProperty().addListener((observable, oldValue, newValue) -> {
-            setListChanged();
-        });
     }
 
 }

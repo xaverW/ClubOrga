@@ -54,8 +54,8 @@ public class ClubTableTransaction {
         betragColumn.setCellValueFactory(new PropertyValueFactory<>("betrag"));
         betragColumn.setCellFactory((final TableColumn<TransactionData, Long> param) -> new PTableFactory.PCellMoney<>());
 
-        final TableColumn<TransactionData, String> kontoColumn = new TableColumn<>(FinanceFieldNames.KONTO);
-        kontoColumn.setCellValueFactory(new PropertyValueFactory<>("financeAccountData"));
+//        final TableColumn<TransactionData, String> kontoColumn = new TableColumn<>(FinanceFieldNames.KONTO);
+//        kontoColumn.setCellValueFactory(new PropertyValueFactory<>("financeAccountData"));
 
         final TableColumn<TransactionData, String> kategorieColumn = new TableColumn<>(FinanceFieldNames.KATEGORIE);
         kategorieColumn.setCellValueFactory(new PropertyValueFactory<>("financeCategoryData"));
@@ -65,7 +65,7 @@ public class ClubTableTransaction {
 
         tc.add(nrColumn);
         tc.add(betragColumn);
-        tc.add(kontoColumn);
+//        tc.add(kontoColumn);
         tc.add(kategorieColumn);
         tc.add(mitgliedColumn);
 

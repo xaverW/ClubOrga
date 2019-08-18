@@ -132,8 +132,7 @@ public class GuiClubInfo extends AnchorPane {
 
     private void registerRenderer(TreeTableColumn<ClubInfoData, String> countColumn) {
 
-        countColumn.setCellFactory(new Callback<TreeTableColumn<ClubInfoData, String>,
-                TreeTableCell<ClubInfoData, String>>() {
+        countColumn.setCellFactory(new Callback<>() {
 
             public TreeTableCell<ClubInfoData, String> call(TreeTableColumn<ClubInfoData, String> P) {
 

@@ -35,13 +35,13 @@ public class TransactionData extends TransactionDataWorker {
     public TransactionData(long nr, ClubConfig clubConfig) {
         setId(getNewId());
         setNr(nr);
-        setFinanceAccountData(clubConfig.financeAccountDataList.get(0));
+//        setFinanceAccountData(clubConfig.financeAccountDataList.get(0));
         setFinanceCategoryData(clubConfig.financeCategoryDataList.get(0));
         addListener();
     }
 
     public void initDataAfterClubLoad(ClubConfig clubConfig) {
-        this.initFinanceAccountData(clubConfig);
+//        this.initFinanceAccountData(clubConfig);
         this.initFinanceCategoryData(clubConfig);
         this.initFeeData(clubConfig);
     }

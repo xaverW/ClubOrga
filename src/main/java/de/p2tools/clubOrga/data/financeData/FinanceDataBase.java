@@ -18,8 +18,10 @@
 package de.p2tools.clubOrga.data.financeData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.data.extraData.ExtraData;
 import de.p2tools.clubOrga.data.extraData.ExtraDataProperty;
+import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.p2Lib.configFile.config.*;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
@@ -38,7 +40,7 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
     private final StringProperty belegNr = new SimpleStringProperty("");
 
     private final LongProperty gesamtbetrag = new SimpleLongProperty(0);
-    private final StringProperty konto = new SimpleStringProperty("");
+    private final LongProperty konto = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
     private final StringProperty kategorie = new SimpleStringProperty("");
     private final IntegerProperty geschaeftsJahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
 
@@ -47,6 +49,7 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
     private final StringProperty text = new SimpleStringProperty("");
 
     private ArrayList<ExtraDataProperty> extraDataPropertyList = new ArrayList<>();
+    private final ObjectProperty<FinanceAccountData> financeAccountData = new SimpleObjectProperty<>();
     TransactionDataList transactionDataList;
 
     private boolean selected = false;
@@ -68,12 +71,20 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
     @Override
     public Config[] getConfigsArr() {
         ArrayList<Config> list = new ArrayList<>();
+
+        if (getFinanceAccountData() != null) {
+            konto.set(getFinanceAccountData().getId());
+        } else {
+            konto.set(ProgConst.STANDARD_FIELD);
+        }
+
         list.add(new ConfigLongPropExtra("id", FinanceFieldNames.ID, id));
         list.add(new ConfigLongPropExtra("nr", FinanceFieldNames.NR, nr));
         list.add(new ConfigStringPropExtra("belegNr", FinanceFieldNames.BELEG_NR, belegNr));
 
         list.add(new ConfigMoneyPropExtra("gesamtbetrag", FinanceFieldNames.GESAMTBETRAG, gesamtbetrag, true));
-        list.add(new ConfigStringPropExtra("konto", FinanceFieldNames.KONTO, konto));
+        list.add(new ConfigLongPropExtra("konto", FinanceFieldNames.KONTO, konto));
+//        list.add(new ConfigStringPropExtra("konto", FinanceFieldNames.KONTO, konto));
         list.add(new ConfigStringPropExtra("kategorie", FinanceFieldNames.KATEGORIE, kategorie));
         list.add(new ConfigIntPropExtra("geschaeftsJahr", FinanceFieldNames.GESCHAEFTSJAHR, geschaeftsJahr));
 
@@ -111,6 +122,26 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
 //    public void setFeeData(FeeData feeData) {
 //        this.feeData = feeData;
 //    }
+
+
+    // =============================================================
+    // Classes
+    public FinanceAccountData getFinanceAccountData() {
+        return financeAccountData.get();
+    }
+
+    public ObjectProperty<FinanceAccountData> financeAccountDataProperty() {
+        return financeAccountData;
+    }
+
+    public void setFinanceAccountData(FinanceAccountData financeAccountData) {
+        this.financeAccountData.set(financeAccountData);
+    }
+
+    public void initFinanceAccountData(ClubConfig clubConfig) {
+        setFinanceAccountData(clubConfig.financeAccountDataList.getFinanceAccountDataOrStandard(konto.get()));
+    }
+
 
     public TransactionDataList getTransactionDataList() {
         return transactionDataList;
@@ -172,17 +203,17 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
         this.gesamtbetrag.set(gesamtbetrag);
     }
 
-    public String getKonto() {
-        return konto.get();
-    }
-
-    public StringProperty kontoProperty() {
-        return konto;
-    }
-
-    public void setKonto(String konto) {
-        this.konto.set(konto);
-    }
+//    public String getKonto() {
+//        return konto.get();
+//    }
+//
+//    public StringProperty kontoProperty() {
+//        return konto;
+//    }
+//
+//    public void setKonto(String konto) {
+//        this.konto.set(konto);
+//    }
 
     public String getKategorie() {
         return kategorie.get();

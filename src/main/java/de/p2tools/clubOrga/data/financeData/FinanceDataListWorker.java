@@ -36,6 +36,7 @@ public class FinanceDataListWorker extends FinanceDataListBase {
                 transactionData.initDataAfterClubLoad(clubConfig);
             });
 
+            financeData.initDataAfterClubLoad(clubConfig);
             financeData.setTransactionValues();
         });
         initAfterAdding();

@@ -61,6 +61,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
     private final PYearPicker pYearPickerFinanceGeschaeftsjahr = new PYearPicker();
     private final PTextFieldMoney txtFinanceBetrag = new PTextFieldMoney(true);
     private final PDatePropertyPicker pdpFinanceBuchungsdatum = new PDatePropertyPicker();
+    private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
     private final TextArea txtFinanceText = new TextArea();
 
 
@@ -69,7 +70,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
     private final TableView<TransactionData> tableView = new TableView<>();
     private final PTextFieldLong txtTransactionNr = new PTextFieldLong();
     private final PTextFieldMoney txtTransactionBetrag = new PTextFieldMoney();
-    private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
+    //    private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
     private final PComboBoxObject<FinanceCategoryData> cboCategory = new PComboBoxObject<>();
     private final TextArea txtTransactionText = new TextArea();
 
@@ -200,6 +201,9 @@ public class GuiFinanceInfoPane extends AnchorPane {
     }
 
     private void initInfoLeft() {
+        cboAccount.init(clubConfig.financeAccountDataList, null);
+        cboAccount.setMaxWidth(Double.MAX_VALUE);
+
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(5);
         gridPane.setVgap(10);
@@ -212,10 +216,10 @@ public class GuiFinanceInfoPane extends AnchorPane {
         pYearPickerFinanceGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
         pdpFinanceBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
-        gridPane.add(new Label(FinanceFieldNames.NR_), 0, row);
-        gridPane.add(txtFinanceNr, 1, row);
+//        gridPane.add(new Label(FinanceFieldNames.NR_), 0, row);
+//        gridPane.add(txtFinanceNr, 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.BELEG_NR_), 0, ++row);
+        gridPane.add(new Label(FinanceFieldNames.BELEG_NR_), 0, row);
         gridPane.add(txtFinanceBelegNr, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), 0, ++row);
@@ -226,6 +230,9 @@ public class GuiFinanceInfoPane extends AnchorPane {
 
         gridPane.add(new Label(FinanceFieldNames.BUCHUNGS_DATUM_), 0, ++row);
         gridPane.add(pdpFinanceBuchungsdatum, 1, row);
+
+        gridPane.add(new Label(FinanceFieldNames.KONTO_), 0, ++row);
+        gridPane.add(cboAccount, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.TEXT_), 0, ++row);
         gridPane.add(txtFinanceText, 1, row);
@@ -244,7 +251,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
                 TransactionData tr = financeData.getTransactionDataList().getLast();
                 TransactionData transactionData = new TransactionData(financeData.getTransactionDataList().getNextNr(), clubConfig);
                 if (tr != null) {
-                    transactionData.setFinanceAccountData(tr.getFinanceAccountData());
+//                    transactionData.setFinanceAccountData(tr.getFinanceAccountData());
                     transactionData.setFinanceCategoryData(tr.getFinanceCategoryData());
                 }
 
@@ -293,8 +300,8 @@ public class GuiFinanceInfoPane extends AnchorPane {
     }
 
     private void initInfoRight() {
-        cboAccount.init(clubConfig.financeAccountDataList, null);
-        cboAccount.setMaxWidth(Double.MAX_VALUE);
+//        cboAccount.init(clubConfig.financeAccountDataList, null);
+//        cboAccount.setMaxWidth(Double.MAX_VALUE);
         cboCategory.init(clubConfig.financeCategoryDataList, null);
         cboCategory.setMaxWidth(Double.MAX_VALUE);
 
@@ -313,8 +320,8 @@ public class GuiFinanceInfoPane extends AnchorPane {
         gridPane.add(new Label(FinanceFieldNames.BETRAG_), 0, ++row);
         gridPane.add(txtTransactionBetrag, 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.KONTO_), 0, ++row);
-        gridPane.add(cboAccount, 1, row);
+//        gridPane.add(new Label(FinanceFieldNames.KONTO_), 0, ++row);
+//        gridPane.add(cboAccount, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), 0, ++row);
         gridPane.add(cboCategory, 1, row);
@@ -364,6 +371,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
             txtFinanceBetrag.setText("");
             txtFinanceText.setText("");
             pYearPickerFinanceGeschaeftsjahr.unbind();
+            cboAccount.unbindSelValueProperty();
             pdpFinanceBuchungsdatum.clearDate();
             return;
         }
@@ -374,6 +382,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
         txtFinanceText.textProperty().bindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.bindBidirectional(financeData.geschaeftsJahrProperty());
         pdpFinanceBuchungsdatum.setpDateProperty(financeData.buchungsDatumProperty());
+        cboAccount.bindSelValueProperty(financeData.financeAccountDataProperty());
 
         tableView.setItems(financeData.getTransactionDataList());
         if (tableView.getItems().size() > 0) {
@@ -393,6 +402,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
         txtFinanceText.textProperty().unbindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.unbind();
         pdpFinanceBuchungsdatum.clearDate();
+        cboAccount.unbindSelValueProperty();
 
         tableView.setItems(null);
     }
@@ -402,7 +412,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
         if (transactionData == null) {
             txtTransactionNr.setText("");
             txtTransactionBetrag.setText("");
-            cboAccount.unbindSelValueProperty();
+//            cboAccount.unbindSelValueProperty();
             cboCategory.unbindSelValueProperty();
             txtTransactionText.setText("");
             return;
@@ -410,7 +420,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
 
         txtTransactionNr.bindBidirectional(transactionData.nrProperty());
         txtTransactionBetrag.bindBidirectional(transactionData.betragProperty());
-        cboAccount.bindSelValueProperty(transactionData.financeAccountDataProperty());
+//        cboAccount.bindSelValueProperty(transactionData.financeAccountDataProperty());
         cboCategory.bindSelValueProperty(transactionData.financeCategoryDataProperty());
         txtTransactionText.textProperty().bindBidirectional(transactionData.textProperty());
     }
@@ -423,7 +433,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
 
         txtTransactionNr.unBind();
         txtTransactionBetrag.unBind();
-        cboAccount.unbindSelValueProperty();
+//        cboAccount.unbindSelValueProperty();
         cboCategory.unbindSelValueProperty();
     }
 }

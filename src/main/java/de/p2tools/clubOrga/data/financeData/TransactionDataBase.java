@@ -20,7 +20,6 @@ package de.p2tools.clubOrga.data.financeData;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.data.feeData.FeeData;
-import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigLongPropExtra;
@@ -38,13 +37,13 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
     private final LongProperty feeId = new SimpleLongProperty(0);
 
     private final LongProperty betrag = new SimpleLongProperty(0);
-    private final LongProperty konto = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
+    //    private final LongProperty konto = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
     private final LongProperty kategorie = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
 
     private final StringProperty text = new SimpleStringProperty("");
     private BooleanProperty changed = new SimpleBooleanProperty(true);
 
-    private final ObjectProperty<FinanceAccountData> financeAccountData = new SimpleObjectProperty<>();
+    //    private final ObjectProperty<FinanceAccountData> financeAccountData = new SimpleObjectProperty<>();
     private final ObjectProperty<FinanceCategoryData> financeCategoryData = new SimpleObjectProperty<>();
     private final ObjectProperty<FeeData> feeData = new SimpleObjectProperty<>(null);
     //todo evtl. MemberData in die TransactionData mit aufnehmen??
@@ -59,11 +58,11 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
 
     @Override
     public Config[] getConfigsArr() {
-        if (getFinanceAccountData() != null) {
-            konto.set(getFinanceAccountData().getId());
-        } else {
-            konto.set(ProgConst.STANDARD_FIELD);
-        }
+//        if (getFinanceAccountData() != null) {
+//            konto.set(getFinanceAccountData().getId());
+//        } else {
+//            konto.set(ProgConst.STANDARD_FIELD);
+//        }
 
         if (getFinanceCategoryData() != null) {
             kategorie.set(getFinanceCategoryData().getId());
@@ -81,7 +80,7 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
                 new ConfigLongPropExtra("feeId", FinanceFieldNames.FEED_ID, feeId),
 
                 new ConfigMoneyPropExtra("betrag", FinanceFieldNames.BETRAG, betrag),
-                new ConfigLongPropExtra("konto", FinanceFieldNames.KONTO, konto),
+//                new ConfigLongPropExtra("konto", FinanceFieldNames.KONTO, konto),
                 new ConfigLongPropExtra("kategorie", FinanceFieldNames.KATEGORIE, kategorie),
 
                 new ConfigStringPropExtra("text", FinanceFieldNames.TEXT, text)
@@ -90,21 +89,21 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
 
     // =============================================================
     // Classes
-    public FinanceAccountData getFinanceAccountData() {
-        return financeAccountData.get();
-    }
+//    public FinanceAccountData getFinanceAccountData() {
+//        return financeAccountData.get();
+//    }
+//
+//    public ObjectProperty<FinanceAccountData> financeAccountDataProperty() {
+//        return financeAccountData;
+//    }
+//
+//    public void setFinanceAccountData(FinanceAccountData financeAccountData) {
+//        this.financeAccountData.set(financeAccountData);
+//    }
 
-    public ObjectProperty<FinanceAccountData> financeAccountDataProperty() {
-        return financeAccountData;
-    }
-
-    public void setFinanceAccountData(FinanceAccountData financeAccountData) {
-        this.financeAccountData.set(financeAccountData);
-    }
-
-    public void initFinanceAccountData(ClubConfig clubConfig) {
-        setFinanceAccountData(clubConfig.financeAccountDataList.getFinanceAccountDataOrStandard(konto.get()));
-    }
+//    public void initFinanceAccountData(ClubConfig clubConfig) {
+//        setFinanceAccountData(clubConfig.financeAccountDataList.getFinanceAccountDataOrStandard(konto.get()));
+//    }
 
     public FinanceCategoryData getFinanceCategoryData() {
         return financeCategoryData.get();

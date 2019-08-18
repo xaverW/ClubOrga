@@ -86,8 +86,8 @@ public class ExportFinanceDataList {
                 boolean last = row == (list.size() + tableContentRow - 1);
 
                 addInfoCell(table, row, startCol, list.get(listRow), last);
-                addCell(table, row, tableAccountCol, list.get(listRow), true, last);
-                addCell(table, row, tableAccountCol + countFinanceAccount + 1, list.get(listRow), false, last);
+//                addCell(table, row, tableAccountCol, list.get(listRow), true, last);
+                addCell(table, row, tableAccountCol + countFinanceAccount + 1, list.get(listRow), last);
             }
 
             setColumnWidth(table);
@@ -237,14 +237,14 @@ public class ExportFinanceDataList {
         }
     }
 
-    private void addCell(Table table, int row, int startCol, FinanceData financeData, boolean account, boolean last) {
+    private void addCell(Table table, int row, int startCol, FinanceData financeData, boolean last) {
 
         double[] arr;
-        if (account) {
-            arr = financeData.getSumKontoKategorieArray(true);
-        } else {
-            arr = financeData.getSumKontoKategorieArray(false);
-        }
+//        if (account) {
+//            arr = financeData.getSumKontoKategorieArray(true);
+//        } else {
+        arr = financeData.getSumKategorieArray();
+//        }
 
         int i = 0;
         for (; i < arr.length; ++i) {

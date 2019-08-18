@@ -49,10 +49,17 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
         long ret = 0;
         map.clear();
         reportDataList.clear();
+
         for (FinanceData fd : list) {
-            for (TransactionData td : fd.getTransactionDataList()) {
-                ret += td.getBetrag();
-                addTr(td);
+            if (!category) {
+                // dann werden die Konten gezählt
+                addTr(fd);
+            } else {
+                // dann werden die Kategorieren gezählt
+                for (TransactionData td : fd.getTransactionDataList()) {
+                    ret += td.getBetrag();
+                    addTr(td);
+                }
             }
         }
 
@@ -86,37 +93,43 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
         return ret;
     }
 
-    private void addTr(TransactionData transactionData) {
+    private void addTr(FinanceData financeData) {
         Long l;
-        final FinanceCategoryData fcd = transactionData.getFinanceCategoryData();
-        final FinanceAccountData fad = transactionData.getFinanceAccountData();
-        if (fad == null || fcd == null) {
-            // passiert beim zweiten mal Öffnen des Clubs, Daten werde geladen aber CategoryData und AccountData sind noch nicht gesetzt
+        final FinanceAccountData fad = financeData.getFinanceAccountData();
+        if (fad == null) {
+            // passiert beim zweiten mal Öffnen des Clubs, Daten werde geladen aber
+            // CategoryData und AccountData sind noch nicht gesetzt
 //            System.out.println("Mist"); todo wird beim laden bei jedem add aufgerufen
             return;
         }
 
-        if (category) {
-            l = map.get(transactionData.getFinanceCategoryData().getId());
+        l = map.get(financeData.getFinanceAccountData().getId());
+
+        if (l == null) {
+            map.put(financeData.getFinanceAccountData().getId(), financeData.financeDataGetSumBetrag());
         } else {
-            l = map.get(transactionData.getFinanceAccountData().getId());
+            map.put(financeData.getFinanceAccountData().getId(), l + financeData.financeDataGetSumBetrag());
+        }
+    }
+
+    private void addTr(TransactionData transactionData) {
+        Long l;
+        final FinanceCategoryData fcd = transactionData.getFinanceCategoryData();
+        if (fcd == null) {
+            // passiert beim zweiten mal Öffnen des Clubs, Daten werde geladen aber
+            // CategoryData und AccountData sind noch nicht gesetzt
+//            System.out.println("Mist"); todo wird beim laden bei jedem add aufgerufen
+            return;
         }
 
+        l = map.get(transactionData.getFinanceCategoryData().getId());
 
-        if (category) {
-            if (l == null) {
-                map.put(transactionData.getFinanceCategoryData().getId(), transactionData.getBetrag());
-            } else {
-                map.put(transactionData.getFinanceCategoryData().getId(), l + transactionData.getBetrag());
-            }
-
+        if (l == null) {
+            map.put(transactionData.getFinanceCategoryData().getId(), transactionData.getBetrag());
         } else {
-            if (l == null) {
-                map.put(transactionData.getFinanceAccountData().getId(), transactionData.getBetrag());
-            } else {
-                map.put(transactionData.getFinanceAccountData().getId(), l + transactionData.getBetrag());
-            }
+            map.put(transactionData.getFinanceCategoryData().getId(), l + transactionData.getBetrag());
         }
+
     }
 
 }

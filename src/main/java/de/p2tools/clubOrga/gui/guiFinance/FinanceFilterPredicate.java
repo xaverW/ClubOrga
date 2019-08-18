@@ -66,9 +66,7 @@ public class FinanceFilterPredicate {
 
         if (accountData != null) {
             filtered.set(true);
-            predicate = predicate.and(financeData -> financeData.getTransactionDataList()
-                    .stream()
-                    .anyMatch(transactionData -> transactionData.getFinanceAccountData().equals(accountData)));
+            predicate = predicate.and(financeData -> financeData.getFinanceAccountData().equals(accountData));
         }
 
         if (categoryData != null) {

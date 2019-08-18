@@ -54,7 +54,8 @@ public class FinanceFactory {
      */
     public static FinanceData getNewFinanceData(ClubConfig clubConfig,
                                                 PLocalDate buchungsDatum, long betrag,
-                                                FinanceAccountData financeAccountData, FinanceCategoryData financeCategoryData) {
+                                                FinanceAccountData financeAccountData,
+                                                FinanceCategoryData financeCategoryData) {
 
         FinanceData financeData = getNewFinanceWithId(clubConfig);
 
@@ -62,11 +63,11 @@ public class FinanceFactory {
         financeData.setBelegNr(financeData.getNr() + "");
         financeData.setBuchungsDatum(buchungsDatum);
         financeData.setGeschaeftsJahr(PDateFactory.getAktYearInt());
+        financeData.setFinanceAccountData(financeAccountData);
 
         TransactionDataList transactionDataList = financeData.getTransactionDataList();
         TransactionData transactionData = new TransactionData(transactionDataList.getNextNr(), clubConfig);
 
-        transactionData.setFinanceAccountData(financeAccountData);
         transactionData.setFinanceCategoryData(financeCategoryData);
 
         transactionData.setBetrag(betrag);
@@ -85,13 +86,13 @@ public class FinanceFactory {
         financeData.setBelegNr(financeData.getNr() + "");
         financeData.setBuchungsDatum(buchungsDatum);
         financeData.setGeschaeftsJahr(PDateFactory.getAktYearInt());
+        financeData.setFinanceAccountData(financeAccountData);
 
         TransactionDataList transactionDataList = financeData.getTransactionDataList();
 
         feeDataList.stream().forEach(feeData1 -> {
             TransactionData transactionData = new TransactionData(transactionDataList.getNextNr(), clubConfig);
 
-            transactionData.setFinanceAccountData(financeAccountData);
             transactionData.setFinanceCategoryData(financeCategoryData);
 
             transactionData.setBetrag(feeData1.getBetrag());
@@ -118,13 +119,13 @@ public class FinanceFactory {
 
     public static void addNewTransactionDataForFeeData(ClubConfig clubConfig, FinanceData financeData,
                                                        FeeData feeData,
-                                                       FinanceAccountData financeAccountData,
+//                                                       FinanceAccountData financeAccountData,
                                                        FinanceCategoryData financeCategoryData) {
 
         TransactionDataList transactionDataList = financeData.getTransactionDataList();
         TransactionData transactionData = new TransactionData(transactionDataList.getNextNr(), clubConfig);
 
-        transactionData.setFinanceAccountData(financeAccountData);
+//        transactionData.setFinanceAccountData(financeAccountData);
         transactionData.setFinanceCategoryData(financeCategoryData);
 
         transactionData.setBetrag(feeData.getBetrag());
@@ -169,6 +170,7 @@ public class FinanceFactory {
             }
         }
 
+        dataTo.setFinanceAccountData(dataFrom.getFinanceAccountData());
     }
 
     private static void copyTransactionDataList(TransactionDataList listFrom, TransactionDataList listTo) {

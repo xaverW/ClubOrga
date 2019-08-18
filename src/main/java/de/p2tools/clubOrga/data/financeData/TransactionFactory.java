@@ -37,7 +37,7 @@ public class TransactionFactory {
             configsCopy[i].setActValue(configs[i].getActValueString());
         }
 
-        dataTo.setFinanceAccountData(dataFrom.getFinanceAccountData());
+//        dataTo.setFinanceAccountData(dataFrom.getFinanceAccountData());
         dataTo.setFinanceCategoryData(dataFrom.getFinanceCategoryData());
         dataTo.setFeeData(dataFrom.getFeeData());
     }

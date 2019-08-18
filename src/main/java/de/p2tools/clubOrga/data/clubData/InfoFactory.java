@@ -160,19 +160,16 @@ public class InfoFactory {
 
         TreeMap<String, Long> treeMapAccount = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         clubConfig.financeDataList.stream()
-                .forEach(financeData -> financeData.getTransactionDataList()
-                        .stream()
-                        .forEach(transactionData -> {
-                            if (treeMapAccount.containsKey(transactionData.getFinanceAccountData().getKonto())) {
-                                long old = treeMapAccount.get(transactionData.getFinanceAccountData().getKonto());
-                                treeMapAccount.put(transactionData.getFinanceAccountData().getKonto(),
-                                        old + transactionData.getBetrag());
-                            } else {
-                                treeMapAccount.put(transactionData.getFinanceAccountData().getKonto(),
-                                        transactionData.getBetrag());
-                            }
-                        })
-                );
+                .forEach(financeData -> {
+                    if (treeMapAccount.containsKey(financeData.getFinanceAccountData().getKonto())) {
+                        long old = treeMapAccount.get(financeData.getFinanceAccountData().getKonto());
+                        treeMapAccount.put(financeData.getFinanceAccountData().getKonto(),
+                                old + financeData.financeDataGetSumBetrag());
+                    } else {
+                        treeMapAccount.put(financeData.getFinanceAccountData().getKonto(),
+                                financeData.financeDataGetSumBetrag());
+                    }
+                });
 
         TreeItem treeItemAccount = createGroup("Konten", "", "", false, true);
         financeItem.getChildren().add(treeItemAccount);
@@ -225,19 +222,16 @@ public class InfoFactory {
         TreeMap<String, Long> treeMapAccount = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         clubConfig.financeDataList.stream()
                 .filter(financeData -> financeData.getGeschaeftsJahr() == actYear)
-                .forEach(financeData -> financeData.getTransactionDataList()
-                        .stream()
-                        .forEach(transactionData -> {
-                            if (treeMapAccount.containsKey(transactionData.getFinanceAccountData().getKonto())) {
-                                long old = treeMapAccount.get(transactionData.getFinanceAccountData().getKonto());
-                                treeMapAccount.put(transactionData.getFinanceAccountData().getKonto(),
-                                        old + transactionData.getBetrag());
-                            } else {
-                                treeMapAccount.put(transactionData.getFinanceAccountData().getKonto(),
-                                        transactionData.getBetrag());
-                            }
-                        })
-                );
+                .forEach(financeData -> {
+                    if (treeMapAccount.containsKey(financeData.getFinanceAccountData().getKonto())) {
+                        long old = treeMapAccount.get(financeData.getFinanceAccountData().getKonto());
+                        treeMapAccount.put(financeData.getFinanceAccountData().getKonto(),
+                                old + financeData.financeDataGetSumBetrag());
+                    } else {
+                        treeMapAccount.put(financeData.getFinanceAccountData().getKonto(),
+                                financeData.financeDataGetSumBetrag());
+                    }
+                });
 
         TreeItem treeItemAccount = createGroup("Konten", "", "", false, true);
         financeItem.getChildren().add(treeItemAccount);

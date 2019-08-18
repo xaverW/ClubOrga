@@ -30,6 +30,10 @@ public class FinanceData extends FinanceDataWorker {
         addExtra();
     }
 
+    public void initDataAfterClubLoad(ClubConfig clubConfig) {
+        this.initFinanceAccountData(clubConfig);
+    }
+
     private void addTransaction(TransactionData transactionData) {
         getTransactionDataList().add(transactionData);
     }
@@ -47,7 +51,7 @@ public class FinanceData extends FinanceDataWorker {
 
     public void setTransactionValues() {
         financeDataGetSumBetrag();
-        financeDataGetKontoList();
+//        financeDataGetKontoList();
         financeDataGetKategorieList();
     }
 
