@@ -53,6 +53,7 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
         for (FinanceData fd : list) {
             if (!category) {
                 // dann werden die Konten gezählt
+                ret += fd.getGesamtbetrag();
                 addTr(fd);
             } else {
                 // dann werden die Kategorieren gezählt
@@ -104,7 +105,6 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
         }
 
         l = map.get(financeData.getFinanceAccountData().getId());
-
         if (l == null) {
             map.put(financeData.getFinanceAccountData().getId(), financeData.financeDataGetSumBetrag());
         } else {
@@ -123,13 +123,11 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
         }
 
         l = map.get(transactionData.getFinanceCategoryData().getId());
-
         if (l == null) {
             map.put(transactionData.getFinanceCategoryData().getId(), transactionData.getBetrag());
         } else {
             map.put(transactionData.getFinanceCategoryData().getId(), l + transactionData.getBetrag());
         }
-
     }
 
 }

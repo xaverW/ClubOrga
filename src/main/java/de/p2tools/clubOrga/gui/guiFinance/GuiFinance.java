@@ -37,10 +37,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -48,6 +45,7 @@ import java.util.Optional;
 public class GuiFinance extends BorderPane {
 
     private final SplitPane splitPane = new SplitPane();
+    private final StackPane stackPane = new StackPane();
 
     private final ScrollPane scrollPaneTable = new ScrollPane();
     private final TabPane tabPane = new TabPane();
@@ -62,6 +60,7 @@ public class GuiFinance extends BorderPane {
     private final ProgData progData;
     private final ClubConfig clubConfig;
 
+    private final GuiFinanceInfoPaneTrTable guiFinanceInfoPaneTrTable;
     private final GuiFinanceInfoPane guiFinanceInfoPane;
     private final GuiFinanceReportpane guiFinanceReportpane;
     private final GuiFinanceFilterPane financeFilterController;
@@ -79,6 +78,7 @@ public class GuiFinance extends BorderPane {
         sortedList = clubConfig.financeDataList.getSortedList();
 
         doublePropertyCont = clubConfig.GUI_PANEL_FINANDES_DIVIDER_CONT;
+        guiFinanceInfoPaneTrTable = new GuiFinanceInfoPaneTrTable(clubConfig);
         guiFinanceInfoPane = new GuiFinanceInfoPane(clubConfig);
         guiFinanceReportpane = new GuiFinanceReportpane(clubConfig, filteredList);
 
@@ -132,7 +132,9 @@ public class GuiFinance extends BorderPane {
 
         tabInfo.setTooltip(new Tooltip("zeigt Infos zu dem in der Tabelle markierten Eintrag"));
         tabInfo.setClosable(false);
-        tabInfo.setContent(guiFinanceInfoPane);
+        tabInfo.setContent(stackPane);
+        stackPane.getChildren().addAll(guiFinanceInfoPane, guiFinanceInfoPaneTrTable);
+//        tabInfo.setContent(guiFinanceInfoPaneTrTable);
 
         tabReport.setTooltip(new Tooltip("zeigt einen Report von den in der Tabelle angezeigten Finanzen"));
         tabReport.setClosable(false);
@@ -230,7 +232,7 @@ public class GuiFinance extends BorderPane {
 
     public void saveTable() {
         new ClubTable(clubConfig).saveTable(tableView, ClubTable.TABLE.FINANCE);
-        guiFinanceInfoPane.saveTable();
+        guiFinanceInfoPaneTrTable.saveTable();
         guiFinanceReportpane.saveTable();
     }
 
@@ -238,9 +240,20 @@ public class GuiFinance extends BorderPane {
         new ClubTable(clubConfig).resetTable(tableView, ClubTable.TABLE.FINANCE);
     }
 
-    private void setFinancesInfo() {
+    public void setFinancesInfo() {
         FinanceData financeData = tableView.getSelectionModel().getSelectedItem();
+        guiFinanceInfoPaneTrTable.setFinanceData(financeData);
         guiFinanceInfoPane.setFinanceData(financeData);
+
+        if (financeData == null || financeData.getTransactionDataList().size() <= 1) {
+            guiFinanceInfoPaneTrTable.setFinanceData(null);
+            guiFinanceInfoPane.setFinanceData(financeData);
+            guiFinanceInfoPane.toFront();
+        } else {
+            guiFinanceInfoPane.setFinanceData(null);
+            guiFinanceInfoPaneTrTable.setFinanceData(financeData);
+            guiFinanceInfoPaneTrTable.toFront();
+        }
     }
 
     public void changeFinances() {

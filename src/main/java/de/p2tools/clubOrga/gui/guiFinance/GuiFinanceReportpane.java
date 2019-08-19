@@ -50,8 +50,8 @@ public class GuiFinanceReportpane extends AnchorPane {
     private final TableView<FinanceReportData> tableViewCategory = new TableView<>();
     private final TableView<FinanceReportData> tableViewAccount = new TableView<>();
 
-    private final FinanceReportDataList reportDataListCategory;
     private final FinanceReportDataList reportDataListAccount;
+    private final FinanceReportDataList reportDataListCategory;
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
@@ -65,8 +65,8 @@ public class GuiFinanceReportpane extends AnchorPane {
         progData = ProgData.getInstance();
         this.financeDataList = financeDataFilteredList;
 
-        reportDataListCategory = new FinanceReportDataList(clubConfig, true);
         reportDataListAccount = new FinanceReportDataList(clubConfig, false);
+        reportDataListCategory = new FinanceReportDataList(clubConfig, true);
         lblSum.bindBidirectional(reportDataListAccount.getSumProperty());
 
         doublePropertySplit_0 = clubConfig.GUI_PANEL_FINANCES_DIVIDER_REPORT_0;
@@ -77,7 +77,7 @@ public class GuiFinanceReportpane extends AnchorPane {
         AnchorPane.setBottomAnchor(splitPane, 0.0);
         AnchorPane.setRightAnchor(splitPane, 0.0);
         AnchorPane.setTopAnchor(splitPane, 0.0);
-        splitPane.getItems().addAll(vbSaldo, vbCategory, vbAccount);
+        splitPane.getItems().addAll(vbSaldo, vbAccount, vbCategory);
         splitPane.getDividers().get(0).positionProperty().bindBidirectional(doublePropertySplit_0);
         splitPane.getDividers().get(1).positionProperty().bindBidirectional(doublePropertySplit_1);
 
@@ -90,8 +90,8 @@ public class GuiFinanceReportpane extends AnchorPane {
     }
 
     public void saveTable() {
-        new ClubTable(clubConfig).saveTable(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
         new ClubTable(clubConfig).saveTable(tableViewAccount, ClubTable.TABLE.REPORT_ACCOUNT);
+        new ClubTable(clubConfig).saveTable(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
     }
 
     public void setFinanceDataChanged() {
@@ -102,8 +102,8 @@ public class GuiFinanceReportpane extends AnchorPane {
 
         System.out.println("--> setFinanceDataChanged");
 //        lblSum.setText(reportDataListCategory.addData(financeDataList) + "");
-        reportDataListCategory.addData(financeDataList);
         reportDataListAccount.addData(financeDataList);
+        reportDataListCategory.addData(financeDataList);
     }
 
     private void initGui() {
@@ -121,18 +121,6 @@ public class GuiFinanceReportpane extends AnchorPane {
         vbSaldo.getChildren().addAll(hbSaldo);
 
         //=====================
-        // table category
-        addTitle(vbCategory, lblTitleCategory);
-
-        scrollPaneTableCategory.setFitToHeight(true);
-        scrollPaneTableCategory.setFitToWidth(true);
-        scrollPaneTableCategory.setContent(tableViewCategory);
-
-        VBox.setVgrow(scrollPaneTableCategory, Priority.ALWAYS);
-        vbCategory.getChildren().addAll(scrollPaneTableCategory);
-
-
-        //=====================
         // table account
         addTitle(vbAccount, lblTitleAccount);
 
@@ -142,6 +130,17 @@ public class GuiFinanceReportpane extends AnchorPane {
 
         VBox.setVgrow(scrollPaneTableAccount, Priority.ALWAYS);
         vbAccount.getChildren().addAll(scrollPaneTableAccount);
+
+        //=====================
+        // table category
+        addTitle(vbCategory, lblTitleCategory);
+
+        scrollPaneTableCategory.setFitToHeight(true);
+        scrollPaneTableCategory.setFitToWidth(true);
+        scrollPaneTableCategory.setContent(tableViewCategory);
+
+        VBox.setVgrow(scrollPaneTableCategory, Priority.ALWAYS);
+        vbCategory.getChildren().addAll(scrollPaneTableCategory);
     }
 
     private void addTitle(VBox vBox, Label lbl) {
@@ -159,25 +158,24 @@ public class GuiFinanceReportpane extends AnchorPane {
     }
 
     private void initTable() {
-        tableViewCategory.setTableMenuButtonVisible(true);
-        tableViewCategory.setEditable(false);
-        tableViewCategory.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        tableViewCategory.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
         tableViewAccount.setTableMenuButtonVisible(true);
         tableViewAccount.setEditable(false);
         tableViewAccount.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableViewAccount.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        tableViewCategory.setItems(reportDataListCategory);
-        tableViewAccount.setItems(reportDataListAccount);
+        tableViewCategory.setTableMenuButtonVisible(true);
+        tableViewCategory.setEditable(false);
+        tableViewCategory.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableViewCategory.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        new ClubTable(clubConfig).setTable(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
-        new ClubTable(clubConfig).addResetMenue(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
+        tableViewAccount.setItems(reportDataListAccount);
+        tableViewCategory.setItems(reportDataListCategory);
 
         new ClubTable(clubConfig).setTable(tableViewAccount, ClubTable.TABLE.REPORT_ACCOUNT);
         new ClubTable(clubConfig).addResetMenue(tableViewAccount, ClubTable.TABLE.REPORT_ACCOUNT);
 
+        new ClubTable(clubConfig).setTable(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
+        new ClubTable(clubConfig).addResetMenue(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
     }
 
 }

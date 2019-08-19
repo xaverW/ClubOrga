@@ -44,6 +44,9 @@ public class FinanceData extends FinanceDataWorker {
 
 
     private void addListenerToTransactionDataList() {
+        transactionDataList.addListener((observable, oldValue, newValue) -> {
+            setTransactionValues();
+        });
         transactionDataList.listChangedProperty().addListener((observable, oldValue, newValue) -> {
             setTransactionValues();
         });

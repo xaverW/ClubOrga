@@ -19,58 +19,37 @@ package de.p2tools.clubOrga.gui.guiFinance;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
-import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.TransactionData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
-import de.p2tools.clubOrga.data.memberData.MemberData;
-import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
-import de.p2tools.clubOrga.gui.table.ClubTable;
-import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.*;
-import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class GuiFinanceInfoPane extends AnchorPane {
 
-    private final SplitPane splitPane = new SplitPane();
     private final ScrollPane scrollPaneLeft = new ScrollPane();
-    private final ScrollPane scrollPaneRight = new ScrollPane();
 
     private final VBox vbLeft = new VBox();
-    private final VBox vbRight = new VBox();
-    private final VBox vbTable = new VBox();
 
     private final Label lblFinance = new Label("Finanzdaten");
-    private final Label lblTransactionList = new Label("Transaktionen");
-    private final Label lblTransaction = new Label("Transaktionsdaten");
 
     // FinanceData
     private final PTextFieldLong txtFinanceNr = new PTextFieldLong();
     private final TextField txtFinanceBelegNr = new TextField();
     private final PYearPicker pYearPickerFinanceGeschaeftsjahr = new PYearPicker();
-    private final PTextFieldMoney txtFinanceBetrag = new PTextFieldMoney(true);
     private final PDatePropertyPicker pdpFinanceBuchungsdatum = new PDatePropertyPicker();
     private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
     private final TextArea txtFinanceText = new TextArea();
 
 
     // TransactionData
-    private final ScrollPane scrollPaneTable = new ScrollPane();
-    private final TableView<TransactionData> tableView = new TableView<>();
     private final PTextFieldLong txtTransactionNr = new PTextFieldLong();
     private final PTextFieldMoney txtTransactionBetrag = new PTextFieldMoney();
-    //    private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
     private final PComboBoxObject<FinanceCategoryData> cboCategory = new PComboBoxObject<>();
     private final TextArea txtTransactionText = new TextArea();
 
@@ -79,24 +58,15 @@ public class GuiFinanceInfoPane extends AnchorPane {
     private FinanceData financeData = null;
     private TransactionData transactionData = null;
 
-    DoubleProperty doublePropertyInfo_0;
-    DoubleProperty doublePropertyInfo_1;
-
     public GuiFinanceInfoPane(ClubConfig clubConfig) {
         this.clubConfig = clubConfig;
         progData = ProgData.getInstance();
 
-        doublePropertyInfo_0 = clubConfig.GUI_PANEL_FINANCES_DIVIDER_INFO_0;
-        doublePropertyInfo_1 = clubConfig.GUI_PANEL_FINANCES_DIVIDER_INFO_1;
-
-        getChildren().addAll(splitPane);
-        AnchorPane.setLeftAnchor(splitPane, 0.0);
-        AnchorPane.setBottomAnchor(splitPane, 0.0);
-        AnchorPane.setRightAnchor(splitPane, 0.0);
-        AnchorPane.setTopAnchor(splitPane, 0.0);
-        splitPane.getItems().addAll(scrollPaneLeft, vbTable, scrollPaneRight);
-        splitPane.getDividers().get(0).positionProperty().bindBidirectional(doublePropertyInfo_0);
-        splitPane.getDividers().get(1).positionProperty().bindBidirectional(doublePropertyInfo_1);
+        getChildren().addAll(scrollPaneLeft);
+        AnchorPane.setLeftAnchor(scrollPaneLeft, 0.0);
+        AnchorPane.setBottomAnchor(scrollPaneLeft, 0.0);
+        AnchorPane.setRightAnchor(scrollPaneLeft, 0.0);
+        AnchorPane.setTopAnchor(scrollPaneLeft, 0.0);
 
         //=====================
         // Left
@@ -116,223 +86,94 @@ public class GuiFinanceInfoPane extends AnchorPane {
         vbLeft.setSpacing(10);
         scrollPaneLeft.setContent(vbLeft);
 
-        //=====================
-        // Table
-        hb = new HBox();
-        hb.getChildren().add(lblTransactionList);
-        hb.setAlignment(Pos.CENTER);
-        lblTransactionList.getStyleClass().add("headerLabel");
-        lblTransactionList.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(lblTransactionList, Priority.ALWAYS);
-        lblTransactionList.setAlignment(Pos.CENTER);
-        vbTable.getChildren().add(hb);
-
-        scrollPaneTable.setFitToHeight(true);
-        scrollPaneTable.setFitToWidth(true);
-        scrollPaneTable.setContent(tableView);
-
-        vbTable.setPadding(new Insets(10));
-        vbTable.setSpacing(10);
-        VBox.setVgrow(scrollPaneTable, Priority.ALWAYS);
-        vbTable.getChildren().addAll(scrollPaneTable);
-
-        //=====================
-        // Right
-        scrollPaneRight.setFitToHeight(true);
-        scrollPaneRight.setFitToWidth(true);
-
-        hb = new HBox();
-        hb.getChildren().add(lblTransaction);
-        hb.setAlignment(Pos.CENTER);
-        lblTransaction.getStyleClass().add("headerLabel");
-        lblTransaction.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(lblTransaction, Priority.ALWAYS);
-        lblTransaction.setAlignment(Pos.CENTER);
-        vbRight.getChildren().add(hb);
-
-        vbRight.setPadding(new Insets(10));
-        vbRight.setSpacing(10);
-        scrollPaneRight.setContent(vbRight);
-
-
         initInfoLeft();
-        initTransactionTable();
-        initInfoRight();
         setDisableAll();
     }
 
-    public void saveTable() {
-        new ClubTable(clubConfig).saveTable(tableView, ClubTable.TABLE.TRANSACTION);
-    }
-
-    public Optional<TransactionData> getSel() {
-        final int selectedTableRow = tableView.getSelectionModel().getSelectedIndex();
-        if (selectedTableRow >= 0) {
-            return Optional.of(tableView.getSelectionModel().getSelectedItem());
-        } else {
-            new PAlert().showInfoNoSelection(clubConfig.getStage());
-            return Optional.empty();
-        }
-    }
-
-    public ArrayList<TransactionData> getSelList() {
-        final ArrayList<TransactionData> ret = new ArrayList<>();
-        ret.addAll(tableView.getSelectionModel().getSelectedItems());
-        if (ret.isEmpty()) {
-            new PAlert().showInfoNoSelection(clubConfig.getStage());
-        }
-        return ret;
-    }
-
-    public void showDialog() {
-        TransactionData transactionData = tableView.getSelectionModel().getSelectedItem();
-        if (financeData == null || transactionData == null) {
-            new PAlert().showInfoNoSelection(clubConfig.getStage());
-            return;
-        }
-
-        FeeData feeData = transactionData.getFeeData();
-        MemberData memberData = feeData == null ? null : feeData.getMemberData();
-
-        if (new DataDialogController(clubConfig, DataDialogController.OPEN.TRANSACTION_PANE,
-                memberData, feeData, financeData, transactionData).isOk()) {
-            tableView.refresh();
-        }
-    }
-
     private void initInfoLeft() {
-        cboAccount.init(clubConfig.financeAccountDataList, null);
-        cboAccount.setMaxWidth(Double.MAX_VALUE);
-
-        final GridPane gridPane = new GridPane();
-        gridPane.setHgap(5);
-        gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(10));
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
-                PColumnConstraints.getCcComputedSizeAndHgrow());
-
-        int row = 0;
-
-        pYearPickerFinanceGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
-        pdpFinanceBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
-
-//        gridPane.add(new Label(FinanceFieldNames.NR_), 0, row);
-//        gridPane.add(txtFinanceNr, 1, row);
-
-        gridPane.add(new Label(FinanceFieldNames.BELEG_NR_), 0, row);
-        gridPane.add(txtFinanceBelegNr, 1, row);
-
-        gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), 0, ++row);
-        gridPane.add(pYearPickerFinanceGeschaeftsjahr, 1, row);
-
-        gridPane.add(new Label(FinanceFieldNames.GESAMTBETRAG_), 0, ++row);
-        gridPane.add(txtFinanceBetrag, 1, row);
-
-        gridPane.add(new Label(FinanceFieldNames.BUCHUNGS_DATUM_), 0, ++row);
-        gridPane.add(pdpFinanceBuchungsdatum, 1, row);
-
-        gridPane.add(new Label(FinanceFieldNames.KONTO_), 0, ++row);
-        gridPane.add(cboAccount, 1, row);
-
-        gridPane.add(new Label(FinanceFieldNames.TEXT_), 0, ++row);
-        gridPane.add(txtFinanceText, 1, row);
-
-        GridPane.setVgrow(txtFinanceText, Priority.ALWAYS);
-        VBox.setVgrow(gridPane, Priority.ALWAYS);
-
-        vbLeft.getChildren().addAll(gridPane);
-    }
-
-    private void initTransactionTable() {
         Button btnNew = new Button("");
+        btnNew.setTooltip(new Tooltip("eine neue Transaktion hinzufügen"));
         btnNew.setGraphic(new ProgIcons().ICON_BUTTON_ADD);
         btnNew.setOnAction(a -> {
             if (financeData != null) {
                 TransactionData tr = financeData.getTransactionDataList().getLast();
                 TransactionData transactionData = new TransactionData(financeData.getTransactionDataList().getNextNr(), clubConfig);
                 if (tr != null) {
-//                    transactionData.setFinanceAccountData(tr.getFinanceAccountData());
                     transactionData.setFinanceCategoryData(tr.getFinanceCategoryData());
                 }
-
                 financeData.getTransactionDataList().add(transactionData);
-                tableView.getSelectionModel().select(transactionData);
+                clubConfig.guiFinance.setFinancesInfo();
             }
         });
 
-        Button btnDel = new Button();
-        btnDel.setGraphic(new ProgIcons().ICON_BUTTON_REMOVE);
-        btnDel.setOnAction(a -> {
-            List<TransactionData> transactionData = getSelList();
-            if (!transactionData.isEmpty()) {
-                int i = financeData.getTransactionDataList().size();
-                if (i - transactionData.size() < 1) {
-                    PAlert.showErrorAlert(clubConfig.getStage(), "Transaktion löschen",
-                            "Es können nicht alle Transaktionen gelöscht werden, " +
-                                    "mindestens eine muss erhalten bleiben");
-                } else {
-                    financeData.financeDataRemoveTransactions(clubConfig.getStage(), transactionData);
-                }
-            }
-        });
 
-        HBox hBoxBtn = new HBox(10);
-        hBoxBtn.setAlignment(Pos.CENTER_RIGHT);
-        hBoxBtn.getChildren().addAll(btnDel, btnNew);
-        vbTable.getChildren().add(hBoxBtn);
+        cboAccount.init(clubConfig.financeAccountDataList, null);
+        cboAccount.setMaxWidth(Double.MAX_VALUE);
 
-        tableView.setTableMenuButtonVisible(true);
-        tableView.setEditable(false);
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-        tableView.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent != null && mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
-                showDialog();
-            }
-        });
-
-        new ClubTable(clubConfig).setTable(tableView, ClubTable.TABLE.TRANSACTION);
-        new ClubTable(clubConfig).addResetMenue(tableView, ClubTable.TABLE.TRANSACTION);
-
-        tableView.getSelectionModel().selectedIndexProperty().addListener(
-                (observable, oldValue, newValue) -> setTransactionData());
-
-    }
-
-    private void initInfoRight() {
-//        cboAccount.init(clubConfig.financeAccountDataList, null);
-//        cboAccount.setMaxWidth(Double.MAX_VALUE);
         cboCategory.init(clubConfig.financeCategoryDataList, null);
         cboCategory.setMaxWidth(Double.MAX_VALUE);
+
 
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(5);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(10));
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
-                PColumnConstraints.getCcComputedSizeAndHgrow());
 
         int row = 0;
+        int c = 0;
 
-        gridPane.add(new Label(FinanceFieldNames.NR_), 0, row);
-        gridPane.add(txtTransactionNr, 1, row);
+        pYearPickerFinanceGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
+        pdpFinanceBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
-        gridPane.add(new Label(FinanceFieldNames.BETRAG_), 0, ++row);
-        gridPane.add(txtTransactionBetrag, 1, row);
+        gridPane.add(new Label(FinanceFieldNames.BELEG_NR_), c, row);
+        gridPane.add(txtFinanceBelegNr, c + 1, row);
 
-//        gridPane.add(new Label(FinanceFieldNames.KONTO_), 0, ++row);
-//        gridPane.add(cboAccount, 1, row);
+        gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), c, ++row);
+        gridPane.add(pYearPickerFinanceGeschaeftsjahr, c + 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), 0, ++row);
-        gridPane.add(cboCategory, 1, row);
+        gridPane.add(new Label(FinanceFieldNames.KONTO_), c, ++row);
+        gridPane.add(cboAccount, c + 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.TEXT_), 0, ++row);
-        gridPane.add(txtTransactionText, 1, row);
+        gridPane.add(new Label(FinanceFieldNames.TEXT_), c, ++row);
+        HBox hBox = new HBox(10);
+        HBox.setHgrow(txtFinanceText, Priority.ALWAYS);
+        hBox.setAlignment(Pos.BOTTOM_LEFT);
+        hBox.getChildren().addAll(txtFinanceText, btnNew);
+        gridPane.add(hBox, c + 1, row, 4, 1);
+        GridPane.setVgrow(hBox, Priority.ALWAYS);
 
-        GridPane.setVgrow(txtTransactionText, Priority.ALWAYS);
+
+//        gridPane.add(new Label(" "), 2, 0);
+
+        row = 0;
+        c = 3;
+
+        gridPane.add(new Label(FinanceFieldNames.BETRAG_), c, row);
+        gridPane.add(txtTransactionBetrag, c + 1, row);
+
+        gridPane.add(new Label(FinanceFieldNames.BUCHUNGS_DATUM_), c, ++row);
+        gridPane.add(pdpFinanceBuchungsdatum, c + 1, row);
+
+
+        gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), c, ++row);
+        gridPane.add(cboCategory, c + 1, row);
+
+//        gridPane.add(new Label(FinanceFieldNames.TEXT_), 3, ++row);
+//        gridPane.add(txtTransactionText, 4, row);
+//
+//        GridPane.setVgrow(txtTransactionText, Priority.ALWAYS);
+//        VBox.setVgrow(gridPane, Priority.ALWAYS);
+
+
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcComputedSizeAndHgrow(),
+                PColumnConstraints.getCcMinSize(20),
+                PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcComputedSizeAndHgrow());
+
         VBox.setVgrow(gridPane, Priority.ALWAYS);
 
-        vbRight.getChildren().add(gridPane);
+        vbLeft.getChildren().addAll(gridPane);
     }
 
     public void setFinanceData(FinanceData financeData) {
@@ -343,24 +184,22 @@ public class GuiFinanceInfoPane extends AnchorPane {
         }
 
         unbindFinanceData();
-        this.financeData = financeData;
-        bindFinanceData();
-    }
-
-    private void setTransactionData() {
         unbindTransaction();
-        transactionData = tableView.getSelectionModel().getSelectedItem();
+
+        this.financeData = financeData;
+        if (financeData == null || financeData.getTransactionDataList().size() != 1) {
+            // dann ists nichts für uns
+            this.transactionData = null;
+            return;
+        }
+
+        this.transactionData = financeData.getTransactionDataList().get(0);
+        bindFinanceData();
         bindTransaction();
     }
 
     private void setDisableAll() {
         vbLeft.setDisable(financeData == null);
-        vbTable.setDisable(financeData == null);
-        setDisableTransaction();
-    }
-
-    private void setDisableTransaction() {
-        vbRight.setDisable(transactionData == null);
     }
 
     private void bindFinanceData() {
@@ -368,7 +207,6 @@ public class GuiFinanceInfoPane extends AnchorPane {
         if (financeData == null) {
             txtFinanceNr.setText("");
             txtFinanceBelegNr.setText("");
-            txtFinanceBetrag.setText("");
             txtFinanceText.setText("");
             pYearPickerFinanceGeschaeftsjahr.unbind();
             cboAccount.unbindSelValueProperty();
@@ -378,16 +216,11 @@ public class GuiFinanceInfoPane extends AnchorPane {
 
         txtFinanceNr.bindBidirectional(financeData.nrProperty());
         txtFinanceBelegNr.textProperty().bindBidirectional(financeData.belegNrProperty());
-        txtFinanceBetrag.bindBidirectional(financeData.gesamtbetragProperty());
         txtFinanceText.textProperty().bindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.bindBidirectional(financeData.geschaeftsJahrProperty());
         pdpFinanceBuchungsdatum.setpDateProperty(financeData.buchungsDatumProperty());
         cboAccount.bindSelValueProperty(financeData.financeAccountDataProperty());
 
-        tableView.setItems(financeData.getTransactionDataList());
-        if (tableView.getItems().size() > 0) {
-            tableView.getSelectionModel().select(0);
-        }
     }
 
     private void unbindFinanceData() {
@@ -398,17 +231,13 @@ public class GuiFinanceInfoPane extends AnchorPane {
 
         txtFinanceNr.unBind();
         txtFinanceBelegNr.textProperty().unbindBidirectional(financeData.belegNrProperty());
-        txtFinanceBetrag.unBind();
         txtFinanceText.textProperty().unbindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.unbind();
         pdpFinanceBuchungsdatum.clearDate();
         cboAccount.unbindSelValueProperty();
-
-        tableView.setItems(null);
     }
 
     private void bindTransaction() {
-        setDisableTransaction();
         if (transactionData == null) {
             txtTransactionNr.setText("");
             txtTransactionBetrag.setText("");
@@ -426,7 +255,6 @@ public class GuiFinanceInfoPane extends AnchorPane {
     }
 
     private void unbindTransaction() {
-        setDisableTransaction();
         if (transactionData == null) {
             return;
         }

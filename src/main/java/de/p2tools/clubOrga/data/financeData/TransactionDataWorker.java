@@ -29,9 +29,6 @@ public class TransactionDataWorker extends TransactionDataBase {
         betragProperty().addListener((observable, oldValue, newValue) -> {
             noticeChange();
         });
-//        financeAccountDataProperty().addListener((observable, oldValue, newValue) -> {
-//            noticeChange();
-//        });
         financeCategoryDataProperty().addListener((observable, oldValue, newValue) -> {
             noticeChange();
         });
