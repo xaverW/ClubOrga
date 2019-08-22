@@ -17,23 +17,46 @@
 
 package de.p2tools.clubOrga.data.financeData;
 
-public class FinanceReportData {
-    private String category = "";
-    private long value = 0;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 
-    public String getCategory() {
-        return category;
+public class FinanceReportData extends FinanceReportDataBase {
+    static NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+
+    public FinanceReportData() {
+        super();
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public ArrayList<String> getDataRow(FinanceReportDataList financeReportDataList) {
+        ArrayList<String> dataRow = new ArrayList<>();
+        dataRow.add(getNr() + "");
+        dataRow.add(getBelegNr());
+        dataRow.add(currencyFormat.format(getGesamtbetrag() / 100));
+        dataRow.add(getGeschaeftsJahr() + "");
+        dataRow.add(getBuchungsDatum().toString());
+        dataRow.add(getErstellDatum().toString());
+
+
+        for (int i = 0; i < financeReportDataList.getAccounts().size(); i++) {
+            final long l = getAccountList().get(i);
+            if (l == 0) {
+                dataRow.add("");
+            } else {
+                dataRow.add(currencyFormat.format(l / 100));
+            }
+        }
+
+        for (int i = 0; i < financeReportDataList.getCategories().size(); i++) {
+            final long l = getCategoryList().get(i);
+            if (l == 0) {
+                dataRow.add("");
+            } else {
+                dataRow.add(currencyFormat.format(l / 100));
+            }
+        }
+
+        return dataRow;
     }
 
-    public long getValue() {
-        return value;
-    }
 
-    public void setValue(long value) {
-        this.value = value;
-    }
 }

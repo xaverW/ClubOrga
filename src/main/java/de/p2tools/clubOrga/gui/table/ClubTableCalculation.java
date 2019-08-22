@@ -19,8 +19,8 @@ package de.p2tools.clubOrga.gui.table;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.clubOrga.data.financeData.FinanceReportData;
-import de.p2tools.clubOrga.data.financeData.FinanceReportFieldNames;
+import de.p2tools.clubOrga.data.financeData.FinanceCalculationData;
+import de.p2tools.clubOrga.data.financeData.FinanceCalculationFieldNames;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,12 +28,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 
-public class ClubTableReportCategory {
+public class ClubTableCalculation {
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
 
-    public ClubTableReportCategory(ClubConfig clubConfig) {
+    public ClubTableCalculation(ClubConfig clubConfig) {
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
     }
@@ -43,18 +43,18 @@ public class ClubTableReportCategory {
         table.getColumns().clear();
 
 
-        final TableColumn<FinanceReportData, String> categoryColumn;
+        final TableColumn<FinanceCalculationData, String> categoryColumn;
         if (category) {
-            categoryColumn = new TableColumn<>(FinanceReportFieldNames.CATEGORY);
+            categoryColumn = new TableColumn<>(FinanceCalculationFieldNames.CATEGORY);
         } else {
-            categoryColumn = new TableColumn<>(FinanceReportFieldNames.ACCOUNT);
+            categoryColumn = new TableColumn<>(FinanceCalculationFieldNames.ACCOUNT);
         }
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 
 
-        final TableColumn<FinanceReportData, Long> betragColumn = new TableColumn<>(FinanceReportFieldNames.BETRAG);
+        final TableColumn<FinanceCalculationData, Long> betragColumn = new TableColumn<>(FinanceCalculationFieldNames.BETRAG);
         betragColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-        betragColumn.setCellFactory((final TableColumn<FinanceReportData, Long> param) -> new PTableFactory.PCellMoney<>());
+        betragColumn.setCellFactory((final TableColumn<FinanceCalculationData, Long> param) -> new PTableFactory.PCellMoney<>());
 
 
         tc.add(categoryColumn);

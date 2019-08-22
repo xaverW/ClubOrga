@@ -30,7 +30,7 @@ public class ClubTable {
     public enum TABLE {
         MEMBER, MEMBER_RATE, MEMBER_STATE, MEMBER_PAYMENT_TYPE, ADD_MISSING_FEE,
         FEE, PAY_FEE, FINANCE, FINANCE_ACCOUNT, FINANCE_CATEGORY, TRANSACTION,
-        REPORT_CATEGORY, REPORT_ACCOUNT
+        CALCULATION_CATEGORY, CALCULATION_ACCOUNT
     }
 
     private static final String SORT_ASCENDING = "ASCENDING";
@@ -163,20 +163,20 @@ public class ClubTable {
                 confOrder = clubConfig.TRANSACTION_GUI_TABLE_ORDER;
                 break;
 
-            case REPORT_CATEGORY:
-                confWidth = clubConfig.REPORT_CATEGORY_GUI_TABLE_WIDTH;
-                confSort = clubConfig.REPORT_CATEGORY_GUI_TABLE_SORT;
-                confUpDown = clubConfig.REPORT_CATEGORY_GUI_TABLE_UPDOWN;
-                confVis = clubConfig.REPORT_CATEGORY_GUI_TABLE_VIS;
-                confOrder = clubConfig.REPORT_CATEGORY_GUI_TABLE_ORDER;
+            case CALCULATION_CATEGORY:
+                confWidth = clubConfig.CALCULATION_CATEGORY_GUI_TABLE_WIDTH;
+                confSort = clubConfig.CALCULATION_CATEGORY_GUI_TABLE_SORT;
+                confUpDown = clubConfig.CALCULATION_CATEGORY_GUI_TABLE_UPDOWN;
+                confVis = clubConfig.CALCULATION_CATEGORY_GUI_TABLE_VIS;
+                confOrder = clubConfig.CALCULATION_CATEGORY_GUI_TABLE_ORDER;
                 break;
 
-            case REPORT_ACCOUNT:
-                confWidth = clubConfig.REPORT_ACCOUNT_GUI_TABLE_WIDTH;
-                confSort = clubConfig.REPORT_ACCOUNT_GUI_TABLE_SORT;
-                confUpDown = clubConfig.REPORT_ACCOUNT_GUI_TABLE_UPDOWN;
-                confVis = clubConfig.REPORT_ACCOUNT_GUI_TABLE_VIS;
-                confOrder = clubConfig.REPORT_ACCOUNT_GUI_TABLE_ORDER;
+            case CALCULATION_ACCOUNT:
+                confWidth = clubConfig.CALCULATION_ACCOUNT_GUI_TABLE_WIDTH;
+                confSort = clubConfig.CALCULATION_ACCOUNT_GUI_TABLE_SORT;
+                confUpDown = clubConfig.CALCULATION_ACCOUNT_GUI_TABLE_UPDOWN;
+                confVis = clubConfig.CALCULATION_ACCOUNT_GUI_TABLE_VIS;
+                confOrder = clubConfig.CALCULATION_ACCOUNT_GUI_TABLE_ORDER;
                 break;
 
         }
@@ -228,12 +228,12 @@ public class ClubTable {
                 tArray = new ClubTableTransaction(clubConfig).initColumn(table);
                 break;
 
-            case REPORT_CATEGORY:
-                tArray = new ClubTableReportCategory(clubConfig).initColumn(table, true);
+            case CALCULATION_CATEGORY:
+                tArray = new ClubTableCalculation(clubConfig).initColumn(table, true);
                 break;
 
-            case REPORT_ACCOUNT:
-                tArray = new ClubTableReportCategory(clubConfig).initColumn(table, false);
+            case CALCULATION_ACCOUNT:
+                tArray = new ClubTableCalculation(clubConfig).initColumn(table, false);
                 break;
 
         }

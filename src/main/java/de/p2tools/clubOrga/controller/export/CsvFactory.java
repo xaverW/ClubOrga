@@ -18,6 +18,8 @@
 package de.p2tools.clubOrga.controller.export;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.data.financeData.FinanceReportData;
+import de.p2tools.clubOrga.data.financeData.FinanceReportDataList;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFactory;
 import de.p2tools.clubOrga.data.memberData.MemberFieldNames;
@@ -123,6 +125,33 @@ public class CsvFactory {
                 }
                 Object[] sArr = list.toArray(new String[]{});
                 printer.printRecord(sArr);
+            }
+
+        } catch (Exception ex) {
+            PLog.errorLog(945120145, ex, "export csv");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean exportFinances(FinanceReportDataList financeReportDataList, Path exportPath) {
+        if (financeReportDataList == null || financeReportDataList.isEmpty()) {
+            // header, style and one data row
+            return false;
+        }
+
+        String[] HEADERS = financeReportDataList.getHeaderArr();
+
+        try (FileWriter out = new FileWriter(exportPath.toFile());
+             CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(HEADERS))) {
+
+            for (int i = 0; i < financeReportDataList.size(); ++i) {
+                FinanceReportData row = financeReportDataList.get(i);
+                ArrayList<String> line = row.getDataRow(financeReportDataList);
+//                line.add(row.getBelegNr());
+
+                printer.printRecord(line);
             }
 
         } catch (Exception ex) {

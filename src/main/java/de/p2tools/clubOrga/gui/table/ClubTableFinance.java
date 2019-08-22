@@ -63,8 +63,6 @@ public class ClubTableFinance {
 
         final TableColumn<FinanceData, String> kontoColumn = new TableColumn<>(FinanceFieldNames.KONTO);
         kontoColumn.setCellValueFactory(new PropertyValueFactory<>("financeAccountData"));
-//        final TableColumn<FinanceData, String> kontoColumn = new TableColumn<>(FinanceFieldNames.KONTO);
-//        kontoColumn.setCellValueFactory(new PropertyValueFactory<>("konto"));
 
         final TableColumn<FinanceData, String> kategorieColumn = new TableColumn<>(FinanceFieldNames.KATEGORIE);
         kategorieColumn.setCellValueFactory(new PropertyValueFactory<>("kategorie"));

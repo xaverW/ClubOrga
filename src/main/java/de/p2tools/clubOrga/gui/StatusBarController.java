@@ -165,6 +165,7 @@ public class StatusBarController extends AnchorPane {
                 lblRight.setText("");
                 break;
             case FINANCE:
+            case FINANCE_CALCULATION:
             case FINANCE_ACCOUNT:
             case FINANCE_CATEGORY:
                 lblLeft.setText(getFinanceText());

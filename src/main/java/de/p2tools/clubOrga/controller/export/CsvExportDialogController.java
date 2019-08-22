@@ -21,6 +21,7 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
+import de.p2tools.clubOrga.data.financeData.FinanceReportDataList;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
@@ -44,7 +45,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class CsvMemberExportDialogController extends PDialogExtra {
+public class CsvExportDialogController extends PDialogExtra {
 
     private final Button btnOk = new Button("Ok");
     private final Button btnCancel = new Button("Abbrechen");
@@ -57,14 +58,20 @@ public class CsvMemberExportDialogController extends PDialogExtra {
 
     private final ClubConfig clubConfig;
     private final List<MemberData> memberDataList;
+    private final FinanceReportDataList financeDataList;
     private boolean ok = false;
+    private boolean memberData = false;
 
-
-    public CsvMemberExportDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig, List<MemberData> memberDataList) {
+    public CsvExportDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
+                                     List<MemberData> memberDataList, FinanceReportDataList financeDataList) {
         super(ownerForCenteringDialog, clubConfig.EXPORT_MEMBER_CSV_DIALOG_SIZE, "Mitglieder in CVS-Datei exportieren");
 
         this.clubConfig = clubConfig;
         this.memberDataList = memberDataList;
+        this.financeDataList = financeDataList;
+        if (memberDataList != null) {
+            memberData = true;
+        }
 
         init(getvBoxDialog(), true);
     }
@@ -75,8 +82,10 @@ public class CsvMemberExportDialogController extends PDialogExtra {
 
     @Override
     protected void make() {
-        btnHelp = PButton.helpButton(getStage(), "Mitglieder in CVS-Datei exportieren",
-                "Hier können die Mitgliederdaten in eine CSV-Datei exportiert werden. " +
+        btnHelp = PButton.helpButton(getStage(), (memberData ? "Mitgliederdaten" : "Finanzdaten") +
+                        " in CVS-Datei exportieren",
+                "Hier können die " + (memberData ? "Mitgliederdaten" : "Finanzdaten") +
+                        " in eine CSV-Datei exportiert werden. " +
                         "Damit ist es möglich, die Daten auch in anderen Programmen zu verwenden." +
                         "\n\n" +
                         "(Das Dateiformat CSV beschreibt den Aufbau einer Textdatei " +
@@ -101,7 +110,8 @@ public class CsvMemberExportDialogController extends PDialogExtra {
         cboExportDir.setMaxWidth(Double.MAX_VALUE);
         cboExportFile.setMaxWidth(Double.MAX_VALUE);
 
-        HBox hBoxTitle = GuiFactory.getDialogTitle("Mitglieder in CVS-Datei exportieren");
+        HBox hBoxTitle = GuiFactory.getDialogTitle((memberData ? "Mitgliederdaten" : "Finanzdaten") +
+                " in CVS-Datei exportieren");
 
         final GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
@@ -109,7 +119,6 @@ public class CsvMemberExportDialogController extends PDialogExtra {
         gridPane.setHgap(10);
 
         int row = 0;
-//        gridPane.add(new Label("Mitglieder in CVS-Datei exportieren"), 0, ++row, 2, 1);
         gridPane.add(new Label("Pfad:"), 0, ++row);
         gridPane.add(cboExportDir, 1, row);
         gridPane.add(btnExportDir, 2, row);
@@ -121,13 +130,6 @@ public class CsvMemberExportDialogController extends PDialogExtra {
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
-
-//        ScrollPane scDir = new ScrollPane();
-//        scDir.setFitToHeight(true);
-//        scDir.setFitToWidth(true);
-//
-//        scDir.setContent(gridPane);
-//        VBox.setVgrow(scDir, Priority.ALWAYS);
 
         getVboxCont().getChildren().addAll(hBoxTitle, gridPane);
 
@@ -174,9 +176,17 @@ public class CsvMemberExportDialogController extends PDialogExtra {
         }
 
         Path dFile = Paths.get(destDir, destFile);
-        if (!CsvFactory.exportMember(memberDataList, dFile)) {
-            PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
-            return false;
+        if (memberData) {
+            if (!CsvFactory.exportMember(memberDataList, dFile)) {
+                PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
+                return false;
+            }
+
+        } else {
+            if (!CsvFactory.exportFinances(financeDataList, dFile)) {
+                PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
+                return false;
+            }
         }
 
         return true;

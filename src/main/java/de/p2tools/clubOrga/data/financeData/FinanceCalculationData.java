@@ -1,5 +1,5 @@
 /*
- * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
+ * P2tools Copyright (C) 2019 W. Xaver W.Xaver[at]googlemail.com
  * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
@@ -17,13 +17,23 @@
 
 package de.p2tools.clubOrga.data.financeData;
 
-public class FinanceReportFieldNames {
+public class FinanceCalculationData {
+    private String category = "";
+    private long value = 0;
 
-    public static final String CATEGORY = "Kategorie";
-    public static final String ACCOUNT = "Konto";
-    public static final String BETRAG = "Betrag";
+    public String getCategory() {
+        return category;
+    }
 
-    public static final String CATEGORY_ = CATEGORY + ":";
-    public static final String ACCOUNT_ = ACCOUNT + ":";
-    public static final String BETRAG_ = BETRAG + ":";
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public long getValue() {
+        return value;
+    }
+
+    public void setValue(long value) {
+        this.value = value;
+    }
 }

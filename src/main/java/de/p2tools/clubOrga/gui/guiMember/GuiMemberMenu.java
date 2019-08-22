@@ -19,7 +19,7 @@ package de.p2tools.clubOrga.gui.guiMember;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
-import de.p2tools.clubOrga.controller.export.CsvMemberExportDialogController;
+import de.p2tools.clubOrga.controller.export.CsvExportDialogController;
 import de.p2tools.clubOrga.controller.export.CsvMemberImportDialogController;
 import de.p2tools.clubOrga.controller.newsletter.Newsletter;
 import de.p2tools.clubOrga.data.feeData.FeeFactory;
@@ -144,12 +144,12 @@ public class GuiMemberMenu extends VBox {
     private void exportSelMember() {
         List<MemberData> memberData = clubConfig.guiMember.getSelList();
         if (!memberData.isEmpty()) {
-            new CsvMemberExportDialogController(clubConfig.getStage(), clubConfig, memberData);
+            new CsvExportDialogController(clubConfig.getStage(), clubConfig, memberData, null);
         }
     }
 
     private void exportMember() {
-        new CsvMemberExportDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList);
+        new CsvExportDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList, null);
     }
 
     private void importMember() {

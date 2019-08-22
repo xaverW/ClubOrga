@@ -18,9 +18,9 @@ package de.p2tools.clubOrga.gui.guiFinance;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.clubOrga.data.financeData.FinanceCalculationData;
+import de.p2tools.clubOrga.data.financeData.FinanceCalculationDataList;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
-import de.p2tools.clubOrga.data.financeData.FinanceReportData;
-import de.p2tools.clubOrga.data.financeData.FinanceReportDataList;
 import de.p2tools.clubOrga.gui.table.ClubTable;
 import de.p2tools.p2Lib.guiTools.PTextFieldMoney;
 import javafx.beans.property.DoubleProperty;
@@ -31,7 +31,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class GuiFinanceReportpane extends AnchorPane {
+public class GuiFinanceCalculationPane extends AnchorPane {
 
     private final SplitPane splitPane = new SplitPane();
 
@@ -47,11 +47,11 @@ public class GuiFinanceReportpane extends AnchorPane {
 
     private final ScrollPane scrollPaneTableCategory = new ScrollPane();
     private final ScrollPane scrollPaneTableAccount = new ScrollPane();
-    private final TableView<FinanceReportData> tableViewCategory = new TableView<>();
-    private final TableView<FinanceReportData> tableViewAccount = new TableView<>();
+    private final TableView<FinanceCalculationData> tableViewCategory = new TableView<>();
+    private final TableView<FinanceCalculationData> tableViewAccount = new TableView<>();
 
-    private final FinanceReportDataList reportDataListAccount;
-    private final FinanceReportDataList reportDataListCategory;
+    private final FinanceCalculationDataList calculationDataListAccount;
+    private final FinanceCalculationDataList calculationDataListCategory;
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
@@ -60,17 +60,17 @@ public class GuiFinanceReportpane extends AnchorPane {
     DoubleProperty doublePropertySplit_0;
     DoubleProperty doublePropertySplit_1;
 
-    public GuiFinanceReportpane(ClubConfig clubConfig, FilteredList<FinanceData> financeDataFilteredList) {
+    public GuiFinanceCalculationPane(ClubConfig clubConfig, FilteredList<FinanceData> financeDataFilteredList) {
         this.clubConfig = clubConfig;
         progData = ProgData.getInstance();
         this.financeDataList = financeDataFilteredList;
 
-        reportDataListAccount = new FinanceReportDataList(clubConfig, false);
-        reportDataListCategory = new FinanceReportDataList(clubConfig, true);
-        lblSum.bindBidirectional(reportDataListAccount.getSumProperty());
+        calculationDataListAccount = new FinanceCalculationDataList(clubConfig, false);
+        calculationDataListCategory = new FinanceCalculationDataList(clubConfig, true);
+        lblSum.bindBidirectional(calculationDataListAccount.getSumProperty());
 
-        doublePropertySplit_0 = clubConfig.GUI_PANEL_FINANCES_DIVIDER_REPORT_0;
-        doublePropertySplit_1 = clubConfig.GUI_PANEL_FINANCES_DIVIDER_REPORT_1;
+        doublePropertySplit_0 = clubConfig.GUI_PANEL_FINANCES_DIVIDER_CALCULATION_0;
+        doublePropertySplit_1 = clubConfig.GUI_PANEL_FINANCES_DIVIDER_CALCULATION_1;
 
         getChildren().addAll(splitPane);
         AnchorPane.setLeftAnchor(splitPane, 0.0);
@@ -90,8 +90,8 @@ public class GuiFinanceReportpane extends AnchorPane {
     }
 
     public void saveTable() {
-        new ClubTable(clubConfig).saveTable(tableViewAccount, ClubTable.TABLE.REPORT_ACCOUNT);
-        new ClubTable(clubConfig).saveTable(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
+        new ClubTable(clubConfig).saveTable(tableViewAccount, ClubTable.TABLE.CALCULATION_ACCOUNT);
+        new ClubTable(clubConfig).saveTable(tableViewCategory, ClubTable.TABLE.CALCULATION_CATEGORY);
     }
 
     public void setFinanceDataChanged() {
@@ -102,8 +102,8 @@ public class GuiFinanceReportpane extends AnchorPane {
 
         System.out.println("--> setFinanceDataChanged");
 //        lblSum.setText(reportDataListCategory.addData(financeDataList) + "");
-        reportDataListAccount.addData(financeDataList);
-        reportDataListCategory.addData(financeDataList);
+        calculationDataListAccount.addData(financeDataList);
+        calculationDataListCategory.addData(financeDataList);
     }
 
     private void initGui() {
@@ -168,14 +168,14 @@ public class GuiFinanceReportpane extends AnchorPane {
         tableViewCategory.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableViewCategory.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        tableViewAccount.setItems(reportDataListAccount);
-        tableViewCategory.setItems(reportDataListCategory);
+        tableViewAccount.setItems(calculationDataListAccount);
+        tableViewCategory.setItems(calculationDataListCategory);
 
-        new ClubTable(clubConfig).setTable(tableViewAccount, ClubTable.TABLE.REPORT_ACCOUNT);
-        new ClubTable(clubConfig).addResetMenue(tableViewAccount, ClubTable.TABLE.REPORT_ACCOUNT);
+        new ClubTable(clubConfig).setTable(tableViewAccount, ClubTable.TABLE.CALCULATION_ACCOUNT);
+        new ClubTable(clubConfig).addResetMenue(tableViewAccount, ClubTable.TABLE.CALCULATION_ACCOUNT);
 
-        new ClubTable(clubConfig).setTable(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
-        new ClubTable(clubConfig).addResetMenue(tableViewCategory, ClubTable.TABLE.REPORT_CATEGORY);
+        new ClubTable(clubConfig).setTable(tableViewCategory, ClubTable.TABLE.CALCULATION_CATEGORY);
+        new ClubTable(clubConfig).addResetMenue(tableViewCategory, ClubTable.TABLE.CALCULATION_CATEGORY);
     }
 
 }

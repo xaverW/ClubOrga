@@ -44,6 +44,7 @@ import de.p2tools.clubOrga.gui.guiClub.GuiClub;
 import de.p2tools.clubOrga.gui.guiClub.GuiClubInfo;
 import de.p2tools.clubOrga.gui.guiFee.GuiFee;
 import de.p2tools.clubOrga.gui.guiFinance.GuiFinance;
+import de.p2tools.clubOrga.gui.guiFinance.GuiFinanceReport;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceAccount;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceCategory;
 import de.p2tools.clubOrga.gui.guiMember.GuiMember;
@@ -77,8 +78,8 @@ public class ClubConfig extends PDataProgConfig {
     public DoubleProperty GUI_PANEL_FINANDES_DIVIDER_CONT = addDouble("gui-panel-finances-divider-cont", 0.6);
     public DoubleProperty GUI_PANEL_FINANCES_DIVIDER_INFO_0 = addDouble("gui-panel-finances-divider-info-0", 0.5);
     public DoubleProperty GUI_PANEL_FINANCES_DIVIDER_INFO_1 = addDouble("gui-panel-finances-divider-info-1", 0.7);
-    public DoubleProperty GUI_PANEL_FINANCES_DIVIDER_REPORT_0 = addDouble("gui-panel-finances-divider-report-0", 0.4);
-    public DoubleProperty GUI_PANEL_FINANCES_DIVIDER_REPORT_1 = addDouble("gui-panel-finances-divider-report-1", 0.7);
+    public DoubleProperty GUI_PANEL_FINANCES_DIVIDER_CALCULATION_0 = addDouble("gui-panel-finances-divider-calculation-0", 0.4);
+    public DoubleProperty GUI_PANEL_FINANCES_DIVIDER_CALCULATION_1 = addDouble("gui-panel-finances-divider-calculation-1", 0.7);
 
     // Dialoge
     public StringProperty CLUB_CONFIG_DIALOG_SIZE = addStr("club-config-dialog-size", "800:600");
@@ -92,6 +93,7 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty PAYMENT_TYPE_DATA_DIALOG_SIZE = addStr("payment-type-data-dialog-size");
     public StringProperty ADD_DEMO_DATA_DIALOG_SIZE = addStr("add-demo-data-dialog-size");
     public StringProperty EXPORT_MEMBER_CSV_DIALOG_SIZE = addStr("export-member-csv-dialog-size", "700:400");
+    public StringProperty EXPORT_FINANCE_CSV_DIALOG_SIZE = addStr("export-finance-csv-dialog-size", "700:400");
     public StringProperty IMPORT_MEMBER_CSV_DIALOG_SIZE = addStr("import-member-csv-dialog-size", "700:400");
     public StringProperty EXPORT_CLUB_DIALOG_SIZE = addStr("export-club-dialog-size", "700:400");
     public StringProperty DELETE_ALL_DATA_DIALOG_SIZE = addStr("delete-all-data-dialog-size", "600:300");
@@ -236,19 +238,19 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty TRANSACTION_GUI_TABLE_VIS = addStr("transaction-gui-table-vis");
     public StringProperty TRANSACTION_GUI_TABLE_ORDER = addStr("transaction-gui-table-order");
 
-    // Report Category
-    public StringProperty REPORT_CATEGORY_GUI_TABLE_WIDTH = addStrC("Report Category", "treport-category-gui-table-width");
-    public StringProperty REPORT_CATEGORY_GUI_TABLE_SORT = addStr("treport-category-gui-table-sort");
-    public StringProperty REPORT_CATEGORY_GUI_TABLE_UPDOWN = addStr("treport-category-gui-table-upDown");
-    public StringProperty REPORT_CATEGORY_GUI_TABLE_VIS = addStr("treport-category-gui-table-vis");
-    public StringProperty REPORT_CATEGORY_GUI_TABLE_ORDER = addStr("treport-category-gui-table-order");
+    // Calculation Category
+    public StringProperty CALCULATION_CATEGORY_GUI_TABLE_WIDTH = addStrC("Calculation Category", "calculation-category-gui-table-width");
+    public StringProperty CALCULATION_CATEGORY_GUI_TABLE_SORT = addStr("calculation-category-gui-table-sort");
+    public StringProperty CALCULATION_CATEGORY_GUI_TABLE_UPDOWN = addStr("calculation-category-gui-table-upDown");
+    public StringProperty CALCULATION_CATEGORY_GUI_TABLE_VIS = addStr("calculation-category-gui-table-vis");
+    public StringProperty CALCULATION_CATEGORY_GUI_TABLE_ORDER = addStr("calculation-category-gui-table-order");
 
-    // Report Account
-    public StringProperty REPORT_ACCOUNT_GUI_TABLE_WIDTH = addStrC("Report Account", "report-account-gui-table-width");
-    public StringProperty REPORT_ACCOUNT_GUI_TABLE_SORT = addStr("report-account-gui-table-sort");
-    public StringProperty REPORT_ACCOUNT_GUI_TABLE_UPDOWN = addStr("report-account-gui-table-upDown");
-    public StringProperty REPORT_ACCOUNT_GUI_TABLE_VIS = addStr("report-account-gui-table-vis");
-    public StringProperty REPORT_ACCOUNT_GUI_TABLE_ORDER = addStr("report-account-gui-table-order");
+    // Calculation Account
+    public StringProperty CALCULATION_ACCOUNT_GUI_TABLE_WIDTH = addStrC("Calculation Account", "calculation-account-gui-table-width");
+    public StringProperty CALCULATION_ACCOUNT_GUI_TABLE_SORT = addStr("calculation-account-gui-table-sort");
+    public StringProperty CALCULATION_ACCOUNT_GUI_TABLE_UPDOWN = addStr("calculation-account-gui-table-upDown");
+    public StringProperty CALCULATION_ACCOUNT_GUI_TABLE_VIS = addStr("calculation-account-gui-table-vis");
+    public StringProperty CALCULATION_ACCOUNT_GUI_TABLE_ORDER = addStr("calculation-account-gui-table-order");
 
     // Combobox-Listen
     public ObservableList<String> CBO_LIST_ANREDE = addListPropC("Combobox-Listen", arrayList, "cbo-list-anrede");
@@ -325,6 +327,7 @@ public class ClubConfig extends PDataProgConfig {
     public GuiMemberPaymentType guiMemberPaymentType = null;
     public GuiFee guiFee = null;
     public GuiFinance guiFinance = null;
+    public GuiFinanceReport guiFinanceReport = null;
     public GuiFinanceAccount guiFinanceAccount = null;
     public GuiFinanceCategory guiFinanceCategory = null;
 

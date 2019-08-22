@@ -11,6 +11,8 @@
     -style-text-color-1: mediumblue;
     -style-border-color-lbl: royalblue;
     -style-border-color-tab: cornflowerblue;
+
+    -fx-color-tab: #b7d4b0;
 }
 
 
@@ -446,5 +448,29 @@
 }
 .alignCenterLeft {
   -fx-alignment: center-left;
+}
+
+/* table finance report*/
+    .table-cell.moneyColumn {
+        -fx-alignment: center-right;
+    }
+    .table-cell.accColumn {
+        -fx-alignment: center-right;
+        -fx-text-fill: green;
+    }
+    .table-cell.catColumn {
+        -fx-alignment: center-right;
+        -fx-text-fill: red;
+    }
+
+    .table-view .column-header.accColumn {
+        -fx-base: #b7d4b0;
+        -fx-alignment: center-right;
+    }
+    .table-view .column-header.catColumn {
+        -fx-base: #d8a4a2;
+        -fx-alignment: center-right;
+    }
+
 }
 

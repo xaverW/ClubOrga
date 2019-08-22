@@ -1,5 +1,5 @@
 /*
- * P2tools Copyright (C) 2019 W. Xaver W.Xaver[at]googlemail.com
+ * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
  * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
@@ -15,20 +15,15 @@
  */
 
 
-package de.p2tools.clubOrga.gui;
+package de.p2tools.clubOrga.data.financeData;
 
-public class GuiFactory {
+public class FinanceCalculationFieldNames {
 
+    public static final String CATEGORY = "Kategorie";
+    public static final String ACCOUNT = "Konto";
+    public static final String BETRAG = "Betrag";
 
-    public enum PANE {
-        CLUB, CLUB_INFO,
-        MEMBER, MEMBER_FEE_RATE, MEMBER_STATE, MEMBER_PAYMENT_TYPE,
-        FEE,
-        FINANCE, FINANCE_CALCULATION, FINANCE_ACCOUNT, FINANCE_CATEGORY
-    }
-
-
-    private GuiFactory() {
-    }
-
+    public static final String CATEGORY_ = CATEGORY + ":";
+    public static final String ACCOUNT_ = ACCOUNT + ":";
+    public static final String BETRAG_ = BETRAG + ":";
 }

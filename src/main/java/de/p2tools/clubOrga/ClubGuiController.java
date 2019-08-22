@@ -25,6 +25,7 @@ import de.p2tools.clubOrga.gui.guiClub.GuiClub;
 import de.p2tools.clubOrga.gui.guiClub.GuiClubInfo;
 import de.p2tools.clubOrga.gui.guiFee.GuiFee;
 import de.p2tools.clubOrga.gui.guiFinance.GuiFinance;
+import de.p2tools.clubOrga.gui.guiFinance.GuiFinanceReport;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceAccount;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceCategory;
 import de.p2tools.clubOrga.gui.guiMember.GuiMember;
@@ -87,6 +88,7 @@ public class ClubGuiController extends StackPane {
             clubConfig.guiMemberPaymentType = new GuiMemberPaymentType(clubConfig);
             clubConfig.guiFee = new GuiFee(clubConfig);
             clubConfig.guiFinance = new GuiFinance(clubConfig);
+            clubConfig.guiFinanceReport = new GuiFinanceReport(clubConfig);
             clubConfig.guiFinanceAccount = new GuiFinanceAccount(clubConfig);
             clubConfig.guiFinanceCategory = new GuiFinanceCategory(clubConfig);
 
@@ -94,7 +96,8 @@ public class ClubGuiController extends StackPane {
                     clubConfig.guiMember,
                     clubConfig.guiMemberFeeRate, clubConfig.guiMemberState, clubConfig.guiMemberPaymentType,
                     clubConfig.guiFee,
-                    clubConfig.guiFinance, clubConfig.guiFinanceAccount, clubConfig.guiFinanceCategory
+                    clubConfig.guiFinance, clubConfig.guiFinanceReport,
+                    clubConfig.guiFinanceAccount, clubConfig.guiFinanceCategory
             );
 
             // Statusbar
@@ -158,6 +161,11 @@ public class ClubGuiController extends StackPane {
                 clubConfig.guiFinance.toFront();
                 clubConfig.guiFinance.isShown();
                 setSelPane(GuiFactory.PANE.FINANCE);
+                break;
+            case FINANCE_CALCULATION:
+                clubConfig.guiFinanceReport.toFront();
+                clubConfig.guiFinanceReport.isShown();
+                setSelPane(GuiFactory.PANE.FINANCE_CALCULATION);
                 break;
             case FINANCE_ACCOUNT:
                 clubConfig.guiFinanceAccount.toFront();
@@ -236,6 +244,7 @@ public class ClubGuiController extends StackPane {
             }
         });
         addSelectButton(vbFinances, "Finanzen", GuiFactory.PANE.FINANCE);
+        addSelectButton(vbFinances, "Finanzübersicht", GuiFactory.PANE.FINANCE_CALCULATION);
         addSelectButton(vbFinances, "Konten", GuiFactory.PANE.FINANCE_ACCOUNT);
         addSelectButton(vbFinances, "Kategorien", GuiFactory.PANE.FINANCE_CATEGORY);
 

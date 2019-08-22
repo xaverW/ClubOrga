@@ -23,7 +23,7 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.controller.ProgQuitFactory;
-import de.p2tools.clubOrga.controller.export.CsvMemberExportDialogController;
+import de.p2tools.clubOrga.controller.export.CsvExportDialogController;
 import de.p2tools.clubOrga.controller.export.CsvMemberImportDialogController;
 import de.p2tools.clubOrga.controller.export.ZipExportDialogController;
 import de.p2tools.clubOrga.data.deleteData.DeleteDataFactory;
@@ -158,7 +158,7 @@ public class MenuController {
 //    }
 
     private void exportAllMember() {
-        new CsvMemberExportDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList);
+        new CsvExportDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList, null);
     }
 
     private void importMember() {
