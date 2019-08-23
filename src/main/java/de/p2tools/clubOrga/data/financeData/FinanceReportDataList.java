@@ -20,11 +20,17 @@ package de.p2tools.clubOrga.data.financeData;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FinanceReportDataList extends SimpleListProperty<FinanceReportData> {
+
+    private FilteredList<FinanceReportData> filteredList = null;
+    private SortedList<FinanceReportData> sortedList = null;
+
     final ClubConfig clubConfig;
     private final List<String> accounts = new ArrayList<>();
     private final List<String> categories = new ArrayList<>();
@@ -33,6 +39,20 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
     public FinanceReportDataList(ClubConfig clubConfig) {
         super(FXCollections.observableArrayList());
         this.clubConfig = clubConfig;
+    }
+
+    public SortedList<FinanceReportData> getSortedList() {
+        if (sortedList == null) {
+            sortedList = new SortedList<>(getFilteredList());
+        }
+        return sortedList;
+    }
+
+    public FilteredList<FinanceReportData> getFilteredList() {
+        if (filteredList == null) {
+            filteredList = new FilteredList<>(this, p -> true);
+        }
+        return filteredList;
     }
 
     public List<String> getAccounts() {
@@ -63,4 +83,7 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
         return HEADERS;
     }
 
+    public void clearSelected() {
+        this.stream().forEach(financeReportData -> financeReportData.setSelected(false));
+    }
 }

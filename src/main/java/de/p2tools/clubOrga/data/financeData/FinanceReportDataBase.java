@@ -22,7 +22,6 @@ import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -35,27 +34,34 @@ public class FinanceReportDataBase {
     private final IntegerProperty geschaeftsJahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
 
     private final PLocalDateProperty buchungsDatum = new PLocalDateProperty();
-    private final PLocalDate erstellDatum = new PLocalDate();
 
-    private final List<Long> accountList;
-    private final List<Long> categoryList;
 
+    private final List<FinanceReportAccountData> accountList;
+    private final List<FinanceReportCategoryData> categoryList;
+    private boolean selected = false;
 
     public FinanceReportDataBase() {
-        ObservableList<Long> observableList = FXCollections.observableArrayList();
-        this.accountList = new SimpleListProperty<>(observableList);
-        observableList = FXCollections.observableArrayList();
-        this.categoryList = new SimpleListProperty<>(observableList);
+        this.accountList = new SimpleListProperty<>(FXCollections.observableArrayList());
+        this.categoryList = new SimpleListProperty<>(FXCollections.observableArrayList());
     }
 
 
-    public List<Long> getAccountList() {
+    public List<FinanceReportAccountData> getAccountList() {
         return accountList;
     }
 
-    public List<Long> getCategoryList() {
+    public List<FinanceReportCategoryData> getCategoryList() {
         return categoryList;
     }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
 
     public long getNr() {
         return nr.get();
@@ -117,7 +123,4 @@ public class FinanceReportDataBase {
         this.buchungsDatum.set(buchungsDatum);
     }
 
-    public PLocalDate getErstellDatum() {
-        return erstellDatum;
-    }
 }

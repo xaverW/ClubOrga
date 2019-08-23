@@ -34,11 +34,9 @@ public class FinanceReportData extends FinanceReportDataBase {
         dataRow.add(currencyFormat.format(getGesamtbetrag() / 100));
         dataRow.add(getGeschaeftsJahr() + "");
         dataRow.add(getBuchungsDatum().toString());
-        dataRow.add(getErstellDatum().toString());
-
 
         for (int i = 0; i < financeReportDataList.getAccounts().size(); i++) {
-            final long l = getAccountList().get(i);
+            final long l = getAccountList().get(i).getBetrag();
             if (l == 0) {
                 dataRow.add("");
             } else {
@@ -47,7 +45,7 @@ public class FinanceReportData extends FinanceReportDataBase {
         }
 
         for (int i = 0; i < financeReportDataList.getCategories().size(); i++) {
-            final long l = getCategoryList().get(i);
+            final long l = getCategoryList().get(i).getBetrag();
             if (l == 0) {
                 dataRow.add("");
             } else {

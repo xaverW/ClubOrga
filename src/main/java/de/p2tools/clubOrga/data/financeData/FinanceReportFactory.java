@@ -21,56 +21,64 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 
 public class FinanceReportFactory {
-    private FinanceReportFactory() {
-    }
 
     public static String KONTO = "Konten:\n";
     public static String KATEGORIE = "Kategorie:\n";
 
+    private FinanceReportFactory() {
+    }
 
-    public static void makeReportData(ClubConfig clubConfig, FinanceReportDataList financeReportDataList) {
-        // tabelData
-        financeReportDataList.getAccounts().clear();
+    public static void makeReportData(ClubConfig clubConfig) {
+        // tabel header
+        clubConfig.financeReportDataList.getAccounts().clear();
         clubConfig.financeAccountDataList.stream().forEach(acc -> {
-            financeReportDataList.getAccounts().add(acc.getKonto());
+            clubConfig.financeReportDataList.getAccounts().add(acc.getKonto());
         });
 
-        financeReportDataList.getCategories().clear();
+        clubConfig.financeReportDataList.getCategories().clear();
         clubConfig.financeCategoryDataList.stream().forEach(cat -> {
-            financeReportDataList.getCategories().add(cat.getKategorie());
+            clubConfig.financeReportDataList.getCategories().add(cat.getKategorie());
         });
 
-        clubConfig.financeDataList.stream().forEach(fi -> {
-            FinanceReportData data = new FinanceReportData();
-            data.setNr(fi.getNr());
-            data.setBelegNr(fi.getBelegNr());
-            data.setGeschaeftsJahr(fi.getGeschaeftsJahr());
-            data.setGesamtbetrag(fi.getGesamtbetrag());
-            data.setBuchungsDatum(fi.getBuchungsDatum());
 
-            clubConfig.financeAccountDataList.stream().forEach(acc -> {
-                if (fi.getFinanceAccountData().getId() == acc.getId()) {
-                    data.getAccountList().add(fi.getGesamtbetrag());
+        // table data
+        clubConfig.financeDataList.stream().forEach(financeData -> {
+            FinanceReportData reportData = new FinanceReportData();
+
+            reportData.setNr(financeData.getNr());
+            reportData.setBelegNr(financeData.getBelegNr());
+            reportData.setGeschaeftsJahr(financeData.getGeschaeftsJahr());
+            reportData.setBuchungsDatum(financeData.getBuchungsDatum());
+            reportData.setGesamtbetrag(financeData.getGesamtbetrag());
+
+            clubConfig.financeAccountDataList.stream().forEach(financeAccountData -> {
+
+                if (financeData.getFinanceAccountData().getId() == financeAccountData.getId()) {
+                    reportData.getAccountList().add(new FinanceReportAccountData(financeAccountData, financeData.getGesamtbetrag()));
                 } else {
-                    data.getAccountList().add(0L);
+                    reportData.getAccountList().add(new FinanceReportAccountData(null, 0));
                 }
+
             });
 
-            long money = 0;
+            long money;
             for (FinanceCategoryData cat : clubConfig.financeCategoryDataList) {
-                money = 0;
 
-                for (TransactionData tr : fi.getTransactionDataList()) {
+                money = 0;
+                for (TransactionData tr : financeData.getTransactionDataList()) {
                     if (tr.getFinanceCategoryData().getId() == cat.getId()) {
                         money += tr.getBetrag();
                     }
                 }
-
-                data.getCategoryList().add(money);
+                if (money != 0) {
+                    reportData.getCategoryList().add(new FinanceReportCategoryData(cat, money));
+                } else {
+                    reportData.getCategoryList().add(new FinanceReportCategoryData(null, 0));
+                }
 
             }
 
-            financeReportDataList.add(data);
+            clubConfig.financeReportDataList.add(reportData);
         });
 
     }

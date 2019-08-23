@@ -75,6 +75,8 @@ public class ClubConfigFactory {
         initFilterFeeMemberData(clubConfig);
         initFilterFinanceAccountData(clubConfig);
         initFilterFinanceCategoryData(clubConfig);
+        initFilterFinanceReportAccountData(clubConfig);
+        initFilterFinanceReportCategoryData(clubConfig);
     }
 
     private static void initFilterStateData(ClubConfig clubConfig) {
@@ -145,6 +147,32 @@ public class ClubConfigFactory {
     private static void initFilterFinanceCategoryData(ClubConfig clubConfig) {
         final LongProperty prop = clubConfig.FINANCE_FILTER_CATEGORY_ID;
         final ObjectProperty<FinanceCategoryData> objectProperty = clubConfig.FINANCE_FILTER_CATEGORY;
+        objectProperty.setValue(clubConfig.financeCategoryDataList.getById(prop.get()));
+        objectProperty.addListener((v, o, n) -> {
+            if (n != null) {
+                prop.setValue(n.getId());
+            } else {
+                prop.setValue(ProgConst.FILTER_ID_NOT_SELECTED);
+            }
+        });
+    }
+
+    private static void initFilterFinanceReportAccountData(ClubConfig clubConfig) {
+        final LongProperty prop = clubConfig.FINANCE_REPORT_FILTER_ACCOUNT_ID;
+        final ObjectProperty<FinanceAccountData> objectProperty = clubConfig.FINANCE_REPORT_FILTER_ACCOUNT;
+        objectProperty.setValue(clubConfig.financeAccountDataList.getById(prop.get()));
+        objectProperty.addListener((v, o, n) -> {
+            if (n != null) {
+                prop.setValue(n.getId());
+            } else {
+                prop.setValue(ProgConst.FILTER_ID_NOT_SELECTED);
+            }
+        });
+    }
+
+    private static void initFilterFinanceReportCategoryData(ClubConfig clubConfig) {
+        final LongProperty prop = clubConfig.FINANCE_REPORT_FILTER_CATEGORY_ID;
+        final ObjectProperty<FinanceCategoryData> objectProperty = clubConfig.FINANCE_REPORT_FILTER_CATEGORY;
         objectProperty.setValue(clubConfig.financeCategoryDataList.getById(prop.get()));
         objectProperty.addListener((v, o, n) -> {
             if (n != null) {

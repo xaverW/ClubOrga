@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.gui.guiFinance;
+package de.p2tools.clubOrga.gui.guiFinanceReport;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
@@ -54,7 +54,7 @@ public class GuiFinanceReportMenu extends VBox {
 
         MenuItem miExport = new MenuItem("Finanzen exportieren");
         miExport.setOnAction(a -> {
-            FinanceReportDataList dataArr = guiFinanceReport.getFinanceReportDataList();
+            FinanceReportDataList dataArr = clubConfig.financeReportDataList;
             if (dataArr == null || dataArr.isEmpty()) {
                 return;
             }

@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.gui.guiFinance;
+package de.p2tools.clubOrga.gui.guiFinanceReport;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
@@ -35,7 +35,6 @@ public class GuiFinanceReportFilterPane extends FilterPane {
     private final PFilterComboBoxObject<FinanceCategoryData> filterCboCategory = new PFilterComboBoxObject<>();
 
     private final Label lblJahr = new Label(FinanceFieldNames.GESCHAEFTSJAHR_);
-    private final Label lblBelegNr = new Label(FinanceFieldNames.BELEG_NR_);
     private final Label lblKonto = new Label(FinanceFieldNames.KONTO_);
     private final Label lblKategorie = new Label(FinanceFieldNames.KATEGORIE_);
 
@@ -54,47 +53,49 @@ public class GuiFinanceReportFilterPane extends FilterPane {
         gridPane.setVgap(10);
 
         int row = 0;
-        gridPane.add(lblBelegNr, 0, row);
-        gridPane.add(filterTxtBelegNr, 1, row);
-
-        gridPane.add(lblJahr, 0, ++row);
+        gridPane.add(lblJahr, 0, row);
         gridPane.add(filterCboGeschaeftsJahr, 1, row);
 
-        gridPane.add(lblKonto, 0, ++row);
-        gridPane.add(filterCboAccount, 1, row);
-        gridPane.add(lblKategorie, 0, ++row);
-        gridPane.add(filterCboCategory, 1, row);
+        row = 0;
+        gridPane.add(lblKonto, 3, row);
+        gridPane.add(filterCboAccount, 4, row);
+        gridPane.add(lblKategorie, 3, ++row);
+        gridPane.add(filterCboCategory, 4, row);
 
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(), PColumnConstraints.getCcPrefMaxSize(250));
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcPrefMaxSize(250),
+                PColumnConstraints.getCcMinSize(20),
+                PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcPrefMaxSize(250));
         vbFilter.getChildren().addAll(gridPane);
     }
 
     private void initFilter() {
-        filterTxtBelegNr.init(clubConfig.FINANCE_FILTER_BELEG_NR);
-        clubConfig.FINANCE_FILTER_BELEG_NR.addListener((observable, oldValue, newValue) -> announceFilterChange());
+        filterTxtBelegNr.init(clubConfig.FINANCE_REPORT_FILTER_BELEG_NR);
+        clubConfig.FINANCE_REPORT_FILTER_BELEG_NR.addListener((observable, oldValue, newValue) -> announceFilterChange());
 
-        filterCboGeschaeftsJahr.init(clubConfig.financeDataList.getGeschaeftsJahrList(), clubConfig.FINANCE_FILTER_GESCHAEFTS_JAHR);
-        clubConfig.FINANCE_FILTER_GESCHAEFTS_JAHR.addListener((observable, oldValue, newValue) -> {
+        filterCboGeschaeftsJahr.init(clubConfig.financeDataList.getGeschaeftsJahrList(), clubConfig.FINANCE_REPORT_FILTER_GESCHAEFTS_JAHR);
+        clubConfig.FINANCE_REPORT_FILTER_GESCHAEFTS_JAHR.addListener((observable, oldValue, newValue) -> {
             announceFilterChange();
         });
 
-        filterCboAccount.init(clubConfig.financeAccountDataList, clubConfig.FINANCE_FILTER_ACCOUNT);
-        clubConfig.FINANCE_FILTER_ACCOUNT.addListener((observable, oldValue, newValue) -> {
+        filterCboAccount.init(clubConfig.financeAccountDataList, clubConfig.FINANCE_REPORT_FILTER_ACCOUNT);
+        clubConfig.FINANCE_REPORT_FILTER_ACCOUNT.addListener((observable, oldValue, newValue) -> {
             announceFilterChange();
         });
 
-        filterCboCategory.init(clubConfig.financeCategoryDataList, clubConfig.FINANCE_FILTER_CATEGORY);
-        clubConfig.FINANCE_FILTER_CATEGORY.addListener((observable, oldValue, newValue) -> {
+        filterCboCategory.init(clubConfig.financeCategoryDataList, clubConfig.FINANCE_REPORT_FILTER_CATEGORY);
+        clubConfig.FINANCE_REPORT_FILTER_CATEGORY.addListener((observable, oldValue, newValue) -> {
             announceFilterChange();
         });
     }
 
     private void announceFilterChange() {
-        clubConfig.financesFilterChange.setValue(!clubConfig.financesFilterChange.getValue());
+        clubConfig.financesReportFilterChange.setValue(!clubConfig.financesReportFilterChange.getValue());
     }
 
     public void clearFilter() {
-        clubConfig.financeDataList.clearSelected();
+        clubConfig.financeReportDataList.clearSelected();
 
         filterTxtBelegNr.clearText();
         filterCboGeschaeftsJahr.clearSelection();

@@ -30,6 +30,7 @@ import de.p2tools.clubOrga.data.feeData.FeeDataList;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateDataList;
 import de.p2tools.clubOrga.data.financeData.FinanceDataList;
+import de.p2tools.clubOrga.data.financeData.FinanceReportDataList;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountDataList;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
@@ -44,9 +45,9 @@ import de.p2tools.clubOrga.gui.guiClub.GuiClub;
 import de.p2tools.clubOrga.gui.guiClub.GuiClubInfo;
 import de.p2tools.clubOrga.gui.guiFee.GuiFee;
 import de.p2tools.clubOrga.gui.guiFinance.GuiFinance;
-import de.p2tools.clubOrga.gui.guiFinance.GuiFinanceReport;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceAccount;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceCategory;
+import de.p2tools.clubOrga.gui.guiFinanceReport.GuiFinanceReport;
 import de.p2tools.clubOrga.gui.guiMember.GuiMember;
 import de.p2tools.clubOrga.gui.guiMember.guiConfig.GuiMemberFeeRate;
 import de.p2tools.clubOrga.gui.guiMember.guiConfig.GuiMemberPaymentType;
@@ -146,6 +147,14 @@ public class ClubConfig extends PDataProgConfig {
     public ObjectProperty<FinanceAccountData> FINANCE_FILTER_ACCOUNT = new SimpleObjectProperty<>();
     public LongProperty FINANCE_FILTER_CATEGORY_ID = addLong("finance-filter-category-id", ProgConst.FILTER_ID_NOT_SELECTED);
     public ObjectProperty<FinanceCategoryData> FINANCE_FILTER_CATEGORY = new SimpleObjectProperty<>();
+
+    // GuiFinanceReport Filter
+    public StringProperty FINANCE_REPORT_FILTER_BELEG_NR = addStrC("GuiFinance Filter", "finance-report-filter-belegnr");
+    public ObjectProperty<Integer> FINANCE_REPORT_FILTER_GESCHAEFTS_JAHR = addObjIntProp(arrayList, "finaces-report-filter-geschaefts-jahr");
+    public LongProperty FINANCE_REPORT_FILTER_ACCOUNT_ID = addLong("finance-report-filter-account-id", ProgConst.FILTER_ID_NOT_SELECTED);
+    public ObjectProperty<FinanceAccountData> FINANCE_REPORT_FILTER_ACCOUNT = new SimpleObjectProperty<>();
+    public LongProperty FINANCE_REPORT_FILTER_CATEGORY_ID = addLong("finance-report-filter-category-id", ProgConst.FILTER_ID_NOT_SELECTED);
+    public ObjectProperty<FinanceCategoryData> FINANCE_REPORT_FILTER_CATEGORY = new SimpleObjectProperty<>();
 
     // GuiMember
     public StringProperty MEMBER_GUI_TABLE_WIDTH = addStrC("GuiMember", "member-gui-table-width");
@@ -340,6 +349,7 @@ public class ClubConfig extends PDataProgConfig {
     public final MemberDataList memberDataList;
     public final FeeDataList feeDataList;
     public final FinanceDataList financeDataList;
+    public final FinanceReportDataList financeReportDataList;
 
     public final StateDataList stateDataList;
     public final FeeRateDataList feeRateDataList;
@@ -352,6 +362,7 @@ public class ClubConfig extends PDataProgConfig {
     public final BooleanProperty memberFilterChange = new SimpleBooleanProperty(false);
     public final BooleanProperty feeFilterChange = new SimpleBooleanProperty(false);
     public final BooleanProperty financesFilterChange = new SimpleBooleanProperty(false);
+    public final BooleanProperty financesReportFilterChange = new SimpleBooleanProperty(false);
 
     private String clubPath;
     private Stage stage = null;
@@ -379,6 +390,7 @@ public class ClubConfig extends PDataProgConfig {
         paymentTypeDataList = new PaymentTypeDataList(this);
         feeDataList = new FeeDataList(this);
         financeDataList = new FinanceDataList(this);
+        financeReportDataList = new FinanceReportDataList(this);
         financeAccountDataList = new FinanceAccountDataList(this);
         financeCategoryDataList = new FinanceCategoryDataList(this);
     }

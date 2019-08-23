@@ -17,36 +17,36 @@
 
 package de.p2tools.clubOrga.data.financeData;
 
-import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
+import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class FinanceReportAccountData {
+public class FinanceReportCategoryData {
 
     //    private final LongProperty id = new SimpleLongProperty(0);
-    private final ObjectProperty<FinanceAccountData> financeAccountData = new SimpleObjectProperty<>();
+    private final ObjectProperty<FinanceCategoryData> financeCategoryData = new SimpleObjectProperty<>();
     private final LongProperty betrag = new SimpleLongProperty(0);
 
-    public FinanceReportAccountData() {
+    public FinanceReportCategoryData() {
     }
 
-    public FinanceReportAccountData(FinanceAccountData financeAccountData, long betrag) {
-        setFinanceAccountData(financeAccountData);
+    public FinanceReportCategoryData(FinanceCategoryData id, long betrag) {
+        setFinanceCategoryData(id);
         setBetrag(betrag);
     }
 
-    public FinanceAccountData getFinanceAccountData() {
-        return financeAccountData.get();
+    public FinanceCategoryData getFinanceCategoryData() {
+        return financeCategoryData.get();
     }
 
-    public ObjectProperty<FinanceAccountData> financeAccountDataProperty() {
-        return financeAccountData;
+    public ObjectProperty<FinanceCategoryData> financeCategoryDataProperty() {
+        return financeCategoryData;
     }
 
-    public void setFinanceAccountData(FinanceAccountData financeAccountData) {
-        this.financeAccountData.set(financeAccountData);
+    public void setFinanceCategoryData(FinanceCategoryData financeCategoryData) {
+        this.financeCategoryData.set(financeCategoryData);
     }
 
 //    public long getId() {
