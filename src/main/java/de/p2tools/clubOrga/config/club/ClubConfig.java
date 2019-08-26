@@ -350,6 +350,7 @@ public class ClubConfig extends PDataProgConfig {
     public final FeeDataList feeDataList;
     public final FinanceDataList financeDataList;
     public final FinanceReportDataList financeReportDataList;
+    public final FinanceReportDataList financeReportDataListSum;
 
     public final StateDataList stateDataList;
     public final FeeRateDataList feeRateDataList;
@@ -391,6 +392,7 @@ public class ClubConfig extends PDataProgConfig {
         feeDataList = new FeeDataList(this);
         financeDataList = new FinanceDataList(this);
         financeReportDataList = new FinanceReportDataList(this);
+        financeReportDataListSum = new FinanceReportDataList(this);
         financeAccountDataList = new FinanceAccountDataList(this);
         financeCategoryDataList = new FinanceCategoryDataList(this);
     }

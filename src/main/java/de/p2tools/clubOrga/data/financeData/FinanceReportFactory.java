@@ -18,7 +18,10 @@
 package de.p2tools.clubOrga.data.financeData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
+
+import java.util.ArrayList;
 
 public class FinanceReportFactory {
 
@@ -51,35 +54,73 @@ public class FinanceReportFactory {
             reportData.setBuchungsDatum(financeData.getBuchungsDatum());
             reportData.setGesamtbetrag(financeData.getGesamtbetrag());
 
+            // die Konten holen
+            ArrayList<Long> accountList = new ArrayList<>();
+            ArrayList<Long> categoryList = new ArrayList<>();
             clubConfig.financeAccountDataList.stream().forEach(financeAccountData -> {
 
-                if (financeData.getFinanceAccountData().getId() == financeAccountData.getId()) {
-                    reportData.getAccountList().add(new FinanceReportAccountData(financeAccountData, financeData.getGesamtbetrag()));
+                if (financeData.getFinanceAccountData().equals(financeAccountData)) {
+                    reportData.getAccountList().add(new FinanceReportAccountData(financeAccountData.getId(), financeData.getGesamtbetrag()));
                 } else {
-                    reportData.getAccountList().add(new FinanceReportAccountData(null, 0));
+                    reportData.getAccountList().add(new FinanceReportAccountData(ProgConst.FILTER_ID_NOT_SELECTED, 0));
                 }
 
             });
 
+            // die Kategorien der Transaktionen aufsummieren
             long money;
             for (FinanceCategoryData cat : clubConfig.financeCategoryDataList) {
 
                 money = 0;
                 for (TransactionData tr : financeData.getTransactionDataList()) {
-                    if (tr.getFinanceCategoryData().getId() == cat.getId()) {
+                    if (tr.getFinanceCategoryData().equals(cat)) {
                         money += tr.getBetrag();
                     }
                 }
                 if (money != 0) {
-                    reportData.getCategoryList().add(new FinanceReportCategoryData(cat, money));
+                    reportData.getCategoryList().add(new FinanceReportCategoryData(cat.getId(), money));
                 } else {
-                    reportData.getCategoryList().add(new FinanceReportCategoryData(null, 0));
+                    reportData.getCategoryList().add(new FinanceReportCategoryData(ProgConst.FILTER_ID_NOT_SELECTED, 0));
                 }
 
             }
 
+
             clubConfig.financeReportDataList.add(reportData);
         });
+
+        long sum = 0;
+        FinanceReportData reportDataEmpty = new FinanceReportData();
+        FinanceReportData reportDataSum = new FinanceReportData();
+
+        sum = 0;
+        for (FinanceReportData reportData : clubConfig.financeReportDataList) {
+            sum += reportData.getGesamtbetrag();
+        }
+        reportDataSum.setGesamtbetrag(sum);
+        reportDataEmpty.setGesamtbetrag(0);
+
+        for (int i = 0; i < clubConfig.financeAccountDataList.size(); ++i) {
+            sum = 0;
+            for (FinanceReportData reportData : clubConfig.financeReportDataList) {
+                sum += reportData.getAccountList().get(i).getBetrag();
+            }
+            final long id = clubConfig.financeAccountDataList.get(i).getId();
+            reportDataSum.getAccountList().add(new FinanceReportAccountData(id, sum));
+            reportDataEmpty.getAccountList().add(new FinanceReportAccountData(id, 0));
+        }
+
+        for (int i = 0; i < clubConfig.financeCategoryDataList.size(); ++i) {
+            sum = 0;
+            for (FinanceReportData reportData : clubConfig.financeReportDataList) {
+                sum += reportData.getCategoryList().get(i).getBetrag();
+            }
+            final long id = clubConfig.financeCategoryDataList.get(i).getId();
+            reportDataSum.getCategoryList().add(new FinanceReportCategoryData(id, sum));
+            reportDataEmpty.getCategoryList().add(new FinanceReportCategoryData(id, 0));
+        }
+
+        clubConfig.financeReportDataListSum.add(reportDataSum);
 
     }
 

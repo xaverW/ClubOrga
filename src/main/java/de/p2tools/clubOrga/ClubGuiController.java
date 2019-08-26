@@ -212,7 +212,7 @@ public class ClubGuiController extends StackPane {
                 setTopPane(GuiFactory.PANE.MEMBER);
             }
         });
-        addSelectButton(vbMember, "Mittglieder", GuiFactory.PANE.MEMBER);
+        addSelectButton(vbMember, "Mitglieder", GuiFactory.PANE.MEMBER);
         addSelectButton(vbMember, "Beitragssätze", GuiFactory.PANE.MEMBER_FEE_RATE);
         addSelectButton(vbMember, "Mitgliederstati", GuiFactory.PANE.MEMBER_STATE);
         addSelectButton(vbMember, "Zahlarten", GuiFactory.PANE.MEMBER_PAYMENT_TYPE);

@@ -30,6 +30,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -58,8 +59,15 @@ public class GuiFinanceMenu extends VBox {
         mb.setGraphic(new ProgIcons().ICON_TOOLBAR_MENU);
         mb.getStyleClass().add("btnFunction");
 
+        MenuItem miAddFinance = new MenuItem("neuen Finanzeintrag anlegen");
+        miAddFinance.setOnAction(a -> addNewFinance());
+        MenuItem miChangeFinance = new MenuItem("ausgewählten Finanzeintrag ändern");
+        miChangeFinance.setOnAction(a -> guiFinance.changeFinances());
 
-        MenuItem miExport = new MenuItem("Finanzen exportieren");
+        MenuItem miDelFinance = new MenuItem("ausgewählte Finanzeinträge löschen");
+        miDelFinance.setOnAction(a -> delFinance());
+
+        MenuItem miExport = new MenuItem("ausgewählte Finanzeinträge exportieren");
         miExport.setOnAction(a -> {
             List<FinanceData> data = guiFinance.getSelList();
             if (!data.isEmpty()) {
@@ -67,33 +75,38 @@ public class GuiFinanceMenu extends VBox {
             }
         });
 
-        mb.getItems().addAll(miExport);
+        mb.getItems().addAll(miAddFinance, miChangeFinance,
+                new SeparatorMenuItem(), miDelFinance,
+                new SeparatorMenuItem(), miExport);
 
         Button btnNew = PButton.getButton(new ProgIcons().ICON_BUTTON_ADD, "neuen Finanzeintrag anlegen");
-        btnNew.setOnAction(a -> {
-            FinanceData financeData = FinanceFactory.getNewFinanceData(clubConfig, new PLocalDate(),
-                    0, clubConfig.financeAccountDataList.get(0), clubConfig.financeCategoryDataList.get(0));
+        btnNew.setOnAction(a -> addNewFinance());
 
-            TransactionData transactionData = financeData.getTransactionDataList().size() > 0 ?
-                    financeData.getTransactionDataList().get(0) : null;
-            if (new DataDialogController(clubConfig, DataDialogController.OPEN.FINANCE_PANE,
-                    null, null, financeData, transactionData).isOk()) {
-                clubConfig.financeDataList.add(financeData);
-//                guiFinance.selectFinance(financeData);
-            }
-        });
+        Button btnDel = PButton.getButton(new ProgIcons().ICON_BUTTON_REMOVE, "ausgewählte Finanzeinträge löschen");
+        btnDel.setOnAction(a -> delFinance());
 
-        Button btnDel = PButton.getButton(new ProgIcons().ICON_BUTTON_REMOVE, "Finanzeintrag löschen");
-        btnDel.setOnAction(a -> {
-            List<FinanceData> transactionData = guiFinance.getSelList();
-            if (!transactionData.isEmpty()) {
-                clubConfig.financeDataList.financeDataListRemoveAll(transactionData);
-            }
-        });
-
-        Button btnChange = PButton.getButton(new ProgIcons().ICON_BUTTON_MEMBER_CHANGE, "Finanzeintrag ändern");
+        Button btnChange = PButton.getButton(new ProgIcons().ICON_BUTTON_MEMBER_CHANGE, "ausgewählten Finanzeintrag ändern");
         btnChange.setOnAction(a -> guiFinance.changeFinances());
         getChildren().addAll(mb, btnNew, btnDel, btnChange);
     }
 
+    private void addNewFinance() { //todo -> factory
+        FinanceData financeData = FinanceFactory.getNewFinanceData(clubConfig, new PLocalDate(),
+                0, clubConfig.financeAccountDataList.get(0), clubConfig.financeCategoryDataList.get(0));
+
+        TransactionData transactionData = financeData.getTransactionDataList().size() > 0 ?
+                financeData.getTransactionDataList().get(0) : null;
+        if (new DataDialogController(clubConfig, DataDialogController.OPEN.FINANCE_PANE,
+                null, null, financeData, transactionData).isOk()) {
+            clubConfig.financeDataList.add(financeData);
+//                guiFinance.selectFinance(financeData);
+        }
+    }
+
+    private void delFinance() {
+        List<FinanceData> transactionData = guiFinance.getSelList();
+        if (!transactionData.isEmpty()) {
+            clubConfig.financeDataList.financeDataListRemoveAll(transactionData);
+        }
+    }
 }

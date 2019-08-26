@@ -184,7 +184,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
         return ret;
     }
 
-    public void showDialog() {
+    private void showDialog() {
         TransactionData transactionData = tableView.getSelectionModel().getSelectedItem();
         if (financeData == null || transactionData == null) {
             new PAlert().showInfoNoSelection(clubConfig.getStage());

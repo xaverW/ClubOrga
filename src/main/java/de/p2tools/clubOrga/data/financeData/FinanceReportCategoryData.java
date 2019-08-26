@@ -17,37 +17,33 @@
 
 package de.p2tools.clubOrga.data.financeData;
 
-import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import de.p2tools.clubOrga.config.prog.ProgConst;
 
 public class FinanceReportCategoryData {
 
     //    private final LongProperty id = new SimpleLongProperty(0);
-    private final ObjectProperty<FinanceCategoryData> financeCategoryData = new SimpleObjectProperty<>();
-    private final LongProperty betrag = new SimpleLongProperty(0);
+    private long financeAccountId = ProgConst.FILTER_ID_NOT_SELECTED;
+    private long betrag = 0;
 
     public FinanceReportCategoryData() {
     }
 
-    public FinanceReportCategoryData(FinanceCategoryData id, long betrag) {
-        setFinanceCategoryData(id);
+    public FinanceReportCategoryData(long id, long betrag) {
+        this.financeAccountId = financeAccountId;
         setBetrag(betrag);
     }
 
-    public FinanceCategoryData getFinanceCategoryData() {
-        return financeCategoryData.get();
+    public long getFinanceAccountId() {
+        return financeAccountId;
     }
 
-    public ObjectProperty<FinanceCategoryData> financeCategoryDataProperty() {
-        return financeCategoryData;
-    }
+//    public ObjectProperty<FinanceAccountData> financeAccountIdProperty() {
+//        return financeAccountId;
+//    }
 
-    public void setFinanceCategoryData(FinanceCategoryData financeCategoryData) {
-        this.financeCategoryData.set(financeCategoryData);
-    }
+//    public void setFinanceAccountId(FinanceAccountData financeAccountId) {
+//        this.financeAccountId.set(financeAccountId);
+//    }
 
 //    public long getId() {
 //        return id.get();
@@ -62,14 +58,14 @@ public class FinanceReportCategoryData {
 //    }
 
     public long getBetrag() {
-        return betrag.get();
-    }
-
-    public LongProperty betragProperty() {
         return betrag;
     }
 
+//    public LongProperty betragProperty() {
+//        return betrag;
+//    }
+
     public void setBetrag(long betrag) {
-        this.betrag.set(betrag);
+        this.betrag = betrag;
     }
 }

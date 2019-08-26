@@ -25,6 +25,8 @@ import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
 import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
@@ -38,15 +40,18 @@ import javafx.scene.layout.VBox;
 
 public class GuiFinanceReport extends BorderPane {
 
-    private final ScrollPane scrollPaneTable = new ScrollPane();
     private final HBox hBoxSelect = new HBox(10);
     private final VBox vBoxTable = new VBox(0);
+    private final ScrollPane scrollPaneTable = new ScrollPane();
     private final TableView<FinanceReportData> tableView = new TableView<>();
+    private final ScrollPane scrollPaneTableSum = new ScrollPane();
+    private final TableView<FinanceReportData> tableViewSum = new TableView<>();
 
     private final ClubConfig clubConfig;
 
     private final FilteredList<FinanceReportData> filteredList;
     private final SortedList<FinanceReportData> sortedList;
+    private final SortedList<FinanceReportData> sortedListSum;
 
     private final GuiFinanceReportFilterPane reportFilterPane;
     private final GuiFinanceReportMenu reportMenu;
@@ -57,6 +62,7 @@ public class GuiFinanceReport extends BorderPane {
 
         filteredList = clubConfig.financeReportDataList.getFilteredList();
         sortedList = clubConfig.financeReportDataList.getSortedList();
+        sortedListSum = clubConfig.financeReportDataListSum.getSortedList();
 
         reportFilterPane = new GuiFinanceReportFilterPane(clubConfig);
         reportMenu = new GuiFinanceReportMenu(clubConfig, this);
@@ -68,8 +74,13 @@ public class GuiFinanceReport extends BorderPane {
         scrollPaneTable.setContent(tableView);
         scrollPaneTable.setMaxHeight(Double.MAX_VALUE);
 
+        scrollPaneTableSum.setFitToHeight(true);
+        scrollPaneTableSum.setFitToWidth(true);
+        scrollPaneTableSum.setContent(tableViewSum);
+        scrollPaneTableSum.setMaxHeight(Double.MAX_VALUE);
+
         VBox.setVgrow(scrollPaneTable, Priority.ALWAYS);
-        vBoxTable.getChildren().addAll(scrollPaneTable, hBoxSelect);
+        vBoxTable.getChildren().addAll(scrollPaneTable, scrollPaneTableSum, hBoxSelect);
 
         setStyle("-fx-background-color: -fx-background;");
 
@@ -129,18 +140,43 @@ public class GuiFinanceReport extends BorderPane {
     }
 
     private void initTable() {
-        tableView.setTableMenuButtonVisible(true);
+        tableView.setTableMenuButtonVisible(false);
         tableView.setEditable(false);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+        tableViewSum.setTableMenuButtonVisible(false);
+        tableViewSum.setEditable(false);
+        tableViewSum.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableViewSum.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        tableViewSum.setMinHeight(0);
+        tableViewSum.getStyleClass().add("noheader");
 
         // create the date
         FinanceReportFactory.makeReportData(clubConfig);
         // init the table column
         initColumn(tableView);
+        initColumnSum(tableViewSum);
+        tableView.getColumns().stream().forEach(c -> c.setReorderable(false));
+        tableViewSum.getColumns().stream().forEach(c -> {
+            c.setResizable(false);
+            c.setReorderable(false);
+        });
+        for (int i = 0; i < tableView.getColumns().size(); ++i) {
+            final int ii = i;
+            tableView.getColumns().get(i).widthProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    System.out.println(tableView.getColumns().get(ii).getPrefWidth());
+                    tableViewSum.getColumns().get(ii).setPrefWidth(newValue.doubleValue());
+                }
+            });
+        }
         // bind the date with the table
         tableView.setItems(sortedList);
+        tableViewSum.setItems(sortedListSum);
         sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+        sortedListSum.comparatorProperty().bind(tableViewSum.comparatorProperty());
     }
 
     private void setFilter(boolean onlySelected) {
@@ -208,6 +244,52 @@ public class GuiFinanceReport extends BorderPane {
             );
             column.getStyleClass().add("catColumn");
             tableView.getColumns().add(column);
+        }
+
+    }
+
+    private void initColumnSum(TableView table) {
+        final TableColumn<FinanceData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NR);
+        final TableColumn<FinanceData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.BELEG_NR);
+        final TableColumn<FinanceData, Integer> geschaeftsJahrColumn = new TableColumn<>(FinanceFieldNames.GESCHAEFTSJAHR);
+        final TableColumn<FinanceData, PLocalDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGS_DATUM);
+
+        final TableColumn<FinanceData, Long> gesamtbetragColumn = new TableColumn<>(FinanceFieldNames.GESAMTBETRAG);
+        gesamtbetragColumn.setCellValueFactory(new PropertyValueFactory<>("gesamtbetrag"));
+        gesamtbetragColumn.setCellFactory((final TableColumn<FinanceData, Long> param) -> new PTableFactory.PCellMoney<>());
+        gesamtbetragColumn.getStyleClass().add("moneyColumn");
+
+        table.getColumns().addAll(nrColumn, belegNrColumn, geschaeftsJahrColumn,
+                buchungsDatumColumn, /*erstellDatumColumn,*/
+                gesamtbetragColumn);
+
+        for (int i = 0; i < clubConfig.financeReportDataList.getAccounts().size(); i++) {
+            final int curCol = i;
+            final TableColumn<FinanceReportData, Long> column = new TableColumn<>(
+                    clubConfig.financeReportDataList.getAccounts().get(i)
+            );
+            column.setCellFactory((final TableColumn<FinanceReportData, Long> param) ->
+                    new PTableFactory.PCellMoney<>(false));
+            column.setCellValueFactory(
+                    param -> new ReadOnlyObjectWrapper<>(param.getValue().getAccountList().get(curCol).getBetrag())
+
+            );
+            column.getStyleClass().add("accColumn");
+            tableViewSum.getColumns().add(column);
+        }
+
+        for (int i = 0; i < clubConfig.financeReportDataList.getCategories().size(); i++) {
+            final int curCol = i;
+            final TableColumn<FinanceReportData, Long> column = new TableColumn<>(
+                    clubConfig.financeReportDataList.getCategories().get(i)
+            );
+            column.setCellFactory((final TableColumn<FinanceReportData, Long> param) ->
+                    new PTableFactory.PCellMoney<>(false));
+            column.setCellValueFactory(
+                    param -> new ReadOnlyObjectWrapper<>(param.getValue().getCategoryList().get(curCol).getBetrag())
+            );
+            column.getStyleClass().add("catColumn");
+            tableViewSum.getColumns().add(column);
         }
 
     }

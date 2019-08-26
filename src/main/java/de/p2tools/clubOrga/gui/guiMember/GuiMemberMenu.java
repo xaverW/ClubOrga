@@ -32,6 +32,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -61,6 +62,15 @@ public class GuiMemberMenu extends VBox {
         final MenuButton mb = new MenuButton("");
         mb.setGraphic(new ProgIcons().ICON_TOOLBAR_MENU);
         mb.getStyleClass().add("btnFunction");
+
+        // Mitglied
+        MenuItem miChangeMember = new MenuItem("ausgewähltes Mitglied ändern");
+        miChangeMember.setOnAction(a -> guiMember.changeMember());
+
+        MenuItem miAddMember = new MenuItem("ein neues Mitglied anlegen");
+        miAddMember.setOnAction(a -> addNewMember());
+        MenuItem miRemoveMember = new MenuItem("ausgewählte Mitglieder löschen");
+        miRemoveMember.setOnAction(a -> removeMember());
 
         // Beitrag
         MenuItem miAddFee = new MenuItem("einen Beitrag anlegen");
@@ -103,25 +113,19 @@ public class GuiMemberMenu extends VBox {
 //        Menu menuExport = new Menu("Mitglieder exoprtieren");
 //        menuExport.getItems().addAll(miExportSelMember, miExportMember, miImportMember);
 
-        mb.getItems().addAll(miAddFee, miMemberFee, miAllMemberFee, miNewsletter);
+        mb.getItems().addAll(miChangeMember,
+                new SeparatorMenuItem(), miAddMember, miRemoveMember,
+                new SeparatorMenuItem(), miAddFee, miMemberFee, miAllMemberFee,
+                new SeparatorMenuItem(), miNewsletter);
 
         // extra Buttons
         Button btnNew = PButton.getButton(new ProgIcons().ICON_BUTTON_ADD, "neues Mitglied anlegen");
         btnNew.setOnAction(a -> {
-            MemberData memberData = MemberFactory.getNewMemberData(clubConfig, "", true);
-            if (new DataDialogController(clubConfig, DataDialogController.OPEN.MEMBER_PANE,
-                    memberData, null, null, null).isOk()) {
-                clubConfig.memberDataList.add(memberData);
-            }
+            addNewMember();
         });
 
-        Button btnDel = PButton.getButton(new ProgIcons().ICON_BUTTON_REMOVE, "Mitglied löschen");
-        btnDel.setOnAction(a -> {
-            List<MemberData> data = guiMember.getSelList();
-            if (!data.isEmpty()) {
-                clubConfig.memberDataList.memberDataListRemoveAll(data);
-            }
-        });
+        Button btnDel = PButton.getButton(new ProgIcons().ICON_BUTTON_REMOVE, "ausgewähltes Mitglied löschen");
+        btnDel.setOnAction(a -> removeMember());
 
         Button btnChange = PButton.getButton(new ProgIcons().ICON_BUTTON_MEMBER_CHANGE, "Mitglied ändern");
         btnChange.setOnAction(a -> guiMember.changeMember());
@@ -156,4 +160,18 @@ public class GuiMemberMenu extends VBox {
         new CsvMemberImportDialogController(clubConfig.getStage(), clubConfig);
     }
 
+    private void addNewMember() {
+        MemberData memberData = MemberFactory.getNewMemberData(clubConfig, "", true);
+        if (new DataDialogController(clubConfig, DataDialogController.OPEN.MEMBER_PANE,
+                memberData, null, null, null).isOk()) {
+            clubConfig.memberDataList.add(memberData);
+        }
+    }
+
+    private void removeMember() {
+        List<MemberData> data = guiMember.getSelList();
+        if (!data.isEmpty()) {
+            clubConfig.memberDataList.memberDataListRemoveAll(data);
+        }
+    }
 }
