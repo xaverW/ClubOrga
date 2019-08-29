@@ -21,12 +21,8 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 
 public class FinanceReportAccountData {
 
-    //    private final LongProperty id = new SimpleLongProperty(0);
     private long financeAccountId = ProgConst.FILTER_ID_NOT_SELECTED;
     private long betrag = 0;
-
-    public FinanceReportAccountData() {
-    }
 
     public FinanceReportAccountData(long financeAccountId, long betrag) {
         this.financeAccountId = financeAccountId;
@@ -37,33 +33,9 @@ public class FinanceReportAccountData {
         return financeAccountId;
     }
 
-//    public ObjectProperty<FinanceAccountData> financeAccountIdProperty() {
-//        return financeAccountId;
-//    }
-
-//    public void setFinanceAccountId(FinanceAccountData financeAccountId) {
-//        this.financeAccountId.set(financeAccountId);
-//    }
-
-//    public long getId() {
-//        return id.get();
-//    }
-//
-//    public LongProperty idProperty() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id.set(id);
-//    }
-
     public long getBetrag() {
         return betrag;
     }
-
-//    public LongProperty betragProperty() {
-//        return betrag;
-//    }
 
     public void setBetrag(long betrag) {
         this.betrag = betrag;

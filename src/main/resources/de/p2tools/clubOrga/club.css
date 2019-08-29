@@ -451,26 +451,26 @@
 }
 
 /* table finance report*/
-    .table-cell.moneyColumn {
-        -fx-alignment: center-right;
-    }
-    .table-cell.accColumn {
-        -fx-alignment: center-right;
-        -fx-text-fill: green;
-    }
-    .table-cell.catColumn {
-        -fx-alignment: center-right;
-        -fx-text-fill: red;
-    }
+.table-cell.moneyColumn {
+    -fx-alignment: center-right;
+}
+.table-cell.accColumn {
+    -fx-alignment: center-right;
+    -fx-text-fill: green;
+}
+.table-cell.catColumn {
+    -fx-alignment: center-right;
+    -fx-text-fill: red;
+}
 
-    .table-view .column-header.accColumn {
-        -fx-base: #b7d4b0;
-        -fx-alignment: center-right;
-    }
-    .table-view .column-header.catColumn {
-        -fx-base: #d8a4a2;
-        -fx-alignment: center-right;
-    }
+.table-view .column-header.accColumn {
+    -fx-base: #b7d4b0;
+    -fx-alignment: center-right;
+}
+.table-view .column-header.catColumn {
+    -fx-base: #d8a4a2;
+    -fx-alignment: center-right;
+}
 
 
 .noheader .column-header-background {
@@ -479,6 +479,37 @@
     -fx-min-height: 0;
 }
 
+
+/* Hide the horizontal scrollbar of the summary table
+ * derived from http://blog.ngopal.com.np/2012/09/25/how-to-bind-vertical-scroll-in-multi-tableview/
+*/
+.sumtable .scroll-bar:horizontal .track{
+    -fx-padding: 0px;
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	-fx-background-radius: 0em;
+	-fx-border-radius: 2em;
+}
+
+.sumtable .scroll-bar:horizontal .increment-button ,
+.sumtable .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+	-fx-background-radius: 0em;
+	-fx-padding: 0 0 0 0;
+}
+
+.sumtable  .scroll-bar:horizontal .increment-arrow,
+.sumtable  .scroll-bar:horizontal .decrement-arrow {
+	-fx-shape: " ";
+	-fx-padding:0;
+}
+
+.sumtable .scroll-bar:horizontal .thumb {
+    -fx-background-color: transparent;
+	-fx-background-insets: 0, 0, 0;
+	-fx-background-radius: 2em;
+    -fx-padding: 0px;
+}
 
 }
 

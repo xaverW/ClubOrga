@@ -19,8 +19,8 @@ package de.p2tools.clubOrga.gui.guiMember;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
-import de.p2tools.clubOrga.controller.export.CsvExportDialogController;
-import de.p2tools.clubOrga.controller.export.CsvMemberImportDialogController;
+import de.p2tools.clubOrga.controller.export.ExportCsvDialogController;
+import de.p2tools.clubOrga.controller.export.ImportCsvMemberDialogController;
 import de.p2tools.clubOrga.controller.newsletter.Newsletter;
 import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.clubOrga.data.memberData.MemberData;
@@ -148,16 +148,16 @@ public class GuiMemberMenu extends VBox {
     private void exportSelMember() {
         List<MemberData> memberData = clubConfig.guiMember.getSelList();
         if (!memberData.isEmpty()) {
-            new CsvExportDialogController(clubConfig.getStage(), clubConfig, memberData, null);
+            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, memberData, null);
         }
     }
 
     private void exportMember() {
-        new CsvExportDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList, null);
+        new ExportCsvDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList, null);
     }
 
     private void importMember() {
-        new CsvMemberImportDialogController(clubConfig.getStage(), clubConfig);
+        new ImportCsvMemberDialogController(clubConfig.getStage(), clubConfig);
     }
 
     private void addNewMember() {

@@ -110,6 +110,9 @@ public class ProgSaveFactory {
         if (clubConfig.guiFinanceCategory != null) {
             clubConfig.guiFinanceCategory.saveTable();
         }
+        if (clubConfig.guiFinanceReport != null) {
+            clubConfig.guiFinanceReport.saveTable();
+        }
 
     }
 }

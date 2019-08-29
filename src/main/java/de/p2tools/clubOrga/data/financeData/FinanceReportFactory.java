@@ -20,6 +20,7 @@ package de.p2tools.clubOrga.data.financeData;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
+import javafx.collections.transformation.FilteredList;
 
 import java.util.ArrayList;
 
@@ -32,17 +33,15 @@ public class FinanceReportFactory {
     }
 
     public static void makeReportData(ClubConfig clubConfig) {
+        clubConfig.financeReportDataList.clear();
+
         // tabel header
-        clubConfig.financeReportDataList.getAccounts().clear();
         clubConfig.financeAccountDataList.stream().forEach(acc -> {
             clubConfig.financeReportDataList.getAccounts().add(acc.getKonto());
         });
-
-        clubConfig.financeReportDataList.getCategories().clear();
         clubConfig.financeCategoryDataList.stream().forEach(cat -> {
             clubConfig.financeReportDataList.getCategories().add(cat.getKategorie());
         });
-
 
         // table data
         clubConfig.financeDataList.stream().forEach(financeData -> {
@@ -85,43 +84,42 @@ public class FinanceReportFactory {
 
             }
 
-
+            // Daten in Liste eintragen
             clubConfig.financeReportDataList.add(reportData);
         });
 
+    }
+
+    public static void makeSumReportData(ClubConfig clubConfig) {
         long sum = 0;
-        FinanceReportData reportDataEmpty = new FinanceReportData();
         FinanceReportData reportDataSum = new FinanceReportData();
 
         sum = 0;
-        for (FinanceReportData reportData : clubConfig.financeReportDataList) {
+        final FilteredList<FinanceReportData> financeReportData = clubConfig.financeReportDataList.getFilteredList();
+        for (FinanceReportData reportData : financeReportData) {
             sum += reportData.getGesamtbetrag();
         }
         reportDataSum.setGesamtbetrag(sum);
-        reportDataEmpty.setGesamtbetrag(0);
 
         for (int i = 0; i < clubConfig.financeAccountDataList.size(); ++i) {
             sum = 0;
-            for (FinanceReportData reportData : clubConfig.financeReportDataList) {
+            for (FinanceReportData reportData : financeReportData) {
                 sum += reportData.getAccountList().get(i).getBetrag();
             }
             final long id = clubConfig.financeAccountDataList.get(i).getId();
             reportDataSum.getAccountList().add(new FinanceReportAccountData(id, sum));
-            reportDataEmpty.getAccountList().add(new FinanceReportAccountData(id, 0));
         }
 
         for (int i = 0; i < clubConfig.financeCategoryDataList.size(); ++i) {
             sum = 0;
-            for (FinanceReportData reportData : clubConfig.financeReportDataList) {
+            for (FinanceReportData reportData : financeReportData) {
                 sum += reportData.getCategoryList().get(i).getBetrag();
             }
             final long id = clubConfig.financeCategoryDataList.get(i).getId();
             reportDataSum.getCategoryList().add(new FinanceReportCategoryData(id, sum));
-            reportDataEmpty.getCategoryList().add(new FinanceReportCategoryData(id, 0));
         }
 
+        clubConfig.financeReportDataListSum.clear();
         clubConfig.financeReportDataListSum.add(reportDataSum);
-
     }
-
 }

@@ -19,7 +19,7 @@ package de.p2tools.clubOrga.gui.guiFinanceReport;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
-import de.p2tools.clubOrga.controller.export.CsvExportDialogController;
+import de.p2tools.clubOrga.controller.export.ExportCsvDialogController;
 import de.p2tools.clubOrga.data.financeData.FinanceReportDataList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -58,7 +58,7 @@ public class GuiFinanceReportMenu extends VBox {
             if (dataArr == null || dataArr.isEmpty()) {
                 return;
             }
-            new CsvExportDialogController(clubConfig.getStage(), clubConfig, null, dataArr);
+            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, null, dataArr);
         });
 
         mb.getItems().addAll(miExport);

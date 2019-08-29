@@ -30,6 +30,7 @@ public class ClubTable {
     public enum TABLE {
         MEMBER, MEMBER_RATE, MEMBER_STATE, MEMBER_PAYMENT_TYPE, ADD_MISSING_FEE,
         FEE, PAY_FEE, FINANCE, FINANCE_ACCOUNT, FINANCE_CATEGORY, TRANSACTION,
+        FINANCE_REPORT,
         CALCULATION_CATEGORY, CALCULATION_ACCOUNT
     }
 
@@ -163,6 +164,14 @@ public class ClubTable {
                 confOrder = clubConfig.TRANSACTION_GUI_TABLE_ORDER;
                 break;
 
+            case FINANCE_REPORT:
+                confWidth = clubConfig.FINANCE_REPORT_GUI_TABLE_WIDTH;
+                confSort = clubConfig.FINANCE_REPORT_GUI_TABLE_SORT;
+                confUpDown = clubConfig.FINANCE_REPORT_GUI_TABLE_UPDOWN;
+                confVis = clubConfig.FINANCE_REPORT_GUI_TABLE_VIS;
+                confOrder = clubConfig.FINANCE_REPORT_GUI_TABLE_ORDER;
+                break;
+
             case CALCULATION_CATEGORY:
                 confWidth = clubConfig.CALCULATION_CATEGORY_GUI_TABLE_WIDTH;
                 confSort = clubConfig.CALCULATION_CATEGORY_GUI_TABLE_SORT;
@@ -226,6 +235,10 @@ public class ClubTable {
 
             case TRANSACTION:
                 tArray = new ClubTableTransaction(clubConfig).initColumn(table);
+                break;
+
+            case FINANCE_REPORT:
+                tArray = new ClubTableFinanceReport(clubConfig).initColumn(table);
                 break;
 
             case CALCULATION_CATEGORY:

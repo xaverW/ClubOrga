@@ -58,7 +58,7 @@ public class FinanceReportFilterPredicate {
             predicate = predicate.and(financeReportData -> financeReportData.getAccountList()
                     .stream()
                     .anyMatch(financeReportAccountData ->
-                            (financeReportAccountData.getFinanceAccountId() == searchAccountData.getId()))
+                            financeReportAccountData.getFinanceAccountId() == searchAccountData.getId())
             );
         }
 
@@ -67,7 +67,7 @@ public class FinanceReportFilterPredicate {
             predicate = predicate.and(financeReportData -> financeReportData.getCategoryList()
                     .stream()
                     .anyMatch(financeReportCategoryData ->
-                            (financeReportCategoryData.getFinanceAccountId() == searchCategoryData.getId()))
+                            financeReportCategoryData.getFinanceCategoryId() == searchCategoryData.getId())
             );
         }
 

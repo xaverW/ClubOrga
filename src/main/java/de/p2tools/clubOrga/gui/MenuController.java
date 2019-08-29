@@ -23,9 +23,9 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.controller.ProgQuitFactory;
-import de.p2tools.clubOrga.controller.export.CsvExportDialogController;
-import de.p2tools.clubOrga.controller.export.CsvMemberImportDialogController;
-import de.p2tools.clubOrga.controller.export.ZipExportDialogController;
+import de.p2tools.clubOrga.controller.export.ExportCsvDialogController;
+import de.p2tools.clubOrga.controller.export.ExportZipDialogController;
+import de.p2tools.clubOrga.controller.export.ImportCsvMemberDialogController;
 import de.p2tools.clubOrga.data.deleteData.DeleteDataFactory;
 import de.p2tools.clubOrga.data.demoData.DemoData;
 import de.p2tools.clubOrga.gui.dialog.AboutDialogController;
@@ -81,7 +81,7 @@ public class MenuController {
         // Menü Export
         miExportMember.setOnAction(event -> exportAllMember());
         miImportMember.setOnAction(event -> importMember());
-        miExportClub.setOnAction(event -> new ZipExportDialogController(clubConfig));
+        miExportClub.setOnAction(event -> new ExportZipDialogController(clubConfig));
 
         menuExport.getItems().addAll(miExportMember, miImportMember, miExportClub);
 
@@ -158,10 +158,10 @@ public class MenuController {
 //    }
 
     private void exportAllMember() {
-        new CsvExportDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList, null);
+        new ExportCsvDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList, null);
     }
 
     private void importMember() {
-        new CsvMemberImportDialogController(clubConfig.getStage(), clubConfig);
+        new ImportCsvMemberDialogController(clubConfig.getStage(), clubConfig);
     }
 }

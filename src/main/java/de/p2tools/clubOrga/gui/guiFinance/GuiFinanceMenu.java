@@ -19,6 +19,7 @@ package de.p2tools.clubOrga.gui.guiFinance;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
+import de.p2tools.clubOrga.controller.newsletter.exportFinances.ExportFinanceDataList;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFactory;
 import de.p2tools.clubOrga.data.financeData.TransactionData;
@@ -71,13 +72,12 @@ public class GuiFinanceMenu extends VBox {
         miExport.setOnAction(a -> {
             List<FinanceData> data = guiFinance.getSelList();
             if (!data.isEmpty()) {
-//                new ExportFinanceDataList(clubConfig).exportFinanceData(data);
+                new ExportFinanceDataList(clubConfig).exportFinanceData(data);
             }
         });
 
         mb.getItems().addAll(miAddFinance, miChangeFinance,
-                new SeparatorMenuItem(), miDelFinance,
-                new SeparatorMenuItem(), miExport);
+                new SeparatorMenuItem(), miDelFinance/*, miExport*/);
 
         Button btnNew = PButton.getButton(new ProgIcons().ICON_BUTTON_ADD, "neuen Finanzeintrag anlegen");
         btnNew.setOnAction(a -> addNewFinance());

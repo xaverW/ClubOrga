@@ -93,8 +93,7 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty FINANCE_CATEGORY_DATA_DIALOG_SIZE = addStr("finance-category-data-dialog-size");
     public StringProperty PAYMENT_TYPE_DATA_DIALOG_SIZE = addStr("payment-type-data-dialog-size");
     public StringProperty ADD_DEMO_DATA_DIALOG_SIZE = addStr("add-demo-data-dialog-size");
-    public StringProperty EXPORT_MEMBER_CSV_DIALOG_SIZE = addStr("export-member-csv-dialog-size", "700:400");
-    public StringProperty EXPORT_FINANCE_CSV_DIALOG_SIZE = addStr("export-finance-csv-dialog-size", "700:400");
+    public StringProperty EXPORT_CSV_DIALOG_SIZE = addStr("export-member-csv-dialog-size", "700:400");
     public StringProperty IMPORT_MEMBER_CSV_DIALOG_SIZE = addStr("import-member-csv-dialog-size", "700:400");
     public StringProperty EXPORT_CLUB_DIALOG_SIZE = addStr("export-club-dialog-size", "700:400");
     public StringProperty DELETE_ALL_DATA_DIALOG_SIZE = addStr("delete-all-data-dialog-size", "600:300");
@@ -246,6 +245,13 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty TRANSACTION_GUI_TABLE_UPDOWN = addStr("transaction-gui-table-upDown");
     public StringProperty TRANSACTION_GUI_TABLE_VIS = addStr("transaction-gui-table-vis");
     public StringProperty TRANSACTION_GUI_TABLE_ORDER = addStr("transaction-gui-table-order");
+
+    // FinaceReport
+    public StringProperty FINANCE_REPORT_GUI_TABLE_WIDTH = addStrC("FinanceReport", "finance-report-gui-table-width");
+    public StringProperty FINANCE_REPORT_GUI_TABLE_SORT = addStr("finance-report-gui-table-sort");
+    public StringProperty FINANCE_REPORT_GUI_TABLE_UPDOWN = addStr("finance-report-gui-table-upDown");
+    public StringProperty FINANCE_REPORT_GUI_TABLE_VIS = addStr("finance-report-gui-table-vis");
+    public StringProperty FINANCE_REPORT_GUI_TABLE_ORDER = addStr("finance-report-gui-table-order");
 
     // Calculation Category
     public StringProperty CALCULATION_CATEGORY_GUI_TABLE_WIDTH = addStrC("Calculation Category", "calculation-category-gui-table-width");

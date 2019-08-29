@@ -41,7 +41,7 @@ import javafx.scene.layout.Priority;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ZipExportDialogController extends PDialogExtra {
+public class ExportZipDialogController extends PDialogExtra {
 
     private final Button btnOk = new Button("Ok");
     private final Button btnCancel = new Button("Abbrechen");
@@ -56,7 +56,7 @@ public class ZipExportDialogController extends PDialogExtra {
     private boolean ok = false;
 
 
-    public ZipExportDialogController(ClubConfig clubConfig) {
+    public ExportZipDialogController(ClubConfig clubConfig) {
         super(clubConfig.getStage(), clubConfig.EXPORT_CLUB_DIALOG_SIZE, "Verein exportieren");
 
         this.clubConfig = clubConfig;

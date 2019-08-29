@@ -40,7 +40,7 @@ import javafx.stage.Stage;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class CsvMemberImportDialogController extends PDialogExtra {
+public class ImportCsvMemberDialogController extends PDialogExtra {
 
     private final Button btnOk = new Button("Ok");
     private final Button btnCancel = new Button("Abbrechen");
@@ -53,7 +53,7 @@ public class CsvMemberImportDialogController extends PDialogExtra {
     private boolean ok = false;
 
 
-    public CsvMemberImportDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig) {
+    public ImportCsvMemberDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig) {
         super(ownerForCenteringDialog, clubConfig.IMPORT_MEMBER_CSV_DIALOG_SIZE, "Mitglieder aus CVS-Datei importieren");
 
         this.clubConfig = clubConfig;

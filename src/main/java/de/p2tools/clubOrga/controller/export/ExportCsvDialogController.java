@@ -45,7 +45,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class CsvExportDialogController extends PDialogExtra {
+public class ExportCsvDialogController extends PDialogExtra {
 
     private final Button btnOk = new Button("Ok");
     private final Button btnCancel = new Button("Abbrechen");
@@ -62,9 +62,11 @@ public class CsvExportDialogController extends PDialogExtra {
     private boolean ok = false;
     private boolean memberData = false;
 
-    public CsvExportDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
-                                     List<MemberData> memberDataList, FinanceReportDataList financeDataList) {
-        super(ownerForCenteringDialog, clubConfig.EXPORT_MEMBER_CSV_DIALOG_SIZE, "Mitglieder in CVS-Datei exportieren");
+    public ExportCsvDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
+                                     List<MemberData> memberDataList,
+                                     FinanceReportDataList financeDataList) {
+        super(ownerForCenteringDialog, clubConfig.EXPORT_CSV_DIALOG_SIZE,
+                "Daten in CVS-Datei exportieren");
 
         this.clubConfig = clubConfig;
         this.memberDataList = memberDataList;

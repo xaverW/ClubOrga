@@ -83,6 +83,13 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
         return HEADERS;
     }
 
+    @Override
+    public void clear() {
+        super.clear();
+        accounts.clear();
+        categories.clear();
+    }
+
     public void clearSelected() {
         this.stream().forEach(financeReportData -> financeReportData.setSelected(false));
     }

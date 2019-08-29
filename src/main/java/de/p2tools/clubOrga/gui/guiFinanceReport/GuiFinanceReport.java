@@ -17,34 +17,36 @@
 package de.p2tools.clubOrga.gui.guiFinanceReport;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.clubOrga.data.financeData.FinanceData;
-import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.clubOrga.data.financeData.FinanceReportFactory;
+import de.p2tools.clubOrga.gui.table.ClubTable;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
+import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Set;
+
 public class GuiFinanceReport extends BorderPane {
 
     private final HBox hBoxSelect = new HBox(10);
     private final VBox vBoxTable = new VBox(0);
-    private final ScrollPane scrollPaneTable = new ScrollPane();
+
     private final TableView<FinanceReportData> tableView = new TableView<>();
-    private final ScrollPane scrollPaneTableSum = new ScrollPane();
     private final TableView<FinanceReportData> tableViewSum = new TableView<>();
 
     private final ClubConfig clubConfig;
@@ -53,8 +55,9 @@ public class GuiFinanceReport extends BorderPane {
     private final SortedList<FinanceReportData> sortedList;
     private final SortedList<FinanceReportData> sortedListSum;
 
-    private final GuiFinanceReportFilterPane reportFilterPane;
-    private final GuiFinanceReportMenu reportMenu;
+    private final GuiFinanceReportFilterPane guiFinanceReportFilterPane;
+    private final GuiFinanceReportMenu guiFinanceReportMenu;
+    private boolean startUpShown = false;
 
 
     public GuiFinanceReport(ClubConfig clubConfig) {
@@ -64,49 +67,96 @@ public class GuiFinanceReport extends BorderPane {
         sortedList = clubConfig.financeReportDataList.getSortedList();
         sortedListSum = clubConfig.financeReportDataListSum.getSortedList();
 
-        reportFilterPane = new GuiFinanceReportFilterPane(clubConfig);
-        reportMenu = new GuiFinanceReportMenu(clubConfig, this);
-
-        addFilterListener();
-
-        scrollPaneTable.setFitToHeight(true);
-        scrollPaneTable.setFitToWidth(true);
-        scrollPaneTable.setContent(tableView);
-        scrollPaneTable.setMaxHeight(Double.MAX_VALUE);
-
-        scrollPaneTableSum.setFitToHeight(true);
-        scrollPaneTableSum.setFitToWidth(true);
-        scrollPaneTableSum.setContent(tableViewSum);
-        scrollPaneTableSum.setMaxHeight(Double.MAX_VALUE);
-
-        VBox.setVgrow(scrollPaneTable, Priority.ALWAYS);
-        vBoxTable.getChildren().addAll(scrollPaneTable, scrollPaneTableSum, hBoxSelect);
-
-        setStyle("-fx-background-color: -fx-background;");
+        guiFinanceReportFilterPane = new GuiFinanceReportFilterPane(clubConfig);
+        guiFinanceReportMenu = new GuiFinanceReportMenu(clubConfig, this);
 
         initCont();
         initSelButton();
         initTable();
+        addFilterListener();
     }
 
-    public void refreshTable() {
-        tableView.setItems(null);
-        tableView.getColumns().clear();
-        initTable();
-        tableView.refresh();
+    public Optional<FinanceReportData> getSel() {
+        final int selectedTableRow = tableView.getSelectionModel().getSelectedIndex();
+        if (selectedTableRow >= 0) {
+            return Optional.of(tableView.getSelectionModel().getSelectedItem());
+        } else {
+            new PAlert().showInfoNoSelection(clubConfig.getStage());
+            return Optional.empty();
+        }
+    }
+
+    public ArrayList<FinanceReportData> getSelList() {
+        final ArrayList<FinanceReportData> ret = new ArrayList<>();
+        ret.addAll(tableView.getSelectionModel().getSelectedItems());
+        if (ret.isEmpty()) {
+            new PAlert().showInfoNoSelection(clubConfig.getStage());
+        }
+        return ret;
+    }
+
+    public void saveTable() {
+        new ClubTable(clubConfig).saveTable(tableView, ClubTable.TABLE.FINANCE_REPORT);
+    }
+
+    public void resetTable() {
+        new ClubTable(clubConfig).resetTable(tableView, ClubTable.TABLE.FINANCE_REPORT);
+        new ClubTable(clubConfig).resetTable(tableViewSum, ClubTable.TABLE.FINANCE_REPORT);
+        addSumListener();
     }
 
     public void isShown() {
         if (tableView.getSelectionModel().getSelectedItem() == null) {
             tableView.getSelectionModel().selectFirst();
         }
+
+        createTheDataLists();
+        shownAtStartUp();
+    }
+
+    private void shownAtStartUp() {
+        if (startUpShown) {
+            return;
+        }
+        startUpShown = true;
+        bindTableScrollbars();
+    }
+
+    private void bindTableScrollbars() {
+        // synchronize scrollbars (must happen after table was made visible)
+        ScrollBar sc = findScrollBar(tableView, Orientation.HORIZONTAL);
+        ScrollBar scSum = findScrollBar(tableViewSum, Orientation.HORIZONTAL);
+        if (sc != null && scSum != null) {
+            sc.valueProperty().bindBidirectional(scSum.valueProperty());
+        } else {
+            PLog.errorLog(945120739, "no scrollbar found");
+        }
+    }
+
+    private ScrollBar findScrollBar(TableView<?> table, Orientation orientation) {
+        // synchronize scrollbars (must happen after table was made visible)
+        // this would be the preferred solution, but it doesn't work. it always gives back the vertical scrollbar
+        // return (ScrollBar) table.lookup(".scroll-bar:horizontal");
+
+        Set<Node> set = table.lookupAll(".scroll-bar");
+        for (Node node : set) {
+            ScrollBar bar = (ScrollBar) node;
+            if (bar.getOrientation() == orientation) {
+                return bar;
+            }
+        }
+        return null;
     }
 
     private void initCont() {
         GuiFactory.setPaneTitle(this, "Finanzübersicht");
+        setStyle("-fx-background-color: -fx-background;");
+
+        VBox.setVgrow(tableView, Priority.ALWAYS);
+        vBoxTable.getChildren().addAll(tableView, tableViewSum, hBoxSelect, guiFinanceReportFilterPane);
+
         setCenter(vBoxTable);
-        setRight(reportMenu);
-        setBottom(reportFilterPane);
+        setRight(guiFinanceReportMenu);
     }
 
     private void initSelButton() {
@@ -129,18 +179,16 @@ public class GuiFinanceReport extends BorderPane {
         btnClear.setOnAction(a -> tableView.getSelectionModel().clearSelection());
         btnInvert.setOnAction(a -> PTableFactory.invertSelection(tableView));
         btnOnlySel.setOnAction(a -> {
-//            if (getSelList().size() <= 0) {
-//                return;
-//            }
-//            setFilter(true);
+            if (getSelList().size() <= 0) {
+                return;
+            }
+            setFilter(true);
         });
-
-        btnClearFilter.setOnAction(a -> {
-        });
+        btnClearFilter.setOnAction(a -> guiFinanceReportFilterPane.clearFilter());
     }
 
     private void initTable() {
-        tableView.setTableMenuButtonVisible(false);
+        tableView.setTableMenuButtonVisible(true);
         tableView.setEditable(false);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
@@ -150,13 +198,44 @@ public class GuiFinanceReport extends BorderPane {
         tableViewSum.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableViewSum.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         tableViewSum.setMinHeight(0);
+        tableViewSum.setPrefHeight(40);
+        tableViewSum.setMaxHeight(40);
         tableViewSum.getStyleClass().add("noheader");
+        tableViewSum.getStyleClass().add("sumtable");
 
         // create the date
-        FinanceReportFactory.makeReportData(clubConfig);
+        createTheDataLists();
+
         // init the table column
-        initColumn(tableView);
-        initColumnSum(tableViewSum);
+        new ClubTable(clubConfig).setTable(tableView, ClubTable.TABLE.FINANCE_REPORT);
+        new ClubTable(clubConfig).setTable(tableViewSum, ClubTable.TABLE.FINANCE_REPORT);
+
+        tableView.setOnMousePressed(m -> {
+            if (m.getButton().equals(MouseButton.SECONDARY)) {
+                final Optional<FinanceReportData> financeReportData = getSel();
+                if (financeReportData.isPresent()) {
+                    ContextMenu contextMenu = new GuiFinanceReportContextMenu(clubConfig, tableView).
+                            getContextMenu(financeReportData.get());
+                    tableView.setContextMenu(contextMenu);
+                }
+            }
+        });
+
+        addSumListener();
+
+        // bind the date with the table
+        tableView.setItems(sortedList);
+        tableViewSum.setItems(sortedListSum);
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+        sortedListSum.comparatorProperty().bind(tableViewSum.comparatorProperty());
+    }
+
+    private void createTheDataLists() {
+        FinanceReportFactory.makeReportData(clubConfig);
+        FinanceReportFactory.makeSumReportData(clubConfig);
+    }
+
+    private void addSumListener() {
         tableView.getColumns().stream().forEach(c -> c.setReorderable(false));
         tableViewSum.getColumns().stream().forEach(c -> {
             c.setResizable(false);
@@ -164,19 +243,21 @@ public class GuiFinanceReport extends BorderPane {
         });
         for (int i = 0; i < tableView.getColumns().size(); ++i) {
             final int ii = i;
-            tableView.getColumns().get(i).widthProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    System.out.println(tableView.getColumns().get(ii).getPrefWidth());
-                    tableViewSum.getColumns().get(ii).setPrefWidth(newValue.doubleValue());
-                }
+            tableView.getColumns().get(i).widthProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println(tableView.getColumns().get(ii).getPrefWidth());
+                tableViewSum.getColumns().get(ii).setPrefWidth(newValue.doubleValue());
             });
         }
-        // bind the date with the table
-        tableView.setItems(sortedList);
-        tableViewSum.setItems(sortedListSum);
-        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
-        sortedListSum.comparatorProperty().bind(tableViewSum.comparatorProperty());
+        for (int i = 0; i < tableView.getColumns().size(); ++i) {
+            final int ii = i;
+            tableView.getColumns().get(i).visibleProperty().addListener((observable, oldValue, newValue) ->
+                    tableViewSum.getColumns().get(ii).setVisible(newValue));
+        }
+    }
+
+    private void addFilterListener() {
+        clubConfig.financesReportFilterChange.addListener((observable, oldValue, newValue) -> setFilter(false));
+        setFilter(false);
     }
 
     private void setFilter(boolean onlySelected) {
@@ -187,111 +268,7 @@ public class GuiFinanceReport extends BorderPane {
         }
 
         filteredList.setPredicate(FinanceReportFilterPredicate.getProperty(clubConfig, onlySelected));
-        boolean filtered = FinanceReportFilterPredicate.getFiltered();
-    }
-
-    private void addFilterListener() {
-        clubConfig.financesReportFilterChange.addListener((observable, oldValue, newValue) -> setFilter(false));
-        setFilter(false);
-    }
-
-    private void initColumn(TableView table) {
-        final TableColumn<FinanceData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
-
-        final TableColumn<FinanceData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.BELEG_NR);
-        belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("belegNr"));
-
-        final TableColumn<FinanceData, Integer> geschaeftsJahrColumn = new TableColumn<>(FinanceFieldNames.GESCHAEFTSJAHR);
-        geschaeftsJahrColumn.setCellValueFactory(new PropertyValueFactory<>("geschaeftsJahr"));
-
-        final TableColumn<FinanceData, PLocalDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGS_DATUM);
-        buchungsDatumColumn.setCellValueFactory(new PropertyValueFactory<>("buchungsDatum"));
-
-        final TableColumn<FinanceData, Long> gesamtbetragColumn = new TableColumn<>(FinanceFieldNames.GESAMTBETRAG);
-        gesamtbetragColumn.setCellValueFactory(new PropertyValueFactory<>("gesamtbetrag"));
-        gesamtbetragColumn.setCellFactory((final TableColumn<FinanceData, Long> param) -> new PTableFactory.PCellMoney<>());
-        gesamtbetragColumn.getStyleClass().add("moneyColumn");
-
-        table.getColumns().addAll(nrColumn, belegNrColumn, geschaeftsJahrColumn,
-                buchungsDatumColumn, /*erstellDatumColumn,*/
-                gesamtbetragColumn);
-
-        for (int i = 0; i < clubConfig.financeReportDataList.getAccounts().size(); i++) {
-            final int curCol = i;
-            final TableColumn<FinanceReportData, Long> column = new TableColumn<>(
-                    clubConfig.financeReportDataList.getAccounts().get(i)
-            );
-            column.setCellFactory((final TableColumn<FinanceReportData, Long> param) ->
-                    new PTableFactory.PCellMoney<>(false));
-            column.setCellValueFactory(
-                    param -> new ReadOnlyObjectWrapper<>(param.getValue().getAccountList().get(curCol).getBetrag())
-
-            );
-            column.getStyleClass().add("accColumn");
-            tableView.getColumns().add(column);
-        }
-
-        for (int i = 0; i < clubConfig.financeReportDataList.getCategories().size(); i++) {
-            final int curCol = i;
-            final TableColumn<FinanceReportData, Long> column = new TableColumn<>(
-                    clubConfig.financeReportDataList.getCategories().get(i)
-            );
-            column.setCellFactory((final TableColumn<FinanceReportData, Long> param) ->
-                    new PTableFactory.PCellMoney<>(false));
-            column.setCellValueFactory(
-                    param -> new ReadOnlyObjectWrapper<>(param.getValue().getCategoryList().get(curCol).getBetrag())
-            );
-            column.getStyleClass().add("catColumn");
-            tableView.getColumns().add(column);
-        }
-
-    }
-
-    private void initColumnSum(TableView table) {
-        final TableColumn<FinanceData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NR);
-        final TableColumn<FinanceData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.BELEG_NR);
-        final TableColumn<FinanceData, Integer> geschaeftsJahrColumn = new TableColumn<>(FinanceFieldNames.GESCHAEFTSJAHR);
-        final TableColumn<FinanceData, PLocalDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGS_DATUM);
-
-        final TableColumn<FinanceData, Long> gesamtbetragColumn = new TableColumn<>(FinanceFieldNames.GESAMTBETRAG);
-        gesamtbetragColumn.setCellValueFactory(new PropertyValueFactory<>("gesamtbetrag"));
-        gesamtbetragColumn.setCellFactory((final TableColumn<FinanceData, Long> param) -> new PTableFactory.PCellMoney<>());
-        gesamtbetragColumn.getStyleClass().add("moneyColumn");
-
-        table.getColumns().addAll(nrColumn, belegNrColumn, geschaeftsJahrColumn,
-                buchungsDatumColumn, /*erstellDatumColumn,*/
-                gesamtbetragColumn);
-
-        for (int i = 0; i < clubConfig.financeReportDataList.getAccounts().size(); i++) {
-            final int curCol = i;
-            final TableColumn<FinanceReportData, Long> column = new TableColumn<>(
-                    clubConfig.financeReportDataList.getAccounts().get(i)
-            );
-            column.setCellFactory((final TableColumn<FinanceReportData, Long> param) ->
-                    new PTableFactory.PCellMoney<>(false));
-            column.setCellValueFactory(
-                    param -> new ReadOnlyObjectWrapper<>(param.getValue().getAccountList().get(curCol).getBetrag())
-
-            );
-            column.getStyleClass().add("accColumn");
-            tableViewSum.getColumns().add(column);
-        }
-
-        for (int i = 0; i < clubConfig.financeReportDataList.getCategories().size(); i++) {
-            final int curCol = i;
-            final TableColumn<FinanceReportData, Long> column = new TableColumn<>(
-                    clubConfig.financeReportDataList.getCategories().get(i)
-            );
-            column.setCellFactory((final TableColumn<FinanceReportData, Long> param) ->
-                    new PTableFactory.PCellMoney<>(false));
-            column.setCellValueFactory(
-                    param -> new ReadOnlyObjectWrapper<>(param.getValue().getCategoryList().get(curCol).getBetrag())
-            );
-            column.getStyleClass().add("catColumn");
-            tableViewSum.getColumns().add(column);
-        }
-
+        FinanceReportFactory.makeSumReportData(clubConfig);
     }
 
 }
