@@ -32,7 +32,8 @@ public class FinanceReportFactory {
     private FinanceReportFactory() {
     }
 
-    public static void makeReportData(ClubConfig clubConfig) {
+    public static boolean makeReportData(ClubConfig clubConfig) {
+        boolean changed = isChanged(clubConfig);
         clubConfig.financeReportDataList.clear();
 
         // tabel header
@@ -88,6 +89,32 @@ public class FinanceReportFactory {
             clubConfig.financeReportDataList.add(reportData);
         });
 
+        return changed;
+    }
+
+    private static boolean isChanged(ClubConfig clubConfig) {
+        boolean changed = false;
+        if (clubConfig.financeAccountDataList.size() != clubConfig.financeReportDataList.getAccounts().size()) {
+            changed = true;
+        } else {
+            for (int i = 0; i < clubConfig.financeAccountDataList.size(); ++i) {
+                if (!clubConfig.financeReportDataList.getAccounts().get(i).
+                        equals(clubConfig.financeAccountDataList.get(i).getKonto())) {
+                    changed = true;
+                }
+            }
+        }
+        if (clubConfig.financeCategoryDataList.size() != clubConfig.financeReportDataList.getCategories().size()) {
+            changed = true;
+        } else {
+            for (int i = 0; i < clubConfig.financeCategoryDataList.size(); ++i) {
+                if (!clubConfig.financeReportDataList.getCategories().get(i).
+                        equals(clubConfig.financeCategoryDataList.get(i).getKategorie())) {
+                    changed = true;
+                }
+            }
+        }
+        return changed;
     }
 
     public static void makeSumReportData(ClubConfig clubConfig) {

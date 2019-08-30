@@ -57,7 +57,8 @@ public class GuiFinanceReport extends BorderPane {
 
     private final GuiFinanceReportFilterPane guiFinanceReportFilterPane;
     private final GuiFinanceReportMenu guiFinanceReportMenu;
-    private boolean startUpShown = false;
+
+    private boolean markShownAtStartup = false;
 
 
     public GuiFinanceReport(ClubConfig clubConfig) {
@@ -100,6 +101,8 @@ public class GuiFinanceReport extends BorderPane {
     }
 
     public void resetTable() {
+        PLog.sysLog("FinaceReport: reset table");
+
         new ClubTable(clubConfig).resetTable(tableView, ClubTable.TABLE.FINANCE_REPORT);
         new ClubTable(clubConfig).resetTable(tableViewSum, ClubTable.TABLE.FINANCE_REPORT);
         addSumListener();
@@ -110,15 +113,17 @@ public class GuiFinanceReport extends BorderPane {
             tableView.getSelectionModel().selectFirst();
         }
 
-        createTheDataLists();
+        if (createTheDataListsAndIsChanged()) {
+            resetTable();
+        }
         shownAtStartUp();
     }
 
     private void shownAtStartUp() {
-        if (startUpShown) {
+        if (markShownAtStartup) {
             return;
         }
-        startUpShown = true;
+        markShownAtStartup = true;
         bindTableScrollbars();
     }
 
@@ -204,11 +209,12 @@ public class GuiFinanceReport extends BorderPane {
         tableViewSum.getStyleClass().add("sumtable");
 
         // create the date
-        createTheDataLists();
+        createTheDataListsAndIsChanged();
 
         // init the table column
         new ClubTable(clubConfig).setTable(tableView, ClubTable.TABLE.FINANCE_REPORT);
         new ClubTable(clubConfig).setTable(tableViewSum, ClubTable.TABLE.FINANCE_REPORT);
+        addSumListener();
 
         tableView.setOnMousePressed(m -> {
             if (m.getButton().equals(MouseButton.SECONDARY)) {
@@ -221,8 +227,6 @@ public class GuiFinanceReport extends BorderPane {
             }
         });
 
-        addSumListener();
-
         // bind the date with the table
         tableView.setItems(sortedList);
         tableViewSum.setItems(sortedListSum);
@@ -230,9 +234,10 @@ public class GuiFinanceReport extends BorderPane {
         sortedListSum.comparatorProperty().bind(tableViewSum.comparatorProperty());
     }
 
-    private void createTheDataLists() {
-        FinanceReportFactory.makeReportData(clubConfig);
+    private boolean createTheDataListsAndIsChanged() {
+        boolean changed = FinanceReportFactory.makeReportData(clubConfig);
         FinanceReportFactory.makeSumReportData(clubConfig);
+        return changed;
     }
 
     private void addSumListener() {

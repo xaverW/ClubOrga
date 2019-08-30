@@ -25,6 +25,7 @@ public class DeleteDataFactory {
     public static void deleteAllData(ClubConfig clubConfig) {
         if (new DeleteAllDialogController(clubConfig).isOk()) {
             ProgStartFactory.resetClubData(clubConfig);
+            clubConfig.guiFinanceReport.isShown();
         }
     }
 

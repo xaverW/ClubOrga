@@ -102,8 +102,10 @@ public class DemoFinanceDataFactory {
         ArrayList<FinanceData> newFinance = new ArrayList<>(number);
         Random random = new Random();
 
-        FinanceAccountData financeAccountDataBar = clubConfig.financeAccountDataList.getAccountDataStandard(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR);
-        FinanceAccountData financeAccountDataGiro = clubConfig.financeAccountDataList.getAccountDataStandard(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO);
+        FinanceAccountData financeAccountDataBar = clubConfig.financeAccountDataList.
+                getAccountDataStandard(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR);
+        FinanceAccountData financeAccountDataGiro = clubConfig.financeAccountDataList.
+                getAccountDataStandard(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO);
 
         for (int i = 0; i < number; ++i) {
             FinanceData financeData = FinanceFactory.getNewFinanceWithId(clubConfig);
@@ -123,14 +125,11 @@ public class DemoFinanceDataFactory {
             TransactionDataList transactionDataList = financeData.getTransactionDataList();
             TransactionData transactionData = new TransactionData(transactionDataList.getNextNr(), clubConfig);
 
-//            FinanceAccountData fa = random.nextBoolean() ? financeAccountDataBar : financeAccountDataGiro;
-//            transactionData.setFinanceAccountData(fa);
-
             final int size = financeCategoryData.size();
             FinanceCategoryData fc = financeCategoryData.get(random.nextInt(size));
             transactionData.setFinanceCategoryData(fc);
 
-            transactionData.setBetrag((1 + random.nextInt(20)) * -1000); // 10 .. 200
+            transactionData.setBetrag((1 + random.nextInt(20)) * (random.nextBoolean() ? -1 : 1) * 1000); // +/- 10 .. 200
             transactionDataList.add(transactionData);
 
 

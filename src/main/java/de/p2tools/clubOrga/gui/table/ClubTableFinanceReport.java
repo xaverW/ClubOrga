@@ -23,6 +23,7 @@ import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
 import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -77,8 +78,16 @@ public class ClubTableFinanceReport {
             column.setCellFactory((final TableColumn<FinanceReportData, Long> param) ->
                     new PTableFactory.PCellMoney<>(false));
             column.setCellValueFactory(
-                    param -> new ReadOnlyObjectWrapper<>(param.getValue().getAccountList().get(curCol).getBetrag())
-
+                    param -> { //todo beim löschen von Katogorien oder Konten
+                        if (param.getValue().getAccountList().size() <= curCol) {
+                            PLog.errorLog(910254129, ".getCategoryList().size() <= curCol");
+                            return new ReadOnlyObjectWrapper<Long>(0L);
+                        } else {
+                            return new ReadOnlyObjectWrapper<>(
+                                    param.getValue().getAccountList().get(curCol).getBetrag()
+                            );
+                        }
+                    }
             );
             column.getStyleClass().add("accColumn");
             tc.add(column);
@@ -92,7 +101,16 @@ public class ClubTableFinanceReport {
             column.setCellFactory((final TableColumn<FinanceReportData, Long> param) ->
                     new PTableFactory.PCellMoney<>(false));
             column.setCellValueFactory(
-                    param -> new ReadOnlyObjectWrapper<>(param.getValue().getCategoryList().get(curCol).getBetrag())
+                    param -> {
+                        if (param.getValue().getCategoryList().size() <= curCol) {
+                            PLog.errorLog(201450983, "getCategoryList().size() <= curCol");
+                            return new ReadOnlyObjectWrapper<Long>(0L);
+                        } else {
+                            return new ReadOnlyObjectWrapper<>(
+                                    param.getValue().getCategoryList().get(curCol).getBetrag()
+                            );
+                        }
+                    }
             );
             column.getStyleClass().add("catColumn");
             tc.add(column);

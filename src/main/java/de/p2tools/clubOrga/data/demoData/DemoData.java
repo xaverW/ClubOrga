@@ -48,10 +48,11 @@ public class DemoData {
             resetData(clubConfig);
 
             Thread th = new Thread(() -> {
-
                 addNewData(true, clubConfig);
-                clubConfig.pMaskerPane.switchOffMasker();
-
+                Platform.runLater(() -> {
+                    clubConfig.guiFinanceReport.isShown();
+                    clubConfig.pMaskerPane.switchOffMasker();
+                });
             });
             th.setName("DemoData");
             th.start();
