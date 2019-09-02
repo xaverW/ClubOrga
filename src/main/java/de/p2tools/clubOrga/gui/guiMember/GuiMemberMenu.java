@@ -19,8 +19,8 @@ package de.p2tools.clubOrga.gui.guiMember;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
-import de.p2tools.clubOrga.controller.export.ExportCsvDialogController;
-import de.p2tools.clubOrga.controller.export.ImportCsvMemberDialogController;
+import de.p2tools.clubOrga.controller.export.csv.ExportCsvDialogController;
+import de.p2tools.clubOrga.controller.export.csv.ImportCsvMemberDialogController;
 import de.p2tools.clubOrga.controller.newsletter.Newsletter;
 import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.clubOrga.data.memberData.MemberData;
@@ -29,13 +29,9 @@ import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.p2Lib.guiTools.PButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GuiMemberMenu extends VBox {
@@ -64,96 +60,79 @@ public class GuiMemberMenu extends VBox {
         mb.getStyleClass().add("btnFunction");
 
         // Mitglied
-        MenuItem miChangeMember = new MenuItem("ausgewähltes Mitglied ändern");
+        MenuItem miAddMember = new MenuItem("neues Mitglied anlegen");
+        miAddMember.setOnAction(a -> addNewMember());
+
+        MenuItem miChangeMember = new MenuItem("aktuelles Mitglied ändern");
         miChangeMember.setOnAction(a -> guiMember.changeMember());
 
-        MenuItem miAddMember = new MenuItem("ein neues Mitglied anlegen");
-        miAddMember.setOnAction(a -> addNewMember());
-        MenuItem miRemoveMember = new MenuItem("ausgewählte Mitglieder löschen");
+        MenuItem miRemoveMember = new MenuItem("markierte Mitglieder löschen");
         miRemoveMember.setOnAction(a -> removeMember());
 
         // Beitrag
-        MenuItem miAddFee = new MenuItem("einen Beitrag anlegen");
+        MenuItem miAddFee = new MenuItem("Beitrag für aktuelles Mitglied anlegen");
         miAddFee.setOnAction(a -> FeeFactory.generateFeeForMember(clubConfig, clubConfig.guiMember.getSel()));
 
-        MenuItem miMemberFee = new MenuItem("fehlende Beiträge für Auswahl anlegen");
-        miMemberFee.setOnAction(a -> {
-            ArrayList<MemberData> memberDataList = clubConfig.guiMember.getSelList();
-            if (memberDataList.isEmpty()) {
-                return;
-            }
-            FeeFactory.generateMissingFeesForMembers(clubConfig, memberDataList);
-        });
+        MenuItem miMemberFee = new MenuItem("fehlende Beiträge für angezeigte Mitglieder anlegen");
+        miMemberFee.setOnAction(a -> generateFee(clubConfig.memberDataList.getFilteredList()));
 
-        MenuItem miAllMemberFee = new MenuItem("alle fehlende Beiträge anlegen");
-        miAllMemberFee.setOnAction(a -> {
-            ArrayList<MemberData> memberDataList = clubConfig.guiMember.getSelList();
-            if (memberDataList.isEmpty()) {
-                return;
-            }
-            FeeFactory.generateMissingFeesForMembers(clubConfig, clubConfig.memberDataList);
-        });
+        MenuItem miAllMemberFee = new MenuItem("alle fehlenden Beiträge anlegen");
+        miAllMemberFee.setOnAction(a -> generateFee(clubConfig.memberDataList));
 
-        // Serienbriefe
-        MenuItem miNewsletter = new MenuItem("Serienbrief für Auswahl erstellen");
-        miNewsletter.setOnAction(event -> createNewsletter());
 
-//        // Export
-//        MenuItem miExportSelMember = new MenuItem("Auswahl in CSV-Datei exportieren");
-//        miExportSelMember.setOnAction(event -> exportSelMember());
-//
-//        MenuItem miExportMember = new MenuItem("alle in CSV-Datei exportieren");
-//        miExportMember.setOnAction(event -> exportMember());
-//
-//        MenuItem miImportMember = new MenuItem("aus CSV-Datei importieren");
-//        miImportMember.setOnAction(event -> importMember());
-//
-//
-//        // Menü
-//        Menu menuExport = new Menu("Mitglieder exoprtieren");
-//        menuExport.getItems().addAll(miExportSelMember, miExportMember, miImportMember);
+        // Menü Export
+        MenuItem miNewsletterSel = new MenuItem("Serienbrief für markierte Mitglieder erstellen");
+        miNewsletterSel.setOnAction(event -> createNewsletter(clubConfig.guiMember.getSelList()));
 
-        mb.getItems().addAll(miChangeMember,
-                new SeparatorMenuItem(), miAddMember, miRemoveMember,
-                new SeparatorMenuItem(), miAddFee, miMemberFee, miAllMemberFee,
-                new SeparatorMenuItem(), miNewsletter);
+        MenuItem miNewsletterShown = new MenuItem("Serienbrief für angezeigte Mitglieder erstellen");
+        miNewsletterShown.setOnAction(event -> createNewsletter(clubConfig.memberDataList.getFilteredList()));
+
+        MenuItem miNewsletterAll = new MenuItem("Serienbrief für alle Mitglieder erstellen");
+        miNewsletterAll.setOnAction(event -> createNewsletter(clubConfig.memberDataList));
+
+        MenuItem miExportSel = new MenuItem("markierte Mitglieder exportieren");
+        miExportSel.setOnAction(a -> exportMember(clubConfig.guiMember.getSelList()));
+
+        MenuItem miExportShown = new MenuItem("angezeigte Mitglieder exportieren");
+        miExportShown.setOnAction(a -> exportMember(clubConfig.memberDataList.getFilteredList()));
+
+        MenuItem miExportAll = new MenuItem("alle Mitglieder exportieren");
+        miExportAll.setOnAction(a -> exportMember(clubConfig.memberDataList));
+
+
+        Menu mFee = new Menu("Beiträge anlegen");
+        mFee.getItems().addAll(miAddFee, miMemberFee, miAllMemberFee);
+        Menu mNewsletter = new Menu("Serienbrief");
+        mNewsletter.getItems().addAll(miNewsletterSel, miNewsletterShown, miNewsletterAll);
+        Menu mExport = new Menu("Export");
+        mExport.getItems().addAll(miExportSel, miExportShown, miExportAll);
+
+        mb.getItems().addAll(miAddMember, miChangeMember, miRemoveMember,
+                new SeparatorMenuItem(), mFee, mNewsletter, mExport);
 
         // extra Buttons
         Button btnNew = PButton.getButton(new ProgIcons().ICON_BUTTON_ADD, "neues Mitglied anlegen");
-        btnNew.setOnAction(a -> {
-            addNewMember();
-        });
+        btnNew.setOnAction(a -> addNewMember());
 
-        Button btnDel = PButton.getButton(new ProgIcons().ICON_BUTTON_REMOVE, "ausgewähltes Mitglied löschen");
+        Button btnDel = PButton.getButton(new ProgIcons().ICON_BUTTON_REMOVE, "markierte Mitglieder löschen");
         btnDel.setOnAction(a -> removeMember());
 
-        Button btnChange = PButton.getButton(new ProgIcons().ICON_BUTTON_MEMBER_CHANGE, "Mitglied ändern");
+        Button btnChange = PButton.getButton(new ProgIcons().ICON_BUTTON_MEMBER_CHANGE, "aktuelles Mitglied ändern");
         btnChange.setOnAction(a -> guiMember.changeMember());
+
         getChildren().addAll(mb, btnNew, btnDel, btnChange);
-
-
     }
 
-    private void createNewsletter() {
-        List<MemberData> memberData = clubConfig.guiMember.getSelList();
+    private void createNewsletter(List<MemberData> memberData) {
         if (!memberData.isEmpty()) {
             Newsletter.memberNewsletter(clubConfig, memberData);
         }
     }
 
-    private void createNewsletterAll() {
-        Newsletter.memberNewsletter(clubConfig, clubConfig.memberDataList);
-    }
-
-    private void exportSelMember() {
-        List<MemberData> memberData = clubConfig.guiMember.getSelList();
-        if (!memberData.isEmpty()) {
-            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, memberData, null);
+    private void exportMember(List<MemberData> memberDataList) {
+        if (memberDataList != null && !memberDataList.isEmpty()) {
+            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, memberDataList);
         }
-    }
-
-    private void exportMember() {
-        new ExportCsvDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList, null);
     }
 
     private void importMember() {
@@ -173,5 +152,12 @@ public class GuiMemberMenu extends VBox {
         if (!data.isEmpty()) {
             clubConfig.memberDataList.memberDataListRemoveAll(data);
         }
+    }
+
+    private void generateFee(List<MemberData> memberDataList) {
+        if (memberDataList.isEmpty()) {
+            return;
+        }
+        FeeFactory.generateMissingFeesForMembers(clubConfig, memberDataList);
     }
 }

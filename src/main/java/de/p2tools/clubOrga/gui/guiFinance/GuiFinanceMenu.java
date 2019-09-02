@@ -19,7 +19,7 @@ package de.p2tools.clubOrga.gui.guiFinance;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
-import de.p2tools.clubOrga.controller.newsletter.exportFinances.ExportFinanceDataList;
+import de.p2tools.clubOrga.controller.export.csv.ExportCsvDialogController;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFactory;
 import de.p2tools.clubOrga.data.financeData.TransactionData;
@@ -29,9 +29,9 @@ import de.p2tools.p2Lib.tools.date.PLocalDate;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -62,23 +62,28 @@ public class GuiFinanceMenu extends VBox {
 
         MenuItem miAddFinance = new MenuItem("neuen Finanzeintrag anlegen");
         miAddFinance.setOnAction(a -> addNewFinance());
-        MenuItem miChangeFinance = new MenuItem("ausgewählten Finanzeintrag ändern");
+        MenuItem miChangeFinance = new MenuItem("aktuellen Finanzeintrag ändern");
         miChangeFinance.setOnAction(a -> guiFinance.changeFinances());
 
         MenuItem miDelFinance = new MenuItem("ausgewählte Finanzeinträge löschen");
         miDelFinance.setOnAction(a -> delFinance());
 
-        MenuItem miExport = new MenuItem("ausgewählte Finanzeinträge exportieren");
-        miExport.setOnAction(a -> {
-            List<FinanceData> data = guiFinance.getSelList();
-            if (!data.isEmpty()) {
-                new ExportFinanceDataList(clubConfig).exportFinanceData(data);
-            }
-        });
+        // Menü Export
+        MenuItem miExportShown = new MenuItem("angezeigte Finanzen exportieren");
+        miExportShown.setOnAction(a -> exportFinances(clubConfig.financeDataList.getFilteredList()));
 
-        mb.getItems().addAll(miAddFinance, miChangeFinance,
-                new SeparatorMenuItem(), miDelFinance/*, miExport*/);
+        MenuItem miExportAll = new MenuItem("alle Finanzen exportieren");
+        miExportAll.setOnAction(a -> exportFinances(clubConfig.financeDataList));
 
+        Menu mExport = new Menu("Export");
+        mExport.getItems().addAll(miExportShown, miExportAll);
+
+
+        mb.getItems().addAll(miAddFinance, miChangeFinance, miDelFinance,
+                mExport);
+
+
+        // Button
         Button btnNew = PButton.getButton(new ProgIcons().ICON_BUTTON_ADD, "neuen Finanzeintrag anlegen");
         btnNew.setOnAction(a -> addNewFinance());
 
@@ -109,4 +114,11 @@ public class GuiFinanceMenu extends VBox {
             clubConfig.financeDataList.financeDataListRemoveAll(transactionData);
         }
     }
+
+    private void exportFinances(List<FinanceData> financeDataList) {
+        if (financeDataList != null && !financeDataList.isEmpty()) {
+            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, financeDataList, null);
+        }
+    }
+
 }

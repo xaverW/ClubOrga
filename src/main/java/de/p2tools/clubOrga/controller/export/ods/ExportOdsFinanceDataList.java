@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.clubOrga.controller.newsletter.exportFinances;
+package de.p2tools.clubOrga.controller.export.ods;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
@@ -32,7 +32,7 @@ import org.odftoolkit.simple.table.Table;
 import java.io.File;
 import java.util.List;
 
-public class ExportFinanceDataList {
+public class ExportOdsFinanceDataList {
 
     private List<FinanceData> list;
     private final ClubConfig clubConfig;
@@ -49,7 +49,7 @@ public class ExportFinanceDataList {
 
     private Border border = new Border(Color.BLACK, 1, StyleTypeDefinitions.SupportedLinearMeasure.PT);
 
-    public ExportFinanceDataList(ClubConfig clubConfig) {
+    public ExportOdsFinanceDataList(ClubConfig clubConfig) {
         this.clubConfig = clubConfig;
     }
 

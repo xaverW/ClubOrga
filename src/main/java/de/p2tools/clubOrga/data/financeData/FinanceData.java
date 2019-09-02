@@ -20,7 +20,14 @@ package de.p2tools.clubOrga.data.financeData;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.p2Lib.tools.PIndex;
 
+import java.text.DecimalFormat;
+
 public class FinanceData extends FinanceDataWorker {
+    private static final DecimalFormat DF;
+
+    static {
+        DF = new DecimalFormat("###,##0.00");
+    }
 
     public FinanceData(ClubConfig clubConfig) {
         setClubConfig(clubConfig);
@@ -54,7 +61,6 @@ public class FinanceData extends FinanceDataWorker {
 
     public void setTransactionValues() {
         financeDataGetSumBetrag();
-//        financeDataGetKontoList();
         financeDataGetKategorieList();
     }
 

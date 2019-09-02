@@ -17,44 +17,10 @@
 
 package de.p2tools.clubOrga.data.financeData;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-
 public class FinanceReportData extends FinanceReportDataBase {
-    static NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 
-    public FinanceReportData() {
-        super();
+    public FinanceReportData(FinanceData financeData) {
+        super(financeData);
     }
-
-    public ArrayList<String> getDataRow(FinanceReportDataList financeReportDataList) {
-        ArrayList<String> dataRow = new ArrayList<>();
-        dataRow.add(getNr() + "");
-        dataRow.add(getBelegNr());
-        dataRow.add(currencyFormat.format(getGesamtbetrag() / 100));
-        dataRow.add(getGeschaeftsJahr() + "");
-        dataRow.add(getBuchungsDatum().toString());
-
-        for (int i = 0; i < financeReportDataList.getAccounts().size(); i++) {
-            final long l = getAccountList().get(i).getBetrag();
-            if (l == 0) {
-                dataRow.add("");
-            } else {
-                dataRow.add(currencyFormat.format(l / 100));
-            }
-        }
-
-        for (int i = 0; i < financeReportDataList.getCategories().size(); i++) {
-            final long l = getCategoryList().get(i).getBetrag();
-            if (l == 0) {
-                dataRow.add("");
-            } else {
-                dataRow.add(currencyFormat.format(l / 100));
-            }
-        }
-
-        return dataRow;
-    }
-
 
 }

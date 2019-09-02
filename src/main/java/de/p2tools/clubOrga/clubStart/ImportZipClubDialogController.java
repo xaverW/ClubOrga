@@ -21,7 +21,7 @@ import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.ClubStartFactory;
-import de.p2tools.clubOrga.controller.export.ZipFactory;
+import de.p2tools.clubOrga.controller.export.zip.ZipFactory;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubDataFactory;
 import de.p2tools.p2Lib.alert.PAlert;

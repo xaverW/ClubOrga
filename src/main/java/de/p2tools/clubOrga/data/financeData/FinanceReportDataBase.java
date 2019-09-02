@@ -38,13 +38,18 @@ public class FinanceReportDataBase {
 
     private final List<FinanceReportAccountData> accountList;
     private final List<FinanceReportCategoryData> categoryList;
+    private final FinanceData financeData;
     private boolean selected = false;
 
-    public FinanceReportDataBase() {
+    public FinanceReportDataBase(FinanceData financeData) {
+        this.financeData = financeData;
         this.accountList = new SimpleListProperty<>(FXCollections.observableArrayList());
         this.categoryList = new SimpleListProperty<>(FXCollections.observableArrayList());
     }
 
+    public FinanceData getFinanceData() {
+        return financeData;
+    }
 
     public List<FinanceReportAccountData> getAccountList() {
         return accountList;

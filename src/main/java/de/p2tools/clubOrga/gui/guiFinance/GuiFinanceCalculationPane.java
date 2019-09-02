@@ -100,7 +100,7 @@ public class GuiFinanceCalculationPane extends AnchorPane {
             return;
         }
 
-        System.out.println("--> setFinanceDataChanged");
+//        System.out.println("--> setFinanceDataChanged");
 //        lblSum.setText(reportDataListCategory.addData(financeDataList) + "");
         calculationDataListAccount.addData(financeDataList);
         calculationDataListCategory.addData(financeDataList);

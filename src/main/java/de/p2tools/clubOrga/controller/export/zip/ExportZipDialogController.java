@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.controller.export;
+package de.p2tools.clubOrga.controller.export.zip;
 
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
@@ -22,6 +22,7 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.clubOrga.controller.ProgSaveFactory;
+import de.p2tools.clubOrga.controller.export.ExportFactory;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.dialog.PDialogExtra;
 import de.p2tools.p2Lib.dialog.PDirFileChooser;
@@ -163,7 +164,7 @@ public class ExportZipDialogController extends PDialogExtra {
 //            return false;
 //        }
 
-        if (!ZipFactory.check(getStage(), destDir, destFile)) {
+        if (!ExportFactory.check(getStage(), destDir, destFile)) {
             return false;
         }
 

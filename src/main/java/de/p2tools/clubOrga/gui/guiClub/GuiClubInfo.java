@@ -131,15 +131,13 @@ public class GuiClubInfo extends AnchorPane {
     }
 
     private void registerRenderer(TreeTableColumn<ClubInfoData, String> countColumn) {
-
         countColumn.setCellFactory(new Callback<>() {
-
             public TreeTableCell<ClubInfoData, String> call(TreeTableColumn<ClubInfoData, String> P) {
-
                 return new TreeTableCell<ClubInfoData, String>() {
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
-                        setStyle("-fx-alignment: CENTER;");
+                        setStyle("-fx-alignment: CENTER_RIGHT;");
+                        setPadding(new Insets(0, 10, 0, 10));
                         setText(item);
 //                        if (!empty) {
 //                            if (item.intValue() == -1) {

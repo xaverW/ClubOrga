@@ -19,13 +19,16 @@ package de.p2tools.clubOrga.gui.guiFinanceReport;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
-import de.p2tools.clubOrga.controller.export.ExportCsvDialogController;
-import de.p2tools.clubOrga.data.financeData.FinanceReportDataList;
+import de.p2tools.clubOrga.controller.export.csv.ExportCsvDialogController;
+import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
+
+import java.util.List;
 
 public class GuiFinanceReportMenu extends VBox {
 
@@ -51,18 +54,21 @@ public class GuiFinanceReportMenu extends VBox {
         mb.setGraphic(new ProgIcons().ICON_TOOLBAR_MENU);
         mb.getStyleClass().add("btnFunction");
 
+        Menu mExport = new Menu("Export");
+        MenuItem miExportShown = new MenuItem("angezeigte Finanzen exportieren");
+        miExportShown.setOnAction(a -> exportFinances(clubConfig.financeReportDataList.getFilteredList()));
 
-        MenuItem miExport = new MenuItem("Finanzen exportieren");
-        miExport.setOnAction(a -> {
-            FinanceReportDataList dataArr = clubConfig.financeReportDataList;
-            if (dataArr == null || dataArr.isEmpty()) {
-                return;
-            }
-            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, null, dataArr);
-        });
+        MenuItem miExportAll = new MenuItem("alle Finanzen exportieren");
+        miExportAll.setOnAction(a -> exportFinances(clubConfig.financeReportDataList));
 
-        mb.getItems().addAll(miExport);
+        mExport.getItems().addAll(miExportShown, miExportAll);
+        mb.getItems().addAll(mExport);
         getChildren().addAll(mb);
     }
 
+    private void exportFinances(List<FinanceReportData> financeReportDataList) {
+        if (financeReportDataList != null && !financeReportDataList.isEmpty()) {
+            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, null, financeReportDataList);
+        }
+    }
 }

@@ -152,7 +152,7 @@ public class InfoFactory {
                 "Buchungen",
                 true, false);
 
-        TreeItem<ClubInfoData> treeItemAll = createGroup("Saldo", clubConfig.financeDataList.getSaldo(),
+        TreeItem<ClubInfoData> treeItemAll = createGroup("Saldo", 0.01 * clubConfig.financeDataList.getSaldo(),
                 "Saldo über den gesamten Zeitraum",
                 false, false);
         financeItem.getChildren().add(treeItemAll);
@@ -175,7 +175,7 @@ public class InfoFactory {
         financeItem.getChildren().add(treeItemAccount);
         treeMapAccount.entrySet().stream()
                 .forEach(ac -> {
-                    ClubInfoData cid = new ClubInfoData(ac.getKey(), ac.getValue(), "");
+                    ClubInfoData cid = new ClubInfoData(ac.getKey(), 0.01 * ac.getValue(), "");
                     treeItemAccount.getChildren().add(new TreeItem<>(cid));
                 });
 
@@ -197,7 +197,7 @@ public class InfoFactory {
         financeItem.getChildren().add(treeItemCategory);
         treeMapCategory.entrySet().stream()
                 .forEach(ac -> {
-                    ClubInfoData cid = new ClubInfoData(ac.getKey(), ac.getValue(), "");
+                    ClubInfoData cid = new ClubInfoData(ac.getKey(), 0.01 * ac.getValue(), "");
                     treeItemCategory.getChildren().add(new TreeItem<>(cid));
                 });
 
@@ -214,7 +214,7 @@ public class InfoFactory {
                 countEntrys, "Buchungen",
                 true, false);
 
-        TreeItem<ClubInfoData> treeItemActYear = createGroup("Saldo", clubConfig.financeDataList.getSaldo(actYear),
+        TreeItem<ClubInfoData> treeItemActYear = createGroup("Saldo", 0.01 * clubConfig.financeDataList.getSaldo(actYear),
                 "Saldo im Jahr: " + actYear, false, false);
         financeItem.getChildren().add(treeItemActYear);
 
@@ -237,7 +237,7 @@ public class InfoFactory {
         financeItem.getChildren().add(treeItemAccount);
         treeMapAccount.entrySet().stream()
                 .forEach(ac -> {
-                    ClubInfoData cid = new ClubInfoData(ac.getKey(), ac.getValue(), "");
+                    ClubInfoData cid = new ClubInfoData(ac.getKey(), 0.01 * ac.getValue(), "");
                     treeItemAccount.getChildren().add(new TreeItem<>(cid));
                 });
 
@@ -261,7 +261,7 @@ public class InfoFactory {
         financeItem.getChildren().add(treeItemCategory);
         treeMapCategory.entrySet().stream()
                 .forEach(ac -> {
-                    ClubInfoData cid = new ClubInfoData(ac.getKey(), ac.getValue(), "");
+                    ClubInfoData cid = new ClubInfoData(ac.getKey(), 0.01 * ac.getValue(), "");
                     treeItemCategory.getChildren().add(new TreeItem<>(cid));
                 });
 
@@ -292,6 +292,14 @@ public class InfoFactory {
     }
 
     private static TreeItem<ClubInfoData> createGroup(String name, long amount, String text, boolean group1, boolean group2) {
+        ClubInfoData clubInfoData = new ClubInfoData(name, amount, text);
+        clubInfoData.setGroup1(group1);
+        clubInfoData.setGroup2(group2);
+
+        return new TreeItem<>(clubInfoData);
+    }
+
+    private static TreeItem<ClubInfoData> createGroup(String name, double amount, String text, boolean group1, boolean group2) {
         ClubInfoData clubInfoData = new ClubInfoData(name, amount, text);
         clubInfoData.setGroup1(group1);
         clubInfoData.setGroup2(group2);

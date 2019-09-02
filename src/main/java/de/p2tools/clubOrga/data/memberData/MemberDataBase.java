@@ -110,11 +110,17 @@ public class MemberDataBase extends PDataSample<MemberData> {
 
 
     public Config[] getConfigsForNewsletter() {
+        return getConfigsForNewsletter(false);
+    }
+
+    public Config[] getConfigsForNewsletter(boolean csvExport) {
         Config[] arr = getConfigsArr();
         ArrayList<Config> list = new ArrayList<>();
 
-        list.add(new ConfigStringPropExtra("iban", MemberFieldNames.IBAN_SHORT,
-                new SimpleStringProperty(MemberFactory.getShortIban(iban.getValueSafe()))));
+        if (!csvExport) {
+            list.add(new ConfigStringPropExtra("iban", MemberFieldNames.IBAN_SHORT,
+                    new SimpleStringProperty(MemberFactory.getShortIban(iban.getValueSafe()))));
+        }
 
         for (Config config : arr) {
             if (config.getName().equals(MemberFieldNames.BEITRAG)) {
@@ -153,6 +159,19 @@ public class MemberDataBase extends PDataSample<MemberData> {
 
         return list.toArray(new ConfigExtra[]{});
     }
+
+//    public String[] getHeaderArr() {
+//        ArrayList<String> list = new ArrayList<>();
+//        for (Config configExtra : getConfigsForNewsletter(true)) {
+//            if (configExtra.getName().equals(MemberFieldNames.ID)) {
+//                continue;
+//            }
+//            list.add(configExtra.getName());
+//        }
+//
+//        String[] headers = list.toArray(new String[]{});
+//        return headers;
+//    }
 
     @Override
     public ConfigExtra[] getConfigsArr() {

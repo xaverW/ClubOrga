@@ -28,10 +28,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -60,27 +57,26 @@ public class GuiFeeMenu extends VBox {
         mb.setGraphic(new ProgIcons().ICON_TOOLBAR_MENU);
         mb.getStyleClass().add("btnFunction");
 
-        MenuItem miChangeFee = new MenuItem("ausgewählten Beitrag ändern");
+        MenuItem miChangeFee = new MenuItem("aktuellen Beitrag ändern");
         miChangeFee.setOnAction(a -> guiFee.changeFee());
-
         MenuItem miDelFee = new MenuItem("ausgewählte Beiträge löschen");
         miDelFee.setOnAction(a -> delFee());
 
         MenuItem miPayFee = new MenuItem("ausgewählte Beiträge bezahlen");
         miPayFee.setOnAction(a -> payFee());
-
-        MenuItem miFeeBill = new MenuItem("Rechnungen für Auswahl erstellen");
+        MenuItem miFeeBill = new MenuItem("Rechnung ausgewählter Beiträge erstellen");
         miFeeBill.setOnAction(a -> createBillForFee(BillForFeeDialogController.TYPE.BILL));
-
-        MenuItem miSQ = new MenuItem("Spendenquittungen für Auswahl erstellen");
+        MenuItem miSQ = new MenuItem("Spendenquittung ausgewählter Beiträge erstellen");
         miSQ.setOnAction(a -> createBillForFee(BillForFeeDialogController.TYPE.SQ));
 
-        MenuItem miNewsletter = new MenuItem("Serienbrief für Auswahl erstellen");
+        MenuItem miNewsletter = new MenuItem("für angezeigte Beiträge Serienbrief erstellen");
         miNewsletter.setOnAction(event -> feeNewsletter());
 
-        mb.getItems().addAll(miChangeFee,
-                new SeparatorMenuItem(), miDelFee, miPayFee,
-                new SeparatorMenuItem(), miFeeBill, miSQ, miNewsletter);
+        Menu mNewsletter = new Menu("Serienbrief");
+        mNewsletter.getItems().addAll(miNewsletter);
+        mb.getItems().addAll(miChangeFee, miDelFee,
+                new SeparatorMenuItem(), miPayFee, miFeeBill, miSQ,
+                new SeparatorMenuItem(), mNewsletter);
 
 
         // Buttons
@@ -97,6 +93,13 @@ public class GuiFeeMenu extends VBox {
         getChildren().addAll(mb, btnDel, btnChange, btnPay);
     }
 
+
+    private void delFee() {
+        List<FeeData> feeData = guiFee.getSelList();
+        if (!feeData.isEmpty()) {
+            clubConfig.feeDataList.feeDataListRemoveAll(feeData);
+        }
+    }
 
     private void createBillForFee(BillForFeeDialogController.TYPE type) {
         final ObservableList<FeeData> list = FXCollections.observableArrayList();
@@ -117,16 +120,9 @@ public class GuiFeeMenu extends VBox {
     }
 
     private void feeNewsletter() {
-        List<FeeData> list = clubConfig.guiFee.getSelList();
+        List<FeeData> list = clubConfig.feeDataList.getFilteredList();
         if (!list.isEmpty()) {
             Newsletter.feeNewsletter(clubConfig, list);
-        }
-    }
-
-    private void delFee() {
-        List<FeeData> feeData = guiFee.getSelList();
-        if (!feeData.isEmpty()) {
-            clubConfig.feeDataList.feeDataListRemoveAll(feeData);
         }
     }
 }

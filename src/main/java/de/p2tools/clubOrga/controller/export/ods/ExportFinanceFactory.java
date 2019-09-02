@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.clubOrga.controller.newsletter.exportFinances;
+package de.p2tools.clubOrga.controller.export.ods;
 
 public class ExportFinanceFactory {
 

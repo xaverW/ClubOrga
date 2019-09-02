@@ -63,26 +63,6 @@ public class FinanceReportDataList extends SimpleListProperty<FinanceReportData>
         return categories;
     }
 
-    public String[] getHeaderArr() {
-        ArrayList<String> headers = new ArrayList<>();
-        headers.add(FinanceFieldNames.NR);
-        headers.add(FinanceFieldNames.BELEG_NR);
-        headers.add(FinanceFieldNames.GESAMTBETRAG);
-        headers.add(FinanceFieldNames.GESCHAEFTSJAHR);
-        headers.add(FinanceFieldNames.BUCHUNGS_DATUM);
-        headers.add(FinanceFieldNames.ERSTELLDATUM);
-
-        headers.addAll(getAccounts());
-        headers.addAll(getCategories());
-
-        String[] HEADERS = headers.toArray(new String[]{});
-        for (int i = 0; i < headers.size(); ++i) {
-            HEADERS[i] = HEADERS[i].replace(FinanceReportFactory.KONTO, "");
-            HEADERS[i] = HEADERS[i].replace(FinanceReportFactory.KATEGORIE, "");
-        }
-        return HEADERS;
-    }
-
     @Override
     public void clear() {
         super.clear();

@@ -46,7 +46,7 @@ public class FinanceReportFactory {
 
         // table data
         clubConfig.financeDataList.stream().forEach(financeData -> {
-            FinanceReportData reportData = new FinanceReportData();
+            FinanceReportData reportData = new FinanceReportData(financeData);
 
             reportData.setNr(financeData.getNr());
             reportData.setBelegNr(financeData.getBelegNr());
@@ -119,7 +119,7 @@ public class FinanceReportFactory {
 
     public static void makeSumReportData(ClubConfig clubConfig) {
         long sum = 0;
-        FinanceReportData reportDataSum = new FinanceReportData();
+        FinanceReportData reportDataSum = new FinanceReportData(null);
 
         sum = 0;
         final FilteredList<FinanceReportData> financeReportData = clubConfig.financeReportDataList.getFilteredList();

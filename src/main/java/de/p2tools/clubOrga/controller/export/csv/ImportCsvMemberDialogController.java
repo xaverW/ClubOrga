@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.controller.export;
+package de.p2tools.clubOrga.controller.export.csv;
 
 
 import de.p2tools.clubOrga.config.club.ClubConfig;

@@ -14,14 +14,16 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.controller.export;
+package de.p2tools.clubOrga.controller.export.csv;
 
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
-import de.p2tools.clubOrga.data.financeData.FinanceReportDataList;
+import de.p2tools.clubOrga.controller.export.ExportFactory;
+import de.p2tools.clubOrga.data.financeData.FinanceData;
+import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
@@ -58,23 +60,46 @@ public class ExportCsvDialogController extends PDialogExtra {
 
     private final ClubConfig clubConfig;
     private final List<MemberData> memberDataList;
-    private final FinanceReportDataList financeDataList;
+    private final List<FinanceData> financeDataList;
+    private final List<FinanceReportData> financeReportDataList;
     private boolean ok = false;
-    private boolean memberData = false;
+
+    enum exporting {MEMBER, FINANCES, FINANCEREPORTS}
+
+    private final exporting exportingWhat;
 
     public ExportCsvDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
-                                     List<MemberData> memberDataList,
-                                     FinanceReportDataList financeDataList) {
+                                     List<MemberData> memberDataList) {
+
         super(ownerForCenteringDialog, clubConfig.EXPORT_CSV_DIALOG_SIZE,
                 "Daten in CVS-Datei exportieren");
 
         this.clubConfig = clubConfig;
         this.memberDataList = memberDataList;
-        this.financeDataList = financeDataList;
-        if (memberDataList != null) {
-            memberData = true;
-        }
+        this.financeDataList = null;
+        this.financeReportDataList = null;
 
+        exportingWhat = exporting.MEMBER;
+        init(getvBoxDialog(), true);
+    }
+
+    public ExportCsvDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
+                                     List<FinanceData> financeDataList,
+                                     List<FinanceReportData> financeReportDataList) {
+
+        super(ownerForCenteringDialog, clubConfig.EXPORT_CSV_DIALOG_SIZE,
+                "Daten in CVS-Datei exportieren");
+
+        this.clubConfig = clubConfig;
+        this.memberDataList = null;
+        this.financeDataList = financeDataList;
+        this.financeReportDataList = financeReportDataList;
+
+        if (financeDataList != null) {
+            exportingWhat = exporting.FINANCES;
+        } else {
+            exportingWhat = exporting.FINANCEREPORTS;
+        }
         init(getvBoxDialog(), true);
     }
 
@@ -84,9 +109,9 @@ public class ExportCsvDialogController extends PDialogExtra {
 
     @Override
     protected void make() {
-        btnHelp = PButton.helpButton(getStage(), (memberData ? "Mitgliederdaten" : "Finanzdaten") +
+        btnHelp = PButton.helpButton(getStage(), (exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
                         " in CVS-Datei exportieren",
-                "Hier können die " + (memberData ? "Mitgliederdaten" : "Finanzdaten") +
+                "Hier können die " + (exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
                         " in eine CSV-Datei exportiert werden. " +
                         "Damit ist es möglich, die Daten auch in anderen Programmen zu verwenden." +
                         "\n\n" +
@@ -112,7 +137,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         cboExportDir.setMaxWidth(Double.MAX_VALUE);
         cboExportFile.setMaxWidth(Double.MAX_VALUE);
 
-        HBox hBoxTitle = GuiFactory.getDialogTitle((memberData ? "Mitgliederdaten" : "Finanzdaten") +
+        HBox hBoxTitle = GuiFactory.getDialogTitle((exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
                 " in CVS-Datei exportieren");
 
         final GridPane gridPane = new GridPane();
@@ -173,22 +198,30 @@ public class ExportCsvDialogController extends PDialogExtra {
         String destDir = cboExportDir.getSelValue();
         String destFile = cboExportFile.getSelValue();
 
-        if (!ZipFactory.check(getStage(), destDir, destFile)) {
+        if (!ExportFactory.check(getStage(), destDir, destFile)) {
             return false;
         }
 
         Path dFile = Paths.get(destDir, destFile);
-        if (memberData) {
-            if (!CsvFactory.exportMember(memberDataList, dFile)) {
-                PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
-                return false;
-            }
-
-        } else {
-            if (!CsvFactory.exportFinances(financeDataList, dFile)) {
-                PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
-                return false;
-            }
+        switch (exportingWhat) {
+            case MEMBER:
+                if (!CsvFactory.exportMember(memberDataList, dFile)) {
+                    PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
+                    return false;
+                }
+                break;
+            case FINANCES:
+                if (!CsvFactory.exportFinances(financeDataList, dFile)) {
+                    PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
+                    return false;
+                }
+                break;
+            case FINANCEREPORTS:
+            default:
+                if (!CsvFactory.exportFinancesReport(clubConfig, financeReportDataList, dFile)) {
+                    PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
+                    return false;
+                }
         }
 
         return true;

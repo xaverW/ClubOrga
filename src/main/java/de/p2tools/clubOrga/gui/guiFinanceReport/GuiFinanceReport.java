@@ -17,8 +17,13 @@
 package de.p2tools.clubOrga.gui.guiFinanceReport;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.data.feeData.FeeData;
+import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.clubOrga.data.financeData.FinanceReportFactory;
+import de.p2tools.clubOrga.data.financeData.TransactionData;
+import de.p2tools.clubOrga.data.memberData.MemberData;
+import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.clubOrga.gui.table.ClubTable;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
@@ -216,6 +221,12 @@ public class GuiFinanceReport extends BorderPane {
         new ClubTable(clubConfig).setTable(tableViewSum, ClubTable.TABLE.FINANCE_REPORT);
         addSumListener();
 
+        tableView.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent != null && mouseEvent.getButton().equals(MouseButton.PRIMARY) &&
+                    mouseEvent.getClickCount() == 2) {
+                changeFinances();
+            }
+        });
         tableView.setOnMousePressed(m -> {
             if (m.getButton().equals(MouseButton.SECONDARY)) {
                 final Optional<FinanceReportData> financeReportData = getSel();
@@ -234,6 +245,30 @@ public class GuiFinanceReport extends BorderPane {
         sortedListSum.comparatorProperty().bind(tableViewSum.comparatorProperty());
     }
 
+    private void changeFinances() {
+        FinanceData financeData;
+        FinanceReportData financeReportData = tableView.getSelectionModel().getSelectedItem();
+        int sel = tableView.getSelectionModel().getSelectedIndex();
+
+        if (financeReportData != null && (financeData = financeReportData.getFinanceData()) != null) {
+            MemberData memberData = null;
+            FeeData feeData = null;
+            TransactionData transactionData = null;
+
+            if (financeData.getTransactionDataList().size() == 1) {
+                feeData = financeData.getTransactionDataList().get(0).getFeeData();
+                memberData = feeData == null ? null : feeData.getMemberData();
+                transactionData = financeData.getTransactionDataList().get(0);
+            }
+            if (new DataDialogController(clubConfig, DataDialogController.OPEN.FINANCE_PANE,
+                    memberData, feeData, financeData, transactionData).isOk()) {
+                createTheDataListsAndIsChanged();
+//                tableViewSum.getSelectionModel().select(financeReportData); //todo da wird die Liste neu aufgebaut
+//                tableViewSum.getSelectionModel().select(sel);
+            }
+        }
+    }
+
     private boolean createTheDataListsAndIsChanged() {
         boolean changed = FinanceReportFactory.makeReportData(clubConfig);
         FinanceReportFactory.makeSumReportData(clubConfig);
@@ -249,7 +284,7 @@ public class GuiFinanceReport extends BorderPane {
         for (int i = 0; i < tableView.getColumns().size(); ++i) {
             final int ii = i;
             tableView.getColumns().get(i).widthProperty().addListener((observable, oldValue, newValue) -> {
-                System.out.println(tableView.getColumns().get(ii).getPrefWidth());
+//                System.out.println(tableView.getColumns().get(ii).getPrefWidth());
                 tableViewSum.getColumns().get(ii).setPrefWidth(newValue.doubleValue());
             });
         }
