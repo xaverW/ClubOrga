@@ -17,6 +17,8 @@
 
 package de.p2tools.clubOrga.data.financeData.categoryData;
 
+import de.p2tools.clubOrga.config.club.ClubConfig;
+
 public class FinanceCategoryFactory {
 
     public static int CATEGORY_TYPE_SIZE = CATEGORY_TYPE.values().length;
@@ -55,5 +57,14 @@ public class FinanceCategoryFactory {
     }
 
     private FinanceCategoryFactory() {
+    }
+
+    public static boolean searchCategory(ClubConfig clubConfig, FinanceCategoryData financeCategoryData) {
+        boolean found = clubConfig.financeDataList.stream()
+                .filter(financeData -> financeData.getTransactionDataList().stream()
+                        .filter(transactionData -> transactionData.getFinanceCategoryData().equals(financeCategoryData))
+                        .findAny().isPresent())
+                .findAny().isPresent();
+        return found;
     }
 }

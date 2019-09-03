@@ -66,7 +66,7 @@ public class FinanceAccountDataList extends FinanceAccountDataListBase {
 
     @Override
     public boolean remove(Object obj) {
-        if (!checkRemove(obj)) {
+        if (!checkRemove((FinanceAccountData) obj)) {
             return false;
         }
 
@@ -93,8 +93,8 @@ public class FinanceAccountDataList extends FinanceAccountDataListBase {
         return this.stream().filter(data -> data.getId() == id).findFirst().orElse(null);
     }
 
-    private boolean checkRemove(Object obj) {
-        if (((FinanceAccountData) obj).getId() < FinanceAccountFactory.ACCOUNT_TYPE_SIZE) {
+    public boolean checkRemove(FinanceAccountData financeAccountData) {
+        if (financeAccountData.getId() < FinanceAccountFactory.ACCOUNT_TYPE_SIZE) {
             PAlert.showErrorAlert(clubConfig.getStage(), "Konto löschen", "Das ist ein Standardkonto das nicht gelöscht werden kann.");
             return false;
         }

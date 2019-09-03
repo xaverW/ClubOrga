@@ -89,25 +89,25 @@ public class CsvFactory {
 
             final String name = configExtra.getName();
             try {
-                final String cssValue = record.get(name).trim();
-                if (cssValue != null && !cssValue.isEmpty()) {
+                final String csvValue = record.get(name).trim();
+                if (csvValue != null && !csvValue.isEmpty()) {
                     found = true;
 
                     if (name.equals(MemberFieldNames.BEITRAG)) {
                         long l = 0;
                         try {
-                            Double d = NF.parse(cssValue).doubleValue();
+                            Double d = NF.parse(csvValue).doubleValue();
                             l = (long) (100 * d);
                         } catch (ParseException ignored) {
                             l = 0;
-                            PLog.errorLog(641201478, "Kann Beitrag nicht parsen: " + cssValue);
+                            PLog.errorLog(641201478, "Kann Beitrag nicht parsen: " + csvValue);
                         }
                         configExtra.setActValue(l + "");
 
                     } else if (name.equals(MemberFieldNames.STATUS)) {
                         long id = clubConfig.stateDataList.get(0).getId();
                         for (StateData stateData : clubConfig.stateDataList) {
-                            if (cssValue.equals(stateData.getName())) {
+                            if (csvValue.equals(stateData.getName())) {
                                 id = stateData.getId();
                             }
                         }
@@ -116,7 +116,7 @@ public class CsvFactory {
                     } else if (name.equals(MemberFieldNames.BEITRAGSSATZ)) {
                         long id = clubConfig.feeRateDataList.get(0).getId();
                         for (FeeRateData feeRateData : clubConfig.feeRateDataList) {
-                            if (cssValue.equals(feeRateData.getName())) {
+                            if (csvValue.equals(feeRateData.getName())) {
                                 id = feeRateData.getId();
                             }
                         }
@@ -125,14 +125,14 @@ public class CsvFactory {
                     } else if (name.equals(MemberFieldNames.ZAHLART)) {
                         long id = clubConfig.paymentTypeDataList.get(0).getId();
                         for (PaymentTypeData paymentTypeData : clubConfig.paymentTypeDataList) {
-                            if (cssValue.equals(paymentTypeData.getName())) {
+                            if (csvValue.equals(paymentTypeData.getName())) {
                                 id = paymentTypeData.getId();
                             }
                         }
                         configExtra.setActValue(id + "");
 
                     } else {
-                        configExtra.setActValue(cssValue);
+                        configExtra.setActValue(csvValue);
                     }
                 }
             } catch (IllegalArgumentException ex) {

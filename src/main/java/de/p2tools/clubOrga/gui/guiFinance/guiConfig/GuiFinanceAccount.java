@@ -115,6 +115,17 @@ public class GuiFinanceAccount extends BorderPane {
                 return;
             }
 
+            if (!clubConfig.financeAccountDataList.checkRemove(item)) {
+                return;
+            }
+
+            if (FinanceAccountFactory.searchAccount(clubConfig, item)) {
+                PAlert.showErrorAlert(clubConfig.getStage(), "Konto wird noch verwendet",
+                        "Das Konto wird noch in Finanzdaten verwendet. " +
+                                "Bitte zuerst die Finanzdaten ändern.");
+                return;
+            }
+
             clubConfig.financeAccountDataList.remove(item);
         });
 

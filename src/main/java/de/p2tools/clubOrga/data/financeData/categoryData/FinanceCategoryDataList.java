@@ -50,7 +50,7 @@ public class FinanceCategoryDataList extends FinanceCategoryDataListBase {
 
     @Override
     public boolean remove(Object obj) {
-        if (!checkRemove(obj)) {
+        if (!checkRemove((FinanceCategoryData) obj)) {
             return false;
         }
 
@@ -77,8 +77,8 @@ public class FinanceCategoryDataList extends FinanceCategoryDataListBase {
         return this.stream().filter(data -> data.getId() == id).findFirst().orElse(null);
     }
 
-    private boolean checkRemove(Object obj) {
-        if (((FinanceCategoryData) obj).getId() < FinanceCategoryFactory.CATEGORY_TYPE_SIZE) {
+    public boolean checkRemove(FinanceCategoryData financeCategoryData) {
+        if (financeCategoryData.getId() < FinanceCategoryFactory.CATEGORY_TYPE_SIZE) {
             PAlert.showErrorAlert(clubConfig.getStage(), "Kategorie löschen", "Das ist eine Standardkategorie die nicht gelöscht werden kann.");
             return false;
         }

@@ -109,6 +109,18 @@ public class GuiFinanceCategory extends BorderPane {
                 new PAlert().showInfoNoSelection(clubConfig.getStage());
                 return;
             }
+
+            if (!clubConfig.financeCategoryDataList.checkRemove(item)) {
+                return;
+            }
+
+            if (FinanceCategoryFactory.searchCategory(clubConfig, item)) {
+                PAlert.showErrorAlert(clubConfig.getStage(), "Kategorie wird noch verwendet",
+                        "Die Kategorie wird noch in Finanzdaten verwendet. " +
+                                "Bitte zuerst die Finanzdaten ändern.");
+                return;
+            }
+
             clubConfig.financeCategoryDataList.remove(item);
         });
 
