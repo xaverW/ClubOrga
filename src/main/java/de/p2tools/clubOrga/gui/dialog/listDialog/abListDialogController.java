@@ -83,7 +83,7 @@ public abstract class abListDialogController extends PDialogExtra {
     }
 
     void init() {
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     public boolean isOk() {

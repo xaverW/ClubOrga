@@ -101,7 +101,7 @@ public class AddMissingFeeDialogController extends abListDialogController {
     }
 
     void init() {
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
 

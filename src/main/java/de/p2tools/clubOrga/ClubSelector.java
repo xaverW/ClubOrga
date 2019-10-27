@@ -53,7 +53,7 @@ public class ClubSelector extends PDialogExtra {
     public ClubSelector(Stage stage) {
         super(stage, ProgConfig.SYSTEM_SIZE_CLUB_SELECTOR_GUI, "Verein auswählen", false, true);
         this.progData = ProgData.getInstance();
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ClubSelector extends PDialogExtra {
         ScrollPane scrollPaneTable = getTable();
         TilePane tilePane = getGenClubButton();
 
-        setContPadding(0);
+        getVboxCont().setPadding(new Insets(0));
         vBox.setPadding(new Insets(10));
         vBox.getChildren().addAll(hBoxTitle, scrollPaneTable, tilePane);
         VBox.setVgrow(vBox, Priority.ALWAYS);

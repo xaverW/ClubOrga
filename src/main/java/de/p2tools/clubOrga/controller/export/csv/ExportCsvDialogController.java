@@ -80,7 +80,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         this.financeReportDataList = null;
 
         exportingWhat = exporting.MEMBER;
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     public ExportCsvDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
@@ -100,7 +100,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         } else {
             exportingWhat = exporting.FINANCEREPORTS;
         }
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     public boolean isOk() {

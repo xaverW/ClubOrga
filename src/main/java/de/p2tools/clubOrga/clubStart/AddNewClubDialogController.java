@@ -64,7 +64,7 @@ public class AddNewClubDialogController extends PDialogExtra {
         this.progData = progData;
         this.knownClubData = knownClubData;
 
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     public boolean isOk() {

@@ -89,7 +89,7 @@ public class AddDemoDataDialogController extends PDialogExtra {
         this.propertyAddMember = clubConfig.DEMO_DATA_ADD_MEMBER;
         this.propertyAddFinance = clubConfig.DEMO_DATA_ADD_FINANCE;
 
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     @Override

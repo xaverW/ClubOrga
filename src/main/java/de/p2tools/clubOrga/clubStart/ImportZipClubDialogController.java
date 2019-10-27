@@ -60,7 +60,7 @@ public class ImportZipClubDialogController extends PDialogExtra {
         super(stage, ProgConfig.IMPORT_ZIP_CLUB_DIALOG_SIZE, "Verein importieren");
 
         this.progData = ProgData.getInstance();
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     public boolean isOk() {

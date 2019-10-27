@@ -61,7 +61,7 @@ public class ExportZipDialogController extends PDialogExtra {
         super(clubConfig.getStage(), clubConfig.EXPORT_CLUB_DIALOG_SIZE, "Verein exportieren");
 
         this.clubConfig = clubConfig;
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     public boolean isOk() {

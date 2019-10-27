@@ -57,7 +57,7 @@ public class AboutDialogController extends PDialogExtra {
         this.clubConfig = clubConfig;
 
         getHboxOk().getChildren().addAll(btnOk);
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
 

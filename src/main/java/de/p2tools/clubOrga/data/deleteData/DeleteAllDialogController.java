@@ -45,7 +45,7 @@ public class DeleteAllDialogController extends PDialogExtra {
         super(clubConfig.getStage(), clubConfig.DELETE_ALL_DATA_DIALOG_SIZE, "Vereinsdaten löschen");
         this.clubConfig = clubConfig;
 
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     public boolean isOk() {

@@ -58,7 +58,7 @@ public class ImportCsvMemberDialogController extends PDialogExtra {
 
         this.clubConfig = clubConfig;
 
-        init(getvBoxDialog(), true);
+        init(getVBoxCompleteDialog(), true);
     }
 
     public boolean isOk() {
