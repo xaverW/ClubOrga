@@ -41,6 +41,7 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty IMPORT_DIR_CLUB_DIALOG_SIZE = addStr("import-dir-club-dialog-size", "700:400");
     public static StringProperty IMPORT_ZIP_CLUB_DIALOG_SIZE = addStr("import-zip-club-dialog-size", "700:400");
     public static StringProperty ADD_NEW_CLUB_DIALOG_SIZE = addStr("add-new-club-dialog-size", "700:400");
+    public static BooleanProperty SYSTEM_DARK_THEME = addBool("system-dark-theme", false);
 
 
     private static ProgConfig instance;

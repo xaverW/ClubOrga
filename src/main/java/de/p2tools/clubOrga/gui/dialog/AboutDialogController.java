@@ -18,6 +18,7 @@ package de.p2tools.clubOrga.gui.dialog;
 
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
@@ -45,7 +46,7 @@ import java.nio.file.Path;
 public class AboutDialogController extends PDialogExtra {
 
     Button btnOk = new Button("Ok");
-    private final Color GRAY = Color.DARKSLATEGRAY;
+    private final Color GRAY;
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
@@ -55,6 +56,12 @@ public class AboutDialogController extends PDialogExtra {
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
+
+        if (ProgConfig.SYSTEM_DARK_THEME.get()) {
+            this.GRAY = Color.LAVENDER;
+        } else {
+            this.GRAY = Color.DARKBLUE;
+        }
 
         getHboxOk().getChildren().addAll(btnOk);
         init(getVBoxCompleteDialog(), true);

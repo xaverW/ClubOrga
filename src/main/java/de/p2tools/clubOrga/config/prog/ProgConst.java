@@ -27,6 +27,7 @@ public class ProgConst {
     public static final String CONFIG_DIRECTORY = "p2ClubOrga"; // im Homeverzeichnis
     public static final String XML_START = "ClubOrga";
 
+
     // standard path for clubdata
     public static final String CLUB_DIRECTORY = "ClubOrga"; // im Homeverzeichnis
     public static final String CLUB_TEMPLATE_DIR = "Vorlagen";
@@ -45,6 +46,7 @@ public class ProgConst {
 
 
     public static final String CSS_FILE = "/de/p2tools/clubOrga/club.css";
+    public static final String CSS_FILE_DARK_THEME = "/de/p2tools/clubOrga/club-dark.css";
     public static final String LOG_DIR = "Log";
 
     public static final String WEBSITE_P2 = "https://www.p2tools.de";

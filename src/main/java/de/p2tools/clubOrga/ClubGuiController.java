@@ -61,12 +61,6 @@ public class ClubGuiController extends StackPane {
         this.menuController = new MenuController(progData);
     }
 
-    private void initMaskerPane() {
-        StackPane.setAlignment(maskerPane, Pos.CENTER);
-        maskerPane.setPadding(new Insets(4, 1, 1, 1));
-        maskerPane.toFront();
-    }
-
     public void init(ClubConfig clubConfig) {
         try {
             this.clubConfig = clubConfig;
@@ -118,6 +112,12 @@ public class ClubGuiController extends StackPane {
         } catch (Exception ex) {
             PLog.errorLog(912032021, ex);
         }
+    }
+
+    private void initMaskerPane() {
+        StackPane.setAlignment(maskerPane, Pos.CENTER);
+        maskerPane.setPadding(new Insets(4, 1, 1, 1));
+        maskerPane.toFront();
     }
 
     private void setTopPane(GuiFactory.PANE pane) {

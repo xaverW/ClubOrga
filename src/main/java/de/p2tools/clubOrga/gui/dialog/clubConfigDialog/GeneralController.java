@@ -21,10 +21,15 @@ import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
+import de.p2tools.clubOrga.gui.tools.HelpText;
 import de.p2tools.p2Lib.PConst;
 import de.p2tools.p2Lib.alert.PAlert;
+import de.p2tools.p2Lib.guiTools.PButton;
+import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.POpen;
+import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.log.PLog;
+import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -45,6 +50,7 @@ public class GeneralController extends AnchorPane {
     private final ProgData progData;
     private final ClubConfig clubConfig;
     private final Stage stage;
+    BooleanProperty propDarkTheme = ProgConfig.SYSTEM_DARK_THEME;
 
     public GeneralController(Stage stage, ClubConfig clubConfig) {
         progData = ProgData.getInstance();
@@ -87,12 +93,15 @@ public class GeneralController extends AnchorPane {
         TitledPane tpConfig = new TitledPane("Allgemein", gridPane);
         result.add(tpConfig);
 
+        final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
+        tglDarkTheme.selectedProperty().bindBidirectional(propDarkTheme);
+        final Button btnHelpTheme = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
+                HelpText.DARK_THEME);
 
-        final ColumnConstraints ccTxt = new ColumnConstraints();
-        ccTxt.setFillWidth(true);
-        ccTxt.setMinWidth(Region.USE_COMPUTED_SIZE);
-        ccTxt.setHgrow(Priority.ALWAYS);
-        gridPane.getColumnConstraints().addAll(new ColumnConstraints(), ccTxt);
+        gridPane.add(tglDarkTheme, 0, 0);
+        gridPane.add(btnHelpTheme, 1, 0);
+
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
     }
 
     private void makeUpdate(Collection<TitledPane> result) {

@@ -1,194 +1,58 @@
 /*  Programmweites style sheet */
-.root *{
-     /* A light grey that is the base color for objects.  Instead of using
-     * -fx-base directly, the sections in this file will typically use -fx-color.
 
-        -fx-base: #ececec;
-     */
+.root {
+    -tab-button-1: #d6d6d6;
+    -tab-button-2: #e6e6e6;
+    -tab-button-3: rgba(230,230,230,0);
 
-    -style-border-color-1: royalblue;
-    -style-border-color-2: royalblue;
-    -style-text-color-1: mediumblue;
+    -lin-grad-1: linear-gradient(from 0% 0% to 100% 100%, -tab-button-1 50%, white 100%);
+    -rad-grad-1: radial-gradient(center 50% -40%, radius 200%, -tab-button-2 45%, -tab-button-3 50%);
+    -lin-grad-btn-func-1: linear-gradient(from 0% 0% to 100% 100%, -tab-button-1 40%, white 90%);
+    -rad-grad-btn-func-1: radial-gradient(center 80% -70%, radius 200%, -tab-button-2 35%, -tab-button-3 40%);
+
+    -acc-lin-grad-1: linear-gradient(from 20% -20% to 15% 120% , #D6D6D6, #F1F1F1 100% );
+
+    -style-tab-border-color-1: #4169E1; /*royalblue*/
+    -style-tab-border-color-2: #3a5fcc;
+    -text-color-blue: #002fbe;
     -style-border-color-lbl: royalblue;
-    -style-border-color-tab: cornflowerblue;
-
-    -fx-color-tab: #b7d4b0;
 }
 
 
-
-/*** Top-level menu itself (not selected / hovered) ***/
-.menu-bar > .container > .menu-button {
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-/* MENU ITEM (children of a MENU BUTTON) */
-/*** The item itself (not hovered / focused) ***/
-.menu-item {
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-/* CONTEXT MENU */
-/*** The context menu that contains a menu's menu items ***/
-.context-menu {
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-
+/* ========================================================================== */
+/* clubOrga */
+/* ========================================================================== */
 .filterTabStyle{
     -fx-font-weight: bold;
 }
 
-.tab .tab-label {
+/* Rahmen für Dialoge */
+.dialog-title {
+    -fx-background-insets: 10;
+    -fx-border-color: lightgray;
+    -fx-border-insets: 0;
+    -fx-border-width: 2;
+    -fx-padding: 10 5px;
     -fx-text-alignment: center;
     -fx-alignment: center ;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.3em;
 }
-.tab-pane {
-    -fx-border-width: 1;
-    -fx-border-color: -style-border-color-tab;
- }
-.tab-pane > .tab-header-area > .headers-region > .tab {
-    -fx-padding: 0 10 0 10;
-    -fx-border-width: 1, 2;
-    -fx-border-radius: 12 12 0 0, 10 10 0 0;
-    -fx-border-insets: 0, 4;
-    -fx-border-color: -style-border-color-1, transparent;
-    -fx-background-radius: 12 12 0 0, 10 10 0 0;
-    -fx-background-insets: 0;
-    -fx-background-color:
-             linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 50%, white 100%),
-             radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
-    -fx-text-fill: black;
- }
-.tab-pane > .tab-header-area > .headers-region > .tab:selected {
-    -fx-border-width: 2, 1, 2;
-    -fx-border-color: -style-border-color-1, transparent, transparent;
- }
-.tab-pane > .tab-header-area > .headers-region > .tab:hover {
-    -fx-border-width: 2, 1, 2;
-    -fx-border-color: -style-border-color-2, -style-border-color-1, transparent;
- }
-.tab-pane > .tab-header-area > .headers-region > .tab:pressed {
-    -fx-border-width: 1, 2, 2;
-    -fx-border-color: -style-border-color-1, -style-border-color-2, transparent;
- }
-
-.tab:selected .tab-label {
-     -fx-text-fill: -style-text-color-1;
+.dialog-border {
+    -fx-background-insets: 10, 40;
+    -fx-border-color: lightgray transparent lightgray transparent, steelblue;
+    -fx-border-insets: 0, 15;
+    -fx-border-width: 20 5, 10 3;
+    -fx-padding: 20px;
 }
-.tab-pane > .tab-header-area > .headers-region > .tab:selected  .focus-indicator {
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
-}
-
-.text-field{
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-.combo-box-base{
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-.button{
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-
-/* Rahmen */
-.dialog-border {-fx-border-color: lightgray transparent lightgray transparent, steelblue;
-               -fx-border-insets: 0, 8;
-               -fx-border-width: 20 20, 4 2;
-               -fx-padding: 15px;
-               }
-
-
-/* damit leere Tabellenzeilen nicht angezeigt werden */
-.table-row-cell:empty {
-    -fx-background-color: white;
-}
-
-.table-row-cell:empty .table-cell {
-    -fx-border-width: 0px;
-}
-
-
-
 .txtIsEmpty {
     -fx-text-fill: red;
     -fx-control-inner-background: antiquewhite;
 }
 
-.btnTab{
-    -fx-font-weight: bold;
-    -fx-text-alignment: center;
-    -fx-alignment: center ;
-    -fx-background-color: #c3c4c4,
-        linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 50%, white 100%),
-        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
-    -fx-background-radius: 30;
-    -fx-background-insets: 0,1,1;
-    -fx-text-fill: black;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-    -fx-padding: 10 20 10 20;
-    -fx-border: 10;
- }
-
-.btnTab:disabled {
-    -fx-opacity: 0.6;
-}
-
-.btnTab:hover{
-    -fx-font-weight: bold;
-    -fx-alignment: center ;
-    -fx-background-color: #5d5e8c,
-        linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 50%, white 100%),
-        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
-    -fx-background-radius: 30;
-    -fx-background-insets: 0,1,1;
-    -fx-text-fill: black;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-    -fx-padding: 10 20 10 20;
-    -fx-border: 10;
-}
-
-.btnTab:pressed{
-    -fx-font-weight: bold;
-    -fx-alignment: center ;
-    -fx-background-color: blue,
-        linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 50%, white 100%),
-        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
-    -fx-background-radius: 30;
-    -fx-background-insets: 0,1,1;
-    -fx-text-fill: black;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-    -fx-padding: 10 20 10 20;
-    -fx-border: 10;
-}
-
-.btnTab-sel{
-    -fx-font-weight: bold;
-    -fx-text-alignment: center;
-    -fx-alignment: center ;
-    -fx-background-color: blue,
-         linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 50%, white 100%),
-         radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
-    -fx-background-radius: 30;
-    -fx-background-insets: 0,1,1;
-    -fx-text-fill: -style-text-color-1;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-    -fx-padding: 10 20 10 20;
-    -fx-border: 10;
-}
-
-/*Menübutton*/
+/* Menü-Button */
 .btnFunction{
-    -fx-background-color: #c3c4c4,
-        linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 50%, white 100%),
-        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-color: #c3c4c4, -lin-grad-1, -rad-grad-1;
     -fx-background-radius: 30;
     -fx-background-insets: 0,1,1;
     -fx-text-fill: black;
@@ -196,71 +60,38 @@
     -fx-padding: 5;
     -fx-border: 5;
 }
+.btnFunction > .arrow-button {
+    /*Pfeil ausblenden*/
+    -fx-padding: 0;
+}
+.btnFunction > .arrow-button > .arrow {
+    /*Pfeil ausblenden*/
+    -fx-padding: 0;
+}
+.btnFunction:focused{
+    -fx-background-color: #4898de, -lin-grad-1, -rad-grad-1;
+    -fx-background-insets: -0.4,1,1;
+}
+.btnFunction:hover{
+    -fx-background-color: #005ab0, -lin-grad-btn-func-1, -rad-grad-btn-func-1;
+    -fx-background-insets: -0.8,1,1;
+}
+.btnFunction:focused:hover{
+    -fx-background-color: #005ab0, -lin-grad-btn-func-1, -rad-grad-btn-func-1;
+    -fx-background-insets: -1.2,1,1;
+}
+
 
 /* Filterpanel unter der Tabelle */
-.filter-panel{
-    -fx-background-color: #c3c4c4,
-        linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 50%, white 100%),
-        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
-    -fx-border-width: 1;
-    -fx-border-color: #c3c4c4;
-}
-
-/*Pfeil ausblenden*/
-.btnFunction > .arrow-button {
-    -fx-padding: 0;
-}
-
-.btnFunction > .arrow-button > .arrow {
-    -fx-padding: 0;
-}
-
-.btnFunction:hover{
-    -fx-background-color: #f3f4f4,
-         linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 50%, white 100%),
-         radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
-}
-
-.btnFunction:pressed{
-     -fx-background-color: #5d5e8c,
-         linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 40%, white 90%),
-         radial-gradient(center 80% -70%, radius 200%, #e6e6e6 35%, rgba(230,230,230,0) 40%);
-}
-
-
-.btnCreate{
-     -fx-font-weight: bold;
-     -fx-text-alignment: center;
-     -fx-alignment: center ;
-     -fx-background-radius: 30;
-     -fx-background-insets: 0,1,1;
-     -fx-text-fill: black;
-     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-     -fx-padding: 10 20 10 20;
-     -fx-border: 10;
-}
-
-
-.btnCreate:hover{
-     -fx-font-weight: bold;
-     -fx-alignment: center ;
-     -fx-background-radius: 30;
-     -fx-background-insets: 0,1,1;
-     -fx-text-fill: black;
-     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-     -fx-padding: 10 20 10 20;
-     -fx-border: 10;
-}
-
-.btnCreate:pressed{
-     -fx-font-weight: bold;
-     -fx-alignment: center ;
-     -fx-background-radius: 30;
-     -fx-background-insets: 0,1,1;
-     -fx-text-fill: black;
-     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-     -fx-padding: 10 20 10 20;
-     -fx-border: 10;
+.filter-panel {
+    -fx-border-width: 1, 2;
+    -fx-border-insets: 0, 3;
+    -fx-border-color: -style-tab-border-color-1, transparent;
+    -fx-background-color:
+             transparent,
+             -lin-grad-1,
+             -rad-grad-1;
+    -fx-text-fill: black;
 }
 
 .headerLabel {
@@ -273,47 +104,31 @@
     -fx-background-insets: 0;
 }
 
-.pane-border {
-    -fx-border-width: 1;
-    -fx-border-color: -style-border-color-tab;
-}
-
 /* accordion */
 .vbox-accordion {
-    -fx-background-color:
-       linear-gradient(from 100% 50% to 0% 50% , repeat, #dcdcdc 21% , #f5f5f5 91% );
-    -fx-background-insets: 0;
     -fx-padding: 5 5 5 15;
-
 }
 .button-accordion {
-    -fx-background-color: #b2bde1,
-        linear-gradient(from 0% 83% to 0% -37% , repeat, #c0c0c0, #f5f5f5 61% );
-    -fx-background-insets: 0,1;
+    -fx-background-color: #b6b6b6, linear-gradient(from 15% 53% to 15% 120% , #C2C2C2, #F1F1F1 100% );
     -fx-background-radius: 5;
+    -fx-background-insets: 0,1;
     -fx-padding: 3 30 3 30;
+    -fx-border: 5;
     -fx-text-fill: black;
     -fx-font-size: 14px;
 }
 .button-accordion:hover {
-    -fx-background-color: #b2bde1,
-        linear-gradient(from 0% 83% to 0% -37% , repeat, #a0a0a0, #d5d5d5 61% );
-    -fx-background-insets: 0,1;
-    -fx-background-radius: 5;
-    -fx-padding: 3 30 3 30;
-    -fx-text-fill: black;
-    -fx-font-size: 14px;
+    -fx-background-color: #b2bde1, linear-gradient(from 0% 83% to 0% -37% , repeat, #a0a0a0, #d5d5d5 61% );
+}
+.button-accordion:hover:focused {
+    -fx-background-color: #a1a1a1, linear-gradient(from 0% 83% to 0% -37% , repeat, #a0a0a0, #d5d5d5 61% );
+}
+.button-accordion:focused {
+    -fx-background-color: #b2bde1, linear-gradient(from 0% 83% to 0% -37% , repeat, #808080, #b5b5b5 61% );
 }
 .button-accordion:pressed {
-    -fx-background-color: #b2bde1,
-        linear-gradient(from 0% 83% to 0% -37% , repeat, #808080, #b5b5b5 61% );
-    -fx-background-insets: 0,1;
-    -fx-background-radius: 5;
-    -fx-padding: 3 30 3 30;
-    -fx-text-fill: black;
-    -fx-font-size: 14px;
+    -fx-background-color: #b2bde1, linear-gradient(from 0% 83% to 0% -37% , repeat, #808080, #b5b5b5 61% );
 }
-
 
 .label-tile-title {
     -fx-border-width: 1;
@@ -343,10 +158,6 @@
     -fx-font-size: 1.166667em;
 }
 
-.background-transparent {
-    -fx-background-color: transparent;
-}
-
 .statusbar {
     -fx-background-color:
         linear-gradient(to bottom,
@@ -359,59 +170,6 @@
     -fx-padding: 0.1em 0.2em 0.1em 0.2em; /* 4 9 4 9 */
 }
 
-/*
-.tree-table-row-cell {
-    -fx-background-color: -fx-table-cell-border-color, -fx-control-inner-background;
-    -fx-background-insets: 0, 0 0 1 0;
-}
-
-.tree-table-row-cell:odd {
-    -fx-background-color: -fx-table-cell-border-color, #F9F9F9;
-    -fx-background-insets: 0, 0 0 1 0;
-}
-
-.tree-table-row-cell:selected,
-.tree-table-row-cell:selected:odd {
-    -fx-background-color: -fx-focus-color, -fx-cell-focus-inner-border, -fx-focus-color;
-    -fx-background-insets: 0, 1, 2;
-}
-
-.tree-table-row-cell:selected .tree-table-cell {
-    -fx-text-fill: white;
-}
-
-.tree-table-row-cell:empty {
-    -fx-background-color: transparent;
-}
-
-.tree-table-row-cell:empty .tree-table-cell {
-    -fx-border-width: 0px;
-}
-*/
-
-/* Zeilenrahmen anzeigen */
-.tree-table-row-cell {
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: -fx-table-cell-border-color;
-}
-
-/* damit leere Tabellenzeilen nicht angezeigt werden */
-.tree-table-row-cell:empty {
-    -fx-border-width: 0;
-    -fx-background-color: transparent;
-}
-.tree-table-row-cell:empty .tree-table-cell {
-    -fx-border-width: 0px;
-}
-
-.labelHeader{
-    -fx-background-color: #d7e9ff ;
-    -fx-background-radius: 5;
-    -fx-padding: 5 10;
-    -fx-border: 1;
-    -fx-border-radius: 5;
-    -fx-border-color: -style-border-color-1;
-}
 .goupStyle1{
     -fx-control-inner-background: #d7e9ff ;
 }
@@ -440,17 +198,10 @@
     -fx-text-fill: blue;
 }
 
-.alignCenter {
-  -fx-alignment: center;
-}
-.alignCenterRight {
-  -fx-alignment: center-right;
-}
-.alignCenterLeft {
-  -fx-alignment: center-left;
-}
 
-/* table finance report*/
+
+/* ==================== */
+/* table finance report */
 .table-cell.moneyColumn {
     -fx-alignment: center-right;
 }
@@ -462,7 +213,6 @@
     -fx-alignment: center-right;
     -fx-text-fill: red;
 }
-
 .table-view .column-header.accColumn {
     -fx-base: #b7d4b0;
     -fx-alignment: center-right;
@@ -471,15 +221,11 @@
     -fx-base: #d8a4a2;
     -fx-alignment: center-right;
 }
-
-
 .noheader .column-header-background {
     -fx-max-height: 0;
     -fx-pref-height: 0;
     -fx-min-height: 0;
 }
-
-
 /* Hide the horizontal scrollbar of the summary table
  * derived from http://blog.ngopal.com.np/2012/09/25/how-to-bind-vertical-scroll-in-multi-tableview/
 */
@@ -490,20 +236,17 @@
 	-fx-background-radius: 0em;
 	-fx-border-radius: 2em;
 }
-
 .sumtable .scroll-bar:horizontal .increment-button ,
 .sumtable .scroll-bar:horizontal .decrement-button {
     -fx-background-color: transparent;
 	-fx-background-radius: 0em;
 	-fx-padding: 0 0 0 0;
 }
-
 .sumtable  .scroll-bar:horizontal .increment-arrow,
 .sumtable  .scroll-bar:horizontal .decrement-arrow {
 	-fx-shape: " ";
 	-fx-padding:0;
 }
-
 .sumtable .scroll-bar:horizontal .thumb {
     -fx-background-color: transparent;
 	-fx-background-insets: 0, 0, 0;
@@ -511,5 +254,111 @@
     -fx-padding: 0px;
 }
 
+
+
+/* ========================================================================== */
+/* sind javafx gui Elemente */
+/* ========================================================================== */
+.menu-bar > .container > .menu-button {
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.menu-item {
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.context-menu {
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.text-field{
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.combo-box-base{
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.button{
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+/* damit leere Tabellenzeilen nicht angezeigt werden */
+.table-row-cell:empty {
+    -fx-background-color: white;
+}
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+/* Zeilenrahmen anzeigen */
+.tree-table-row-cell {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: -fx-table-cell-border-color;
+}
+/* damit leere Tabellenzeilen nicht angezeigt werden */
+.tree-table-row-cell:empty {
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+.tree-table-row-cell:empty .tree-table-cell {
+    -fx-border-width: 0px;
+}
+.alignCenter {
+  -fx-alignment: center;
+}
+.alignCenterRight {
+  -fx-alignment: center-right;
+}
+.alignCenterLeft {
+  -fx-alignment: center-left;
+}
+
+/* tabs of the tabpane*/
+.tab .tab-label {
+    -fx-text-alignment: center;
+    -fx-alignment: center ;
+}
+.tab-pane {
+    -fx-border-width: 1;
+    -fx-border-color: -text-color-blue;
+ }
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-padding: 0 10 0 10;
+
+    -fx-border-width: 1, 2;
+    -fx-border-radius: 8 8 0 0, 6 6 0 0;
+    -fx-border-insets: 0 3 0 0, 3 6 3 3;
+    -fx-border-color: -style-tab-border-color-1, transparent;
+
+    -fx-background-radius: 0, 10 10 0 0, 6 6 0 0;
+    -fx-background-insets: 0, 0 3 0 0, 2 5 2 2;
+    -fx-background-color:
+             transparent,
+             -lin-grad-1,
+             -rad-grad-1;
+    -fx-text-fill: black;
+ }
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-border-width: 3, 2;
+    -fx-border-color: -style-tab-border-color-1, transparent;
+ }
+.tab-pane > .tab-header-area > .headers-region > .tab:hover {
+    -fx-border-width: 2, 1, 2;/* 3 Rahmen, damit die "Gesamtbreite" gleich bleibt */
+    -fx-border-color: -style-tab-border-color-1, -style-tab-border-color-2, transparent;
+ }
+.tab-pane > .tab-header-area > .headers-region > .tab:pressed {
+    -fx-border-width: 1, 2;
+    -fx-border-color: -style-tab-border-color-1, -style-tab-border-color-2;
+ }
+
+.tab .tab-label {
+     -fx-text-fill: black;
+}
+.tab:selected .tab-label {
+     -fx-text-fill: -text-color-blue;
+}
+.tab-pane > .tab-header-area > .headers-region > .tab:selected  .focus-indicator {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 

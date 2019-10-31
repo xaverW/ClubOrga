@@ -21,6 +21,7 @@ import de.p2tools.clubOrga.Club;
 import de.p2tools.clubOrga.ClubGuiController;
 import de.p2tools.clubOrga.ClubSelector;
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
@@ -154,15 +155,16 @@ public class ClubStartFactory {
     private static void showClubGui(ClubConfig clubConfig) {
         try {
             if (clubConfig.clubGuiController == null) {
+
                 clubConfig.clubGuiController = new ClubGuiController();
                 clubConfig.clubGuiController.init(clubConfig);
 
-                Scene clubScene = new Scene(clubConfig.clubGuiController,
+                Scene scene = new Scene(clubConfig.clubGuiController,
                         PGuiSize.getWidth(clubConfig.GUI_CLUB_PANEL),
                         PGuiSize.getHeight(clubConfig.GUI_CLUB_PANEL));
+                addCss(scene);
 
-                addCss(clubScene);
-                clubConfig.getStage().setScene(clubScene);
+                clubConfig.getStage().setScene(scene);
                 clubConfig.getStage().getIcons().add(GetIcon.getImage(ProgConst.P2_ICON_32, ProgConst.P2_ICON_PATH, 32, 32));
                 clubConfig.getStage().setOnCloseRequest(e -> {
                     e.consume();
@@ -228,11 +230,25 @@ public class ClubStartFactory {
         return true;
     }
 
-    static void addCss(Scene scene) {
+    private static void addCss(Scene scene) {
         String css = Club.class.getResource(ProgConst.CSS_FILE).toExternalForm();
         scene.getStylesheets().add(css);
-
         PInit.addP2LibCss(scene);
+
+        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> setTheme(scene));
+        setTheme(scene);
+    }
+
+    private static void setTheme(Scene scene) {
+        if (ProgConfig.SYSTEM_DARK_THEME.get()) {
+            String css = Club.class.getResource(ProgConst.CSS_FILE_DARK_THEME).toExternalForm();
+            scene.getStylesheets().add(css);
+            PInit.addCssFile(css);
+        } else {
+            String css = Club.class.getResource(ProgConst.CSS_FILE_DARK_THEME).toExternalForm();
+            scene.getStylesheets().removeAll(css);
+            PInit.removeCssFile(css);
+        }
     }
 
     private static boolean initFirstClubStart(ClubConfig clubConfig) {
