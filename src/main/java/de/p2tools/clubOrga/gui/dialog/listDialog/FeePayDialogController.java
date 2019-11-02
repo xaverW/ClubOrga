@@ -24,7 +24,7 @@ import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialog.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.*;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
@@ -73,7 +73,7 @@ public class FeePayDialogController extends abListDialogController {
         helpHeader = "Beitrag bezahlen";
         helpText = "In dem Dialog können Beiträge bezahlt werden. Die vorgenommenen " +
                 "Einstellungen gelten für alle Beiträge in der Liste. Aus der Liste können " +
-                "Beiträge auch gelöscht werden wenn sie nicht \"bezahlt\" werden sollen. " + PConst.LINE_SEPARATORx2 +
+                "Beiträge auch gelöscht werden wenn sie nicht \"bezahlt\" werden sollen. " + P2LibConst.LINE_SEPARATORx2 +
 
                 "Wenn \"Eintrag in den Finanzen anlegen\" aktiv ist, werden sie auch dort zusätzlich " +
                 "eingetragen. Sind Beiträge mit der Zahlart: \"Bankeinzug\" dabei, kann für diese auch " +
@@ -141,7 +141,7 @@ public class FeePayDialogController extends abListDialogController {
 
         Button btnHelp = PButton.helpButton(getStage(), "Transaktionen",
                 "Ist diese Option aktiv, werden alle Beiträge als Transaktionen in einem Finanzeintrag " +
-                        "erstellt." + PConst.LINE_SEPARATORx2 +
+                        "erstellt." + P2LibConst.LINE_SEPARATORx2 +
                         "Andernfalls wird für jeden Beitrag ein Finanzeintrag mit einer Transaktion erstellt.");
 
         Label lblOrdner = new Label("Ordner:");

@@ -17,7 +17,7 @@
 package de.p2tools.clubOrga.config.prog;
 
 import de.p2tools.clubOrga.Main;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.SettingsDirectory;
 import de.p2tools.p2Lib.tools.PException;
@@ -161,11 +161,11 @@ public class ProgInfos {
             } catch (final IOException ioException) {
                 PLog.errorLog(987102036, ioException, "Ordner anlegen: " + path);
                 PAlert.showErrorAlert("Ordner anlegen", " Der Ordner " + path +
-                        " konnte nicht angelegt werden." + PConst.LINE_SEPARATOR +
+                        " konnte nicht angelegt werden." + P2LibConst.LINE_SEPARATOR +
                         "Bitte prüfen Sie die Dateirechte.");
 
                 PException.throwPException("Der Ordner " + path + " " +
-                        "konnte nicht angelegt werden." + PConst.LINE_SEPARATOR +
+                        "konnte nicht angelegt werden." + P2LibConst.LINE_SEPARATOR +
                         "Bitte prüfen Sie die Dateirechte.", ioException);
             }
         }

@@ -23,7 +23,7 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.clubOrga.icon.GetIcon;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.guiTools.POpen;
@@ -99,7 +99,7 @@ public class AboutDialogController extends PDialogExtra {
         text.setFont(Font.font(null, FontWeight.BOLD, 40));
         gridPane.add(text, 0, row, 2, 1);
 
-        text = new Text(PConst.LINE_SEPARATOR + "Version: " + ProgramTools.getProgVersion());
+        text = new Text(P2LibConst.LINE_SEPARATOR + "Version: " + ProgramTools.getProgVersion());
         text.setFont(new Font(18));
         gridPane.add(text, 0, ++row, 2, 1);
 
@@ -108,7 +108,7 @@ public class AboutDialogController extends PDialogExtra {
         text.setFill(GRAY);
         gridPane.add(text, 0, ++row, 2, 1);
 
-        text = new Text(PConst.LINE_SEPARATORx2 + "Autor");
+        text = new Text(P2LibConst.LINE_SEPARATORx2 + "Autor");
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, 0, ++row, 2, 1);
 
@@ -118,7 +118,7 @@ public class AboutDialogController extends PDialogExtra {
 
 
         // Pfade
-        text = new Text(PConst.LINE_SEPARATORx2 + "Programm Informationen");
+        text = new Text(P2LibConst.LINE_SEPARATORx2 + "Programm Informationen");
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, 0, ++row, 2, 1);
 
@@ -164,7 +164,7 @@ public class AboutDialogController extends PDialogExtra {
 
 
         // Java
-        text = new Text(PConst.LINE_SEPARATORx2 + "Java Informationen");
+        text = new Text(P2LibConst.LINE_SEPARATORx2 + "Java Informationen");
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, 0, ++row, 2, 1);
 
@@ -190,7 +190,7 @@ public class AboutDialogController extends PDialogExtra {
         text.setFill(GRAY);
         gridPane.add(text, 1, row);
 
-        text = new Text(PConst.LINE_SEPARATORx2 + "Ein Dankeschön an alle," + PConst.LINE_SEPARATOR + "die zu dieser Software beigetragen haben.");
+        text = new Text(P2LibConst.LINE_SEPARATORx2 + "Ein Dankeschön an alle," + P2LibConst.LINE_SEPARATOR + "die zu dieser Software beigetragen haben.");
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, 0, ++row, 2, 1);
 

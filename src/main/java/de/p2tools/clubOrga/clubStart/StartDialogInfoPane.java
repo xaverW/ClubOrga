@@ -17,7 +17,7 @@
 package de.p2tools.clubOrga.clubStart;
 
 import de.p2tools.clubOrga.config.prog.ProgConst;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
@@ -45,22 +45,22 @@ public class StartDialogInfoPane {
         iv.setImage(im);
 
         hBox.getChildren().addAll(iv);
-        Label text = new Label("1) Die unterschiedlichen Ansichten können" + PConst.LINE_SEPARATOR +
-                "hier ausgewählt werden: Mitglieder," + PConst.LINE_SEPARATOR +
+        Label text = new Label("1) Die unterschiedlichen Ansichten können" + P2LibConst.LINE_SEPARATOR +
+                "hier ausgewählt werden: Mitglieder," + P2LibConst.LINE_SEPARATOR +
                 "Beiträge und Finanzen" +
-                PConst.LINE_SEPARATORx2 +
-                "2) Die Daten sind dann hier gelistet" + PConst.LINE_SEPARATOR +
+                P2LibConst.LINE_SEPARATORx2 +
+                "2) Die Daten sind dann hier gelistet" + P2LibConst.LINE_SEPARATOR +
                 "(aktuell sind es die Mitgliederdaten)." +
-                PConst.LINE_SEPARATORx2 +
-                "3) Unter der Tabelle können die angezeigten" + PConst.LINE_SEPARATOR +
+                P2LibConst.LINE_SEPARATORx2 +
+                "3) Unter der Tabelle können die angezeigten" + P2LibConst.LINE_SEPARATOR +
                 "Daten gefiltert oder verändert werden." +
-                PConst.LINE_SEPARATORx2 +
-                "4) Damit können Zeilen in der Tabelle markiert" + PConst.LINE_SEPARATOR +
-                "gefiltert, und der Filter auch wieder" + PConst.LINE_SEPARATOR +
+                P2LibConst.LINE_SEPARATORx2 +
+                "4) Damit können Zeilen in der Tabelle markiert" + P2LibConst.LINE_SEPARATOR +
+                "gefiltert, und der Filter auch wieder" + P2LibConst.LINE_SEPARATOR +
                 "gelöscht werden." +
-                PConst.LINE_SEPARATORx2 +
-                "5) Rechts neben der Tabelle kann die" + PConst.LINE_SEPARATOR +
-                "ausgewählte Tabellenzeile bearbeitet oder" + PConst.LINE_SEPARATOR +
+                P2LibConst.LINE_SEPARATORx2 +
+                "5) Rechts neben der Tabelle kann die" + P2LibConst.LINE_SEPARATOR +
+                "ausgewählte Tabellenzeile bearbeitet oder" + P2LibConst.LINE_SEPARATOR +
                 "auch neue Einträge angelegt werden."
         );
         text.setPadding(new Insets(20));
@@ -85,12 +85,12 @@ public class StartDialogInfoPane {
         hBox.getChildren().addAll(iv);
 
         Label text = new Label("1) In der Tabelle sind die Finanzen gelistet." +
-                PConst.LINE_SEPARATORx2 +
-                "2) Hier kann die Ansicht \"Filter\"," + PConst.LINE_SEPARATOR +
-                "\"Infos zum markierten Finanzeintrag\" und" + PConst.LINE_SEPARATOR +
+                P2LibConst.LINE_SEPARATORx2 +
+                "2) Hier kann die Ansicht \"Filter\"," + P2LibConst.LINE_SEPARATOR +
+                "\"Infos zum markierten Finanzeintrag\" und" + P2LibConst.LINE_SEPARATOR +
                 "\"Infos zu allen Finanzen\" umgeschaltet werden" +
-                PConst.LINE_SEPARATORx2 +
-                "3) Die Teilbuchungen zu dem in der Tabelle" + PConst.LINE_SEPARATOR +
+                P2LibConst.LINE_SEPARATORx2 +
+                "3) Die Teilbuchungen zu dem in der Tabelle" + P2LibConst.LINE_SEPARATOR +
                 "markierten Eintrag werden hier gelistet."
         );
         text.setPadding(new Insets(20));

@@ -24,7 +24,7 @@ import de.p2tools.clubOrga.controller.ClubFactory;
 import de.p2tools.clubOrga.controller.newsletter.Newsletter;
 import de.p2tools.clubOrga.controller.newsletter.NewsletterFactory;
 import de.p2tools.clubOrga.data.feeData.FeeData;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialog.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.guiTools.PDatePicker;
@@ -92,7 +92,7 @@ public class AddMissingFeeDialogController extends abListDialogController {
         helpHeader = "Beitrag anlegen";
         helpText = "In diesem Dialog werden alle Mitglieder aufgeführt, für die noch nicht alle Beiträge " +
                 "angelegt wurden. Aus der Liste können auch Mitglieder gelöscht werden, für die keine Beitrag " +
-                "angelegt werden soll." + PConst.LINE_SEPARATORx2 +
+                "angelegt werden soll." + P2LibConst.LINE_SEPARATORx2 +
                 "Zusätzlich kann auch noch eine Rechnung für jeden Beitrag erstellt werden. Dafür kann dann " +
                 "noch das Rechnungsdatum und die Vorlage und desweiteren der Speicherort ausgewählt werden.";
         proposeFileName = "Rechnung";

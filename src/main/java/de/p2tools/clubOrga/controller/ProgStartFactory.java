@@ -22,8 +22,8 @@ import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
-import de.p2tools.p2Lib.PConst;
-import de.p2tools.p2Lib.PInit;
+import de.p2tools.p2Lib.P2LibConst;
+import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
@@ -36,16 +36,16 @@ import java.util.ArrayList;
 
 public class ProgStartFactory {
 
-    private static final String backupHeader = "Die Einstellungen des Programms sind beschädigt" + PConst.LINE_SEPARATOR +
+    private static final String backupHeader = "Die Einstellungen des Programms sind beschädigt" + P2LibConst.LINE_SEPARATOR +
             "und können nicht geladen werden.";
-    private static final String backupText = "Soll versucht werden, mit gesicherten Einstellungen" + PConst.LINE_SEPARATOR
-            + "des Programms zu starten?" + PConst.LINE_SEPARATORx2
+    private static final String backupText = "Soll versucht werden, mit gesicherten Einstellungen" + P2LibConst.LINE_SEPARATOR
+            + "des Programms zu starten?" + P2LibConst.LINE_SEPARATORx2
             + "(ansonsten startet das Programm mit Standardeinstellungen)";
 
-    private static final String backupHeaderClub = "Die Einstellungen des Vereins sind beschädigt" + PConst.LINE_SEPARATOR +
+    private static final String backupHeaderClub = "Die Einstellungen des Vereins sind beschädigt" + P2LibConst.LINE_SEPARATOR +
             "und können nicht geladen werden.";
-    private static final String backupTextClub = "Soll versucht werden, mit gesicherten" + PConst.LINE_SEPARATOR
-            + "Einstellungen des Vereins zu starten?" + PConst.LINE_SEPARATORx2;
+    private static final String backupTextClub = "Soll versucht werden, mit gesicherten" + P2LibConst.LINE_SEPARATOR
+            + "Einstellungen des Vereins zu starten?" + P2LibConst.LINE_SEPARATORx2;
 
     private ProgStartFactory() {
     }
@@ -96,7 +96,7 @@ public class ProgStartFactory {
     }
 
     private static void initP2Lib() {
-        PInit.initLib(null, ProgConst.PROGRAMMNAME,
+        P2LibInit.initLib(null, ProgConst.PROGRAMMNAME,
                 ProgConst.CSS_FILE, ProgInfos.getUserAgent(),
                 ProgData.debug, ProgData.duration);
 //        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
@@ -117,7 +117,7 @@ public class ProgStartFactory {
         if (!ret) {
             PLog.sysLog("-> konnte nicht geladen werden");
             PAlert.showErrorAlert("Die Einstellungen sind beschädigt",
-                    "Die Einstellungen des Vereins sind beschädigt" + PConst.LINE_SEPARATOR +
+                    "Die Einstellungen des Vereins sind beschädigt" + P2LibConst.LINE_SEPARATOR +
                             "und können nicht geladen werden.");
         }
         return ret;

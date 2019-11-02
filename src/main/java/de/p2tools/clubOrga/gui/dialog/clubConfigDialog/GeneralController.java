@@ -22,7 +22,7 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.gui.tools.HelpText;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
@@ -126,7 +126,7 @@ public class GeneralController extends AnchorPane {
         btnHelp.setGraphic(new ProgIcons().ICON_BUTTON_HELP);
         btnHelp.setOnAction(a -> PAlert.showHelpAlert(stage, "Programmupdate suchen",
                 "Beim Programmstart wird geprüft, ob es eine neue Version des Programms gibt. " +
-                        "Ist eine aktualisierte Version vorhanden, dann wird es gemeldet." + PConst.LINE_SEPARATOR +
+                        "Ist eine aktualisierte Version vorhanden, dann wird es gemeldet." + P2LibConst.LINE_SEPARATOR +
                         "Das Programm wird aber nicht ungefragt ersetzt."));
         GridPane.setHalignment(btnHelp, HPos.RIGHT);
         gridPane.add(btnHelp, 1, 0);

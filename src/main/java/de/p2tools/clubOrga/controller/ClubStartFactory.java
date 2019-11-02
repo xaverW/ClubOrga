@@ -29,7 +29,7 @@ import de.p2tools.clubOrga.controller.newsletter.NewsletterFactory;
 import de.p2tools.clubOrga.data.demoData.DemoData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.icon.GetIcon;
-import de.p2tools.p2Lib.PInit;
+import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.duration.PDuration;
@@ -233,7 +233,7 @@ public class ClubStartFactory {
     private static void addCss(Scene scene) {
         String css = Club.class.getResource(ProgConst.CSS_FILE).toExternalForm();
         scene.getStylesheets().add(css);
-        PInit.addP2LibCss(scene);
+        P2LibInit.addP2LibCssToScene(scene);
 
         ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> setTheme(scene));
         setTheme(scene);
@@ -243,11 +243,11 @@ public class ClubStartFactory {
         if (ProgConfig.SYSTEM_DARK_THEME.get()) {
             String css = Club.class.getResource(ProgConst.CSS_FILE_DARK_THEME).toExternalForm();
             scene.getStylesheets().add(css);
-            PInit.addCssFile(css);
+            P2LibInit.addCssFile(css);
         } else {
             String css = Club.class.getResource(ProgConst.CSS_FILE_DARK_THEME).toExternalForm();
             scene.getStylesheets().removeAll(css);
-            PInit.removeCssFile(css);
+            P2LibInit.removeCssFile(css);
         }
     }
 

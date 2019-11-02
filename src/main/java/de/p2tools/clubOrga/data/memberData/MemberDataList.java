@@ -17,7 +17,7 @@
 package de.p2tools.clubOrga.data.memberData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.alert.PAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,8 +56,8 @@ public class MemberDataList extends MemberDataListWorker {
 
             if (PAlert.BUTTON.YES == PAlert.showAlert_yes_no(clubConfig.getStage(), "Löschen",
                     "1 Mitglieder löschen?",
-                    "Soll das Mitglied:" + PConst.LINE_SEPARATORx2 +
-                            "    " + memberData.getVorname() + " " + memberData.getNachname() + PConst.LINE_SEPARATORx2 +
+                    "Soll das Mitglied:" + P2LibConst.LINE_SEPARATORx2 +
+                            "    " + memberData.getVorname() + " " + memberData.getNachname() + P2LibConst.LINE_SEPARATORx2 +
                             "gelöscht werden?")) {
 
                 return removeAll(list);
