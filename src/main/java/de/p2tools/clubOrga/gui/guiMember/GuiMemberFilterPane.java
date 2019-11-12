@@ -106,9 +106,9 @@ public class GuiMemberFilterPane extends FilterPane {
         tglFee.setLabelRight(lblFee, "alle angelegt", "fehlen", "");
         tglFeePayed.setLabelRight(lblFeePayed, "sind bezahlt", "nicht bezahlt", "");
 
-        tglFee.selectedProperty().bindBidirectional(clubConfig.MEMBER_FILTER_FEE);
+        tglFee.selectedProperty().bindBidirectional(clubConfig.MEMBER_FILTER_FEE_CREATED);
         tglFee.selectedProperty().addListener((observable, oldValue, newValue) -> announceFilterChange());
-        tglFee.indeterminateProperty().bindBidirectional(clubConfig.MEMBER_FILTER_FEE_OFF);
+        tglFee.indeterminateProperty().bindBidirectional(clubConfig.MEMBER_FILTER_FEE_CREATED_OFF);
         tglFee.indeterminateProperty().addListener((observable, oldValue, newValue) -> announceFilterChange());
 
         tglFeePayed.selectedProperty().bindBidirectional(clubConfig.MEMBER_FILTER_FEE_PAYED);

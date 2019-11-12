@@ -24,6 +24,7 @@ import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
+import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialog.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.*;
@@ -99,6 +100,8 @@ public class FeePayDialogController extends abListDialogController {
 
         cboAccount.disableProperty().bind(tglFinances.selectedProperty().not());
         cboAccount.init(clubConfig.financeAccountDataList, clubConfig.PAY_FEE_ACCOUNT_ID);
+        setFinanceAccount();
+
         cboAccount.setMaxWidth(Double.MAX_VALUE);
         cboAccount.getSelectionModel().selectedItemProperty().addListener((u, o, n) -> {
             checkFinanceAccountData(n);
@@ -196,13 +199,22 @@ public class FeePayDialogController extends abListDialogController {
 
     }
 
-    private boolean checkBankeinzugInFeeList() {
-        FeeData fd = feeDataList.stream().filter(f -> f.isBankeinzug()).findAny().orElse(null);
-        if (fd == null) {
-            tglSepa.setDisable(true);
-            tglSepa.setSelected(false);
+    private void setFinanceAccount() {
+        if (feeDataList.isEmpty()) {
+            return;
         }
 
+        long id = feeDataList.get(0).getZahlart();
+        PaymentTypeData pa = clubConfig.paymentTypeDataList.stream()
+                .filter(paymentTypeData -> paymentTypeData.getId() == id)
+                .findFirst().orElse(null);
+        if (pa != null) {
+            cboAccount.getSelectionModel().select(pa.getFinanceAccountData());
+        }
+    }
+
+    private boolean checkBankeinzugInFeeList() {
+        FeeData fd = feeDataList.stream().filter(f -> f.isBankeinzug()).findAny().orElse(null);
         return fd != null;
     }
 
@@ -210,6 +222,8 @@ public class FeePayDialogController extends abListDialogController {
 
     private void checkFinanceAccountData(FinanceAccountData financeAccountData) {
         if (!checkBankeinzugInFeeList()) {
+            tglSepa.setSelected(false);
+            tglSepa.setDisable(true);
             return;
         }
 
@@ -226,8 +240,8 @@ public class FeePayDialogController extends abListDialogController {
                 bound = false;
             }
 
-            tglSepa.setDisable(true);
             tglSepa.setSelected(false);
+            tglSepa.setDisable(true);
         }
     }
 

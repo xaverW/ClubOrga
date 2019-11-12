@@ -110,8 +110,8 @@ public class ClubConfig extends PDataProgConfig {
 
     // GuiMember Filter
     public StringProperty MEMBER_FILTER_NACHNAME = addStrC("GuiMember Filter", "member-filter-nachname");
-    public BooleanProperty MEMBER_FILTER_FEE = addBool("member-filter-fee", false);
-    public BooleanProperty MEMBER_FILTER_FEE_OFF = addBool("member-filter-fee-off", true);
+    public BooleanProperty MEMBER_FILTER_FEE_CREATED = addBool("member-filter-fee", false);
+    public BooleanProperty MEMBER_FILTER_FEE_CREATED_OFF = addBool("member-filter-fee-off", true);
     public BooleanProperty MEMBER_FILTER_FEE_PAYED = addBool("member-filter-fee-payed", false);
     public BooleanProperty MEMBER_FILTER_FEE_PAYED_OFF = addBool("member-filter-fee-payed-off", true);
     public LongProperty MEMBER_FILTER_STATUS_ID = addLong("member-filter-status-id", ProgConst.FILTER_ID_NOT_SELECTED);

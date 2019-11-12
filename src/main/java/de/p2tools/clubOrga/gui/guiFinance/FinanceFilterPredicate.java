@@ -33,7 +33,7 @@ public class FinanceFilterPredicate {
         return filtered.get();
     }
 
-    public static Predicate<FinanceData> getFinanceProperty(ClubConfig clubConfig, boolean onlySelected) {
+    public static Predicate<FinanceData> getFinancePredicate(ClubConfig clubConfig, boolean onlySelected) {
 
         filtered.set(false);
 

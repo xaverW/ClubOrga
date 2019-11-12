@@ -231,24 +231,21 @@ public class ClubStartFactory {
     }
 
     private static void addCss(Scene scene) {
-        String css = Club.class.getResource(ProgConst.CSS_FILE).toExternalForm();
-        scene.getStylesheets().add(css);
-        P2LibInit.addP2LibCssToScene(scene);
+//        String css = Club.class.getResource(ProgConst.CSS_FILE).toExternalForm();
+//        scene.getStylesheets().add(css);
 
+        P2LibInit.addP2LibCssToScene(scene);
         ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> setTheme(scene));
         setTheme(scene);
     }
 
     private static void setTheme(Scene scene) {
         if (ProgConfig.SYSTEM_DARK_THEME.get()) {
-            String css = Club.class.getResource(ProgConst.CSS_FILE_DARK_THEME).toExternalForm();
-            scene.getStylesheets().add(css);
-            P2LibInit.addCssFile(css);
+            P2LibInit.addCssFile(ProgConst.CSS_FILE_DARK_THEME);
         } else {
-            String css = Club.class.getResource(ProgConst.CSS_FILE_DARK_THEME).toExternalForm();
-            scene.getStylesheets().removeAll(css);
-            P2LibInit.removeCssFile(css);
+            P2LibInit.removeCssFile(ProgConst.CSS_FILE_DARK_THEME);
         }
+        P2LibInit.addP2LibCssToScene(scene);
     }
 
     private static boolean initFirstClubStart(ClubConfig clubConfig) {

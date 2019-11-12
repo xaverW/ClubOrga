@@ -17,6 +17,7 @@
 package de.p2tools.clubOrga.gui.dialog.clubConfigDialog;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.p2Lib.dialog.PDialog;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -64,6 +65,7 @@ public class ProgConfigDialogController extends PDialog {
     @Override
     public void make() {
         initPanel();
+        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> updateCss());
         btnOk.setOnAction(a -> close());
     }
 

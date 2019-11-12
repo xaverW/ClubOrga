@@ -241,7 +241,7 @@ public class GuiMember extends BorderPane {
             tableView.getSelectionModel().getSelectedItems().stream().forEach(memberData -> memberData.setSelected(true));
         }
 
-        filteredList.setPredicate(MemberFilterPredicate.getFeeProperty(clubConfig, onlySelected));
+        filteredList.setPredicate(MemberFilterPredicate.getMemberPredicate(clubConfig, onlySelected));
         boolean filtered = MemberFilterPredicate.getFiltered();
         if (filtered) {
             if (!tabFilter.getStyleClass().contains("filterTabStyle")) {

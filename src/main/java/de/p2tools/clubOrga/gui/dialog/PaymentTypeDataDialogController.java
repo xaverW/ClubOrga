@@ -122,14 +122,14 @@ public class PaymentTypeDataDialogController extends PDialog {
             if (configData.getName().equals(PaymentTypeNames.ID)) {
                 continue;
 
+            } else if (configData.getName().equals(PaymentTypeNames.NR) && id < PaymentTypeFactory.PAYMENT_TYPE_SIZE) {
+                control = new PTextField(paymentTypeDataCopy.getNr() + "", true);
+
             } else if (configData.getName().equals(PaymentTypeNames.KONTO) && id < PaymentTypeFactory.PAYMENT_TYPE_SIZE) {
                 control = new PTextField(paymentTypeDataCopy.getFinanceAccountData().getKonto(), true);
 
             } else if (configData.getName().equals(PaymentTypeNames.KONTO)) {
                 control = getPComboObject(paymentTypeDataCopy.financeAccountDataProperty(), clubConfig.financeAccountDataList);
-
-            } else if (configData.getName().equals(PaymentTypeNames.NR) && id < PaymentTypeFactory.PAYMENT_TYPE_SIZE) {
-                control = new PTextField(paymentTypeDataCopy.getNr() + "", true);
 
             } else if (configData.getName().equals(PaymentTypeNames.DESCRIPTION)) {
                 control = new TextArea();

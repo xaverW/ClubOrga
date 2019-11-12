@@ -65,9 +65,9 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
     private Config[] getConfigs() {
         return new Config[]{
                 new ConfigLongPropExtra("id", PaymentTypeNames.ID, id),
-                new ConfigLongPropExtra("konto", PaymentTypeNames.KONTO, konto),
                 new ConfigLongPropExtra("nr", PaymentTypeNames.NR, nr),
                 new ConfigStringPropExtra("name", PaymentTypeNames.NAME, name),
+                new ConfigLongPropExtra("konto", PaymentTypeNames.KONTO, konto),
                 new ConfigStringPropExtra("text", PaymentTypeNames.DESCRIPTION, text),
         };
     }

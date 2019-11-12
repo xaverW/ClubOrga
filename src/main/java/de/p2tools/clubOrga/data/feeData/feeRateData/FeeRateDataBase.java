@@ -59,8 +59,8 @@ public class FeeRateDataBase extends PDataSample<FeeRateData> {
         return new Config[]{
                 new ConfigLongPropExtra("id", FeeRateFieldNames.ID, id),
                 new ConfigLongPropExtra("nr", FeeRateFieldNames.NR, nr),
-                new ConfigLongPropExtra("betrag", FeeRateFieldNames.BETRAG, betrag),
                 new ConfigStringPropExtra("name", FeeRateFieldNames.NAME, name),
+                new ConfigLongPropExtra("betrag", FeeRateFieldNames.BETRAG, betrag),
                 new ConfigStringPropExtra("text", FeeRateFieldNames.DESCRIPTION, text),
         };
     }

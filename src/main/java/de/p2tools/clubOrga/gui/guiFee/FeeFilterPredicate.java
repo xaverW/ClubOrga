@@ -35,7 +35,7 @@ public class FeeFilterPredicate {
         return filtered.get();
     }
 
-    public static Predicate<FeeData> getFeeProperty(ClubConfig clubConfig, boolean onlySelected) {
+    public static Predicate<FeeData> getFeePredicate(ClubConfig clubConfig, boolean onlySelected) {
 
         filtered.set(false);
 

@@ -244,7 +244,7 @@ public class GuiFee extends BorderPane {
             tableView.getSelectionModel().getSelectedItems().stream().forEach(feeData -> feeData.setSelected(true));
         }
 
-        filteredList.setPredicate(FeeFilterPredicate.getFeeProperty(clubConfig, onlySelected));
+        filteredList.setPredicate(FeeFilterPredicate.getFeePredicate(clubConfig, onlySelected));
         boolean filtered = FeeFilterPredicate.getFiltered();
         if (filtered) {
             if (!tabFilter.getStyleClass().contains("filterTabStyle")) {

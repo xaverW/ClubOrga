@@ -148,6 +148,7 @@ public abstract class abListDialogController extends PDialogExtra {
         new ClubTable(clubConfig).addResetMenue(tableView, ClubTable.TABLE.PAY_FEE);
 
         tableView.setItems(feeDataList);
+        tableView.getColumns().forEach(c -> c.getStyleClass().add("alignCenterLeft"));
 
         feeDataList.addListener(new ListChangeListener<FeeData>() {
             @Override

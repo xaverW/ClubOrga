@@ -35,7 +35,7 @@ public class MemberFilterPredicate {
         return filtered.get();
     }
 
-    public static Predicate<MemberData> getFeeProperty(ClubConfig clubConfig, boolean onlySelected) {
+    public static Predicate<MemberData> getMemberPredicate(ClubConfig clubConfig, boolean onlySelected) {
 
         filtered.set(false);
 
@@ -44,8 +44,8 @@ public class MemberFilterPredicate {
         final FeeRateData feeRateData = clubConfig.MEMBER_FILTER_BEITRAG.get();
         final PaymentTypeData paymentTypeData = clubConfig.MEMBER_FILTER_PAYMENT_TYPE.get();
 
-        final boolean searchFee = clubConfig.MEMBER_FILTER_FEE.get();
-        final boolean searchFeeOff = clubConfig.MEMBER_FILTER_FEE_OFF.get();
+        final boolean searchFeeCreated = clubConfig.MEMBER_FILTER_FEE_CREATED.get();
+        final boolean searchFeeCreatedOff = clubConfig.MEMBER_FILTER_FEE_CREATED_OFF.get();
         final boolean searchFeePayed = clubConfig.MEMBER_FILTER_FEE_PAYED.get();
         final boolean searchFeePayedOff = clubConfig.MEMBER_FILTER_FEE_PAYED_OFF.get();
 
@@ -71,9 +71,9 @@ public class MemberFilterPredicate {
             predicate = predicate.and(memberData -> memberData.paymentTypeDataProperty().get().equals(paymentTypeData));
         }
 
-        if (!searchFeeOff) {
+        if (!searchFeeCreatedOff) {
             filtered.set(true);
-            predicate = predicate.and(memberData -> (searchFee ? !memberData.feeIsMissing() : memberData.feeIsMissing()));
+            predicate = predicate.and(memberData -> (searchFeeCreated ? !memberData.feeIsMissing() : memberData.feeIsMissing()));
         }
 
         if (!searchFeePayedOff) {

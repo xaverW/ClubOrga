@@ -287,7 +287,7 @@ public class GuiFinance extends BorderPane {
             tableView.getSelectionModel().getSelectedItems().stream().forEach(financeData -> financeData.setSelected(true));
         }
 
-        filteredList.setPredicate(FinanceFilterPredicate.getFinanceProperty(clubConfig, onlySelected));
+        filteredList.setPredicate(FinanceFilterPredicate.getFinancePredicate(clubConfig, onlySelected));
         boolean filtered = FinanceFilterPredicate.getFiltered();
         if (filtered) {
             if (!tabFilter.getStyleClass().contains("filterTabStyle")) {
