@@ -42,8 +42,8 @@ public class FeeDataWorker extends FeeDataBase {
         return getBezahlt().isEmpty();
     }
 
-    public boolean isBankeinzug() {
-        return (getPaymentTypeData().isBankeinzug());
-    }
+//    public boolean isBankeinzug() {
+//        return (getPaymentTypeData().isBankeinzug());
+//    }
 
 }

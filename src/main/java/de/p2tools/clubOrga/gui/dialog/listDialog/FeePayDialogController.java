@@ -87,6 +87,11 @@ public class FeePayDialogController extends abListDialogController {
     public void make() {
         super.make();
 
+        Button btnHelpChk = PButton.helpButton(getStage(), "Transaktionen",
+                "Ist diese Option aktiv, werden alle Beiträge als Transaktionen in einem Finanzeintrag " +
+                        "erstellt." + P2LibConst.LINE_SEPARATORx2 +
+                        "Andernfalls wird für jeden Beitrag ein Finanzeintrag mit einer Transaktion erstellt.");
+
         pDatePickerFeeDateBuchungsdatum.setDate(pDateFeeDataBuchungsdatum);
         pDatePickerFeeDateBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
@@ -96,7 +101,12 @@ public class FeePayDialogController extends abListDialogController {
         pYearPickerFinanceDataGeschaeftsjahr.disableProperty().bind(tglFinances.selectedProperty().not());
         pYearPickerFinanceDataGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
 
-        chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
+        if (feeDataList.size() <= 1) {
+            chkTransaction.setDisable(true);
+            btnHelpChk.setDisable(true);
+        } else {
+            chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
+        }
 
         cboAccount.disableProperty().bind(tglFinances.selectedProperty().not());
         cboAccount.init(clubConfig.financeAccountDataList, clubConfig.PAY_FEE_ACCOUNT_ID);
@@ -142,10 +152,6 @@ public class FeePayDialogController extends abListDialogController {
             clubConfig.PAY_FEE_SEPA_BEGLEIT_FILE.set(fileName);
         });
 
-        Button btnHelp = PButton.helpButton(getStage(), "Transaktionen",
-                "Ist diese Option aktiv, werden alle Beiträge als Transaktionen in einem Finanzeintrag " +
-                        "erstellt." + P2LibConst.LINE_SEPARATORx2 +
-                        "Andernfalls wird für jeden Beitrag ein Finanzeintrag mit einer Transaktion erstellt.");
 
         Label lblOrdner = new Label("Ordner:");
         Label lblSEPA = new Label("SEPA-Datei:");
@@ -178,7 +184,7 @@ public class FeePayDialogController extends abListDialogController {
         gridPane.add(cboCategory, 1, row, 2, 1);
 
         gridPane.add(chkTransaction, 1, ++row);
-        gridPane.add(btnHelp, 2, row);
+        gridPane.add(btnHelpChk, 2, row);
 
         gridPane.add(new Label(" "), 0, ++row);
         gridPane.add(new Label(" "), 0, ++row);
@@ -214,7 +220,7 @@ public class FeePayDialogController extends abListDialogController {
     }
 
     private boolean checkBankeinzugInFeeList() {
-        FeeData fd = feeDataList.stream().filter(f -> f.isBankeinzug()).findAny().orElse(null);
+        FeeData fd = feeDataList.stream().filter(f -> f.getPaymentTypeData().isBankeinzug()).findAny().orElse(null);
         return fd != null;
     }
 
@@ -260,7 +266,7 @@ public class FeePayDialogController extends abListDialogController {
             // nur die Beiträge mit "Bankeinzug" nehmen
             ObservableList<FeeData> feeDataListSepa = FXCollections.observableArrayList();
             feeDataList.stream().forEach(feeData -> {
-                if (feeData.isBankeinzug()) {
+                if (feeData.getPaymentTypeData().isBankeinzug()) {
                     feeDataListSepa.add(feeData);
                 }
             });
