@@ -28,11 +28,13 @@ import java.util.List;
 
 public class ExportSepa {
 
-    public static boolean createSepaFile(ClubConfig clubConfig, FinanceAccountData financeAccountData, List<FeeData> feeDataList) {
+    public static boolean createSepaFile(ClubConfig clubConfig, List<FeeData> feeDataList) {
         boolean ret = false;
 
         Path sepaFile = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_FILE.getValue());
         Path sepaBegleit = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_BEGLEIT_FILE.getValue());
+
+        FinanceAccountData financeAccountData = null; // todo
 
         try {
             Sepa sepa = new Sepa(clubConfig, financeAccountData, feeDataList,

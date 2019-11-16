@@ -21,6 +21,7 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeNames;
+import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -51,6 +52,10 @@ public class ClubTablePaymentTypeData {
         final TableColumn<PaymentTypeData, Object> kontoColumn = new TableColumn<>(PaymentTypeNames.KONTO);
         kontoColumn.setCellValueFactory(new PropertyValueFactory<>("financeAccountData"));
 
+        final TableColumn<PaymentTypeData, Boolean> einzugColumn = new TableColumn<>(PaymentTypeNames.EINZUG);
+        einzugColumn.setCellValueFactory(new PropertyValueFactory<>("einzug"));
+        einzugColumn.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+
         final TableColumn<PaymentTypeData, String> textColumn = new TableColumn<>(PaymentTypeNames.DESCRIPTION);
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
 
@@ -58,6 +63,7 @@ public class ClubTablePaymentTypeData {
         tc.add(nrColumn);
         tc.add(nameColumn);
         tc.add(kontoColumn);
+        tc.add(einzugColumn);
         tc.add(textColumn);
 
         return tc.toArray(new TableColumn[]{});

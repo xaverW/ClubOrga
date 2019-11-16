@@ -119,15 +119,12 @@ public class FinanceFactory {
 
     public static void addNewTransactionDataForFeeData(ClubConfig clubConfig, FinanceData financeData,
                                                        FeeData feeData,
-//                                                       FinanceAccountData financeAccountData,
                                                        FinanceCategoryData financeCategoryData) {
 
         TransactionDataList transactionDataList = financeData.getTransactionDataList();
         TransactionData transactionData = new TransactionData(transactionDataList.getNextNr(), clubConfig);
 
-//        transactionData.setFinanceAccountData(financeAccountData);
         transactionData.setFinanceCategoryData(financeCategoryData);
-
         transactionData.setBetrag(feeData.getBetrag());
         transactionData.setFeeData(feeData);
 

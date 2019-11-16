@@ -80,10 +80,6 @@ public class PaymentTypeData extends PaymentTypeDataBase {
         return paymentTypeDataObjectProperty;
     }
 
-    public boolean isBankeinzug() {
-        return getId() == PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BANKEINZUG.getId();
-    }
-
     @Override
     public String toString() {
         return getName();

@@ -126,7 +126,7 @@ public class DemoFeeDataFactory {
         ArrayList<FinanceData> newFinanceDataList = new ArrayList<>();
         feeDataList.stream()
 
-                .filter(feeData -> !feeData.getMemberData().getPaymentTypeData().isBankeinzug())
+                .filter(feeData -> !feeData.getMemberData().getPaymentTypeData().isEinzug())
                 .forEach(feeData -> {
 
                     switch (payFee) {
@@ -146,7 +146,7 @@ public class DemoFeeDataFactory {
         // Beiträge mit Bankeizug bezahlen
         ArrayList<FeeData> feeDataListEinzug = new ArrayList<>();
         feeDataList.stream()
-                .filter(feeData -> feeData.getMemberData().getPaymentTypeData().isBankeinzug())
+                .filter(feeData -> feeData.getMemberData().getPaymentTypeData().isEinzug())
                 .forEach(feeData -> {
                     switch (payFee) {
                         case FEE_ADD_SOME:

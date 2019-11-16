@@ -18,9 +18,11 @@ package de.p2tools.clubOrga.gui.dialog;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeFactory;
 import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeNames;
+import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.dialog.PDialog;
@@ -32,10 +34,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -47,10 +46,14 @@ public class PaymentTypeDataDialogController extends PDialog {
     private Button btnOk = new Button("Ok");
     private Button btnCancel = new Button("Abbrechen");
 
+    private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
+    private final PTextField txtName = new PTextField("", true);
+
     private final ProgData progData;
     private final ClubConfig clubConfig;
     private PaymentTypeData paymentTypeDataOrg = null;
     private PaymentTypeData paymentTypeDataCopy = null;
+    private CheckBox chkEinzug = new CheckBox();
 
     private final VBox vBoxCont = new VBox(10);
     private boolean ok = false;
@@ -87,6 +90,8 @@ public class PaymentTypeDataDialogController extends PDialog {
                 close();
             }
         });
+        btnOk.disableProperty().bind(paymentTypeDataCopy.financeAccountDataProperty().isNull());
+
         btnCancel.setOnAction(a -> close());
     }
 
@@ -129,7 +134,18 @@ public class PaymentTypeDataDialogController extends PDialog {
                 control = new PTextField(paymentTypeDataCopy.getFinanceAccountData().getKonto(), true);
 
             } else if (configData.getName().equals(PaymentTypeNames.KONTO)) {
-                control = getPComboObject(paymentTypeDataCopy.financeAccountDataProperty(), clubConfig.financeAccountDataList);
+                control = getPComboObject(clubConfig.financeAccountDataList, paymentTypeDataCopy.financeAccountDataProperty());
+
+
+            } else if (configData.getName().equals(PaymentTypeNames.EINZUG)) {
+                control = chkEinzug;
+                chkEinzug.selectedProperty().bindBidirectional(paymentTypeDataCopy.einzugProperty());
+                if (paymentTypeDataCopy.getFinanceAccountData() == null) {
+                    chkEinzug.setDisable(true);
+                } else {
+                    chkEinzug.setDisable(id < PaymentTypeFactory.PAYMENT_TYPE_SIZE ||
+                            !paymentTypeDataCopy.getFinanceAccountData().isGiro());
+                }
 
             } else if (configData.getName().equals(PaymentTypeNames.DESCRIPTION)) {
                 control = new TextArea();
@@ -159,17 +175,31 @@ public class PaymentTypeDataDialogController extends PDialog {
     }
 
     private boolean check() {
-        boolean ret = true;
+        if (paymentTypeDataCopy.financeAccountDataProperty().get() == null) {
+            PAlert.showErrorAlert(this.getStage(), "Zahlart anlegen",
+                    "Zum Anlegen einer Zahlart muss ein Konto ausgewählt werden");
+            return false;
+        }
+
         // geänderte Daten wieder auf ORG zurück kopieren
         PaymentTypeData.copyData(paymentTypeDataCopy, paymentTypeDataOrg);
-        return ret;
+        return true;
     }
 
-    private PComboBoxObject getPComboObject(ObjectProperty objectProperty, ObservableList cbo_list) {
-        final PComboBoxObject cboStatus = new PComboBoxObject<>();
-        cboStatus.setMaxWidth(Double.MAX_VALUE);
-        cboStatus.init(cbo_list, objectProperty);
+    private PComboBoxObject getPComboObject(ObservableList<FinanceAccountData> cbo_list,
+                                            ObjectProperty<FinanceAccountData> objectProperty) {
 
-        return cboStatus;
+        cboAccount.setMaxWidth(Double.MAX_VALUE);
+        cboAccount.init(cbo_list, objectProperty);
+        cboAccount.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && newValue.isGiro()) {
+                chkEinzug.setDisable(false);
+            } else {
+                chkEinzug.setDisable(true);
+                chkEinzug.setSelected(false);
+            }
+        });
+
+        return cboAccount;
     }
 }

@@ -41,6 +41,7 @@ public class PaymentTypeDataList extends PaymentTypeDataListBase {
             paymentTypeDataStandard.setId(idBar);
             paymentTypeDataStandard.setNr(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BAR.getShownNo());
             paymentTypeDataStandard.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getId());
+            paymentTypeDataStandard.setEinzug(false);
 
             add(idBar, paymentTypeDataStandard);
         }
@@ -54,6 +55,7 @@ public class PaymentTypeDataList extends PaymentTypeDataListBase {
             paymentTypeDataStandard.setId(idUeberweisung);
             paymentTypeDataStandard.setNr(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_UEBERWEISUNG.getShownNo());
             paymentTypeDataStandard.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId());
+            paymentTypeDataStandard.setEinzug(false);
 
             add(idUeberweisung, paymentTypeDataStandard);
         }
@@ -67,6 +69,7 @@ public class PaymentTypeDataList extends PaymentTypeDataListBase {
             paymentTypeDataStandard.setId(idBankeinzug);
             paymentTypeDataStandard.setNr(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BANKEINZUG.getShownNo());
             paymentTypeDataStandard.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId());
+            paymentTypeDataStandard.setEinzug(true);
 
             add(idBankeinzug, paymentTypeDataStandard);
         }

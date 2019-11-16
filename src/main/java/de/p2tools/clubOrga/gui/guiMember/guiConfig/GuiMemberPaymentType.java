@@ -21,9 +21,9 @@ import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateFieldNames;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
-import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFieldNames;
 import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeFactory;
+import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeNames;
 import de.p2tools.clubOrga.gui.dialog.PaymentTypeDataDialogController;
 import de.p2tools.clubOrga.gui.table.ClubTable;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
@@ -31,6 +31,7 @@ import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxObject;
 import de.p2tools.p2Lib.guiTools.PTextFieldLong;
+import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
@@ -54,6 +55,7 @@ public class GuiMemberPaymentType extends BorderPane {
     private final TextField txtName = new TextField();
     private final TextArea txtText = new TextArea();
     private final PComboBoxObject<FinanceAccountData> cboFinanceAccountData = new PComboBoxObject<>();
+    private final PToggleSwitch tglEinzug = new PToggleSwitch();
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
@@ -172,12 +174,17 @@ public class GuiMemberPaymentType extends BorderPane {
             if (this.paymentTypeData == null) {
                 return;
             }
+
             FinanceAccountData financeAccountData = cboFinanceAccountData.getSelValue();
             if (financeAccountData == null) {
                 return;
             }
 
             this.paymentTypeData.setKonto(financeAccountData.getId());
+            tglEinzug.setDisable(!financeAccountData.isGiro());
+            if (!financeAccountData.isGiro()) {
+                this.paymentTypeData.setEinzug(false);
+            }
         });
 
         gridPane.setHgap(5);
@@ -189,14 +196,17 @@ public class GuiMemberPaymentType extends BorderPane {
 
 
         int r = 0;
-        gridPane.add(new Label(FeeRateFieldNames.NR_), 0, r);
+        gridPane.add(new Label(PaymentTypeNames.NR_), 0, r);
         gridPane.add(txtNr, 1, r);
-        gridPane.add(new Label(FeeRateFieldNames.NAME_), 0, ++r);
+        gridPane.add(new Label(PaymentTypeNames.NAME_), 0, ++r);
         gridPane.add(txtName, 1, r);
-        gridPane.add(new Label(FinanceAccountFieldNames.KONTO_), 0, ++r);
+        gridPane.add(new Label(PaymentTypeNames.KONTO_), 0, ++r);
         gridPane.add(cboFinanceAccountData, 1, r);
+        gridPane.add(new Label(PaymentTypeNames.EINZUG_), 0, ++r);
+        gridPane.add(tglEinzug, 1, r);
 
         r = 0;
+        txtText.setPrefRowCount(3);
         gridPane.add(new Label(" "), 2, r);
         gridPane.add(new Label(FeeRateFieldNames.DESCRIPTION_), 3, r);
         gridPane.add(txtText, 3, ++r, 1, 3);
@@ -260,6 +270,7 @@ public class GuiMemberPaymentType extends BorderPane {
         txtName.textProperty().unbindBidirectional(paymentTypeData.nameProperty());
         txtText.textProperty().unbindBidirectional(paymentTypeData.textProperty());
         cboFinanceAccountData.unbindSelValueProperty();
+        tglEinzug.selectedProperty().unbindBidirectional(paymentTypeData.einzugProperty());
     }
 
     private void bind() {
@@ -269,6 +280,7 @@ public class GuiMemberPaymentType extends BorderPane {
             txtName.setText("");
             txtText.setText("");
             cboFinanceAccountData.unbindSelValueProperty();
+            tglEinzug.setSelected(false);
             return;
         }
 
@@ -280,6 +292,8 @@ public class GuiMemberPaymentType extends BorderPane {
         txtName.textProperty().bindBidirectional(paymentTypeData.nameProperty());
         txtText.textProperty().bindBidirectional(paymentTypeData.textProperty());
         cboFinanceAccountData.bindSelValueProperty(paymentTypeData.financeAccountDataProperty());
+        tglEinzug.selectedProperty().bindBidirectional(paymentTypeData.einzugProperty());
+        tglEinzug.setDisable(paymentTypeData.getId() < PaymentTypeFactory.PAYMENT_TYPE_SIZE);
     }
 
     private ContextMenu getContextMenu(PaymentTypeData data) {

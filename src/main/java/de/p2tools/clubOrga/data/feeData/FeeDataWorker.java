@@ -19,12 +19,10 @@ package de.p2tools.clubOrga.data.feeData;
 
 import de.p2tools.p2Lib.tools.date.PLocalDate;
 
-import java.util.function.Predicate;
-
 public class FeeDataWorker extends FeeDataBase {
 
 
-    public Predicate<FeeDataWorker> isBezahlt = fee -> !fee.getBezahlt().isEmpty();
+//    public Predicate<FeeDataWorker> isBezahlt = fee -> !fee.getBezahlt().isEmpty();
 
     public void setBill(PLocalDate pDate) {
         setRechnung(pDate);
@@ -39,7 +37,7 @@ public class FeeDataWorker extends FeeDataBase {
     }
 
     public boolean isFeePayed() {
-        return getBezahlt().isEmpty();
+        return !getBezahlt().isEmpty();
     }
 
 //    public boolean isBankeinzug() {

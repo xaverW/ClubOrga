@@ -22,9 +22,7 @@ import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.sepa.ExportSepa;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
-import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialog.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.*;
@@ -40,13 +38,16 @@ import javafx.scene.control.Label;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Beitrag bezahlen: Buchungsdatum wird gesetzt,
  * opt. kann ein Eintrag in den Finanzen angelegt werden und
  * eine SEPA-Datei angelegt werden
  */
-public class FeePayDialogController extends abListDialogController {
+public class PayFeeDialogController extends abListDialogController {
 
     final Label lblDatum = new Label("Buchungsdatum");
     final PDatePicker pDatePickerFeeDateBuchungsdatum = new PDatePicker();
@@ -56,7 +57,6 @@ public class FeePayDialogController extends abListDialogController {
     private final PToggleSwitch tglFinances = new PToggleSwitch("Eintrag in den Finanzen anlegen", true);
     private final CheckBox chkTransaction = new CheckBox("als Transaktionen eines Finanzeintrags");
     private final PYearPicker pYearPickerFinanceDataGeschaeftsjahr = new PYearPicker();
-    private final PComboBoxObjectId<FinanceAccountData> cboAccount = new PComboBoxObjectId<>();
     private final PComboBoxObjectId<FinanceCategoryData> cboCategory = new PComboBoxObjectId<>();
 
     // SEPA
@@ -67,8 +67,12 @@ public class FeePayDialogController extends abListDialogController {
     private final Button btnSepaDirList = new Button();
     private final Button btnProposeSepaFile = new Button();
     private final Button btnProposeSepaBegleit = new Button();
+    private final Button btnHelpChk = PButton.helpButton(getStage(), "Transaktionen",
+            "Ist diese Option aktiv, werden alle Beiträge als Transaktionen in einem Finanzeintrag " +
+                    "erstellt." + P2LibConst.LINE_SEPARATORx2 +
+                    "Andernfalls wird für jeden Beitrag ein Finanzeintrag mit einer Transaktion erstellt.");
 
-    public FeePayDialogController(ClubConfig clubConfig, ObservableList<FeeData> feeDataList) {
+    public PayFeeDialogController(ClubConfig clubConfig, ObservableList<FeeData> feeDataList) {
         super(clubConfig, feeDataList, "Beitrag bezahlen");
 
         helpHeader = "Beitrag bezahlen";
@@ -87,36 +91,20 @@ public class FeePayDialogController extends abListDialogController {
     public void make() {
         super.make();
 
-        Button btnHelpChk = PButton.helpButton(getStage(), "Transaktionen",
-                "Ist diese Option aktiv, werden alle Beiträge als Transaktionen in einem Finanzeintrag " +
-                        "erstellt." + P2LibConst.LINE_SEPARATORx2 +
-                        "Andernfalls wird für jeden Beitrag ein Finanzeintrag mit einer Transaktion erstellt.");
-
         pDatePickerFeeDateBuchungsdatum.setDate(pDateFeeDataBuchungsdatum);
         pDatePickerFeeDateBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
         tglFinances.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_FINANCES);
         chkTransaction.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_TRANSACTIONS);
+        chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
+        btnHelpChk.disableProperty().bind(tglFinances.selectedProperty().not());
+
+//        feeDataList.addListener((ListChangeListener<FeeData>) c -> initChkTransaction());
+//        initChkTransaction();
 
         pYearPickerFinanceDataGeschaeftsjahr.disableProperty().bind(tglFinances.selectedProperty().not());
         pYearPickerFinanceDataGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
 
-        if (feeDataList.size() <= 1) {
-            chkTransaction.setDisable(true);
-            btnHelpChk.setDisable(true);
-        } else {
-            chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
-        }
-
-        cboAccount.disableProperty().bind(tglFinances.selectedProperty().not());
-        cboAccount.init(clubConfig.financeAccountDataList, clubConfig.PAY_FEE_ACCOUNT_ID);
-        setFinanceAccount();
-
-        cboAccount.setMaxWidth(Double.MAX_VALUE);
-        cboAccount.getSelectionModel().selectedItemProperty().addListener((u, o, n) -> {
-            checkFinanceAccountData(n);
-        });
-        checkFinanceAccountData(cboAccount.getSelValue());
 
         cboCategory.disableProperty().bind(tglFinances.selectedProperty().not());
         cboCategory.init(clubConfig.financeCategoryDataList, clubConfig.PAY_FEE_CATEGORY_ID);
@@ -162,9 +150,7 @@ public class FeePayDialogController extends abListDialogController {
 
 
         btnOk.disableProperty().bind(tglFinances.selectedProperty()
-                .and(cboCategory.getSelectionModel().selectedItemProperty().isNull()
-                        .or(cboAccount.getSelectionModel().selectedItemProperty().isNull())
-                ));
+                .and(cboCategory.getSelectionModel().selectedItemProperty().isNull()));
 
         gridPane.add(lblDatum, 0, row);
         gridPane.add(pDatePickerFeeDateBuchungsdatum, 1, row, 2, 1);
@@ -176,9 +162,6 @@ public class FeePayDialogController extends abListDialogController {
 
         gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), 0, ++row);
         gridPane.add(pYearPickerFinanceDataGeschaeftsjahr, 1, row, 2, 1);
-
-        gridPane.add(new Label(FinanceFieldNames.KONTO_), 0, ++row);
-        gridPane.add(cboAccount, 1, row, 2, 1);
 
         gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), 0, ++row);
         gridPane.add(cboCategory, 1, row, 2, 1);
@@ -205,57 +188,26 @@ public class FeePayDialogController extends abListDialogController {
 
     }
 
-    private void setFinanceAccount() {
-        if (feeDataList.isEmpty()) {
-            return;
-        }
-
-        long id = feeDataList.get(0).getZahlart();
-        PaymentTypeData pa = clubConfig.paymentTypeDataList.stream()
-                .filter(paymentTypeData -> paymentTypeData.getId() == id)
-                .findFirst().orElse(null);
-        if (pa != null) {
-            cboAccount.getSelectionModel().select(pa.getFinanceAccountData());
-        }
-    }
-
-    private boolean checkBankeinzugInFeeList() {
-        FeeData fd = feeDataList.stream().filter(f -> f.getPaymentTypeData().isBankeinzug()).findAny().orElse(null);
-        return fd != null;
-    }
-
-    private boolean bound = false;
-
-    private void checkFinanceAccountData(FinanceAccountData financeAccountData) {
-        if (!checkBankeinzugInFeeList()) {
-            tglSepa.setSelected(false);
-            tglSepa.setDisable(true);
-            return;
-        }
-
-        if (financeAccountData != null && financeAccountData.isGiro()) {
-            tglSepa.setDisable(false);
-
-            if (!bound) {
-                tglSepa.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_DTAUS);
-                bound = true;
-            }
-        } else {
-            if (bound) {
-                tglSepa.selectedProperty().unbindBidirectional(clubConfig.FEE_DIALOG_ADD_DTAUS);
-                bound = false;
-            }
-
-            tglSepa.setSelected(false);
-            tglSepa.setDisable(true);
-        }
-    }
+//    private void initChkTransaction() {
+//        chkTransaction.disableProperty().unbind();
+//        btnHelpChk.disableProperty().unbind();
+//
+//        if (feeDataList.size() <= 1) {
+//            chkTransaction.setDisable(true);
+//            btnHelpChk.setDisable(true);
+//
+//        } else {
+//            chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
+//            btnHelpChk.disableProperty().bind(tglFinances.selectedProperty().not());
+//        }
+//    }
 
     @Override
     boolean check() {
         boolean ret = true;
 
         if (tglSepa.isSelected()) {
+            // wenn SEPA, dann die Daten erstellen
             Path sepa = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_FILE.getValue());
             Path sepaBegleit = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_BEGLEIT_FILE.getValue());
 
@@ -266,24 +218,44 @@ public class FeePayDialogController extends abListDialogController {
             // nur die Beiträge mit "Bankeinzug" nehmen
             ObservableList<FeeData> feeDataListSepa = FXCollections.observableArrayList();
             feeDataList.stream().forEach(feeData -> {
-                if (feeData.getPaymentTypeData().isBankeinzug()) {
+                if (feeData.getPaymentTypeData().isEinzug()) {
                     feeDataListSepa.add(feeData);
                 }
             });
-            ExportSepa.createSepaFile(clubConfig, cboAccount.getSelValue(), feeDataListSepa);
+            ExportSepa.createSepaFile(clubConfig, feeDataListSepa);
         }
 
+        // Beiträge bezahlen
+        feeDataList.stream().forEach(fee -> fee.payFeeData(pDateFeeDataBuchungsdatum));
+
         if (tglFinances.isSelected()) {
-            feeDataList.stream().forEach(fee -> fee.payFeeData(pDateFeeDataBuchungsdatum));
-            clubConfig.financeDataList.addFinanceFromPayedFee(clubConfig, feeDataList, clubConfig.FEE_DIALOG_ADD_TRANSACTIONS.get(),
-                    pDateFeeDataBuchungsdatum, pYearPickerFinanceDataGeschaeftsjahr.getValue(),
-                    cboAccount.getSelValue(), cboCategory.getSelValue());
-        } else {
-            feeDataList.stream().forEach(fee -> fee.payFeeData(pDateFeeDataBuchungsdatum));
+            // wenn Finanzen anlegen, dann die Infos dazu sammeln und anlegen
+            List<FeeData> feeDataListTmp = new ArrayList<>();
+
+            while (!feeDataList.isEmpty()) {
+                feeDataListTmp.clear();
+                FeeData fee = feeDataList.remove(0);
+                feeDataListTmp.add(fee);
+                getKonto(feeDataList, feeDataListTmp, fee.getPaymentTypeData().getId());
+
+                clubConfig.financeDataList.addFinanceFromPayedFee(clubConfig, feeDataListTmp, chkTransaction.isSelected(),
+                        pDateFeeDataBuchungsdatum, pYearPickerFinanceDataGeschaeftsjahr.getValue(),
+                        cboCategory.getSelValue());
+            }
         }
 
         return ret;
     }
 
+    private void getKonto(List<FeeData> listFrom, List<FeeData> listTo, long paymentType) {
+        Iterator<FeeData> it = listFrom.listIterator();
+        while (it.hasNext()) {
+            FeeData feeData = it.next();
+            if (feeData.getPaymentTypeData().getId() == paymentType) {
+                listTo.add(feeData);
+                it.remove();
+            }
+        }
+    }
 
 }

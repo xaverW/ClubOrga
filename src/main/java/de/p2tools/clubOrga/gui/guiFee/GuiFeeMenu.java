@@ -22,7 +22,8 @@ import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.newsletter.Newsletter;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.gui.dialog.listDialog.BillForFeeDialogController;
-import de.p2tools.clubOrga.gui.dialog.listDialog.FeePayDialogController;
+import de.p2tools.clubOrga.gui.dialog.listDialog.PayFeeDialogController;
+import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -114,9 +115,23 @@ public class GuiFeeMenu extends VBox {
         final ObservableList<FeeData> list = FXCollections.observableArrayList();
         list.addAll(clubConfig.guiFee.getSelList());
         if (list.isEmpty()) {
+            // leere Liste
             return;
         }
-        new FeePayDialogController(clubConfig, list);
+
+        // checken ob bereits bezahlte dabei sind
+        boolean found = list.stream().filter(feeData -> feeData.isFeePayed()).findAny().isPresent();
+        if (found) {
+            PAlert.BUTTON button = PAlert.showAlert_yes_no(clubConfig.getStage(),
+                    "Beitrag bezehlen", "Beitrag bereits bezehlt",
+                    "Es sind bereits bezahlte Beiträge dabei. Sollen die nochmal bezahlt werden?");
+            if (button != PAlert.BUTTON.YES) {
+                return;
+            }
+        }
+
+        // dann jetzt den Bezahlendialog
+        new PayFeeDialogController(clubConfig, list);
     }
 
     private void feeNewsletter() {

@@ -19,10 +19,7 @@ package de.p2tools.clubOrga.data.memberData.paymentType;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
-import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigLongPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
+import de.p2tools.p2Lib.configFile.config.*;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.*;
 
@@ -33,9 +30,10 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
     public static final String TAG = "PaymentTypeData";
 
     private final LongProperty id = new SimpleLongProperty(0);
-    private final LongProperty konto = new SimpleLongProperty(0);
     private final LongProperty nr = new SimpleLongProperty(0);
     private final StringProperty name = new SimpleStringProperty("");
+    private final LongProperty konto = new SimpleLongProperty(0);
+    private final BooleanProperty einzug = new SimpleBooleanProperty(false);
     private final StringProperty text = new SimpleStringProperty("");
     private final ObjectProperty<FinanceAccountData> financeAccountData = new SimpleObjectProperty<>();
 
@@ -68,6 +66,7 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
                 new ConfigLongPropExtra("nr", PaymentTypeNames.NR, nr),
                 new ConfigStringPropExtra("name", PaymentTypeNames.NAME, name),
                 new ConfigLongPropExtra("konto", PaymentTypeNames.KONTO, konto),
+                new ConfigBoolPropExtra("einzug", PaymentTypeNames.EINZUG, einzug),
                 new ConfigStringPropExtra("text", PaymentTypeNames.DESCRIPTION, text),
         };
     }
@@ -106,6 +105,18 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
 
     public void setKonto(long konto) {
         this.konto.set(konto);
+    }
+
+    public boolean isEinzug() {
+        return einzug.get();
+    }
+
+    public BooleanProperty einzugProperty() {
+        return einzug;
+    }
+
+    public void setEinzug(boolean einzug) {
+        this.einzug.set(einzug);
     }
 
     public long getNr() {

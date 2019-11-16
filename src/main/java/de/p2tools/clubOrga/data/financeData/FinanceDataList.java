@@ -54,12 +54,10 @@ public class FinanceDataList extends FinanceDataListWorker {
      * @param onlyTransaction
      * @param buchungsDatum
      * @param geschaeftsjahr
-     * @param financeAccountData
      * @param financeCategoryData
      */
     public void addFinanceFromPayedFee(ClubConfig clubConfig, List<FeeData> list, boolean onlyTransaction,
                                        PLocalDate buchungsDatum, int geschaeftsjahr,
-                                       FinanceAccountData financeAccountData,
                                        FinanceCategoryData financeCategoryData) {
 
 
@@ -70,9 +68,10 @@ public class FinanceDataList extends FinanceDataListWorker {
             if (onlyTransaction && !financeDataList.isEmpty()) {
                 final FinanceData financeData = financeDataList.get(0);
                 FinanceFactory.addNewTransactionDataForFeeData(clubConfig, financeData, feeData,
-                        /*financeAccountData,*/ financeCategoryData);
+                        financeCategoryData);
 
             } else {
+                final FinanceAccountData financeAccountData = feeData.getPaymentTypeData().getFinanceAccountData();
                 final FinanceData financeData = FinanceFactory.getNewFinanceDataForFeeData(clubConfig, feeData,
                         buchungsDatum, geschaeftsjahr, financeAccountData, financeCategoryData);
                 financeDataList.add(financeData);
