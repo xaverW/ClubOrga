@@ -18,14 +18,11 @@ package de.p2tools.clubOrga.data.feeData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.memberData.MemberData;
-import de.p2tools.clubOrga.data.memberData.MemberDataList;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeDataList;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
 import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,20 +38,7 @@ public class FeeDataListWorker extends FeeDataListBase {
      * @param clubConfig
      */
     public synchronized void initListAfterClubLoad(ClubConfig clubConfig) {
-        MemberDataList memberDataList = clubConfig.memberDataList;
-        PaymentTypeDataList paymentTypeDataList = clubConfig.paymentTypeDataList;
-
         this.stream().forEach(feeData -> feeData.initAfterLoad());
-
-//            MemberData memberData = memberDataList.getById(feeData.getMemberId());
-//            feeData.setMemberData(memberData);
-//            feeData.setMitgliedNr(memberData == null ? "" : memberData.getNr() + "");
-//            feeData.setMitgliedName(memberData == null ? "" : memberData.getNachname());
-//
-//            PaymentTypeData paymentTypeData = paymentTypeDataList.getById(feeData.getZahlart());
-//            feeData.setPaymentTypeData(paymentTypeData);
-//        });
-
         initAfterAdding();
     }
 
@@ -67,32 +51,13 @@ public class FeeDataListWorker extends FeeDataListBase {
         List<String> years = PDateFactory.getYearListSince(startFee);
 
         for (String year : years) {
-            // todo
-            FeeData found = list.stream().filter(feeData -> (feeData.getJahr() + "").equals(year)).findAny().orElse(null);
-            if (found == null) {
+            boolean found = list.stream().filter(feeData -> (feeData.getJahr() + "").equals(year)).findAny().isPresent();
+            if (!found) {
                 ++ret;
             }
         }
 
         return ret;
-    }
-
-    public synchronized boolean addAktFeeForMember(ClubConfig clubConfig, Collection<? extends MemberData> memberList) {
-        // todo wenn schon angelegt??
-        List<FeeData> list = new ArrayList<>();
-        memberList.stream().forEach(member -> {
-            FeeData feeData = FeeFactory.getNewFeeForMember(clubConfig, member);
-            list.add(feeData);
-        });
-        return addAll(list);
-    }
-
-    public synchronized boolean addAllMissingFeesForMember(ClubConfig clubConfig, Collection<? extends MemberData> memberList) {
-        final List<FeeData> list = new ArrayList<>();
-        memberList.stream().forEach(member -> {
-            list.addAll(createMissingFeesForMember(member));
-        });
-        return addAll(list);
     }
 
     public synchronized List<FeeData> createMissingFeesForMember(MemberData memberData) {

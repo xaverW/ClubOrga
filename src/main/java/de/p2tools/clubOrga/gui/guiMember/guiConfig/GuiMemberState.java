@@ -109,7 +109,7 @@ public class GuiMemberState extends BorderPane {
             if (item == null) {
                 new PAlert().showInfoNoSelection(clubConfig.getStage());
             } else {
-                clubConfig.stateDataList.remove(item);
+                clubConfig.stateDataList.removeState(item);
             }
         });
 

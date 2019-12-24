@@ -126,7 +126,7 @@ public class AboutDialogController extends PDialogExtra {
         hyperlink.setStyle("-fx-font-size: 15px;");
         hyperlink.setOnAction(a -> {
             try {
-                POpen.openURL(ProgConst.WEBSITE_P2); // todo programm zum Öffnen
+                POpen.openURL(ProgConst.WEBSITE_P2);
             } catch (Exception e) {
                 PLog.errorLog(974125469, e);
             }

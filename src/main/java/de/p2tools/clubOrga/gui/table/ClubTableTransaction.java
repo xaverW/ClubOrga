@@ -58,11 +58,10 @@ public class ClubTableTransaction {
         kategorieColumn.setCellValueFactory(new PropertyValueFactory<>("financeCategoryData"));
 
         final TableColumn<TransactionData, String> mitgliedColumn = new TableColumn<>("Mitgliedsbeitrag");
-        mitgliedColumn.setCellFactory(cellFactoryNachname); //todo evtl. MemberData in die TransactionData mit aufnehmen??
+        mitgliedColumn.setCellFactory(cellFactoryNachname);
 
         tc.add(nrColumn);
         tc.add(betragColumn);
-//        tc.add(kontoColumn);
         tc.add(kategorieColumn);
         tc.add(mitgliedColumn);
 

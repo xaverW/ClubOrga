@@ -30,7 +30,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +48,6 @@ public class FeeFactory {
         if (list.isEmpty()) {
             return;
         }
-
 
         ArrayList<MemberData> newList = new ArrayList<>(list.size());
         list.stream().filter(memberData -> !memberData.memberIsFeeFree())
@@ -89,59 +87,6 @@ public class FeeFactory {
         feeData.setNr(clubConfig.feeDataList.getNextNr());
 
         return feeData;
-    }
-
-    /**
-     * Beiträge für die Liste Mitglieder erstellen
-     *
-     * @param clubConfig
-     * @param list
-     */
-    public static void generateFeeForMembers(ClubConfig clubConfig, ArrayList<MemberData> list) {
-        if (list.isEmpty()) {
-            return;
-        }
-
-        // keine Mitglieder die Beitragsfrei sind
-        Iterator<MemberData> it = list.listIterator();
-        int countFeeFree = 0;
-        while (it.hasNext()) {
-            if (it.next().memberIsFeeFree()) {
-                ++countFeeFree;
-                it.remove();
-            }
-        }
-        if (list.isEmpty()) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag anlegen", "Alle Mitglieder sind " +
-                    "beitragsfrei. Für diese kann kein Beitrag angelegt werden.");
-            return;
-        }
-
-        if (countFeeFree == 1) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag anlegen", "Es ist auch ein Mitglieder dabei, " +
-                    "das Beitragsfrei ist. Für dieses wird kein Beitrag angelegt.");
-
-        } else if (countFeeFree > 1) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag anlegen", "Es sind auch " + countFeeFree + " Mitglieder dabei, " +
-                    "die Beitragsfrei sind. Für diese wird kein Beitrag angelegt.");
-        }
-
-        if (list.size() == 1) {
-            MemberData memberData = list.get(0);
-            FeeData feeData = getNewFeeForMember(clubConfig, memberData);
-            if (new DataDialogController(clubConfig, DataDialogController.OPEN.FEE_PANE,
-                    memberData, feeData, null, null).isOk()) {
-                clubConfig.feeDataList.add(feeData);
-            }
-
-        } else if (PAlert.BUTTON.YES == PAlert.showAlert_yes_no(clubConfig.getStage(),
-                "Anlegen",
-                "Beiträge anlegen?",
-                "Sollen " + list.size() + " Beiträge angelegt werden?")) {
-
-            clubConfig.feeDataList.addAktFeeForMember(clubConfig, list);
-        }
-
     }
 
     /**

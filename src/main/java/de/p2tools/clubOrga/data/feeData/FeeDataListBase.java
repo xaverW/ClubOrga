@@ -90,7 +90,6 @@ public class FeeDataListBase extends SimpleListProperty<FeeData> implements PDat
 
     public void initAfterAdding() {
         makeJahrList();
-//        sort();
         setListChanged();
     }
 

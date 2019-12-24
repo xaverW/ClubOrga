@@ -45,22 +45,6 @@ public class FinanceDataWorker extends FinanceDataBase {
         return ret;
     }
 
-//    public String financeDataGetKontoList() {
-//        String ret;
-//        if (getTransactionDataList().isEmpty()) {
-//            return "";
-//        }
-//
-//        ArrayList<String> strList = new ArrayList<>();
-//        getTransactionDataList().stream().filter(transactionData -> transactionData.getFinanceAccountData() != null)
-//                .forEach(transactionData -> strList.add(transactionData.getFinanceAccountData().getKonto()));
-//
-//        ret = PStringUtils.appendList(strList, ", ", true, true);
-//        setKonto(ret);
-//
-//        return ret;
-//    }
-
     public String financeDataGetKategorieList() {
         String ret;
         if (getTransactionDataList().isEmpty()) {
@@ -78,30 +62,18 @@ public class FinanceDataWorker extends FinanceDataBase {
     }
 
     public double[] getSumKategorieArray() {
-        // liefert ein Array mit den aufsummierten Konten/Kategorien
+        // liefert ein Array mit den aufsummierten Kategorien
 
         double[] arr;
-//        if (konto) {
-//            arr = PArray.getDoubleArray(getClubConfig().financeAccountDataList.size());
-//        } else {
         arr = PArray.getDoubleArray(getClubConfig().financeCategoryDataList.size());
-//        }
 
         this.getTransactionDataList().stream().forEach(transactionData -> {
 
-//            if (konto) {
-//                for (int i = 0; i < getClubConfig().financeAccountDataList.size(); ++i) {
-//                    if (transactionData.getFinanceAccountData().getId() == getClubConfig().financeAccountDataList.get(i).getId()) {
-//                        arr[i] += transactionData.getBetrag();
-//                    }
-//                }
-//            } else {
             for (int i = 0; i < getClubConfig().financeCategoryDataList.size(); ++i) {
                 if (transactionData.getFinanceCategoryData().getId() == getClubConfig().financeCategoryDataList.get(i).getId()) {
                     arr[i] += transactionData.getBetrag();
                 }
             }
-//            }
         });
 
         return arr;

@@ -64,7 +64,7 @@ public class NewsletterDialogController extends PDialogExtra {
 
     public NewsletterDialogController(ClubConfig clubConfig) {
         super(clubConfig.getStage(), clubConfig.NEWSLETTER_TO_ODF_DIALOG_SIZE,
-                "Daten exportieren", true, true);
+                "Serienbrief erstellen", true, true);
 
         this.clubConfig = clubConfig;
 
@@ -94,8 +94,10 @@ public class NewsletterDialogController extends PDialogExtra {
     @Override
     protected void make() {
         this.stage = clubConfig.getStage();
-        btnHelp = PButton.helpButton(getStage(), "Daten exportieren",
-                "todo");
+        btnHelp = PButton.helpButton(getStage(), "Serienbrief erstellen",
+                "Hier kann aus einer Serienbrief-Vorlage mit den " +
+                        "aktuellen Daten der Mitglieder ein Serienbrief erstellt " +
+                        "werden.");
 
         HBox hBoxHelp = new HBox();
         hBoxHelp.setAlignment(Pos.CENTER_LEFT);
@@ -175,7 +177,7 @@ public class NewsletterDialogController extends PDialogExtra {
             }
 
             if (fileName.isEmpty()) {
-                fileName = "Newsletter";
+                fileName = "Serienbrief";
             }
 
             final String suffix = NewsletterFactory.getSuffix(newsletterType);

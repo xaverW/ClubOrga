@@ -240,11 +240,7 @@ public class ExportOdsFinanceDataList {
     private void addCell(Table table, int row, int startCol, FinanceData financeData, boolean last) {
 
         double[] arr;
-//        if (account) {
-//            arr = financeData.getSumKontoKategorieArray(true);
-//        } else {
         arr = financeData.getSumKategorieArray();
-//        }
 
         int i = 0;
         for (; i < arr.length; ++i) {

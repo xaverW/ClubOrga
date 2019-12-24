@@ -46,12 +46,12 @@ public class MemberFactory {
         }
 
         memberData.setFeeRateData(clubConfig.feeRateDataList.getRateDataStandard(FeeRateFactory.RATE_TYPE.RATE_STANDARD));
-        memberData.setStateData(clubConfig.stateDataList.getStateDataStandard(StateDataFactory.STATE_TYPE.STATE_ACTIVE));
-        memberData.setPaymentTypeData(clubConfig.paymentTypeDataList.getStateDataStandard(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_UEBERWEISUNG));
-
-        // todo oben und unten in eine Funktion
         memberData.setBeitrag(memberData.getFeeRateData().getBetrag());
+
+        memberData.setStateData(clubConfig.stateDataList.getStateDataStandard(StateDataFactory.STATE_TYPE.STATE_ACTIVE));
         memberData.setStatus(memberData.getStateData().getId());
+
+        memberData.setPaymentTypeData(clubConfig.paymentTypeDataList.getStateDataStandard(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_UEBERWEISUNG));
         memberData.setZahlart(memberData.getPaymentTypeData().getId());
 
         return memberData;

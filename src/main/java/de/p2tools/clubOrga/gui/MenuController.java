@@ -90,7 +90,7 @@ public class MenuController {
         MenuItem miUpdate = new MenuItem("Gibt es ein Update?");
         miUpdate.setOnAction(event -> new SearchProgInfo(clubConfig.getStage()).checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
                 ProgramTools.getProgVersionInt(),
-                ProgConfig.SYSTEM_LAST_INFO_NR, true, true));     // todo
+                ProgConfig.SYSTEM_LAST_INFO_NR, true, true));
         MenuItem miAbout = new MenuItem("Über dieses Programm");
         miAbout.setOnAction(event -> new AboutDialogController(clubConfig));
 
@@ -99,7 +99,7 @@ public class MenuController {
             MenuItem miTest = new MenuItem("Test");
             miTest.setOnAction(event -> {
                 final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setResizable(true); // todo bei Oracle Jdk10 unter Linux geht der Dialog nur manchmal auf, stimmt was beim JDK nicht
+                alert.setResizable(true); // bei Oracle Jdk10 unter Linux geht der Dialog sonst nur manchmal auf, stimmt was beim JDK nicht
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
                 alert.setTitle("Test");

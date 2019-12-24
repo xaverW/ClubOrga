@@ -24,10 +24,6 @@ import java.util.Collection;
 
 public class StateDataList extends StateDataListBase {
 
-    /* todo
-    was wenn eine StateData gelöscht wird??
-     */
-
     public StateDataList(ClubConfig clubConfig) {
         super(clubConfig);
     }
@@ -74,6 +70,19 @@ public class StateDataList extends StateDataListBase {
         return stateData;
     }
 
+    public boolean removeState(StateData stateData) {
+        if (stateData.getId() < StateDataFactory.STATE_TYPE_SIZE) {
+            PAlert.showErrorAlert(clubConfig.getStage(), "Status löschen", "Das sind Standardstati die nicht gelöscht werden können.");
+            return false;
+        }
+
+        if (checkStateBevoreRemoval(stateData)) {
+            return super.remove(stateData);
+        }
+
+        return false;
+    }
+
     @Override
     public boolean remove(Object obj) {
         if (StateData.class != obj.getClass()) {
@@ -81,22 +90,13 @@ public class StateDataList extends StateDataListBase {
             return false;
         }
 
-        StateData stateData = (StateData) obj;
-
-        if (stateData.getId() < StateDataFactory.STATE_TYPE_SIZE) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Status löschen", "Das sind Standardstati die nicht gelöscht werden können.");
-            return false;
-        }
-
-        checkStateBevoreRemoval(stateData);
-
+        changeMember((StateData) obj);
         return super.remove(obj);
     }
 
     @Override
     public synchronized boolean add(StateData feeData) {
         boolean ret = super.add(feeData);
-//        sort();
         setListChanged();
         return ret;
     }
@@ -104,7 +104,6 @@ public class StateDataList extends StateDataListBase {
     @Override
     public synchronized boolean addAll(Collection<? extends StateData> feeData) {
         boolean ret = super.addAll(feeData);
-//        sort();
         setListChanged();
         return ret;
     }
@@ -113,13 +112,28 @@ public class StateDataList extends StateDataListBase {
         return this.stream().filter(data -> data.getId() == id).findFirst().orElse(null);
     }
 
-    private void checkStateBevoreRemoval(StateData stateData) {
+    private boolean checkStateBevoreRemoval(StateData stateData) {
         //alle Mitglieder mit Status "stateData" auf "Standard" setzen
-        // todo -> dialog
-        clubConfig.memberDataList.stream().forEach(memberData -> {
-            if (memberData.getStateData().getId() == stateData.getId()) {
-                memberData.setStateData(clubConfig.stateDataList.getStateDataStandard(StateDataFactory.STATE_TYPE.STATE_ACTIVE));
+        boolean found = clubConfig.memberDataList.stream().filter(m -> m.getStateData().getId() == stateData.getId()).findAny().isPresent();
+        if (found) {
+            PAlert.BUTTON button = PAlert.showAlert_yes_no(clubConfig.getStage(), "Mitgliederstatus löschen",
+                    "Mitgliederstatus löschen",
+                    "Der Status der gelöscht werden soll, wird noch von Mitgliedern verwendet. Soll er trotzdem " +
+                            "gelöscht werden? Die Mitglieder mit diesem Status werden dann auf \"aktiv\" gesetzt.");
+            if (button != PAlert.BUTTON.YES) {
+                return false;
             }
-        });
+
+            changeMember(stateData);
+        }
+
+        return true;
+    }
+
+    private void changeMember(StateData stateData) {
+        //alle Mitglieder mit Status "stateData" auf "Standard" setzen
+        clubConfig.memberDataList.stream()
+                .filter(m -> m.getStateData().getId() == stateData.getId())
+                .forEach(m -> m.setStateData(clubConfig.stateDataList.getStateDataStandard(StateDataFactory.STATE_TYPE.STATE_ACTIVE)));
     }
 }

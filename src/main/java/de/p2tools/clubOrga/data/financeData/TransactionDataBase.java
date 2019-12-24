@@ -37,16 +37,13 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
     private final LongProperty feeId = new SimpleLongProperty(0);
 
     private final LongProperty betrag = new SimpleLongProperty(0);
-    //    private final LongProperty konto = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
     private final LongProperty kategorie = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
 
     private final StringProperty text = new SimpleStringProperty("");
     private BooleanProperty changed = new SimpleBooleanProperty(true);
 
-    //    private final ObjectProperty<FinanceAccountData> financeAccountData = new SimpleObjectProperty<>();
     private final ObjectProperty<FinanceCategoryData> financeCategoryData = new SimpleObjectProperty<>();
     private final ObjectProperty<FeeData> feeData = new SimpleObjectProperty<>(null);
-    //todo evtl. MemberData in die TransactionData mit aufnehmen??
 
     public TransactionDataBase() {
     }
@@ -58,12 +55,6 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
 
     @Override
     public Config[] getConfigsArr() {
-//        if (getFinanceAccountData() != null) {
-//            konto.set(getFinanceAccountData().getId());
-//        } else {
-//            konto.set(ProgConst.STANDARD_FIELD);
-//        }
-
         if (getFinanceCategoryData() != null) {
             kategorie.set(getFinanceCategoryData().getId());
         } else {
@@ -80,30 +71,11 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
                 new ConfigLongPropExtra("feeId", FinanceFieldNames.FEED_ID, feeId),
 
                 new ConfigMoneyPropExtra("betrag", FinanceFieldNames.BETRAG, betrag),
-//                new ConfigLongPropExtra("konto", FinanceFieldNames.KONTO, konto),
                 new ConfigLongPropExtra("kategorie", FinanceFieldNames.KATEGORIE, kategorie),
 
                 new ConfigStringPropExtra("text", FinanceFieldNames.TEXT, text)
         };
     }
-
-    // =============================================================
-    // Classes
-//    public FinanceAccountData getFinanceAccountData() {
-//        return financeAccountData.get();
-//    }
-//
-//    public ObjectProperty<FinanceAccountData> financeAccountDataProperty() {
-//        return financeAccountData;
-//    }
-//
-//    public void setFinanceAccountData(FinanceAccountData financeAccountData) {
-//        this.financeAccountData.set(financeAccountData);
-//    }
-
-//    public void initFinanceAccountData(ClubConfig clubConfig) {
-//        setFinanceAccountData(clubConfig.financeAccountDataList.getFinanceAccountDataOrStandard(konto.get()));
-//    }
 
     public FinanceCategoryData getFinanceCategoryData() {
         return financeCategoryData.get();

@@ -84,7 +84,9 @@ public class BillForFeeDialogController extends abListDialogController {
                 addNewsletterProperty = clubConfig.FEE_DIALOG_ADD_BILL;
 
                 helpHeader = "Rechnung erstellen";
-                helpText = "Todo";
+                helpText = "Hiermit wird das Rechnungsdatum des Beitrags gesetzt, was anzeigt, dass " +
+                        "die Rechnung für den Beitrag erstellt wurde (und wann). Zusätzlich kann auch " +
+                        "tatsächlich eine Rechnung aus einer Vorlage erstellt werden.";
                 lblDatum.setText("Rechnungsdatum:");
                 proposeFileName = "Rechnung";
                 lblNewsletter.setText("Rechnung speichern");
@@ -97,7 +99,9 @@ public class BillForFeeDialogController extends abListDialogController {
                 addNewsletterProperty = clubConfig.FEE_DIALOG_ADD_SQ;
 
                 helpHeader = "Spendenquittung erstellen";
-                helpText = "Todo";
+                helpText = "Hiermit wird das Datum der Spendenquittung des Beitrags gesetzt, was anzeigt, dass " +
+                        "die Spendenquittung für den Beitrag erstellt wurde (und wann). Zusätzlich kann auch " +
+                        "tatsächlich eine Spendenquittung aus einer Vorlage erstellt werden.";
                 lblDatum.setText("Spendendatum:");
                 proposeFileName = "Spendenquittung";
                 lblNewsletter.setText("Spendenquittung speichern");

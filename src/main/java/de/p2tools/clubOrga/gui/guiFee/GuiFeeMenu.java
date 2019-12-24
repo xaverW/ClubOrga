@@ -108,6 +108,26 @@ public class GuiFeeMenu extends VBox {
         if (list.isEmpty()) {
             return;
         }
+
+        // checken ob bereits erledigte dabei sind
+        boolean found;
+        if (type == BillForFeeDialogController.TYPE.BILL) {
+            found = list.stream().filter(feeData -> !feeData.getRechnung().isEmpty()).findAny().isPresent();
+        } else {
+            found = list.stream().filter(feeData -> !feeData.getSpendenQ().isEmpty()).findAny().isPresent();
+        }
+        if (found) {
+            String s1 = type == BillForFeeDialogController.TYPE.BILL ? "Rechnung" : "Spendenquittung";
+            String s2 = s1 + "en";
+            PAlert.BUTTON button = PAlert.showAlert_yes_no(clubConfig.getStage(),
+                    s1 + " erstellen",
+                    s1 + " bereits erstellt",
+                    "Es sind bereits erstellte " + s2 + " dabei. Sollen die nochmal erstellt werden?");
+            if (button != PAlert.BUTTON.YES) {
+                return;
+            }
+        }
+
         new BillForFeeDialogController(clubConfig, list, type);
     }
 
