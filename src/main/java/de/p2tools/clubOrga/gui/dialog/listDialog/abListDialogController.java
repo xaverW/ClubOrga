@@ -64,7 +64,7 @@ public abstract class abListDialogController extends PDialogExtra {
 
 
     public abListDialogController(ClubConfig clubConfig, ObservableList<FeeData> feeDataList, String title) {
-        super(clubConfig.FEE_DIALOG_SIZE, title);
+        super(clubConfig.getStage(), clubConfig.FEE_DIALOG_SIZE, title, true, true);
 
         this.clubConfig = clubConfig;
         this.feeDataList = feeDataList;
@@ -74,7 +74,7 @@ public abstract class abListDialogController extends PDialogExtra {
 
     public abListDialogController(ClubConfig clubConfig, StringProperty size, DoubleProperty dividerProp,
                                   ObservableList<FeeData> feeDataList, String title) {
-        super(size, title);
+        super(clubConfig.getStage(), size, title, true, true);
 
         this.clubConfig = clubConfig;
         this.feeDataList = feeDataList;
