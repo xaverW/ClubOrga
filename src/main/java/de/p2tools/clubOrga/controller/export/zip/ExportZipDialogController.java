@@ -24,20 +24,19 @@ import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.clubOrga.controller.ProgSaveFactory;
 import de.p2tools.clubOrga.controller.export.ExportFactory;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
-import de.p2tools.p2Lib.dialog.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,10 +57,10 @@ public class ExportZipDialogController extends PDialogExtra {
 
 
     public ExportZipDialogController(ClubConfig clubConfig) {
-        super(clubConfig.getStage(), clubConfig.EXPORT_CLUB_DIALOG_SIZE, "Verein exportieren");
-
+        super(clubConfig.getStage(), clubConfig.EXPORT_CLUB_DIALOG_SIZE,
+                "Verein exportieren", true, true);
         this.clubConfig = clubConfig;
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     public boolean isOk() {
@@ -75,13 +74,17 @@ public class ExportZipDialogController extends PDialogExtra {
                         "in eine ZIP-Datei gepackt. Diese kann wieder in einen beliebigen Ordner entpackt " +
                         "werden und das Programm kann dann wieder mit diesem Verein arbeiten.");
 
-        HBox hBoxHelp = new HBox();
-        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-        hBoxHelp.getChildren().addAll(btnHelp);
+//        HBox hBoxHelp = new HBox();
+//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
+//        hBoxHelp.getChildren().addAll(btnHelp);
+//
+//        HBox hBox = new HBox();
+//        HBox.setHgrow(hBox, Priority.ALWAYS);
+//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
 
-        HBox hBox = new HBox();
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+        addOkCancelButtons(btnOk, btnCancel);
+        ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
+        addAnyButton(btnHelp);
 
         btnOk.setOnAction(a -> {
             if (check()) {
@@ -114,7 +117,7 @@ public class ExportZipDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
 
-        getVboxCont().getChildren().addAll(hBoxTitle, gridPane);
+        getvBoxCont().getChildren().addAll(hBoxTitle, gridPane);
 
         initListener();
     }

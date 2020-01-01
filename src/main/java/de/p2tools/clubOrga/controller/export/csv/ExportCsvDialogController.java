@@ -27,20 +27,19 @@ import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
-import de.p2tools.p2Lib.dialog.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 import java.nio.file.Path;
@@ -72,7 +71,7 @@ public class ExportCsvDialogController extends PDialogExtra {
                                      List<MemberData> memberDataList) {
 
         super(ownerForCenteringDialog, clubConfig.EXPORT_CSV_DIALOG_SIZE,
-                "Daten in CVS-Datei exportieren");
+                "Daten in CVS-Datei exportieren", true, true);
 
         this.clubConfig = clubConfig;
         this.memberDataList = memberDataList;
@@ -80,7 +79,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         this.financeReportDataList = null;
 
         exportingWhat = exporting.MEMBER;
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     public ExportCsvDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
@@ -88,7 +87,7 @@ public class ExportCsvDialogController extends PDialogExtra {
                                      List<FinanceReportData> financeReportDataList) {
 
         super(ownerForCenteringDialog, clubConfig.EXPORT_CSV_DIALOG_SIZE,
-                "Daten in CVS-Datei exportieren");
+                "Daten in CVS-Datei exportieren", true, true);
 
         this.clubConfig = clubConfig;
         this.memberDataList = null;
@@ -100,7 +99,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         } else {
             exportingWhat = exporting.FINANCEREPORTS;
         }
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     public boolean isOk() {
@@ -118,13 +117,17 @@ public class ExportCsvDialogController extends PDialogExtra {
                         "(Das Dateiformat CSV beschreibt den Aufbau einer Textdatei " +
                         "zur Speicherung oder zum Austausch einfach strukturierter Daten.)");
 
-        HBox hBoxHelp = new HBox();
-        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-        hBoxHelp.getChildren().addAll(btnHelp);
+//        HBox hBoxHelp = new HBox();
+//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
+//        hBoxHelp.getChildren().addAll(btnHelp);
+//
+//        HBox hBox = new HBox();
+//        HBox.setHgrow(hBox, Priority.ALWAYS);
+//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
 
-        HBox hBox = new HBox();
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+        addOkCancelButtons(btnOk, btnCancel);
+        ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
+        addAnyButton(btnHelp);
 
         btnOk.setOnAction(a -> {
             if (check()) {
@@ -158,7 +161,7 @@ public class ExportCsvDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
 
-        getVboxCont().getChildren().addAll(hBoxTitle, gridPane);
+        getvBoxCont().getChildren().addAll(hBoxTitle, gridPane);
 
         initListener();
     }

@@ -24,7 +24,7 @@ import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.clubOrga.icon.GetIcon;
 import de.p2tools.p2Lib.P2LibConst;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.guiTools.POpen;
 import de.p2tools.p2Lib.tools.ProgramTools;
@@ -52,7 +52,7 @@ public class AboutDialogController extends PDialogExtra {
     private final ClubConfig clubConfig;
 
     public AboutDialogController(ClubConfig clubConfig) {
-        super(clubConfig.getStage(), null, "Über das Programm");
+        super(clubConfig.getStage(), null, "Über das Programm", true, true);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -63,8 +63,10 @@ public class AboutDialogController extends PDialogExtra {
             this.GRAY = Color.DARKBLUE;
         }
 
-        getHboxOk().getChildren().addAll(btnOk);
-        init(getVBoxCompleteDialog(), true);
+//        getHboxOk().getChildren().addAll(btnOk);
+        addOkButton(btnOk);
+
+        init(true);
     }
 
 
@@ -72,7 +74,7 @@ public class AboutDialogController extends PDialogExtra {
     protected void make() {
         btnOk.setOnAction(a -> close());
         HBox hBox = new HBox(10);
-        getVboxCont().getChildren().add(hBox);
+        getvBoxCont().getChildren().add(hBox);
 
         ImageView iv = new ImageView();
         Image im = getImage();

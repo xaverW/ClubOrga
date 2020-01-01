@@ -26,18 +26,15 @@ import de.p2tools.clubOrga.data.financeData.TransactionData;
 import de.p2tools.clubOrga.data.financeData.TransactionFactory;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFactory;
-import de.p2tools.p2Lib.dialog.PDialog;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-public class DataDialogController extends PDialog {
+public class DataDialogController extends PDialogExtra {
 
     private TabPane tabPane = new TabPane();
     private Button btnOk = new Button("Ok");
@@ -68,7 +65,7 @@ public class DataDialogController extends PDialog {
                                 MemberData memberData, FeeData feeData,
                                 FinanceData financeData, TransactionData transactionData) {
 
-        super(clubConfig.getStage(), clubConfig.DATA_DIALOG_SIZE, "Daten ändern", true, true);
+        super(clubConfig.getStage(), clubConfig.DATA_DIALOG_SIZE, "Daten ändern", true, true, DECO.BORDER);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -79,19 +76,11 @@ public class DataDialogController extends PDialog {
         this.financeDataOrg = financeData;
         this.transactionDataOrg = transactionData;
 
-        VBox vBox = new VBox();
-        vBox.setPadding(new Insets(10));
-        vBox.setSpacing(10);
-
-        vBox.getChildren().add(tabPane);
+        getvBoxCont().getChildren().add(tabPane);
         VBox.setVgrow(tabPane, Priority.ALWAYS);
 
-        HBox hBox = new HBox(10);
-        hBox.setAlignment(Pos.CENTER_RIGHT);
-        hBox.getChildren().addAll(btnOk, btnCancel);
-        vBox.getChildren().add(hBox);
-
-        init(vBox, true);
+        addOkCancelButtons(btnOk, btnCancel);
+        init(true);
     }
 
     @Override

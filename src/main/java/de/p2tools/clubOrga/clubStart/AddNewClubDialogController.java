@@ -22,18 +22,17 @@ import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.p2Lib.alert.PAlert;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
-import de.p2tools.p2Lib.dialog.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -59,12 +58,12 @@ public class AddNewClubDialogController extends PDialogExtra {
 
 
     public AddNewClubDialogController(Stage stage, ProgData progData, KnownClubData knownClubData) {
-        super(stage, ProgConfig.ADD_NEW_CLUB_DIALOG_SIZE, "neuen Verein anlegen");
+        super(stage, ProgConfig.ADD_NEW_CLUB_DIALOG_SIZE, "neuen Verein anlegen", true, true);
 
         this.progData = progData;
         this.knownClubData = knownClubData;
 
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     public boolean isOk() {
@@ -82,13 +81,17 @@ public class AddNewClubDialogController extends PDialogExtra {
                         "mitzugeben (Mitglieder, Beiträge, Finanzen). Das ist gedacht, um mit einen " +
                         "Verein mit Demodaten, die Funktionen des Programms gefahrlos durchzuspielen.");
 
-        HBox hBoxHelp = new HBox();
-        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-        hBoxHelp.getChildren().addAll(btnHelp);
-
-        HBox hBox = new HBox();
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+//        HBox hBoxHelp = new HBox();
+//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
+//        hBoxHelp.getChildren().addAll(btnHelp);
+//
+//        HBox hBox = new HBox();
+//        HBox.setHgrow(hBox, Priority.ALWAYS);
+//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+//
+        addOkCancelButtons(btnOk, btnCancel);
+        ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
+        addAnyButton(btnHelp);
 
         btnOk.setOnAction(a -> {
             if (check()) {
@@ -123,7 +126,7 @@ public class AddNewClubDialogController extends PDialogExtra {
                 PColumnConstraints.getCcPrefSize());
 
         VBox.setVgrow(gridPane, Priority.ALWAYS);
-        getVboxCont().getChildren().add(gridPane);
+        getvBoxCont().getChildren().add(gridPane);
 
         initListener();
     }

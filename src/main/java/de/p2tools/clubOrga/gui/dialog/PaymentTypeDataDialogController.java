@@ -25,7 +25,7 @@ import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeNames;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.dialog.PDialog;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxObject;
 import de.p2tools.p2Lib.guiTools.PTextField;
@@ -33,15 +33,13 @@ import de.p2tools.p2Lib.tools.PException;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-public class PaymentTypeDataDialogController extends PDialog {
+public class PaymentTypeDataDialogController extends PDialogExtra {
 
     private Button btnOk = new Button("Ok");
     private Button btnCancel = new Button("Abbrechen");
@@ -55,30 +53,18 @@ public class PaymentTypeDataDialogController extends PDialog {
     private PaymentTypeData paymentTypeDataCopy = null;
     private CheckBox chkEinzug = new CheckBox();
 
-    private final VBox vBoxCont = new VBox(10);
     private boolean ok = false;
 
     public PaymentTypeDataDialogController(ClubConfig clubConfig, PaymentTypeData paymentTypeDataOrg) {
         super(clubConfig.getStage(), clubConfig.PAYMENT_TYPE_DATA_DIALOG_SIZE,
-                "Daten ändern", true, true);
+                "Daten ändern", true, true, DECO.NONE);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
         this.paymentTypeDataOrg = paymentTypeDataOrg;
 
-        VBox vBox = new VBox();
-        vBox.setPadding(new Insets(10));
-        vBox.setSpacing(10);
-
-        vBox.getChildren().add(vBoxCont);
-        VBox.setVgrow(vBoxCont, Priority.ALWAYS);
-
-        HBox hBox = new HBox(10);
-        hBox.setAlignment(Pos.CENTER_RIGHT);
-        hBox.getChildren().addAll(btnOk, btnCancel);
-        vBox.getChildren().add(hBox);
-
-        init(vBox, true);
+        addOkCancelButtons(btnOk, btnCancel);
+        init(true);
     }
 
     @Override
@@ -105,13 +91,14 @@ public class PaymentTypeDataDialogController extends PDialog {
         PaymentTypeData.copyData(paymentTypeDataOrg, paymentTypeDataCopy);
 
         final GridPane gridPane = new GridPane();
+        VBox.setVgrow(gridPane, Priority.ALWAYS);
         gridPane.setHgap(5);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(10));
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize());
 
         addStateData(gridPane);
-        vBoxCont.getChildren().add(gridPane);
+        getvBoxCont().getChildren().add(gridPane);
     }
 
     private void addStateData(GridPane gridPane) {
@@ -149,6 +136,7 @@ public class PaymentTypeDataDialogController extends PDialog {
 
             } else if (configData.getName().equals(PaymentTypeNames.DESCRIPTION)) {
                 control = new TextArea();
+                GridPane.setVgrow(control, Priority.ALWAYS);
                 ((TextArea) control).textProperty().bindBidirectional(paymentTypeDataCopy.textProperty());
 
             } else if (configData instanceof ConfigExtra) {

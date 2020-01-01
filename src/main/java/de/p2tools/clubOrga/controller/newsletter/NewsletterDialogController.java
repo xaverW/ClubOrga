@@ -21,20 +21,18 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.clubOrga.controller.ClubFactory;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
-import de.p2tools.p2Lib.dialog.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -65,10 +63,8 @@ public class NewsletterDialogController extends PDialogExtra {
     public NewsletterDialogController(ClubConfig clubConfig) {
         super(clubConfig.getStage(), clubConfig.NEWSLETTER_TO_ODF_DIALOG_SIZE,
                 "Serienbrief erstellen", true, true);
-
         this.clubConfig = clubConfig;
-
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     public boolean isOk() {
@@ -99,13 +95,17 @@ public class NewsletterDialogController extends PDialogExtra {
                         "aktuellen Daten der Mitglieder ein Serienbrief erstellt " +
                         "werden.");
 
-        HBox hBoxHelp = new HBox();
-        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-        hBoxHelp.getChildren().addAll(btnHelp);
+//        HBox hBoxHelp = new HBox();
+//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
+//        hBoxHelp.getChildren().addAll(btnHelp);
+//
+//        HBox hBox = new HBox();
+//        HBox.setHgrow(hBox, Priority.ALWAYS);
+//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
 
-        HBox hBox = new HBox();
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+        addOkCancelButtons(btnOk, btnCancel);
+        ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
+        addAnyButton(btnHelp);
 
         btnOk.setOnAction(a -> {
             if (check()) {
@@ -145,7 +145,7 @@ public class NewsletterDialogController extends PDialogExtra {
                 PColumnConstraints.getCcPrefSize());
 
         vBoxCont.getChildren().add(gridPane);
-        getVboxCont().getChildren().add(vBoxCont);
+        getvBoxCont().getChildren().add(vBoxCont);
 
         initListener();
     }

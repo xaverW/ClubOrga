@@ -29,14 +29,24 @@ public class ProgConfig extends PDataProgConfig {
 
     private static final ArrayList<Config> arrayList = new ArrayList<>();
 
-    public static IntegerProperty SYSTEM_LAST_INFO_NR = addInt("system-last-info-nr", 0);
+    public static StringProperty SYSTEM_UPDATE_DATE = addStr("system-update-date"); // Datum der letzten Prüfung
     public static StringProperty SYSTEM_LOG_DIR = addStr("system-log-dir", "");
+    public static BooleanProperty SYSTEM_UPDATE_SEARCH = addBool("system-update-search-prog-update", true);
+    public static BooleanProperty SYSTEM_UPDATE_BETA_SEARCH = addBool("system-update-beta-search", false);
+    public static IntegerProperty SYSTEM_UPDATE_VERSION_SHOWN = addInt("system-update-version-shown", 0);
+    public static IntegerProperty SYSTEM_UPDATE_INFO_NR_SHOWN = addInt("system-update-info-nr-shown", 0);
+    public static IntegerProperty SYSTEM_UPDATE_BETA_VERSION_SHOWN = addInt("system-update-beta-version-shown", 0);
+    public static IntegerProperty SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN = addInt("system-update-beta-build-nr-shown", 0);
+
+//    public static MLConfigs SYSTEM_UPDATE_BETA_VERSION_SHOWN = addNewKey("system-update-beta-version-shown"); // zuletzt angezeigtes Update mit versionNo
+//    public static MLConfigs SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN = addNewKey("system-update-beta-build-nr-shown"); // zuletzt angezeigtes Update mit buildNo
+//    public static MLConfigs SYSTEM_UPDATE_PROGSET_VERSION = addNewKey("system-update-progset-version");
+
 
     // GuiStart
     public static StringProperty SYSTEM_SIZE_CLUB_SELECTOR_GUI = addStr("system-size-club-selector-gui", "800:500");
 
     // ConfigDialog
-    public static BooleanProperty CLUB_CONFIG_SEARCH_PROG_UPDATE = addBool("club-config-search-prog-update", true);
     public static BooleanProperty START_CLUB_SELECTOR_FIRST = addBool("start-club-slector-first", false);
     public static StringProperty IMPORT_DIR_CLUB_DIALOG_SIZE = addStr("import-dir-club-dialog-size", "700:400");
     public static StringProperty IMPORT_ZIP_CLUB_DIALOG_SIZE = addStr("import-zip-club-dialog-size", "700:400");

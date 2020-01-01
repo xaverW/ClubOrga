@@ -20,24 +20,22 @@ import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
-import de.p2tools.p2Lib.dialog.PDialog;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
-import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
-public class StartDialogController extends PDialog {
-
-    private AnchorPane rootPane = new AnchorPane();
-    private VBox vBoxDialog = new VBox();
-    private VBox vBoxCont = new VBox();
+public class StartDialogController extends PDialogExtra {
 
     private TilePane tilePane = new TilePane();
     private StackPane stackpane;
@@ -50,31 +48,26 @@ public class StartDialogController extends PDialog {
     private static final String STR_INFO_2 = "Infos";
     private static final String STR_CLUB = "Verein anlegen";
 
-
-    private enum State {INFO_1, INFO_2, CLUB}
-
-    private ScrollPane infoPane_1;
-    private ScrollPane infoPane_2;
-    private ScrollPane clubPane;
+    private enum State {INFO_1, INFO_2, CLUB;}
 
     private State aktState = State.INFO_1;
-    private boolean ok = false;
+    private TitledPane tStart1, tStart2, tClub;
 
+    private boolean ok = false;
     private final ProgData progData;
     private final KnownClubData knownClubData;
 
     public StartDialogController(Stage stage, KnownClubData knownClubData) {
-        super(stage, null, "Starteinstellungen", true);
+        super(stage, null, "Starteinstellungen", true, false, DECO.BORDER);
 
         this.progData = ProgData.getInstance();
         this.knownClubData = knownClubData;
 
-        init(rootPane, true);
+        init(true);
     }
 
     @Override
     public void make() {
-        initPanel();
         addButton();
         initStack();
         initButton();
@@ -91,30 +84,9 @@ public class StartDialogController extends PDialog {
         return ok;
     }
 
-    private void initPanel() {
-        try {
-            vBoxDialog.setPadding(new Insets(20));
-            vBoxDialog.setSpacing(20);
-
-            vBoxCont.getStyleClass().add("dialog-border");
-            vBoxCont.setSpacing(10);
-            VBox.setVgrow(vBoxCont, Priority.ALWAYS);
-
-            rootPane.getChildren().addAll(vBoxDialog);
-            AnchorPane.setLeftAnchor(vBoxDialog, 0.0);
-            AnchorPane.setBottomAnchor(vBoxDialog, 0.0);
-            AnchorPane.setRightAnchor(vBoxDialog, 0.0);
-            AnchorPane.setTopAnchor(vBoxDialog, 0.0);
-
-            vBoxDialog.getChildren().add(vBoxCont);
-
-        } catch (final Exception ex) {
-            PLog.errorLog(912031210, ex);
-        }
-    }
-
     private void addButton() {
-        vBoxCont.getChildren().add(tilePane);
+        gethBoxOverAll().getChildren().add(tilePane);
+        gethBoxOverAll().setAlignment(Pos.CENTER);
         tilePane.getChildren().addAll(btnInfo1, btnInfo2, btnClub);
         tilePane.setAlignment(Pos.CENTER);
         tilePane.setPadding(new Insets(10));
@@ -150,40 +122,24 @@ public class StartDialogController extends PDialog {
     private void initStack() {
         stackpane = new StackPane();
         VBox.setVgrow(stackpane, Priority.ALWAYS);
-        vBoxCont.getChildren().add(stackpane);
+        getvBoxCont().getChildren().add(stackpane);
 
         // startPane 1
-        infoPane_1 = new ScrollPane();
-        infoPane_1.setFitToHeight(true);
-        infoPane_1.setFitToWidth(true);
-
-        TitledPane tStart1 = new StartDialogInfoPane(getStage()).makeStart1();
+        tStart1 = new StartDialogInfoPane(getStage()).makeStart1();
         tStart1.setMaxHeight(Double.MAX_VALUE);
         tStart1.setCollapsible(false);
-        infoPane_1.setContent(tStart1);
 
         // startPane 2
-        infoPane_2 = new ScrollPane();
-        infoPane_2.setFitToHeight(true);
-        infoPane_2.setFitToWidth(true);
-
-        TitledPane tStart2 = new StartDialogInfoPane(getStage()).makeStart2();
+        tStart2 = new StartDialogInfoPane(getStage()).makeStart2();
         tStart2.setMaxHeight(Double.MAX_VALUE);
         tStart2.setCollapsible(false);
-        infoPane_2.setContent(tStart2);
 
         // clubPane
-        clubPane = new ScrollPane();
-        clubPane.setFitToHeight(true);
-        clubPane.setFitToWidth(true);
-
-        TitledPane tClub = new StartDialogClubPane(getStage(), this).makePane();
+        tClub = new StartDialogClubPane(getStage(), this).makePane();
         tClub.setMaxHeight(Double.MAX_VALUE);
         tClub.setCollapsible(false);
-        clubPane.setContent(tClub);
 
-
-        stackpane.getChildren().addAll(infoPane_1, infoPane_2, clubPane);
+        stackpane.getChildren().addAll(tStart1, tStart2, tClub);
     }
 
     private void initButton() {
@@ -220,20 +176,16 @@ public class StartDialogController extends PDialog {
             selectActPane();
         });
 
-        btnCancel.getStyleClass().add("btnStartDialog");
-        btnNext.getStyleClass().add("btnStartDialog");
-        btnPrev.getStyleClass().add("btnStartDialog");
+        btnCancel.getStyleClass().setAll("btnStartDialog");
+        btnNext.getStyleClass().setAll("btnStartDialog");
+        btnPrev.getStyleClass().setAll("btnStartDialog");
 
-        HBox hBox1 = new HBox();
-        hBox1.setSpacing(10);
-        hBox1.getChildren().addAll(btnPrev, btnNext);
-        HBox.setHgrow(hBox1, Priority.ALWAYS);
-
-        HBox hBox2 = new HBox();
-        hBox2.setSpacing(10);
-        hBox2.getChildren().addAll(hBox1, btnCancel);
-
-        vBoxDialog.getChildren().add(hBox2);
+        addCancelButton(btnCancel);
+        ButtonBar.setButtonData(btnPrev, ButtonBar.ButtonData.BACK_PREVIOUS);
+        ButtonBar.setButtonData(btnNext, ButtonBar.ButtonData.NEXT_FORWARD);
+        addAnyButton(btnNext);
+        addAnyButton(btnPrev);
+        getButtonBar().setButtonOrder("BX+CO");
     }
 
     private void selectActPane() {
@@ -241,19 +193,19 @@ public class StartDialogController extends PDialog {
             case INFO_1:
                 btnPrev.setDisable(true);
                 btnNext.setDisable(false);
-                infoPane_1.toFront();
+                tStart1.toFront();
                 setButtonStyle(btnInfo1);
                 break;
             case INFO_2:
                 btnPrev.setDisable(false);
                 btnNext.setDisable(false);
-                infoPane_2.toFront();
+                tStart2.toFront();
                 setButtonStyle(btnInfo2);
                 break;
             case CLUB:
                 btnPrev.setDisable(false);
                 btnNext.setDisable(true);
-                clubPane.toFront();
+                tClub.toFront();
                 setButtonStyle(btnClub);
                 break;
         }
@@ -274,11 +226,6 @@ public class StartDialogController extends PDialog {
         AddNewClubDialogController addNewClubDialogController = new AddNewClubDialogController(getStage(), progData, knownClubData);
 
         if (addNewClubDialogController.isOk()) {
-//            Platform.runLater(() -> {
-//                ClubStartFactory.startNewClub(knownClubData);
-//                closeDialog(true);
-//            });
-
             ClubStartFactory.startNewClub(knownClubData);
             closeDialog(true);
         }

@@ -23,24 +23,22 @@ import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFactory;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFieldNames;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.dialog.PDialog;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextField;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.PException;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-public class FinanceAccountDataDialogController extends PDialog {
+public class FinanceAccountDataDialogController extends PDialogExtra {
 
     private Button btnOk = new Button("Ok");
     private Button btnCancel = new Button("Abbrechen");
@@ -50,30 +48,18 @@ public class FinanceAccountDataDialogController extends PDialog {
     private FinanceAccountData dataOrg = null;
     private FinanceAccountData dataCopy = null;
 
-    private final VBox vBoxCont = new VBox(10);
     private boolean ok = false;
 
     public FinanceAccountDataDialogController(ClubConfig clubConfig, FinanceAccountData dataOrg) {
         super(clubConfig.getStage(), clubConfig.FINANCE_ACCOUNT_DATA_DIALOG_SIZE,
-                "Daten ändern", true, true);
+                "Daten ändern", true, true, DECO.NONE);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
         this.dataOrg = dataOrg;
 
-        VBox vBox = new VBox();
-        vBox.setPadding(new Insets(10));
-        vBox.setSpacing(10);
-
-        vBox.getChildren().add(vBoxCont);
-        VBox.setVgrow(vBoxCont, Priority.ALWAYS);
-
-        HBox hBox = new HBox(10);
-        hBox.setAlignment(Pos.CENTER_RIGHT);
-        hBox.getChildren().addAll(btnOk, btnCancel);
-        vBox.getChildren().add(hBox);
-
-        init(vBox, true);
+        addOkCancelButtons(btnOk, btnCancel);
+        init(true);
     }
 
     @Override
@@ -98,6 +84,7 @@ public class FinanceAccountDataDialogController extends PDialog {
         FinanceAccountData.copyData(dataOrg, dataCopy);
 
         final GridPane gridPane = new GridPane();
+        VBox.setVgrow(gridPane, Priority.ALWAYS);
         gridPane.setHgap(5);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(10));
@@ -105,7 +92,7 @@ public class FinanceAccountDataDialogController extends PDialog {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         addData(gridPane);
-        vBoxCont.getChildren().add(gridPane);
+        getvBoxCont().getChildren().add(gridPane);
     }
 
     private void addData(GridPane gridPane) {
@@ -154,6 +141,7 @@ public class FinanceAccountDataDialogController extends PDialog {
 
             } else if (configData.getName().equals(FinanceAccountFieldNames.DESCRIPTION)) {
                 control = new TextArea();
+                GridPane.setVgrow(control, Priority.ALWAYS);
                 ((TextArea) control).textProperty().bindBidirectional(dataCopy.descriptionProperty());
 
             } else if (configData instanceof ConfigExtra) {

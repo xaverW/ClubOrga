@@ -19,47 +19,38 @@ package de.p2tools.clubOrga.gui.dialog.clubConfigDialog;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.p2Lib.dialog.PDialog;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.tools.log.PLog;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-public class ProgConfigDialogController extends PDialog {
+public class ProgConfigDialogController extends PDialogExtra {
 
     private TabPane tabPane = new TabPane();
     private Button btnOk = new Button("Ok");
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
-//    StringProperty sizeProperty = ProgConfig.CONFIG_DIALOG_SIZE;
+    private ButtonBar buttonBar = new ButtonBar();
+    //    StringProperty sizeProperty = ProgConfig.CONFIG_DIALOG_SIZE;
 
 
     public ProgConfigDialogController(ClubConfig clubConfig) {
-        super(clubConfig.getStage(), clubConfig.CLUB_CONFIG_DIALOG_SIZE, "Einstellungen", true);
+        super(clubConfig.getStage(), clubConfig.CLUB_CONFIG_DIALOG_SIZE, "Einstellungen", true, false, DECO.NONE);
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
 
-        VBox vBox = new VBox();
-        vBox.setPadding(new Insets(10));
-        vBox.setSpacing(10);
-
-        vBox.getChildren().add(tabPane);
         VBox.setVgrow(tabPane, Priority.ALWAYS);
+        getvBoxCont().getChildren().add(tabPane);
 
-        HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER_RIGHT);
-        hBox.getChildren().add(btnOk);
-        vBox.getChildren().add(hBox);
-
-        init(vBox, true);
+        addOkButton(btnOk);
+        init(true);
     }
 
     @Override

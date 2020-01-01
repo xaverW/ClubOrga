@@ -25,7 +25,7 @@ import de.p2tools.clubOrga.controller.newsletter.Newsletter;
 import de.p2tools.clubOrga.controller.newsletter.NewsletterFactory;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.p2Lib.P2LibConst;
-import de.p2tools.p2Lib.dialog.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.guiTools.PDatePicker;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
@@ -101,7 +101,7 @@ public class AddMissingFeeDialogController extends abListDialogController {
     }
 
     void init() {
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
 

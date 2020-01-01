@@ -20,21 +20,21 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.clubOrga.config.prog.ProgIcons;
+import de.p2tools.clubOrga.controller.SearchProgramUpdate;
 import de.p2tools.clubOrga.gui.tools.HelpText;
 import de.p2tools.p2Lib.P2LibConst;
-import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
-import de.p2tools.p2Lib.guiTools.POpen;
+import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
-import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.beans.property.BooleanProperty;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -45,6 +45,11 @@ public class GeneralController extends AnchorPane {
     private final Accordion accordion = new Accordion();
     private final HBox hBox = new HBox(0);
 
+    private final PToggleSwitch tglSearch = new PToggleSwitch("einmal am Tag nach einer neuen Programmversion suchen");
+    private final PToggleSwitch tglSearchBeta = new PToggleSwitch("auch nach neuen Vorabversionen suchen");
+    private final Button btnNow = new Button("_Jetzt suchen");
+    private final Button btnNowBeta = new Button("_Jetzt suchen");
+    private Button btnHelpBeta;
     ScrollPane scrollPane = new ScrollPane();
 
     private final ProgData progData;
@@ -105,70 +110,85 @@ public class GeneralController extends AnchorPane {
     }
 
     private void makeUpdate(Collection<TitledPane> result) {
-        final VBox vBox = new VBox();
-        vBox.setFillWidth(true);
-        TitledPane tpConfig = new TitledPane("Programmupdate", vBox);
-        result.add(tpConfig);
-
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(15);
         gridPane.setVgap(15);
-        gridPane.setPadding(new Insets(20, 20, 20, 20));
-        vBox.getChildren().add(gridPane);
+        gridPane.setPadding(new Insets(20));
+
+        TitledPane tpConfig = new TitledPane("Programmupdate", gridPane);
+        result.add(tpConfig);
 
         //einmal am Tag Update suchen
-        final CheckBox tglSearch = new CheckBox("einmal am Tag nach einer neuen Programmversion suchen");
-        tglSearch.selectedProperty().bindBidirectional(ProgConfig.CLUB_CONFIG_SEARCH_PROG_UPDATE);
-        gridPane.add(tglSearch, 0, 0);
 
-        final Button btnHelp = new Button("");
-        btnHelp.setTooltip(new Tooltip("Hilfe anzeigen."));
-        btnHelp.setGraphic(new ProgIcons().ICON_BUTTON_HELP);
-        btnHelp.setOnAction(a -> PAlert.showHelpAlert(stage, "Programmupdate suchen",
+        tglSearch.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_UPDATE_SEARCH);
+        final Button btnHelp = PButton.helpButton(stage, "Programmupdate suchen",
                 "Beim Programmstart wird geprüft, ob es eine neue Version des Programms gibt. " +
-                        "Ist eine aktualisierte Version vorhanden, dann wird es gemeldet." + P2LibConst.LINE_SEPARATOR +
-                        "Das Programm wird aber nicht ungefragt ersetzt."));
-        GridPane.setHalignment(btnHelp, HPos.RIGHT);
-        gridPane.add(btnHelp, 1, 0);
+                        "Ist eine aktualisierte Version vorhanden, dann wird das gemeldet."
+                        + P2LibConst.LINE_SEPARATOR +
+                        "Das Programm wird aber nicht ungefragt ersetzt.");
 
-        final ColumnConstraints ccTxt = new ColumnConstraints();
-        ccTxt.setFillWidth(true);
-        ccTxt.setMinWidth(Region.USE_COMPUTED_SIZE);
-        ccTxt.setHgrow(Priority.ALWAYS);
-        gridPane.getColumnConstraints().addAll(new ColumnConstraints(), ccTxt);
+
+        tglSearchBeta.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_UPDATE_BETA_SEARCH);
+        btnHelpBeta = PButton.helpButton(stage, "Vorabversionen suchen",
+                "Beim Programmstart wird geprüft, ob es eine neue Vorabversion des Programms gibt. " +
+                        P2LibConst.LINE_SEPARATORx2 +
+                        "Das sind \"Zwischenschritte\" auf dem Weg zur nächsten Version. Hier ist die " +
+                        "Entwicklung noch nicht abgeschlossen und das Programm kann noch Fehler enthalten. Wer Lust hat " +
+                        "einen Blick auf die nächste Version zu werfen, ist eingeladen, die Vorabversionen zu testen." +
+                        P2LibConst.LINE_SEPARATORx2 +
+                        "Ist eine aktualisierte Vorabversion vorhanden, dann wird das gemeldet."
+                        + P2LibConst.LINE_SEPARATOR +
+                        "Das Programm wird aber nicht ungefragt ersetzt.");
 
         //jetzt suchen
-        Button btnNow = new Button("Jetzt suchen");
-        btnNow.setMaxWidth(Double.MAX_VALUE);
-//        btnNow.setOnAction(event -> new SearchProgramUpdate().checkVersion(true, true /* anzeigen */));
-//        btnNow.setOnAction(event -> new SearchProgInfo().checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
-//                ProgramTools.getProgVersionInt(),
-//                ProgConfig.SYSTEM_INFOS_NR, true, true));
+        btnNow.setOnAction(event -> new SearchProgramUpdate(stage)
+                .checkVersion(true, true /* anzeigen */, false));
 
+        btnNowBeta.setOnAction(event -> new SearchProgramUpdate(stage)
+                .checkBetaVersion(true, true /* anzeigen */));
 
-        HBox hBox = new HBox();
-        hBox.setPadding(new Insets(10, 0, 0, 0));
-        hBox.setSpacing(10);
-        hBox.getChildren().addAll(btnNow);
-        gridPane.add(hBox, 0, 1);
+        checkBeta();
+        tglSearch.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
+        PHyperlink hyperlink = new PHyperlink(ProgConst.WEBSITE_CLUB);
+        HBox hBoxHyper = new HBox();
+        hBoxHyper.setAlignment(Pos.CENTER_LEFT);
+        hBoxHyper.setPadding(new Insets(10, 0, 0, 0));
+        hBoxHyper.setSpacing(10);
+        hBoxHyper.getChildren().addAll(new Label("Infos auch auf der Website:"), hyperlink);
 
-        Hyperlink hyperlink = new Hyperlink(ProgConst.WEBSITE_CLUB);
-        hyperlink.setOnAction(a -> {
-            try {
-                POpen.openURL(ProgConst.WEBSITE_CLUB);
-            } catch (Exception e) {
-                PLog.errorLog(932012478, e);
-            }
-        });
-        hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER_LEFT);
-        hBox.setPadding(new Insets(10, 0, 0, 0));
-        hBox.setSpacing(10);
-        hBox.getChildren().addAll(new Label("Infos auch auf der Website:"), hyperlink);
-        gridPane.add(hBox, 0, 2);
+        int row = 0;
+        gridPane.add(tglSearch, 0, row);
+        gridPane.add(btnNow, 1, row);
+        gridPane.add(btnHelp, 2, row);
 
+        gridPane.add(new Label(" "), 0, ++row);
 
+        gridPane.add(tglSearchBeta, 0, ++row);
+        gridPane.add(btnNowBeta, 1, row);
+        gridPane.add(btnHelpBeta, 2, row);
+
+        gridPane.add(new Label(" "), 0, ++row);
+
+        gridPane.add(hBoxHyper, 0, ++row);
+
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(),
+                PColumnConstraints.getCcPrefSize());
+        gridPane.getRowConstraints().addAll(PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(),
+                PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcVgrow(), PColumnConstraints.getRcPrefSize());
+    }
+
+    private void checkBeta() {
+        if (tglSearch.isSelected()) {
+            tglSearchBeta.setDisable(false);
+            btnNowBeta.setDisable(false);
+            btnHelpBeta.setDisable(false);
+        } else {
+            tglSearchBeta.setDisable(true);
+            tglSearchBeta.setSelected(false);
+            btnNowBeta.setDisable(true);
+            btnHelpBeta.setDisable(true);
+        }
     }
 
 }

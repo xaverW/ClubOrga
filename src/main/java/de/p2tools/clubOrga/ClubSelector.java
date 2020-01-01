@@ -29,7 +29,7 @@ import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubDataFactory;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -53,7 +53,7 @@ public class ClubSelector extends PDialogExtra {
     public ClubSelector(Stage stage) {
         super(stage, ProgConfig.SYSTEM_SIZE_CLUB_SELECTOR_GUI, "Verein auswählen", false, true);
         this.progData = ProgData.getInstance();
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     @Override
@@ -63,12 +63,16 @@ public class ClubSelector extends PDialogExtra {
         ScrollPane scrollPaneTable = getTable();
         TilePane tilePane = getGenClubButton();
 
-        getVboxCont().setPadding(new Insets(0));
-        vBox.setPadding(new Insets(10));
-        vBox.getChildren().addAll(hBoxTitle, scrollPaneTable, tilePane);
-        VBox.setVgrow(vBox, Priority.ALWAYS);
-        getVboxCont().getChildren().addAll(vBox);
+//        getVboxCont().setPadding(new Insets(0));
+//        vBox.setPadding(new Insets(10));
+//        vBox.getChildren().addAll(hBoxTitle, scrollPaneTable, tilePane);
+//        VBox.setVgrow(vBox, Priority.ALWAYS);
+//        getVboxCont().getChildren().addAll(vBox);
 
+        VBox.setVgrow(tableView, Priority.ALWAYS);
+        getvBoxCont().setSpacing(10);
+        getvBoxCont().setPadding(new Insets(10));
+        getvBoxCont().getChildren().addAll(hBoxTitle, tableView, tilePane);
         addOk();
     }
 
@@ -106,12 +110,16 @@ public class ClubSelector extends PDialogExtra {
                         "und der Verein wieder gestartet werden.");
 
 
-        HBox hBoxOk = getHboxOk();
-        CheckBox chkStartFirst = new CheckBox("Immer zuerst starten");
+//        HBox hBoxOk = getHboxLeft();
+        CheckBox chkStartFirst = new CheckBox("Dialog immer zuerst starten");
         chkStartFirst.selectedProperty().bindBidirectional(ProgConfig.START_CLUB_SELECTOR_FIRST);
-        HBox hBox = new HBox();
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-        hBoxOk.getChildren().addAll(btnHelp, chkStartFirst, hBox, btnOk);
+//        hBoxOk.getChildren().addAll(chkStartFirst);
+
+        getHBoxOverButtons().setPadding(new Insets(0, 0, 10, 0));
+        getHBoxOverButtons().getChildren().addAll(chkStartFirst);
+        ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
+        addOkButton(btnOk);
+        addAnyButton(btnHelp);
     }
 
     private ScrollPane getTable() {

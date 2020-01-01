@@ -51,7 +51,9 @@ public class ProgConst {
 
     public static final String WEBSITE_P2 = "https://www.p2tools.de";
     public static final String WEBSITE_CLUB = "https://www.p2tools.de/cluborga/";
-    public static final String WEBSITE_PROG_UPDATE = "https://www.p2tools.de/extra/cluborga-info.xml";
+    public static final String URL_PROG_UPDATE = "https://www.p2tools.de/extra/cluborga-info.xml";
+    public static final String URL_PROG_BETA_UPDATE = "https://www.p2tools.de/extra/cluborga-beta-info.xml";
+
 
     public static final String P2_ICON_850 = "P2.png";
     public static final String P2_ICON_32 = "P2_32.png";

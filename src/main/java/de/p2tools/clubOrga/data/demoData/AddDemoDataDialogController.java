@@ -20,14 +20,13 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.clubData.ClubFieldNames;
 import de.p2tools.clubOrga.data.demoData.data.DemoClubDataFactory;
 import de.p2tools.p2Lib.alert.PAlert;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -44,7 +43,7 @@ public class AddDemoDataDialogController extends PDialogExtra {
     private final Slider slMember = new Slider();
     private final Slider slFinance = new Slider();
 
-    private final PToggleSwitch tglRemove = new PToggleSwitch("alte Vereinsdaten löschen");
+    private final CheckBox chkRemove = new CheckBox("alte Vereinsdaten löschen");
 
     private final TextField txtClubName = new TextField();
     private final TextField txtClubOrt = new TextField();
@@ -89,7 +88,7 @@ public class AddDemoDataDialogController extends PDialogExtra {
         this.propertyAddMember = clubConfig.DEMO_DATA_ADD_MEMBER;
         this.propertyAddFinance = clubConfig.DEMO_DATA_ADD_FINANCE;
 
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     @Override
@@ -119,17 +118,23 @@ public class AddDemoDataDialogController extends PDialogExtra {
         btnCancel.setMaxWidth(Double.MAX_VALUE);
         btnCancel.setOnAction(a -> close());
 
-        tglRemove.setMinWidth(Region.USE_PREF_SIZE);
-        tglRemove.selectedProperty().bindBidirectional(propertyRemoveOldData);
+        chkRemove.setMinWidth(Region.USE_PREF_SIZE);
+        chkRemove.selectedProperty().bindBidirectional(propertyRemoveOldData);
 
-        TilePane tilePane = new TilePane(10, 10);
-        tilePane.setPrefColumns(2);
-        tilePane.setAlignment(Pos.CENTER_RIGHT);
-        tilePane.getChildren().addAll(btnOk, btnCancel);
-        HBox.setHgrow(tilePane, Priority.ALWAYS);
+//        TilePane tilePane = new TilePane(10, 10);
+//        tilePane.setPrefColumns(2);
+//        tilePane.setAlignment(Pos.CENTER_RIGHT);
+//        tilePane.getChildren().addAll(btnOk, btnCancel);
+//        HBox.setHgrow(tilePane, Priority.ALWAYS);
+//
+//        HBox hBoxOk = getHboxOk();
+//        hBoxOk.getChildren().addAll(btnHelp, tglRemove, tilePane);
 
-        HBox hBoxOk = getHboxOk();
-        hBoxOk.getChildren().addAll(btnHelp, tglRemove, tilePane);
+        getHBoxOverButtons().getChildren().add(chkRemove);
+        getHBoxOverButtons().setPadding(new Insets(0, 0, 10, 0));
+        addOkCancelButtons(btnOk, btnCancel);
+        ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
+        addAnyButton(btnHelp);
 
         initTabs();
     }
@@ -147,7 +152,7 @@ public class AddDemoDataDialogController extends PDialogExtra {
         tabFinances.setClosable(false);
         tabPane.getTabs().addAll(tabClub, tabMember, tabFinances);
         VBox.setVgrow(tabPane, Priority.ALWAYS);
-        getVboxCont().getChildren().add(tabPane);
+        getvBoxCont().getChildren().add(tabPane);
     }
 
     private void initTabClub() {

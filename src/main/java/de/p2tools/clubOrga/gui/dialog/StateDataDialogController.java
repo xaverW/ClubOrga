@@ -23,19 +23,21 @@ import de.p2tools.clubOrga.data.memberData.stateData.StateDataFactory;
 import de.p2tools.clubOrga.data.memberData.stateData.StateFieldNames;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.dialog.PDialog;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.tools.PException;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 
-public class StateDataDialogController extends PDialog {
+public class StateDataDialogController extends PDialogExtra {
 
     private Button btnOk = new Button("Ok");
     private Button btnCancel = new Button("Abbrechen");
@@ -45,29 +47,17 @@ public class StateDataDialogController extends PDialog {
     private StateData stateDataOrg = null;
     private StateData stateDataCopy = null;
 
-    private final VBox vBoxCont = new VBox(10);
     private boolean ok = false;
 
     public StateDataDialogController(ClubConfig clubConfig, StateData stateDataOrg) {
-        super(clubConfig.getStage(), clubConfig.STATE_DATA_DIALOG_SIZE, "Daten ändern", true, true);
+        super(clubConfig.getStage(), clubConfig.STATE_DATA_DIALOG_SIZE, "Daten ändern", true, true, DECO.NONE);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
         this.stateDataOrg = stateDataOrg;
 
-        VBox vBox = new VBox();
-        vBox.setPadding(new Insets(10));
-        vBox.setSpacing(10);
-
-        vBox.getChildren().add(vBoxCont);
-        VBox.setVgrow(vBoxCont, Priority.ALWAYS);
-
-        HBox hBox = new HBox(10);
-        hBox.setAlignment(Pos.CENTER_RIGHT);
-        hBox.getChildren().addAll(btnOk, btnCancel);
-        vBox.getChildren().add(hBox);
-
-        init(vBox, true);
+        addOkCancelButtons(btnOk, btnCancel);
+        init(true);
     }
 
     @Override
@@ -92,6 +82,7 @@ public class StateDataDialogController extends PDialog {
         StateData.copyData(stateDataOrg, stateDataCopy);
 
         final GridPane gridPane = new GridPane();
+        VBox.setVgrow(gridPane, Priority.ALWAYS);
         gridPane.setHgap(5);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(10));
@@ -99,7 +90,7 @@ public class StateDataDialogController extends PDialog {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         addStateData(gridPane);
-        vBoxCont.getChildren().add(gridPane);
+        getvBoxCont().getChildren().add(gridPane);
     }
 
     private void addStateData(GridPane gridPane) {
@@ -116,6 +107,7 @@ public class StateDataDialogController extends PDialog {
 
             } else if (configData.getName().equals(StateFieldNames.DESCRIPTION)) {
                 control = new TextArea();
+                GridPane.setVgrow(control, Priority.ALWAYS);
                 ((TextArea) control).textProperty().bindBidirectional(stateDataCopy.textProperty());
 
             } else if (configData.getName().equals(StateFieldNames.NR) && id < StateDataFactory.STATE_TYPE_SIZE) {

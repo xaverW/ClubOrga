@@ -20,7 +20,7 @@ package de.p2tools.clubOrga.gui.dialog.listDialog;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.gui.table.ClubTable;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import javafx.beans.property.DoubleProperty;
@@ -30,7 +30,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -65,7 +64,7 @@ public abstract class abListDialogController extends PDialogExtra {
 
 
     public abListDialogController(ClubConfig clubConfig, ObservableList<FeeData> feeDataList, String title) {
-        super(clubConfig.getStage(), clubConfig.FEE_DIALOG_SIZE, title);
+        super(clubConfig.FEE_DIALOG_SIZE, title);
 
         this.clubConfig = clubConfig;
         this.feeDataList = feeDataList;
@@ -75,7 +74,7 @@ public abstract class abListDialogController extends PDialogExtra {
 
     public abListDialogController(ClubConfig clubConfig, StringProperty size, DoubleProperty dividerProp,
                                   ObservableList<FeeData> feeDataList, String title) {
-        super(clubConfig.getStage(), size, title);
+        super(size, title);
 
         this.clubConfig = clubConfig;
         this.feeDataList = feeDataList;
@@ -83,7 +82,7 @@ public abstract class abListDialogController extends PDialogExtra {
     }
 
     void init() {
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     public boolean isOk() {
@@ -106,9 +105,13 @@ public abstract class abListDialogController extends PDialogExtra {
 //        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
 //        hBoxHelp.getChildren().addAll(btnHelp);
 
-        HBox hBox = new HBox();
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+//        HBox hBox = new HBox();
+//        HBox.setHgrow(hBox, Priority.ALWAYS);
+//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+
+        addOkCancelButtons(btnOk, btnCancel);
+        ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
+        addAnyButton(btnHelp);
 
         scrollPaneTable.setContent(tableView);
         scrollPaneTable.setFitToHeight(true);
@@ -129,7 +132,7 @@ public abstract class abListDialogController extends PDialogExtra {
 
 
         vBox.getChildren().add(gridPane);
-        getVboxCont().getChildren().add(splitPane);
+        getvBoxCont().getChildren().add(splitPane);
 
         initTable();
     }

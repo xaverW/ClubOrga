@@ -20,12 +20,12 @@ package de.p2tools.clubOrga.data.deleteData;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -42,10 +42,11 @@ public class DeleteAllDialogController extends PDialogExtra {
     private final ClubConfig clubConfig;
 
     public DeleteAllDialogController(ClubConfig clubConfig) {
-        super(clubConfig.getStage(), clubConfig.DELETE_ALL_DATA_DIALOG_SIZE, "Vereinsdaten löschen");
+        super(clubConfig.getStage(), clubConfig.DELETE_ALL_DATA_DIALOG_SIZE,
+                "Vereinsdaten löschen", true, true);
         this.clubConfig = clubConfig;
 
-        init(getVBoxCompleteDialog(), true);
+        init(true);
     }
 
     public boolean isOk() {
@@ -58,13 +59,17 @@ public class DeleteAllDialogController extends PDialogExtra {
                 "Es werden alle Vereinsdaten gelöscht: Mitglieder, Beiträge und Finanzen. Das Löschen " +
                         "kann nicht rückgänig gemacht werden!");
 
-        HBox hBoxHelp = new HBox();
-        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-        hBoxHelp.getChildren().addAll(btnHelp);
+//        HBox hBoxHelp = new HBox();
+//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
+//        hBoxHelp.getChildren().addAll(btnHelp);
+//
+//        HBox hBox = new HBox();
+//        HBox.setHgrow(hBox, Priority.ALWAYS);
+//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
 
-        HBox hBox = new HBox();
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+        addOkCancelButtons(btnOk, btnCancel);
+        ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
+        addAnyButton(btnHelp);
 
         btnOk.setOnAction(a -> {
             if (check()) {
@@ -99,7 +104,7 @@ public class DeleteAllDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         VBox.setVgrow(gridPane, Priority.ALWAYS);
-        getVboxCont().getChildren().addAll(hBoxTitle, gridPane);
+        getvBoxCont().getChildren().addAll(hBoxTitle, gridPane);
     }
 
     private boolean check() {
