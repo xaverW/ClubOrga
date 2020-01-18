@@ -60,7 +60,7 @@ public class ProgStartFactory {
         list.add("Programmpfad: " + ProgInfos.getPathJar());
         list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
 
-        LogMessage.startMsg(ProgConst.PROGRAMMNAME, list);
+        LogMessage.startMsg(ProgConst.PROGRAMNAME, list);
     }
 
     public static boolean loadProgConfigData() {
@@ -96,7 +96,7 @@ public class ProgStartFactory {
     }
 
     private static void initP2Lib() {
-        P2LibInit.initLib(null, ProgConst.PROGRAMMNAME,
+        P2LibInit.initLib(null, ProgConst.PROGRAMNAME,
                 ProgConst.CSS_FILE, ProgInfos.getUserAgent(),
                 ProgData.debug, ProgData.duration);
 //        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));

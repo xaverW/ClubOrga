@@ -173,9 +173,9 @@ public class ClubStartFactory {
 
                 clubConfig.getStage().titleProperty().bind(
                         Bindings.when(clubConfig.clubData.nameProperty().isEmpty())
-                                .then(ProgConst.PROGRAMMNAME)
+                                .then(ProgConst.PROGRAMNAME)
                                 .otherwise(
-                                        Bindings.concat(ProgConst.PROGRAMMNAME,
+                                        Bindings.concat(ProgConst.PROGRAMNAME,
                                                 " <@> ",
                                                 clubConfig.clubData.nameProperty()))
                 );

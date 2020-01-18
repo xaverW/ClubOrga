@@ -135,6 +135,7 @@
 }
 
 /* Rahmen für Dialoge */
+/*
 .dialog-title {
     -fx-background-insets: 10;
     -fx-border-color: lightgray;
@@ -153,6 +154,7 @@
     -fx-border-width: 20 5, 10 3;
     -fx-padding: 20px;
 }
+*/
 .txtIsEmpty {
     -fx-text-fill: red;
     -fx-control-inner-background: antiquewhite;

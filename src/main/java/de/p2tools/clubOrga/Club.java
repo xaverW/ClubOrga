@@ -17,12 +17,16 @@ package de.p2tools.clubOrga;
 
 import de.p2tools.clubOrga.clubStart.StartDialogController;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
+import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.controller.ProgStartFactory;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubDataFactory;
+import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
+import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,6 +34,7 @@ import javafx.stage.Stage;
 
 public class Club extends Application {
 
+    private Stage primaryStage;
     protected ProgData progData;
 
     @Override
@@ -38,10 +43,13 @@ public class Club extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+
         PDuration.counterStart("Programmstart");
         PDuration.onlyPing("Programmstart");
-
         progData = ProgData.getInstance();
+
+        initP2lib();
         final boolean firstProgramStart = ProgStartFactory.loadProgConfigData();
 
         if (firstProgramStart) {
@@ -77,7 +85,7 @@ public class Club extends Application {
         }
 
         // Verein mit Standarddaten/Pfad anlegen
-        StartDialogController startDialogController = new StartDialogController(primaryStage, knownClubData);
+        StartDialogController startDialogController = new StartDialogController(knownClubData);
         if (!startDialogController.isOk()) {
             // dann jetzt beenden -> Tschüss
             Platform.exit();
@@ -85,4 +93,10 @@ public class Club extends Application {
         }
     }
 
+    private void initP2lib() {
+        PButton.setHlpImage(new ProgIcons().ICON_BUTTON_HELP.getImage());
+        P2LibInit.initLib(null, ProgConst.PROGRAMNAME,
+                ProgConst.CSS_FILE, "",
+                ProgData.debug, ProgData.duration);
+    }
 }

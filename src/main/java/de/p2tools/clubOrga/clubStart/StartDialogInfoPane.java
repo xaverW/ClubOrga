@@ -24,6 +24,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public class StartDialogInfoPane {
@@ -31,6 +32,9 @@ public class StartDialogInfoPane {
 
     public StartDialogInfoPane(Stage stage) {
         this.stage = stage;
+    }
+
+    public void close() {
     }
 
     public TitledPane makeStart1() {
@@ -45,26 +49,29 @@ public class StartDialogInfoPane {
         iv.setImage(im);
 
         hBox.getChildren().addAll(iv);
-        Label text = new Label("1) Die unterschiedlichen Ansichten können" + P2LibConst.LINE_SEPARATOR +
-                "hier ausgewählt werden: Mitglieder," + P2LibConst.LINE_SEPARATOR +
-                "Beiträge und Finanzen" +
+        Label lblText = new Label("1) Die unterschiedlichen Ansichten" + P2LibConst.LINE_SEPARATOR +
+                "können hier ausgewählt werden:" + P2LibConst.LINE_SEPARATOR +
+                "Mitglieder, Beiträge und Finanzen" +
                 P2LibConst.LINE_SEPARATORx2 +
                 "2) Die Daten sind dann hier gelistet" + P2LibConst.LINE_SEPARATOR +
                 "(aktuell sind es die Mitgliederdaten)." +
                 P2LibConst.LINE_SEPARATORx2 +
-                "3) Unter der Tabelle können die angezeigten" + P2LibConst.LINE_SEPARATOR +
-                "Daten gefiltert oder verändert werden." +
+                "3) Unter der Tabelle können die" + P2LibConst.LINE_SEPARATOR +
+                "angezeigten Daten gefiltert oder" + P2LibConst.LINE_SEPARATOR +
+                "verändert werden." +
                 P2LibConst.LINE_SEPARATORx2 +
-                "4) Damit können Zeilen in der Tabelle markiert" + P2LibConst.LINE_SEPARATOR +
-                "gefiltert, und der Filter auch wieder" + P2LibConst.LINE_SEPARATOR +
-                "gelöscht werden." +
+                "4) Damit können Zeilen in der" + P2LibConst.LINE_SEPARATOR +
+                "Tabelle markiert gefiltert, und der" + P2LibConst.LINE_SEPARATOR +
+                "Filter auch wieder gelöscht werden." +
                 P2LibConst.LINE_SEPARATORx2 +
-                "5) Rechts neben der Tabelle kann die" + P2LibConst.LINE_SEPARATOR +
-                "ausgewählte Tabellenzeile bearbeitet oder" + P2LibConst.LINE_SEPARATOR +
-                "auch neue Einträge angelegt werden."
+                "5) Rechts neben der Tabelle kann" + P2LibConst.LINE_SEPARATOR +
+                "die ausgewählte Tabellenzeile" + P2LibConst.LINE_SEPARATOR +
+                "bearbeitet oder auch neue Einträge" + P2LibConst.LINE_SEPARATOR +
+                "angelegt werden."
         );
-        text.setPadding(new Insets(20));
-        hBox.getChildren().add(text);
+        lblText.setMinWidth(Region.USE_PREF_SIZE);
+        lblText.setPadding(new Insets(20));
+        hBox.getChildren().add(lblText);
 
         TitledPane tpConfig = new TitledPane("Infos zur Programmoberfläche, Mitglieder (mit Demodaten)", hBox);
         return tpConfig;
@@ -84,17 +91,21 @@ public class StartDialogInfoPane {
 
         hBox.getChildren().addAll(iv);
 
-        Label text = new Label("1) In der Tabelle sind die Finanzen gelistet." +
+        Label lblText = new Label("1) In der Tabelle sind die Finanzen" + P2LibConst.LINE_SEPARATOR +
+                "gelistet." +
                 P2LibConst.LINE_SEPARATORx2 +
                 "2) Hier kann die Ansicht \"Filter\"," + P2LibConst.LINE_SEPARATOR +
-                "\"Infos zum markierten Finanzeintrag\" und" + P2LibConst.LINE_SEPARATOR +
-                "\"Infos zu allen Finanzen\" umgeschaltet werden" +
+                "\"Infos zum markierten Finanzeintrag\"" + P2LibConst.LINE_SEPARATOR +
+                "und \"Infos zu allen Finanzen\"" + P2LibConst.LINE_SEPARATOR +
+                "umgeschaltet werden" +
                 P2LibConst.LINE_SEPARATORx2 +
-                "3) Die Teilbuchungen zu dem in der Tabelle" + P2LibConst.LINE_SEPARATOR +
-                "markierten Eintrag werden hier gelistet."
+                "3) Die Teilbuchungen zu dem in" + P2LibConst.LINE_SEPARATOR +
+                "der Tabelle markierten Eintrag," + P2LibConst.LINE_SEPARATOR +
+                "werden hier gelistet."
         );
-        text.setPadding(new Insets(20));
-        hBox.getChildren().add(text);
+        lblText.setMinWidth(Region.USE_PREF_SIZE);
+        lblText.setPadding(new Insets(20));
+        hBox.getChildren().add(lblText);
 
         TitledPane tpConfig = new TitledPane("Infos zur Programmoberfläche, Finanzen (mit Demodaten)", hBox);
         return tpConfig;

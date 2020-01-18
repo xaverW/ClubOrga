@@ -58,7 +58,7 @@ public class ZipFactory {
     }
 
     private static void zipFolder(File srcFolder, File destZipFile) throws Exception {
-        File tempFile = File.createTempFile(ProgConst.PROGRAMMNAME + "-", "." + ProgConst.ZIP_SUFFIX);
+        File tempFile = File.createTempFile(ProgConst.PROGRAMNAME + "-", "." + ProgConst.ZIP_SUFFIX);
 
         try (FileOutputStream fileWriter = new FileOutputStream(tempFile);
              ZipOutputStream zip = new ZipOutputStream(fileWriter)) {

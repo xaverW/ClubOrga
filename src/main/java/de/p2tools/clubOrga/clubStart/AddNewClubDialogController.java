@@ -74,21 +74,13 @@ public class AddNewClubDialogController extends PDialogExtra {
     protected void make() {
         btnHelp = PButton.helpButton(getStage(), "Verein anlegen",
                 "In diesem Dialog kann ein neuer Verein angelegt werden. Dazu muss ein " +
-                        "leerer Ordner für die Vereinsdaten angegeben werden. Auch kann " +
-                        "hier schon der Vereinsname angegeben werden." +
+                        "leerer Ordner für die Vereinsdaten angegeben werden. Auch der Vereinsname kann " +
+                        "hier bereits angegeben werden." +
                         "\n\n" +
                         "Es besteht auch die Möglichkeit, dem Verein beim Start gleich Demodaten " +
                         "mitzugeben (Mitglieder, Beiträge, Finanzen). Das ist gedacht, um mit einen " +
                         "Verein mit Demodaten, die Funktionen des Programms gefahrlos durchzuspielen.");
 
-//        HBox hBoxHelp = new HBox();
-//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-//        hBoxHelp.getChildren().addAll(btnHelp);
-//
-//        HBox hBox = new HBox();
-//        HBox.setHgrow(hBox, Priority.ALWAYS);
-//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
-//
         addOkCancelButtons(btnOk, btnCancel);
         ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
         addAnyButton(btnHelp);

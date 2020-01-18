@@ -69,8 +69,8 @@ public class ImportDirClubDialogController extends PDialogExtra {
     protected void make() {
         btnHelp = PButton.helpButton(getStage(), "Verein importieren",
                 "Sind bereits Vereinsdaten auf dem Rechner vorhanden, " +
-                        "muss zum Import lediglich der Speicherort/Ordner dem Programm " +
-                        "bekannt gemacht werden.");
+                        "muss zum Import lediglich der Speicherort (Ordner) " +
+                        "des Vereins dem Programm bekannt gemacht werden.");
 
 //        HBox hBoxHelp = new HBox();
 //        hBoxHelp.setAlignment(Pos.CENTER_LEFT);

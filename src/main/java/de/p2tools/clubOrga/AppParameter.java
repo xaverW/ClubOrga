@@ -17,9 +17,9 @@
 
 package de.p2tools.clubOrga;
 
-import de.p2tools.clubOrga.controller.ProgStartFactory;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.clubOrga.controller.ProgStartFactory;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
 import org.apache.commons.cli.*;
@@ -152,7 +152,7 @@ public class AppParameter {
 
     private static void printHelp(final Options allowed) {
         final HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(ProgConst.PROGRAMMNAME, allowed);
+        formatter.printHelp(ProgConst.PROGRAMNAME, allowed);
 
     }
 

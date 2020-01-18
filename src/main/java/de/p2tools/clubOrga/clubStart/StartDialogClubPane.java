@@ -37,6 +37,9 @@ public class StartDialogClubPane {
         this.startDialogController = startDialogController;
     }
 
+    public void close() {
+    }
+
     public TitledPane makePane() {
         VBox vBox = new VBox();
         vBox.setSpacing(20);
@@ -53,11 +56,12 @@ public class StartDialogClubPane {
 
                         "Ein erstellter Verein kann in eine ZIP-Datei gesichert werden. " +
                         "Es werden damit alle Infos zum Verein gesichert. Mit \"Verein aus Datei importieren\" " +
-                        "kann dann ein so gesichertet Verein wieder gestartet werden.\n\n" +
+                        "kann dann ein so gesicherter Verein wieder gestartet werden.\n\n" +
 
-                        "Hat man das Programm früher schon mal benutzt und nur die Programmeinstellungen gelöscht, " +
+                        "Hat man das Programm früher schon einmal benutzt und nur die " +
+                        "Programmeinstellungen gelöscht, " +
                         "die Vereinsdaten selbst liegen aber noch auf dem Rechner, dann kann mit \"Verein aus Verzeichnis " +
-                        "importeren\" der Verein dieser vorhandenen Vereinsdaten gestartet werden.");
+                        "importieren\" der Verein dieser vorhandenen Vereinsdaten gestartet werden.");
 
         HBox hBox = new HBox();
         VBox.setVgrow(hBox, Priority.ALWAYS);

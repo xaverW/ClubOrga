@@ -20,7 +20,7 @@ public class ProgConst {
 
     public static final String P2_PROGRAMNAME = "P2Tools - ClubOrga";
     public static final String P2_PROGRAMMNAME_SELECTOR = "P2Tools - Vereinsauswahl";
-    public static final String PROGRAMMNAME = "ClubOrga";
+    public static final String PROGRAMNAME = "ClubOrga";
 
     // Config dir/file
     public static final String CONFIG_FILE = "cluborga.xml";
