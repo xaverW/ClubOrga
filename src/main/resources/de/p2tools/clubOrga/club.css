@@ -134,27 +134,6 @@
     -fx-font-weight: bold;
 }
 
-/* Rahmen für Dialoge */
-/*
-.dialog-title {
-    -fx-background-insets: 10;
-    -fx-border-color: lightgray;
-    -fx-border-insets: 0;
-    -fx-border-width: 2;
-    -fx-padding: 10 5px;
-    -fx-text-alignment: center;
-    -fx-alignment: center ;
-    -fx-font-weight: bold;
-    -fx-font-size: 1.3em;
-}
-.dialog-border {
-    -fx-background-insets: 10, 40;
-    -fx-border-color: lightgray transparent lightgray transparent, steelblue;
-    -fx-border-insets: 0, 15;
-    -fx-border-width: 20 5, 10 3;
-    -fx-padding: 20px;
-}
-*/
 .txtIsEmpty {
     -fx-text-fill: red;
     -fx-control-inner-background: antiquewhite;

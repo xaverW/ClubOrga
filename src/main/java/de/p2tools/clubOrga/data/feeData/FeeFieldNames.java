@@ -26,6 +26,7 @@ public class FeeFieldNames {
     public static final String MEMBER_NR = "M.Nr";
     public static final String MEMBER_NAME = "M.Nachname";
     public static final String BETRAG = "Betrag";
+    public static final String BETRAG_IN_WORDS = "BetragWort";
 
     public static final String JAHR = "Jahr";
     public static final String ZAHLART = "Zahlart";

@@ -37,6 +37,8 @@ public class NewsletterFactory {
     public static final String TAG_NEW_SITE = "<<####>>";
     public static final String TAG_FOLD_MARK = "<<Faltmarke>>";
     public static final String TAG_ADDRESS_FIELD = "<<Adressfeld>>";
+    public static final String TAG_PICTURE = "<<Bild>>"; // <<Bild url="", x="", y="", xx="", yy="">>
+    public static final String TAG_PICTURE_ = "<<Bild";
 
     public static final String TAG_FONT_COURIER = "<<COURIER>>";
     public static final String TAG_FONT_HELVETICA = "<<HELVETICA>>";
@@ -53,7 +55,6 @@ public class NewsletterFactory {
     public enum NEWSLETTER_TYPE {ODF, PDF}
 
     public enum TAGS {
-
         DATE_TODAY_DD_MM_YYYY(TAG_DATE_TODAY, "") {
             public String getTo() {
                 return PDateFactory.getTodayStr();

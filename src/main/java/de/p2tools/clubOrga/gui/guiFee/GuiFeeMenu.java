@@ -70,11 +70,13 @@ public class GuiFeeMenu extends VBox {
         MenuItem miSQ = new MenuItem("Spendenquittung ausgewählter Beiträge erstellen");
         miSQ.setOnAction(a -> createBillForFee(BillForFeeDialogController.TYPE.SQ));
 
-        MenuItem miNewsletter = new MenuItem("für angezeigte Beiträge Serienbrief erstellen");
+        MenuItem miNewsletterAkt = new MenuItem("für markierte Beiträge Serienbrief erstellen");
+        miNewsletterAkt.setOnAction(event -> feeNewsletterAkt());
+        MenuItem miNewsletter = new MenuItem("für alle angezeigten Beiträge Serienbrief erstellen");
         miNewsletter.setOnAction(event -> feeNewsletter());
-
         Menu mNewsletter = new Menu("Serienbrief");
-        mNewsletter.getItems().addAll(miNewsletter);
+        mNewsletter.getItems().addAll(miNewsletterAkt, miNewsletter);
+
         mb.getItems().addAll(miChangeFee, miDelFee,
                 new SeparatorMenuItem(), miPayFee, miFeeBill, miSQ,
                 new SeparatorMenuItem(), mNewsletter);
@@ -154,10 +156,17 @@ public class GuiFeeMenu extends VBox {
         new PayFeeDialogController(clubConfig, list);
     }
 
+    private void feeNewsletterAkt() {
+        List<FeeData> feeDataList = guiFee.getSelList();
+        if (!feeDataList.isEmpty()) {
+            Newsletter.feeNewsletter(clubConfig, feeDataList);
+        }
+    }
+
     private void feeNewsletter() {
-        List<FeeData> list = clubConfig.feeDataList.getFilteredList();
-        if (!list.isEmpty()) {
-            Newsletter.feeNewsletter(clubConfig, list);
+        List<FeeData> feeDataList = clubConfig.feeDataList.getFilteredList();
+        if (!feeDataList.isEmpty()) {
+            Newsletter.feeNewsletter(clubConfig, feeDataList);
         }
     }
 }

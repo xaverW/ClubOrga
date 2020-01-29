@@ -18,6 +18,7 @@
 package de.p2tools.clubOrga.controller.export;
 
 import de.p2tools.p2Lib.alert.PAlert;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.stage.Stage;
 
 import java.nio.file.Path;
@@ -73,4 +74,62 @@ public class ExportFactory {
 
         return true;
     }
+
+    /**
+     * @param in
+     * @return
+     */
+    public static String inWorten(String in) {
+        String out;
+        String str = in;
+        String tmp;
+        int nr = 0;
+        out = "*";
+        try {
+            while (str.length() > 0) {
+                tmp = str.substring(0, 1);
+                str = str.substring(1);
+                if (tmp.equals(".") || tmp.equals(",")) {
+                    break;
+                }
+                nr = Integer.parseInt(tmp);
+                switch (nr) {
+                    case 0:
+                        out += "Null*";
+                        break;
+                    case 1:
+                        out += "Eins*";
+                        break;
+                    case 2:
+                        out += "Zwei*";
+                        break;
+                    case 3:
+                        out += "Drei*";
+                        break;
+                    case 4:
+                        out += "Vier*";
+                        break;
+                    case 5:
+                        out += "Fünf*";
+                        break;
+                    case 6:
+                        out += "Sechs*";
+                        break;
+                    case 7:
+                        out += "Sieben*";
+                        break;
+                    case 8:
+                        out += "Acht*";
+                        break;
+                    case 9:
+                        out += "Neun*";
+                        break;
+                }
+            }
+        } catch (NumberFormatException ex) {
+            PLog.errorLog(945152102, "wrong number: " + in);
+        }
+        return out;
+    }
+
 }

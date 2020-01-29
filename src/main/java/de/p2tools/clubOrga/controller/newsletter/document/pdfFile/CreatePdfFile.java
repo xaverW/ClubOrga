@@ -18,8 +18,8 @@
 package de.p2tools.clubOrga.controller.newsletter.document.pdfFile;
 
 import com.itextpdf.io.font.constants.StandardFonts;
-import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -111,6 +111,7 @@ public class CreatePdfFile {
         try {
             PdfWriter writer = new PdfWriter(destFile);
             pdfDocument = new PdfDocument(writer);
+            pdfDocument.setDefaultPageSize(PageSize.A4);
             document = new Document(pdfDocument);
 
         } catch (Exception ex) {
@@ -173,24 +174,17 @@ public class CreatePdfFile {
 
         // Fonts
         if (line.contains(NewsletterFactory.TAG_FONT_COURIER)) {
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.COURIER);
-            document.setFont(font);
-
             line = line.replaceAll(NewsletterFactory.TAG_FONT_COURIER, "");
+            document.setFont(PdfFontFactory.createFont(StandardFonts.COURIER));
 
         } else if (line.contains(NewsletterFactory.TAG_FONT_HELVETICA)) {
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-            document.setFont(font);
-
             line = line.replaceAll(NewsletterFactory.TAG_FONT_HELVETICA, "");
+            document.setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA));
 
         } else if (line.contains(NewsletterFactory.TAG_FONT_TIMES_ROMAN)) {
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
-            document.setFont(font);
-
             line = line.replaceAll(NewsletterFactory.TAG_FONT_TIMES_ROMAN, "");
+            document.setFont(PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN));
         }
-
 
         // restliche tags
         if (line.contains(NewsletterFactory.TAG_FOLD_MARK)) {
@@ -208,7 +202,28 @@ public class CreatePdfFile {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
         }
 
+        if (line.contains(NewsletterFactory.TAG_PICTURE_)) {
+            line = getLogoTag(line, pdfPage);
+        }
         return line;
     }
 
+    private String getLogoTag(String line, PdfPage pdfPage) {
+        int i = line.indexOf(NewsletterFactory.TAG_PICTURE_);
+        if (i < 0) {
+            return line;
+        }
+
+        int o = line.indexOf(">>", i);
+        if (o < 0) {
+            return line;
+        }
+
+        String tag = line.substring(i, o + ">>".length());
+        line = line.replaceAll(tag, "");
+
+        PdfFactory.addLogo(pdfPage, document, tag, srcFile);
+
+        return line;
+    }
 }

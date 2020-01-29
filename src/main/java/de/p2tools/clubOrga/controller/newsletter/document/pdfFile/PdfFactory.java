@@ -17,6 +17,8 @@
 
 package de.p2tools.clubOrga.controller.newsletter.document.pdfFile;
 
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.geom.Rectangle;
@@ -25,10 +27,12 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import de.p2tools.p2Lib.tools.PException;
+import de.p2tools.p2Lib.tools.file.PFileUtils;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import java.util.List;
@@ -94,4 +98,89 @@ public class PdfFactory {
 
     }
 
+    //Logo
+    public static void addLogo(PdfPage pdfPage, Document document, String tag, String srcFile) {
+        try {
+            // <<Bild url="", x="", y="", xx="", yy="">>
+            // Seite h:842, w:595 [Pixel]
+
+            final int DPI = 72;
+            final float ZOLL = 25.4F;
+
+            String url = getUrl(tag, srcFile);
+            if (url.isEmpty()) {
+                return;
+            }
+
+            final float x = getX(tag, "x");
+            final float y = getX(tag, "y");
+            if (x < 0 || y < 0) {
+                return;
+            }
+
+            ImageData data = ImageDataFactory.create(url);
+            Image image = new Image(data);
+            final float xx = getX(tag, "xx");
+            final float yy = getX(tag, "yy");
+            if (xx > 0 && yy > 0) {
+                float imgW = xx * DPI / ZOLL;
+                float imgH = yy * DPI / ZOLL;
+                image.scaleToFit(imgW, imgH);
+            }
+
+            float posX = x * DPI / ZOLL;
+            float posY = pdfPage.getPageSize().getHeight() - y * DPI / ZOLL;
+            float h = image.getImageScaledHeight();
+            float hy = posY - h;
+            image.setFixedPosition(posX, hy);
+
+            // Adding image to the document
+            document.add(image);
+        } catch (Exception ex) {
+            PLog.errorLog(1980807, ex, "image");
+        }
+    }
+
+    private static String getUrl(String tag, String srcFile) {
+        int i = tag.indexOf("url=\"");
+        if (i < 0) {
+            return "";
+        }
+        i = i + "url=\"".length();
+        int ii = tag.indexOf("\"", i);
+        if (ii < 0) {
+            return "";
+        }
+
+        String url = tag.substring(i, ii).trim();
+        if (url.isEmpty()) {
+            return "";
+        }
+
+        String path = PFileUtils.getPath(srcFile);
+        url = PFileUtils.addsPath(path, url);
+        return url;
+    }
+
+    private static int getX(String tag, String search) {
+        search = search + "=\"";
+        int i = tag.indexOf(search);
+        if (i < 0) {
+            return -1;
+        }
+        i = i + search.length();
+        int ii = tag.indexOf("\"", i);
+        if (ii < 0) {
+            return -1;
+        }
+
+        int x;
+        try {
+            x = Integer.parseInt(tag.substring(i, ii));
+        } catch (Exception ex) {
+            x = -1;
+        }
+
+        return x;
+    }
 }

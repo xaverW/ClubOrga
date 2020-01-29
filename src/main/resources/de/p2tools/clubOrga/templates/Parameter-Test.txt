@@ -1,4 +1,39 @@
-<<COURIER>>
+
+
+
+
+Bild:           <<Bild url="", x="", y="", xx="", yy="">>
+Adressfeld:     <<Adressfeld>>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Faltmarke:      <<Faltmarke>>
+
+Schriftart:  HELVETICA       <<HELVETICA>>
+Schriftart:  TIMES_ROMAN     <<TIMES_ROMAN>>
+Schriftart:  COURIER         <<COURIER>>
+
+
+Datum heute:    <<datum.heute>>
+
+
+
 Vereinsdaten
 =============
 
@@ -15,7 +50,6 @@ BIC:            <<club.BIC>>
 IBAN:           <<club.IBAN>>
 Bank:           <<club.Bank>>
 GläubigerId:    <<club.GläubigerId>>
-
 
 
 
@@ -53,7 +87,6 @@ Sepabeginn:     <<Mitglied.Sepabeginn>>
 
 
 
-
 Beitrag
 ========
 
@@ -61,6 +94,7 @@ Nr:             <<Beitrag.Nr>>
 M. Nr:          <<Beitrag.M.Nr>>
 M. Nachname:    <<Beitrag.M.Nachname>>
 Betrag:         <<Beitrag.Betrag>>
+in Worten:      <<Beitrag.BetragWort>>
 
 Jahr:           <<Beitrag.Jahr>>
 Zahlart:        <<Beitrag.Zahlart>>
@@ -69,4 +103,3 @@ Rechnung:       <<Beitrag.Rechnung>>
 SpendenQ:       <<Beitrag.SpendenQ>>
 Erstelldatum:   <<Beitrag.Erstelldatum>>
 Text:           <<Beitrag.Text>>
-

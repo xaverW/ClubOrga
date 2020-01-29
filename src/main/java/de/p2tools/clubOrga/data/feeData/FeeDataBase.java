@@ -18,6 +18,7 @@
 package de.p2tools.clubOrga.data.feeData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.controller.export.ExportFactory;
 import de.p2tools.clubOrga.data.extraData.ExtraData;
 import de.p2tools.clubOrga.data.extraData.ExtraDataProperty;
 import de.p2tools.clubOrga.data.memberData.MemberData;
@@ -98,6 +99,14 @@ public class FeeDataBase extends PDataSample<FeeData> {
                 ConfigStringPropExtra conf = new ConfigStringPropExtra("betrag",
                         FeeFieldNames.BETRAG, st);
                 list.add(conf);
+
+                // Betrag in Worten
+                String inWords = ExportFactory.inWorten(st.get());
+                StringProperty stWord = new SimpleStringProperty();
+                stWord.setValue(inWords);
+                ConfigStringPropExtra confInWords = new ConfigStringPropExtra("betragInWords",
+                        FeeFieldNames.BETRAG_IN_WORDS, stWord);
+                list.add(confInWords);
 
             } else if (config.getName().equals(FeeFieldNames.ZAHLART)) {
                 StringProperty st = new SimpleStringProperty();
