@@ -27,6 +27,7 @@ import de.p2tools.clubOrga.data.financeData.TransactionFactory;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFactory;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -65,7 +66,8 @@ public class DataDialogController extends PDialogExtra {
                                 MemberData memberData, FeeData feeData,
                                 FinanceData financeData, TransactionData transactionData) {
 
-        super(clubConfig.getStage(), clubConfig.DATA_DIALOG_SIZE, "Daten ändern", true, true, DECO.BORDER);
+        super(clubConfig.getStage(), clubConfig.DATA_DIALOG_SIZE, "Daten ändern",
+                true, true, DECO.BORDER);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -76,15 +78,17 @@ public class DataDialogController extends PDialogExtra {
         this.financeDataOrg = financeData;
         this.transactionDataOrg = transactionData;
 
-        getvBoxCont().getChildren().add(tabPane);
-        VBox.setVgrow(tabPane, Priority.ALWAYS);
-
-        addOkCancelButtons(btnOk, btnCancel);
         init(true);
     }
 
     @Override
     public void make() {
+        getvBoxCont().setPadding(new Insets(0));
+        getvBoxCont().getChildren().add(tabPane);
+        VBox.setVgrow(tabPane, Priority.ALWAYS);
+        tabPane.setPadding(new Insets(15));
+        addOkCancelButtons(btnOk, btnCancel);
+
         initPanel();
         btnOk.setOnAction(a -> {
             if (check()) {

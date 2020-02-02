@@ -74,8 +74,10 @@ public class MemberPane extends VBox {
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
-
         getChildren().add(scrollPane);
+
+//        VBox.setVgrow(gridPane, Priority.ALWAYS);
+//        getChildren().add(gridPane);
     }
 
     private void addMemberData(GridPane gridPane) {
