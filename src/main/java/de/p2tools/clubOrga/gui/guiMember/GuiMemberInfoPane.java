@@ -19,8 +19,8 @@ package de.p2tools.clubOrga.gui.guiMember;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
-import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateWorker;
 import de.p2tools.clubOrga.data.memberData.MemberData;
+import de.p2tools.clubOrga.data.memberData.MemberFeeWorker;
 import de.p2tools.clubOrga.data.memberData.MemberFieldNames;
 import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.memberData.stateData.StateData;
@@ -59,7 +59,7 @@ public class GuiMemberInfoPane extends AnchorPane {
     private final ProgData progData;
     private final ClubConfig clubConfig;
     private MemberData memberData = null;
-    private FeeRateWorker feeRateWorker;
+    private MemberFeeWorker memberFeeWorker;
 
     DoubleProperty doublePropertyInfo;
 
@@ -68,7 +68,7 @@ public class GuiMemberInfoPane extends AnchorPane {
         progData = ProgData.getInstance();
 
         doublePropertyInfo = clubConfig.GUI_PANEL_MEMBER_DIVIDER_INFO;
-        feeRateWorker = new FeeRateWorker(cboBeitragssatz, txtBeitrag, clubConfig);
+        memberFeeWorker = new MemberFeeWorker(cboBeitragssatz, txtBeitrag, clubConfig);
 
         ScrollPane scrollPaneLeft = new ScrollPane();
         scrollPaneLeft.setFitToHeight(true);
@@ -207,6 +207,7 @@ public class GuiMemberInfoPane extends AnchorPane {
         if (memberData == null) {
             return;
         }
+
         txtNr.unBind();
         txtNachname.textProperty().unbindBidirectional(memberData.nachnameProperty());
         txtVorname.textProperty().unbindBidirectional(memberData.vornameProperty());
@@ -216,13 +217,13 @@ public class GuiMemberInfoPane extends AnchorPane {
         txtStrasse.textProperty().unbindBidirectional(memberData.strasseProperty());
         cboPlz.unbindSelValueProperty();
         cboOrt.unbindSelValueProperty();
-        txtBeitrag.unBind();
-
-        feeRateWorker.unbind();
+//        txtBeitrag.unBind();
 
         cboStatus.unbindSelValueProperty();
         cboPaymentType.unbindSelValueProperty();
         txtText.textProperty().unbindBidirectional(memberData.textProperty());
+
+        memberFeeWorker.unbind();
     }
 
     private void bind() {
@@ -237,29 +238,30 @@ public class GuiMemberInfoPane extends AnchorPane {
             txtStrasse.setText("");
             cboPlz.selectElement("");
             cboOrt.selectElement("");
-            txtBeitrag.setText("");
             cboStatus.unbindSelValueProperty();
             cboPaymentType.unbindSelValueProperty();
             txtText.setText("");
-            feeRateWorker.clearCbo();
-            return;
+
+//            txtBeitrag.setText("");
+//            memberFeeWorker.clearSelection();
+
+        } else {
+            txtNr.bindBidirectional(memberData.nrProperty());
+            txtNachname.textProperty().bindBidirectional(memberData.nachnameProperty());
+            txtVorname.textProperty().bindBidirectional(memberData.vornameProperty());
+            cboAnrede.bindSelValueProperty(memberData.anredeProperty());
+
+            txtEmail.textProperty().bindBidirectional(memberData.emailProperty());
+            txtTelefon.textProperty().bindBidirectional(memberData.telefonProperty());
+            txtStrasse.textProperty().bindBidirectional(memberData.strasseProperty());
+            cboPlz.bindSelValueProperty(memberData.plzProperty());
+            cboOrt.bindSelValueProperty(memberData.ortProperty());
+
+            cboStatus.bindSelValueProperty(memberData.stateDataProperty());
+            cboPaymentType.bindSelValueProperty(memberData.paymentTypeDataProperty());
+            txtText.textProperty().bindBidirectional(memberData.textProperty());
+
+            memberFeeWorker.bind(memberData);
         }
-
-        txtNr.bindBidirectional(memberData.nrProperty());
-        txtNachname.textProperty().bindBidirectional(memberData.nachnameProperty());
-        txtVorname.textProperty().bindBidirectional(memberData.vornameProperty());
-        cboAnrede.bindSelValueProperty(memberData.anredeProperty());
-
-        txtEmail.textProperty().bindBidirectional(memberData.emailProperty());
-        txtTelefon.textProperty().bindBidirectional(memberData.telefonProperty());
-        txtStrasse.textProperty().bindBidirectional(memberData.strasseProperty());
-        cboPlz.bindSelValueProperty(memberData.plzProperty());
-        cboOrt.bindSelValueProperty(memberData.ortProperty());
-
-        feeRateWorker.bind(memberData);
-
-        cboStatus.bindSelValueProperty(memberData.stateDataProperty());
-        cboPaymentType.bindSelValueProperty(memberData.paymentTypeDataProperty());
-        txtText.textProperty().bindBidirectional(memberData.textProperty());
     }
 }

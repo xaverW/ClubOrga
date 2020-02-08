@@ -78,7 +78,7 @@ public class AddNewClubDialogController extends PDialogExtra {
                         "hier bereits angegeben werden." +
                         "\n\n" +
                         "Es besteht auch die Möglichkeit, dem Verein beim Start gleich Demodaten " +
-                        "mitzugeben (Mitglieder, Beiträge, Finanzen). Das ist gedacht, um mit einen " +
+                        "mitzugeben (Mitglieder, Beiträge, Finanzen). Das ist gedacht, um mit einem " +
                         "Verein mit Demodaten, die Funktionen des Programms gefahrlos durchzuspielen.");
 
         addOkCancelButtons(btnOk, btnCancel);

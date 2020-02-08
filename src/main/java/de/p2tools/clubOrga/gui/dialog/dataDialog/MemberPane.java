@@ -21,8 +21,8 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.data.extraData.ExtraData;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
-import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateWorker;
 import de.p2tools.clubOrga.data.memberData.MemberData;
+import de.p2tools.clubOrga.data.memberData.MemberFeeWorker;
 import de.p2tools.clubOrga.data.memberData.MemberFieldNames;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
@@ -47,7 +47,7 @@ public class MemberPane extends VBox {
     private final ClubConfig clubConfig;
     private final PTextFieldMoney txtBeitrag = new PTextFieldMoney();
     private final PComboBoxObject<FeeRateData> cboBeitragssatz = new PComboBoxObject();
-    private final FeeRateWorker feeRateWorker;
+    private final MemberFeeWorker memberFeeWorker;
 
     public MemberPane(ClubConfig clubConfig, MemberData memberData) {
 
@@ -55,7 +55,7 @@ public class MemberPane extends VBox {
         this.memberData = memberData;
 
         this.progData = ProgData.getInstance();
-        feeRateWorker = new FeeRateWorker(cboBeitragssatz, txtBeitrag, clubConfig);
+        memberFeeWorker = new MemberFeeWorker(cboBeitragssatz, txtBeitrag, clubConfig);
         make();
     }
 
@@ -81,7 +81,7 @@ public class MemberPane extends VBox {
     }
 
     private void addMemberData(GridPane gridPane) {
-        feeRateWorker.bind(memberData);
+        memberFeeWorker.bind(memberData);
 
         int row = 0;
         ConfigExtra[] configs = memberData.getConfigsArr();

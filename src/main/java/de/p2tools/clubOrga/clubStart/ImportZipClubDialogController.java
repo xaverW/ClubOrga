@@ -71,15 +71,9 @@ public class ImportZipClubDialogController extends PDialogExtra {
                         "Es werden damit alle Infos zum Verein gesichert." +
                         "\n\n" +
                         "Beim Import aus einer ZIP-Datei wird der Inhalt dieser " +
-                        "ZIP-Datei wieder in ein beliebiges Verzeichnis entpackt werden.");
-
-//        HBox hBoxHelp = new HBox();
-//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-//        hBoxHelp.getChildren().addAll(btnHelp);
-//
-//        HBox hBox = new HBox();
-//        HBox.setHgrow(hBox, Priority.ALWAYS);
-//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+                        "ZIP-Datei wieder in ein beliebiges Verzeichnis entpackt werden." +
+                        "\n\n" +
+                        "Der Verein kann somit wieder mit dem Programm gestartet werden.");
 
         addOkCancelButtons(btnOk, btnCancel);
         addHlpButton(btnHelp);

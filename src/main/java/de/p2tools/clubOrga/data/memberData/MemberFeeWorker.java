@@ -15,21 +15,22 @@
  */
 
 
-package de.p2tools.clubOrga.data.feeData.feeRateData;
+package de.p2tools.clubOrga.data.memberData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.clubOrga.data.memberData.MemberData;
+import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
+import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateFactory;
 import de.p2tools.p2Lib.guiTools.PComboBoxObject;
 import de.p2tools.p2Lib.guiTools.PTextFieldMoney;
 
-public class FeeRateWorker {
+public class MemberFeeWorker {
 
     private ClubConfig clubConfig;
     private MemberData memberData = null;
     private final PTextFieldMoney txtBeitrag;
     private final PComboBoxObject<FeeRateData> cboBeitragssatz;
 
-    public FeeRateWorker(PComboBoxObject<FeeRateData> cboBeitragssatz, PTextFieldMoney txtBeitrag, ClubConfig clubConfig) {
+    public MemberFeeWorker(PComboBoxObject<FeeRateData> cboBeitragssatz, PTextFieldMoney txtBeitrag, ClubConfig clubConfig) {
         this.cboBeitragssatz = cboBeitragssatz;
         this.txtBeitrag = txtBeitrag;
         this.clubConfig = clubConfig;
@@ -41,13 +42,14 @@ public class FeeRateWorker {
         });
     }
 
-    public void clearCbo() {
-        cboBeitragssatz.clearSelection();
-    }
+//    public void clearSelection() {
+//        cboBeitragssatz.clearSelection();
+//        txtBeitrag.setText("");
+//    }
 
     public void unbind() {
-        cboBeitragssatz.unbindSelValueProperty();
         txtBeitrag.unBind();
+        cboBeitragssatz.unbindSelValueProperty();
         this.memberData = null;
     }
 
@@ -71,10 +73,12 @@ public class FeeRateWorker {
             txtBeitrag.setLabelLike(false);
         } else if (item.getId() == FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId()) {
             txtBeitrag.setLabelLike(true);
-            txtBeitrag.setText("0");
+            memberData.beitragProperty().set(0);
+//            txtBeitrag.setText("0");
         } else {
             txtBeitrag.setLabelLike(true);
-            txtBeitrag.setText(Long.toString(item.getBetrag()));
+            memberData.beitragProperty().set(item.getBetrag());
+//            txtBeitrag.setValue(Long.toString(item.getBetrag() / 100));
         }
     }
 }

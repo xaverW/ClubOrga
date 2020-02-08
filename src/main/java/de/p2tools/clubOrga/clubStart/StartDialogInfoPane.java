@@ -54,7 +54,7 @@ public class StartDialogInfoPane {
                 "Mitglieder, Beiträge und Finanzen" +
                 P2LibConst.LINE_SEPARATORx2 +
                 "2) Die Daten sind dann hier gelistet" + P2LibConst.LINE_SEPARATOR +
-                "(aktuell sind es die Mitgliederdaten)." +
+                "(hier aktuell die Mitgliedsdaten)." +
                 P2LibConst.LINE_SEPARATORx2 +
                 "3) Unter der Tabelle können die" + P2LibConst.LINE_SEPARATOR +
                 "angezeigten Daten gefiltert oder" + P2LibConst.LINE_SEPARATOR +
@@ -64,9 +64,9 @@ public class StartDialogInfoPane {
                 "Tabelle markiert gefiltert, und der" + P2LibConst.LINE_SEPARATOR +
                 "Filter auch wieder gelöscht werden." +
                 P2LibConst.LINE_SEPARATORx2 +
-                "5) Rechts neben der Tabelle kann" + P2LibConst.LINE_SEPARATOR +
-                "die ausgewählte Tabellenzeile" + P2LibConst.LINE_SEPARATOR +
-                "bearbeitet oder auch neue Einträge" + P2LibConst.LINE_SEPARATOR +
+                "5) Rechts neben der Tabelle können" + P2LibConst.LINE_SEPARATOR +
+                "die ausgewählten Daten bearbeitet" + P2LibConst.LINE_SEPARATOR +
+                "oder auch neue Einträge" + P2LibConst.LINE_SEPARATOR +
                 "angelegt werden."
         );
         lblText.setMinWidth(Region.USE_PREF_SIZE);
@@ -91,7 +91,7 @@ public class StartDialogInfoPane {
 
         hBox.getChildren().addAll(iv);
 
-        Label lblText = new Label("1) In der Tabelle sind die Finanzen" + P2LibConst.LINE_SEPARATOR +
+        Label lblText = new Label("1) In der Tabelle hier sind die Finanzen" + P2LibConst.LINE_SEPARATOR +
                 "gelistet." +
                 P2LibConst.LINE_SEPARATORx2 +
                 "2) Hier kann die Ansicht \"Filter\"," + P2LibConst.LINE_SEPARATOR +
