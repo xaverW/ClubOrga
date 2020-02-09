@@ -275,6 +275,7 @@ public class CsvFactory {
         headers.add(FinanceFieldNames.GESAMTBETRAG);
         headers.add(FinanceFieldNames.GESCHAEFTSJAHR);
         headers.add(FinanceFieldNames.BUCHUNGS_DATUM);
+        headers.add(FinanceFieldNames.TEXT);
 
         FinanceReportDataList financeReportDataList = clubConfig.financeReportDataList;
         headers.addAll(financeReportDataList.getAccounts());
@@ -295,6 +296,7 @@ public class CsvFactory {
         dataRow.add(DF.format(1.0 * financeReportData.getGesamtbetrag() / 100));
         dataRow.add(financeReportData.getGeschaeftsJahr() + "");
         dataRow.add(financeReportData.getBuchungsDatum().toString());
+        dataRow.add(financeReportData.getText());
 
         for (int i = 0; i < financeReportData.getAccountList().size(); i++) {
             final long l = financeReportData.getAccountList().get(i).getBetrag();

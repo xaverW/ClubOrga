@@ -50,6 +50,7 @@ public class FinanceReportFactory {
 
             reportData.setNr(financeData.getNr());
             reportData.setBelegNr(financeData.getBelegNr());
+            reportData.setText(financeData.getText());
             reportData.setGeschaeftsJahr(financeData.getGeschaeftsJahr());
             reportData.setBuchungsDatum(financeData.getBuchungsDatum());
             reportData.setGesamtbetrag(financeData.getGesamtbetrag());

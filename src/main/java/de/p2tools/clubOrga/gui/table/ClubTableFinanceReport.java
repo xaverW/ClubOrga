@@ -53,6 +53,9 @@ public class ClubTableFinanceReport {
         final TableColumn<FinanceReportData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.BELEG_NR);
         belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("belegNr"));
 
+        final TableColumn<FinanceReportData, String> textColumn = new TableColumn<>(FinanceFieldNames.TEXT);
+        textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
+
         final TableColumn<FinanceReportData, Integer> geschaeftsJahrColumn = new TableColumn<>(FinanceFieldNames.GESCHAEFTSJAHR);
         geschaeftsJahrColumn.setCellValueFactory(new PropertyValueFactory<>("geschaeftsJahr"));
 
@@ -66,6 +69,7 @@ public class ClubTableFinanceReport {
 
         tc.add(nrColumn);
         tc.add(belegNrColumn);
+        tc.add(textColumn);
         tc.add(geschaeftsJahrColumn);
         tc.add(buchungsDatumColumn);
         tc.add(gesamtbetragColumn);

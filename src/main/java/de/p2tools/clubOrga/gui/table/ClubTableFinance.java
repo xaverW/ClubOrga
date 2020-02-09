@@ -57,6 +57,9 @@ public class ClubTableFinance {
         final TableColumn<FinanceData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.BELEG_NR);
         belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("belegNr"));
 
+        final TableColumn<FinanceData, String> textColumn = new TableColumn<>(FinanceFieldNames.TEXT);
+        textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
+
         final TableColumn<FinanceData, Long> gesamtbetragColumn = new TableColumn<>(FinanceFieldNames.GESAMTBETRAG);
         gesamtbetragColumn.setCellValueFactory(new PropertyValueFactory<>("gesamtbetrag"));
         gesamtbetragColumn.setCellFactory((final TableColumn<FinanceData, Long> param) -> new PTableFactory.PCellMoney<>());
@@ -78,6 +81,7 @@ public class ClubTableFinance {
 
         tc.add(nrColumn);
         tc.add(belegNrColumn);
+        tc.add(textColumn);
         tc.add(gesamtbetragColumn);
         tc.add(kontoColumn);
         tc.add(kategorieColumn);

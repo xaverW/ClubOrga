@@ -30,6 +30,8 @@ public class FinanceReportDataBase {
     private final LongProperty nr = new SimpleLongProperty(0);
     private final StringProperty belegNr = new SimpleStringProperty("");
 
+    private final StringProperty text = new SimpleStringProperty("");
+
     private final LongProperty gesamtbetrag = new SimpleLongProperty(0);
     private final IntegerProperty geschaeftsJahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
 
@@ -90,6 +92,18 @@ public class FinanceReportDataBase {
 
     public void setBelegNr(String belegNr) {
         this.belegNr.set(belegNr);
+    }
+
+    public String getText() {
+        return text.get();
+    }
+
+    public StringProperty textProperty() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text.set(text);
     }
 
     public long getGesamtbetrag() {
