@@ -167,7 +167,6 @@ public class GuiMemberPaymentType extends BorderPane {
     }
 
     private void setGrid() {
-
         cboFinanceAccountData.init(clubConfig.financeAccountDataList, null);
         cboFinanceAccountData.setMaxWidth(Double.MAX_VALUE);
         cboFinanceAccountData.setOnAction(a -> {
@@ -181,6 +180,7 @@ public class GuiMemberPaymentType extends BorderPane {
             }
 
             this.paymentTypeData.setKonto(financeAccountData.getId());
+            this.paymentTypeData.setFinanceAccountData(financeAccountData);
             tglEinzug.setDisable(!financeAccountData.isGiro());
             if (!financeAccountData.isGiro()) {
                 this.paymentTypeData.setEinzug(false);
@@ -293,7 +293,8 @@ public class GuiMemberPaymentType extends BorderPane {
         txtText.textProperty().bindBidirectional(paymentTypeData.textProperty());
         cboFinanceAccountData.bindSelValueProperty(paymentTypeData.financeAccountDataProperty());
         tglEinzug.selectedProperty().bindBidirectional(paymentTypeData.einzugProperty());
-        tglEinzug.setDisable(paymentTypeData.getId() < PaymentTypeFactory.PAYMENT_TYPE_SIZE);
+        tglEinzug.setDisable(paymentTypeData.getId() < PaymentTypeFactory.PAYMENT_TYPE_SIZE ||
+                !paymentTypeData.getFinanceAccountData().isGiro());
     }
 
     private ContextMenu getContextMenu(PaymentTypeData data) {
