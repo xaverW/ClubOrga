@@ -28,7 +28,7 @@ import javafx.scene.input.MouseButton;
 
 public class ClubTable {
     public enum TABLE {
-        MEMBER, MEMBER_RATE, MEMBER_STATE, MEMBER_PAYMENT_TYPE, ADD_MISSING_FEE,
+        MEMBER, MEMBER_FEE, MEMBER_STATE, MEMBER_PAYMENT_TYPE, ADD_MISSING_FEE,
         FEE, PAY_FEE, FINANCE, FINANCE_ACCOUNT, FINANCE_CATEGORY, TRANSACTION,
         FINANCE_REPORT,
         CALCULATION_CATEGORY, CALCULATION_ACCOUNT
@@ -84,7 +84,7 @@ public class ClubTable {
                 confOrder = clubConfig.MEMBER_GUI_TABLE_ORDER;
                 break;
 
-            case MEMBER_RATE:
+            case MEMBER_FEE:
                 confWidth = clubConfig.MEMBER_RATES_GUI_TABLE_WIDTH;
                 confSort = clubConfig.MEMBER_RATES_GUI_TABLE_SORT;
                 confUpDown = clubConfig.MEMBER_RATES_GUI_TABLE_UPDOWN;
@@ -197,7 +197,7 @@ public class ClubTable {
                 tArray = new ClubTableMember(clubConfig).initColumn(table);
                 break;
 
-            case MEMBER_RATE:
+            case MEMBER_FEE:
                 tArray = new ClubTableRateData(clubConfig).initColumn(table);
                 break;
 

@@ -167,14 +167,14 @@ public class GuiMemberInfoPane extends AnchorPane {
         cboPaymentType.setMaxWidth(Double.MAX_VALUE);
 
         int row = 0;
-        gridPane.add(new Label(MemberFieldNames.BEITRAG_), 0, row);
+        gridPane.add(new Label(MemberFieldNames.STATUS_), 0, row);
+        gridPane.add(cboStatus, 1, row);
+
+        gridPane.add(new Label(MemberFieldNames.BEITRAG_), 0, ++row);
         gridPane.add(txtBeitrag, 1, row);
 
         gridPane.add(new Label(MemberFieldNames.BEITRAGSSATZ_), 0, ++row);
         gridPane.add(cboBeitragssatz, 1, row);
-
-        gridPane.add(new Label(MemberFieldNames.STATUS_), 0, ++row);
-        gridPane.add(cboStatus, 1, row);
 
         gridPane.add(new Label(MemberFieldNames.ZAHLART_), 0, ++row);
         gridPane.add(cboPaymentType, 1, row);

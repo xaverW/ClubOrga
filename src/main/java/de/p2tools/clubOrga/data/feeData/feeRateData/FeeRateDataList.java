@@ -17,9 +17,11 @@
 package de.p2tools.clubOrga.data.feeData.feeRateData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.alert.PAlert;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class FeeRateDataList extends FeeRateDataListBase {
 
@@ -111,6 +113,16 @@ public class FeeRateDataList extends FeeRateDataListBase {
     private boolean checkRemove(Object obj) {
         if (((FeeRateData) obj).getId() < FeeRateFactory.RATA_TYPE_SIZE) {
             PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag löschen", "Das sind Standardbeiträge die nicht gelöscht werden können.");
+            return false;
+        }
+
+        // Prüfen obs noch Mitglieder mit der Beitragssatz gibt
+        long id = ((FeeRateData) obj).getId();
+        Optional<MemberData> optionalMemberData = clubConfig.memberDataList.stream().filter(m -> m.getFeeRateData().getId() == id).findAny();
+        if (optionalMemberData.isPresent()) {
+            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag löschen",
+                    "Der Beitrag kann nicht gelöscht werden.\n" +
+                            "Es gibt noch Mitglieder mit diesem Beitrag!");
             return false;
         }
 

@@ -112,6 +112,7 @@ public class GuiMemberFeeRate extends BorderPane {
             FeeRateData item = tableView.getSelectionModel().getSelectedItem();
             if (item == null) {
                 new PAlert().showInfoNoSelection(clubConfig.getStage());
+
             } else {
                 clubConfig.feeRateDataList.remove(item);
             }
@@ -141,7 +142,7 @@ public class GuiMemberFeeRate extends BorderPane {
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        new ClubTable(clubConfig).setTable(tableView, ClubTable.TABLE.MEMBER_RATE);
+        new ClubTable(clubConfig).setTable(tableView, ClubTable.TABLE.MEMBER_FEE);
 
         tableView.setItems(sortedList);
         sortedList.comparatorProperty().bind(tableView.comparatorProperty());
@@ -201,7 +202,7 @@ public class GuiMemberFeeRate extends BorderPane {
     }
 
     public void saveTable() {
-        new ClubTable(clubConfig).saveTable(tableView, ClubTable.TABLE.MEMBER_RATE);
+        new ClubTable(clubConfig).saveTable(tableView, ClubTable.TABLE.MEMBER_FEE);
     }
 
     private void setMemberInfo() {
@@ -227,6 +228,15 @@ public class GuiMemberFeeRate extends BorderPane {
         }
 
         if (new FeeRateDataDialogController(clubConfig, feeRateData).isOk()) {
+            long id = feeRateData.getId();
+            if (id != FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId() &&
+                    id != FeeRateFactory.RATE_TYPE.RATE_FREE.getId()) {
+                // sonst ist der Beitrag entweder 0 oder frei
+                clubConfig.memberDataList.stream().filter(m -> m.getFeeRateData().getId() == id).forEach(m -> {
+                    m.setBeitrag(feeRateData.getBetrag());
+                });
+            }
+
             tableView.refresh();
         }
     }
@@ -271,7 +281,7 @@ public class GuiMemberFeeRate extends BorderPane {
         final ContextMenu contextMenu = new ContextMenu();
 
         MenuItem resetTable = new MenuItem("Tabelle zurücksetzen");
-        resetTable.setOnAction(a -> new ClubTable(clubConfig).resetTable(tableView, ClubTable.TABLE.MEMBER_RATE));
+        resetTable.setOnAction(a -> new ClubTable(clubConfig).resetTable(tableView, ClubTable.TABLE.MEMBER_FEE));
         contextMenu.getItems().add(resetTable);
 
         return contextMenu;

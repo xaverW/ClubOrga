@@ -18,10 +18,7 @@
 package de.p2tools.clubOrga.data.feeData.feeRateData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigLongPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
+import de.p2tools.p2Lib.configFile.config.*;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -60,7 +57,7 @@ public class FeeRateDataBase extends PDataSample<FeeRateData> {
                 new ConfigLongPropExtra("id", FeeRateFieldNames.ID, id),
                 new ConfigLongPropExtra("nr", FeeRateFieldNames.NR, nr),
                 new ConfigStringPropExtra("name", FeeRateFieldNames.NAME, name),
-                new ConfigLongPropExtra("betrag", FeeRateFieldNames.BETRAG, betrag),
+                new ConfigMoneyPropExtra("betrag", FeeRateFieldNames.BETRAG, betrag),
                 new ConfigStringPropExtra("text", FeeRateFieldNames.DESCRIPTION, text),
         };
     }

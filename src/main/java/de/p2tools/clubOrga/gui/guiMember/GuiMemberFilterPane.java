@@ -60,7 +60,7 @@ public class GuiMemberFilterPane extends FilterPane {
         gridPane.add(filterTxtNachname, 1, row);
         gridPane.add(new Label("Status:"), 0, ++row);
         gridPane.add(filterCboStatus, 1, row);
-        gridPane.add(new Label("Beitrag:"), 0, ++row);
+        gridPane.add(new Label("Beitragssatz:"), 0, ++row);
         gridPane.add(filterCboBeitrag, 1, row);
         gridPane.add(new Label("Zahlart:"), 0, ++row);
         gridPane.add(filterCboPaymentType, 1, row);

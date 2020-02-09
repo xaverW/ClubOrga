@@ -25,6 +25,7 @@ import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
+import de.p2tools.p2Lib.guiTools.PTextFieldMoney;
 import de.p2tools.p2Lib.tools.PException;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -111,8 +112,8 @@ public class FeeRateDataDialogController extends PDialogExtra {
                 ((TextArea) control).textProperty().bindBidirectional(feeRateDataCopy.textProperty());
 
             } else if (configData.getName().equals(FeeRateFieldNames.BETRAG) && id == FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId()) {
-                control = new Label();
-                ((Label) control).setText(feeRateDataCopy.getBetrag() + "");
+                control = ((ConfigExtra) configData).getControl();
+                ((PTextFieldMoney) control).setLabelLike(true);
 
             } else if (configData.getName().equals(FeeRateFieldNames.NR) && id <= FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId()) {
                 control = new Label();
