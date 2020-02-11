@@ -38,6 +38,7 @@ import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -124,7 +125,7 @@ public class ClubStartFactory {
 
             if (clubConfig.isFirstStart()) {
                 // der erste Start des Clubs
-                // init und Ordner erstellen und befülellen, ....
+                // init und Ordner erstellen und befüllen, ....
                 initFirstClubStart(clubConfig);
 
                 ProgStartFactory.initListsAfterClubLoad(clubConfig);
@@ -256,17 +257,28 @@ public class ClubStartFactory {
         try {
             final Path templateFilePath = ProgInfos.getClubDataTemplateFile(clubConfig.getClubPath());
 
-            InputStream src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_1);
-            Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_1), StandardCopyOption.REPLACE_EXISTING);
+            File srcDir = new File("./" + ProgConst.CLUB_TEMPLATE_DIR);
+            if (srcDir.exists()) {
+                // wenn im ProgDir Vorlagen vorhanden sind, dann die nehmen
+                PLog.sysLog("Vorlagen kopieren: " + srcDir.toString());
+                File destDir = templateFilePath.toFile();
+                FileUtils.copyDirectory(srcDir, destDir);
 
-            src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_2);
-            Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_2), StandardCopyOption.REPLACE_EXISTING);
+            } else {
+                // ansonsten gibts die aus dem SrcDir
+                PLog.sysLog("Vorlagen kopieren: " + "source");
+                InputStream src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_1);
+                Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_1), StandardCopyOption.REPLACE_EXISTING);
 
-            src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_3);
-            Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_3), StandardCopyOption.REPLACE_EXISTING);
+                src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_2);
+                Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_2), StandardCopyOption.REPLACE_EXISTING);
 
-            src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_4);
-            Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_4), StandardCopyOption.REPLACE_EXISTING);
+                src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_3);
+                Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_3), StandardCopyOption.REPLACE_EXISTING);
+
+                src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_4);
+                Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_4), StandardCopyOption.REPLACE_EXISTING);
+            }
 
             List<File> list = NewsletterFactory.getTemplates(clubConfig);
             for (File file : list) {

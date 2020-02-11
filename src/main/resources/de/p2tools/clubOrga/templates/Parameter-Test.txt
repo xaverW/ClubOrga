@@ -1,8 +1,7 @@
+Bild:           <<Bild url="P2-Logo.png", x="150", y="10", xx="50", yy="50">>
 
 
 
-
-Bild:           <<Bild url="", x="", y="", xx="", yy="">>
 Adressfeld:     <<Adressfeld>>
 
 
@@ -24,6 +23,7 @@ Adressfeld:     <<Adressfeld>>
 
 
 Faltmarke:      <<Faltmarke>>
+
 
 Schriftart:  HELVETICA       <<HELVETICA>>
 Schriftart:  TIMES_ROMAN     <<TIMES_ROMAN>>
