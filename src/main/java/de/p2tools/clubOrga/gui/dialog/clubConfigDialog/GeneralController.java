@@ -20,13 +20,14 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.clubOrga.controller.SearchProgramUpdate;
 import de.p2tools.clubOrga.gui.tools.HelpText;
 import de.p2tools.p2Lib.P2LibConst;
+import de.p2tools.p2Lib.checkForUpdates.SearchProgUpdate;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
+import de.p2tools.p2Lib.tools.ProgramTools;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -48,7 +49,6 @@ public class GeneralController extends AnchorPane {
     private final PToggleSwitch tglSearch = new PToggleSwitch("einmal am Tag nach einer neuen Programmversion suchen");
     private final PToggleSwitch tglSearchBeta = new PToggleSwitch("auch nach neuen Vorabversionen suchen");
     private final Button btnNow = new Button("_Jetzt suchen");
-    private final Button btnNowBeta = new Button("_Jetzt suchen");
     private Button btnHelpBeta;
     ScrollPane scrollPane = new ScrollPane();
 
@@ -119,7 +119,6 @@ public class GeneralController extends AnchorPane {
         result.add(tpConfig);
 
         //einmal am Tag Update suchen
-
         tglSearch.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_UPDATE_SEARCH);
         final Button btnHelp = PButton.helpButton(stage, "Programmupdate suchen",
                 "Beim Programmstart wird geprüft, ob es eine neue Version des Programms gibt. " +
@@ -141,12 +140,7 @@ public class GeneralController extends AnchorPane {
                         "Das Programm wird aber nicht ungefragt ersetzt.");
 
         //jetzt suchen
-        btnNow.setOnAction(event -> new SearchProgramUpdate(stage)
-                .checkVersion(true, true /* anzeigen */, false));
-
-        btnNowBeta.setOnAction(event -> new SearchProgramUpdate(stage)
-                .checkBetaVersion(true, true /* anzeigen */));
-
+        btnNow.setOnAction(event -> checkUpdate());
         checkBeta();
         tglSearch.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
@@ -159,17 +153,14 @@ public class GeneralController extends AnchorPane {
 
         int row = 0;
         gridPane.add(tglSearch, 0, row);
-        gridPane.add(btnNow, 1, row);
-        gridPane.add(btnHelp, 2, row);
-
-        gridPane.add(new Label(" "), 0, ++row);
+        gridPane.add(btnHelp, 1, row);
 
         gridPane.add(tglSearchBeta, 0, ++row);
-        gridPane.add(btnNowBeta, 1, row);
-        gridPane.add(btnHelpBeta, 2, row);
+        gridPane.add(btnHelpBeta, 1, row);
+
+        gridPane.add(btnNow, 0, ++row);
 
         gridPane.add(new Label(" "), 0, ++row);
-
         gridPane.add(hBoxHyper, 0, ++row);
 
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(),
@@ -178,15 +169,19 @@ public class GeneralController extends AnchorPane {
                 PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcVgrow(), PColumnConstraints.getRcPrefSize());
     }
 
+    private void checkUpdate() {
+        SearchProgUpdate searchProgUpdate = new SearchProgUpdate(stage);
+        searchProgUpdate.checkAll(ProgConst.URL_PROG_UPDATE, ProgConst.URL_PROG_BETA_UPDATE,
+                ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt());
+    }
+
     private void checkBeta() {
         if (tglSearch.isSelected()) {
             tglSearchBeta.setDisable(false);
-            btnNowBeta.setDisable(false);
             btnHelpBeta.setDisable(false);
         } else {
             tglSearchBeta.setDisable(true);
             tglSearchBeta.setSelected(false);
-            btnNowBeta.setDisable(true);
             btnHelpBeta.setDisable(true);
         }
     }

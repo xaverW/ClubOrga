@@ -19,7 +19,7 @@ package de.p2tools.clubOrga.controller;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.gui.tools.StringFormatters;
-import de.p2tools.p2Lib.checkForUpdates.SearchProgInfo;
+import de.p2tools.p2Lib.checkForUpdates.SearchProgUpdate;
 import de.p2tools.p2Lib.tools.ProgramTools;
 import javafx.stage.Stage;
 
@@ -46,14 +46,22 @@ public class SearchProgramUpdate {
         // prüft auf neue Version,
         ProgConfig.SYSTEM_UPDATE_DATE.setValue(StringFormatters.FORMATTER_yyyyMMdd.format(new Date()));
 
-        return new SearchProgInfo(stage).checkUpdate(ProgConst.URL_PROG_UPDATE,
+//        return new SearchProgInfo(stage).checkUpdate(ProgConst.URL_PROG_UPDATE,
+//                ProgramTools.getProgVersionInt(),
+//                ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
+//                ProgConfig.SYSTEM_UPDATE_INFO_NR_SHOWN,
+//                ProgConfig.SYSTEM_UPDATE_SEARCH,
+//                showUpdate,
+//                showProgramInformation, showError);
+
+        return new SearchProgUpdate(stage).checkProgVersion(ProgConst.URL_PROG_UPDATE,
                 ProgramTools.getProgVersionInt(),
                 ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
                 ProgConfig.SYSTEM_UPDATE_INFO_NR_SHOWN,
-                ProgConfig.SYSTEM_UPDATE_SEARCH,
-                showUpdate,
-                showProgramInformation, showError);
+                ProgConfig.SYSTEM_UPDATE_SEARCH);
+
     }
+
 
     /**
      * @param showError
@@ -63,12 +71,25 @@ public class SearchProgramUpdate {
     public boolean checkBetaVersion(boolean showError, boolean showProgramInformation) {
         // prüft auf neue beta Version,
 
-        return new SearchProgInfo(stage).checkBetaUpdate(ProgConst.URL_PROG_BETA_UPDATE,
+//        return new SearchProgInfo(stage).checkBetaUpdate(ProgConst.URL_PROG_BETA_UPDATE,
+//                ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
+//                ProgConfig.SYSTEM_UPDATE_BETA_VERSION_SHOWN,
+//                ProgConfig.SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN,
+//                ProgConfig.SYSTEM_UPDATE_BETA_SEARCH,
+//                showProgramInformation, showError);
+
+
+        ProgConfig.SYSTEM_UPDATE_DATE.setValue(StringFormatters.FORMATTER_yyyyMMdd.format(new Date()));
+
+        return new SearchProgUpdate(stage).checkProgVersionBeta(ProgConst.URL_PROG_UPDATE,
+                ProgConst.URL_PROG_BETA_UPDATE,
                 ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
+                ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
+                ProgConfig.SYSTEM_UPDATE_INFO_NR_SHOWN,
                 ProgConfig.SYSTEM_UPDATE_BETA_VERSION_SHOWN,
                 ProgConfig.SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN,
-                ProgConfig.SYSTEM_UPDATE_BETA_SEARCH,
-                showProgramInformation, showError);
+                ProgConfig.SYSTEM_UPDATE_SEARCH,
+                ProgConfig.SYSTEM_UPDATE_BETA_SEARCH);
     }
 
 }

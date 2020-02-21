@@ -232,9 +232,6 @@ public class ClubStartFactory {
     }
 
     private static void addCss(Scene scene) {
-//        String css = Club.class.getResource(ProgConst.CSS_FILE).toExternalForm();
-//        scene.getStylesheets().add(css);
-
         P2LibInit.addP2LibCssToScene(scene);
         ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> setTheme(scene));
         setTheme(scene);

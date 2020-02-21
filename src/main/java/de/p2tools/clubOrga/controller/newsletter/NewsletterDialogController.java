@@ -95,14 +95,6 @@ public class NewsletterDialogController extends PDialogExtra {
                         "aktuellen Daten der Mitglieder ein Serienbrief erstellt " +
                         "werden.");
 
-//        HBox hBoxHelp = new HBox();
-//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-//        hBoxHelp.getChildren().addAll(btnHelp);
-//
-//        HBox hBox = new HBox();
-//        HBox.setHgrow(hBox, Priority.ALWAYS);
-//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
-
         addOkCancelButtons(btnOk, btnCancel);
         ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
         addAnyButton(btnHelp);

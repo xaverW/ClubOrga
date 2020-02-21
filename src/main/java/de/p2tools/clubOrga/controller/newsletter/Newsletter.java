@@ -55,16 +55,13 @@ public class Newsletter {
                                          List<FeeData> feeDataList) {
 
         NewsletterDialogController newsletterDialogController = new NewsletterDialogController(clubConfig);
-
         if (newsletterDialogController.isOk()) {
-
             create(clubConfig, newsletterDialogController.getNewsletterType(),
                     memberDataList, feeDataList,
                     newsletterDialogController.getSourceFile(),
                     newsletterDialogController.getDestPath(),
                     newsletterDialogController.getDestFile());
         }
-
     }
 
     private static void create(ClubConfig clubConfig, NewsletterFactory.NEWSLETTER_TYPE exportType,
