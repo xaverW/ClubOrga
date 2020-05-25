@@ -12,15 +12,18 @@ Das Programm erleichtert die Verwaltungsaufgaben eines Vereins (Mitglieder, Beit
 
 ## Infos über das Programm
 
+ClubOrga ist ein Programm zur Vereinsverwaltung. Damit sollen die notwendigen Verwaltungsaufgaben eines Vereins (Mitglieder, Beiträge, Finanzen, Rundschreiben, Serienbriefe, Rechnungen, SEPA File Generator für die Übertragung ans Onlinebanking, …) erleichtert werden. 
 
 <br />
 
 ## Systemvoraussetzungen
 
-Unterstützt wird Windows (7, 8, 10) und Linux. 
+Unterstützt wird Windows und Linux. 
 
 Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: Java 11.
 Für Linux-Benutzer wird OpenJDK11 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
+
+<br />
 
 ## Download
 
@@ -34,3 +37,10 @@ Das Programmpaket bringt nur das Programm aber kein Java mit. Auf dem Rechner mu
 Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner "Java" und kommt von jdk.java.net).
 
 zum Download: [github.com/xaverW/ClubOrga/releases](https://github.com/xaverW/cluborga/releases)
+
+<br />
+
+## Website
+
+[www.p2tools.de/cluborga/]( https://www.p2tools.de/cluborga/)
+
