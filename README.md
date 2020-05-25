@@ -6,9 +6,6 @@
 
 # ClubOrga
 
-Das Programm erleichtert die Verwaltungsaufgaben eines Vereins (Mitglieder, Beiträge, Finanzen, Rundschreiben, Rechnungen, ..) 
-
-<br />
 
 ## Infos über das Programm
 
