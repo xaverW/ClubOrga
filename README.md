@@ -6,7 +6,6 @@
 
 # ClubOrga
 
-
 ## Infos über das Programm
 
 ClubOrga ist ein Programm zur Vereinsverwaltung. Damit sollen die notwendigen Verwaltungsaufgaben eines Vereins (Mitglieder, Beiträge, Finanzen, Rundschreiben, Serienbriefe, Rechnungen, SEPA File Generator für die Übertragung ans Onlinebanking, …) erleichtert werden. 
