@@ -1,8 +1,5 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![GitHub last commit](https://img.shields.io/github/last-commit/xaverW/ClubOrga)
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/xaverW/ClubOrga?include_prereleases)
-![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/xaverW/ClubOrga)
 
 # ClubOrga
 
