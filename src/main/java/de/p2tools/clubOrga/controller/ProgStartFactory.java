@@ -96,9 +96,9 @@ public class ProgStartFactory {
     }
 
     private static void initP2Lib() {
-        P2LibInit.initLib(null, ProgConst.PROGRAMNAME,
-                ProgConst.CSS_FILE, ProgInfos.getUserAgent(),
+        P2LibInit.initLib(null, ProgConst.PROGRAMNAME, ProgInfos.getUserAgent(),
                 ProgData.debug, ProgData.duration);
+        P2LibInit.addCssFile(ProgConst.CSS_FILE);
 //        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
     }
 

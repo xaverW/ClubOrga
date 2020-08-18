@@ -20,14 +20,13 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.clubOrga.controller.SearchProgramUpdate;
 import de.p2tools.clubOrga.gui.tools.HelpText;
 import de.p2tools.p2Lib.P2LibConst;
-import de.p2tools.p2Lib.checkForUpdates.SearchProgUpdate;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
-import de.p2tools.p2Lib.tools.ProgramTools;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -140,7 +139,9 @@ public class GeneralController extends AnchorPane {
                         "Das Programm wird aber nicht ungefragt ersetzt.");
 
         //jetzt suchen
-        btnNow.setOnAction(event -> checkUpdate());
+        btnNow.setOnAction(event -> new SearchProgramUpdate(clubConfig.getStage(), clubConfig).searchNewVersionInfos());
+
+
         checkBeta();
         tglSearch.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
@@ -167,12 +168,6 @@ public class GeneralController extends AnchorPane {
                 PColumnConstraints.getCcPrefSize());
         gridPane.getRowConstraints().addAll(PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(),
                 PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcVgrow(), PColumnConstraints.getRcPrefSize());
-    }
-
-    private void checkUpdate() {
-        SearchProgUpdate searchProgUpdate = new SearchProgUpdate(stage);
-        searchProgUpdate.checkAll(ProgConst.URL_PROG_UPDATE, ProgConst.URL_PROG_BETA_UPDATE,
-                ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt());
     }
 
     private void checkBeta() {

@@ -17,16 +17,12 @@ package de.p2tools.clubOrga;
 
 import de.p2tools.clubOrga.clubStart.StartDialogController;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
-import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.controller.ProgStartFactory;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubDataFactory;
-import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
-import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -49,7 +45,7 @@ public class Club extends Application {
         PDuration.onlyPing("Programmstart");
         progData = ProgData.getInstance();
 
-        initP2lib();
+//        initP2lib();
         final boolean firstProgramStart = ProgStartFactory.loadProgConfigData();
 
         if (firstProgramStart) {
@@ -91,12 +87,5 @@ public class Club extends Application {
             Platform.exit();
             System.exit(0);
         }
-    }
-
-    private void initP2lib() {
-        PButton.setHlpImage(new ProgIcons().ICON_BUTTON_HELP.getImage());
-        P2LibInit.initLib(null, ProgConst.PROGRAMNAME,
-                ProgConst.CSS_FILE, "",
-                ProgData.debug, ProgData.duration);
     }
 }

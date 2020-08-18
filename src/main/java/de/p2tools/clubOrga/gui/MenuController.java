@@ -18,10 +18,10 @@
 package de.p2tools.clubOrga.gui;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.controller.ProgQuitFactory;
+import de.p2tools.clubOrga.controller.SearchProgramUpdate;
 import de.p2tools.clubOrga.controller.export.csv.ExportCsvDialogController;
 import de.p2tools.clubOrga.controller.export.csv.ImportCsvMemberDialogController;
 import de.p2tools.clubOrga.controller.export.zip.ExportZipDialogController;
@@ -29,9 +29,7 @@ import de.p2tools.clubOrga.data.deleteData.DeleteDataFactory;
 import de.p2tools.clubOrga.data.demoData.DemoData;
 import de.p2tools.clubOrga.gui.dialog.AboutDialogController;
 import de.p2tools.clubOrga.gui.dialog.clubConfigDialog.ProgConfigDialogController;
-import de.p2tools.p2Lib.checkForUpdates.SearchProgUpdate;
 import de.p2tools.p2Lib.dialogs.ProgInfoDialog;
-import de.p2tools.p2Lib.tools.ProgramTools;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
@@ -87,7 +85,7 @@ public class MenuController {
 
         // Menü Hilfe
         MenuItem miUpdate = new MenuItem("Gibt es ein Update?");
-        miUpdate.setOnAction(event -> checkUpdate());
+        miUpdate.setOnAction(event -> new SearchProgramUpdate(clubConfig.getStage(), clubConfig).searchNewVersionInfos());
         MenuItem miAbout = new MenuItem("Über dieses Programm");
         miAbout.setOnAction(event -> new AboutDialogController(clubConfig));
 
@@ -111,18 +109,6 @@ public class MenuController {
 
             menuHelp.getItems().addAll(new SeparatorMenuItem(), miTest, miInfo);
         }
-    }
-
-    private void checkUpdate() {
-//        new SearchProgInfo(clubConfig.getStage()).checkUpdate(ProgConst.URL_PROG_UPDATE,
-//                ProgramTools.getProgVersionInt(),
-//                ProgConfig.SYSTEM_UPDATE_INFO_NR_SHOWN, ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
-//                true, true)
-
-
-        SearchProgUpdate searchProgUpdate = new SearchProgUpdate(clubConfig.getStage());
-        searchProgUpdate.checkAll(ProgConst.URL_PROG_UPDATE, ProgConst.URL_PROG_BETA_UPDATE,
-                ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt());
     }
 
     private void exportAllMember() {
