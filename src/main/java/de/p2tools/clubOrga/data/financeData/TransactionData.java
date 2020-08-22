@@ -34,7 +34,7 @@ public class TransactionData extends TransactionDataWorker {
   */
     public TransactionData(long nr, ClubConfig clubConfig) {
         setId(getNewId());
-        setNr(nr);
+        setNo(nr);
 //        setFinanceAccountData(clubConfig.financeAccountDataList.get(0));
         setFinanceCategoryData(clubConfig.financeCategoryDataList.get(0));
         addListener();

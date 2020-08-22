@@ -32,12 +32,12 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
     public static final String TAG = "TransactionData";
 
     private final LongProperty id = new SimpleLongProperty(0);
-    private final LongProperty nr = new SimpleLongProperty(0);
+    private final LongProperty no = new SimpleLongProperty(0);
 
     private final LongProperty feeId = new SimpleLongProperty(0);
 
     private final LongProperty betrag = new SimpleLongProperty(0);
-    private final LongProperty kategorie = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
+    private final LongProperty category = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
 
     private final StringProperty text = new SimpleStringProperty("");
     private BooleanProperty changed = new SimpleBooleanProperty(true);
@@ -56,9 +56,9 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
     @Override
     public Config[] getConfigsArr() {
         if (getFinanceCategoryData() != null) {
-            kategorie.set(getFinanceCategoryData().getId());
+            category.set(getFinanceCategoryData().getId());
         } else {
-            kategorie.set(ProgConst.STANDARD_FIELD);
+            category.set(ProgConst.STANDARD_FIELD);
         }
 
         if (getFeeData() != null) {
@@ -67,11 +67,11 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
 
         return new Config[]{
                 new ConfigLongPropExtra("id", FinanceFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FinanceFieldNames.NR, nr),
+                new ConfigLongPropExtra("nr", FinanceFieldNames.NO, no),
                 new ConfigLongPropExtra("feeId", FinanceFieldNames.FEED_ID, feeId),
 
                 new ConfigMoneyPropExtra("betrag", FinanceFieldNames.BETRAG, betrag),
-                new ConfigLongPropExtra("kategorie", FinanceFieldNames.KATEGORIE, kategorie),
+                new ConfigLongPropExtra("kategorie", FinanceFieldNames.CATEGORY, category),
 
                 new ConfigStringPropExtra("text", FinanceFieldNames.TEXT, text)
         };
@@ -90,7 +90,7 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
     }
 
     public void initFinanceCategoryData(ClubConfig clubConfig) {
-        setFinanceCategoryData(clubConfig.financeCategoryDataList.getFinanceCategoryDataOrStandard(kategorie.get()));
+        setFinanceCategoryData(clubConfig.financeCategoryDataList.getFinanceCategoryDataOrStandard(category.get()));
     }
 
     public FeeData getFeeData() {
@@ -140,16 +140,16 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
         this.id.set(id);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
     public long getBetrag() {

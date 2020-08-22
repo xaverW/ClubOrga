@@ -27,8 +27,8 @@ import java.util.List;
 
 public class FinanceReportDataBase {
 
-    private final LongProperty nr = new SimpleLongProperty(0);
-    private final StringProperty belegNr = new SimpleStringProperty("");
+    private final LongProperty no = new SimpleLongProperty(0);
+    private final StringProperty receiptNo = new SimpleStringProperty("");
 
     private final StringProperty text = new SimpleStringProperty("");
 
@@ -70,28 +70,28 @@ public class FinanceReportDataBase {
     }
 
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
-    public String getBelegNr() {
-        return belegNr.get();
+    public String getReceiptNo() {
+        return receiptNo.get();
     }
 
-    public StringProperty belegNrProperty() {
-        return belegNr;
+    public StringProperty receiptNoProperty() {
+        return receiptNo;
     }
 
-    public void setBelegNr(String belegNr) {
-        this.belegNr.set(belegNr);
+    public void setReceiptNo(String receiptNo) {
+        this.receiptNo.set(receiptNo);
     }
 
     public String getText() {

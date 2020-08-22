@@ -36,8 +36,8 @@ public class FinanceCategoryDataBase extends PDataSample<FinanceCategoryData> im
     public static final String TAG = "FinanceCategoryData";
 
     private final LongProperty id = new SimpleLongProperty(0);
-    private final LongProperty nr = new SimpleLongProperty(0);
-    private final StringProperty kategorie = new SimpleStringProperty("");
+    private final LongProperty no = new SimpleLongProperty(0);
+    private final StringProperty category = new SimpleStringProperty("");
     private final StringProperty description = new SimpleStringProperty("");
 
     ClubConfig clubConfig;
@@ -58,9 +58,9 @@ public class FinanceCategoryDataBase extends PDataSample<FinanceCategoryData> im
     private Config[] getConfigs() {
         return new Config[]{
                 new ConfigLongPropExtra("id", FinanceCategoryFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FinanceCategoryFieldNames.NR, nr),
-                new ConfigStringPropExtra("kategorie", FinanceCategoryFieldNames.KATEGORIE, kategorie),
-                new ConfigStringPropExtra("description", FinanceCategoryFieldNames.DESCRIPTION, description),
+                new ConfigLongPropExtra("nr", FinanceCategoryFieldNames.NO, no),
+                new ConfigStringPropExtra("kategorie", FinanceCategoryFieldNames.CATEGORY, category),
+                new ConfigStringPropExtra("beschreibung", FinanceCategoryFieldNames.DESCRIPTION, description),
         };
     }
 
@@ -76,28 +76,28 @@ public class FinanceCategoryDataBase extends PDataSample<FinanceCategoryData> im
         this.id.set(id);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
-    public String getKategorie() {
-        return kategorie.get();
+    public String getCategory() {
+        return category.get();
     }
 
-    public StringProperty kategorieProperty() {
-        return kategorie;
+    public StringProperty categoryProperty() {
+        return category;
     }
 
-    public void setKategorie(String kategorie) {
-        this.kategorie.set(kategorie);
+    public void setCategory(String category) {
+        this.category.set(category);
     }
 
     public String getDescription() {

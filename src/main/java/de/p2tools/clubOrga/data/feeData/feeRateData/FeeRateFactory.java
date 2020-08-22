@@ -19,7 +19,7 @@ package de.p2tools.clubOrga.data.feeData.feeRateData;
 
 public class FeeRateFactory {
 
-    public static int RATA_TYPE_SIZE = RATE_TYPE.values().length;
+    public static int RATE_TYPE_SIZE = RATE_TYPE.values().length;
 
     public enum RATE_TYPE {
 

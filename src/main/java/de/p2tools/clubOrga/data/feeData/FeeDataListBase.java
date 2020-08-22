@@ -153,8 +153,8 @@ public class FeeDataListBase extends SimpleListProperty<FeeData> implements PDat
     public long getNextNr() {
         long nr = 1;
         for (FeeData data : this) {
-            if (data.getNr() >= nr) {
-                nr = data.getNr() + 1;
+            if (data.getNo() >= nr) {
+                nr = data.getNo() + 1;
             }
         }
         return nr;

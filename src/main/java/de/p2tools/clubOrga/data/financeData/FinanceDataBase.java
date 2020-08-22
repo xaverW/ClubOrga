@@ -36,12 +36,12 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
 
     private final LongProperty id = new SimpleLongProperty(0);
 
-    private final LongProperty nr = new SimpleLongProperty(0);
-    private final StringProperty belegNr = new SimpleStringProperty("");
+    private final LongProperty no = new SimpleLongProperty(0);
+    private final StringProperty receiptNo = new SimpleStringProperty("");
 
     private final LongProperty gesamtbetrag = new SimpleLongProperty(0);
     private final LongProperty konto = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
-    private final StringProperty kategorie = new SimpleStringProperty("");
+    private final StringProperty category = new SimpleStringProperty("");
     private final IntegerProperty geschaeftsJahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
 
     private final PLocalDateProperty buchungsDatum = new PLocalDateProperty();
@@ -79,13 +79,13 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
         }
 
         list.add(new ConfigLongPropExtra("id", FinanceFieldNames.ID, id));
-        list.add(new ConfigLongPropExtra("nr", FinanceFieldNames.NR, nr));
-        list.add(new ConfigStringPropExtra("belegNr", FinanceFieldNames.BELEG_NR, belegNr));
+        list.add(new ConfigLongPropExtra("nr", FinanceFieldNames.NO, no));
+        list.add(new ConfigStringPropExtra("belegNr", FinanceFieldNames.RECEIPT_NR, receiptNo));
 
         list.add(new ConfigMoneyPropExtra("gesamtbetrag", FinanceFieldNames.GESAMTBETRAG, gesamtbetrag, true));
         list.add(new ConfigLongPropExtra("konto", FinanceFieldNames.KONTO, konto));
 //        list.add(new ConfigStringPropExtra("konto", FinanceFieldNames.KONTO, konto));
-        list.add(new ConfigStringPropExtra("kategorie", FinanceFieldNames.KATEGORIE, kategorie));
+        list.add(new ConfigStringPropExtra("kategorie", FinanceFieldNames.CATEGORY, category));
         list.add(new ConfigIntPropExtra("geschaeftsJahr", FinanceFieldNames.GESCHAEFTSJAHR, geschaeftsJahr));
 
         list.add(new ConfigLocalDatePropExtra("buchungsDatum", FinanceFieldNames.BUCHUNGS_DATUM, buchungsDatum));
@@ -167,28 +167,28 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
         this.id.set(id);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
-    public String getBelegNr() {
-        return belegNr.get();
+    public String getReceiptNo() {
+        return receiptNo.get();
     }
 
-    public StringProperty belegNrProperty() {
-        return belegNr;
+    public StringProperty receiptNoProperty() {
+        return receiptNo;
     }
 
-    public void setBelegNr(String belegNr) {
-        this.belegNr.set(belegNr);
+    public void setReceiptNo(String receiptNo) {
+        this.receiptNo.set(receiptNo);
     }
 
     public long getGesamtbetrag() {
@@ -215,16 +215,16 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
 //        this.konto.set(konto);
 //    }
 
-    public String getKategorie() {
-        return kategorie.get();
+    public String getCategory() {
+        return category.get();
     }
 
-    public StringProperty kategorieProperty() {
-        return kategorie;
+    public StringProperty categoryProperty() {
+        return category;
     }
 
-    public void setKategorie(String kategorie) {
-        this.kategorie.set(kategorie);
+    public void setCategory(String category) {
+        this.category.set(category);
     }
 
     public int getGeschaeftsJahr() {

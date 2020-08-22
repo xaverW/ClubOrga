@@ -39,9 +39,9 @@ public class PaymentTypeDataList extends PaymentTypeDataListBase {
             paymentTypeDataStandard.setName(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BAR.getName());
             paymentTypeDataStandard.setText(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BAR.getDescription());
             paymentTypeDataStandard.setId(idBar);
-            paymentTypeDataStandard.setNr(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BAR.getShownNo());
-            paymentTypeDataStandard.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getId());
-            paymentTypeDataStandard.setEinzug(false);
+            paymentTypeDataStandard.setNo(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BAR.getShownNo());
+            paymentTypeDataStandard.setAccount(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getId());
+            paymentTypeDataStandard.setDirectDebit(false);
 
             add(idBar, paymentTypeDataStandard);
         }
@@ -53,9 +53,9 @@ public class PaymentTypeDataList extends PaymentTypeDataListBase {
             paymentTypeDataStandard.setName(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_UEBERWEISUNG.getName());
             paymentTypeDataStandard.setText(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_UEBERWEISUNG.getDescription());
             paymentTypeDataStandard.setId(idUeberweisung);
-            paymentTypeDataStandard.setNr(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_UEBERWEISUNG.getShownNo());
-            paymentTypeDataStandard.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId());
-            paymentTypeDataStandard.setEinzug(false);
+            paymentTypeDataStandard.setNo(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_UEBERWEISUNG.getShownNo());
+            paymentTypeDataStandard.setAccount(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId());
+            paymentTypeDataStandard.setDirectDebit(false);
 
             add(idUeberweisung, paymentTypeDataStandard);
         }
@@ -67,9 +67,9 @@ public class PaymentTypeDataList extends PaymentTypeDataListBase {
             paymentTypeDataStandard.setName(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BANKEINZUG.getName());
             paymentTypeDataStandard.setText(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BANKEINZUG.getDescription());
             paymentTypeDataStandard.setId(idBankeinzug);
-            paymentTypeDataStandard.setNr(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BANKEINZUG.getShownNo());
-            paymentTypeDataStandard.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId());
-            paymentTypeDataStandard.setEinzug(true);
+            paymentTypeDataStandard.setNo(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BANKEINZUG.getShownNo());
+            paymentTypeDataStandard.setAccount(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId());
+            paymentTypeDataStandard.setDirectDebit(true);
 
             add(idBankeinzug, paymentTypeDataStandard);
         }
@@ -78,7 +78,7 @@ public class PaymentTypeDataList extends PaymentTypeDataListBase {
 
             // Konto
             Optional<FinanceAccountData> accountData = clubConfig.financeAccountDataList.stream()
-                    .filter(data -> paymentTypeData.getKonto() == data.getId()).findAny();
+                    .filter(data -> paymentTypeData.getAccount() == data.getId()).findAny();
 
             if (accountData.isPresent()) {
                 paymentTypeData.setFinanceAccountData(accountData.get());

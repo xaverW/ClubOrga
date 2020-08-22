@@ -43,14 +43,14 @@ public class ClubTableAddMissingFee {
 
         table.getColumns().clear();
 
-        final TableColumn<FeeData, Long> nrColumn = new TableColumn<>(FeeFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<FeeData, Long> noColumn = new TableColumn<>(FeeFieldNames.NO);
+        noColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
-        final TableColumn<FeeData, Long> mNrColumn = new TableColumn<>(FeeFieldNames.MEMBER_NR);
-        mNrColumn.setCellValueFactory(new PropertyValueFactory<>("mitgliedNr"));
+        final TableColumn<FeeData, Long> mNoColumn = new TableColumn<>(FeeFieldNames.MEMBER_NO);
+        mNoColumn.setCellValueFactory(new PropertyValueFactory<>("memberNo"));
 
         final TableColumn<FeeData, String> mNameColumn = new TableColumn<>(FeeFieldNames.MEMBER_NAME);
-        mNameColumn.setCellValueFactory(new PropertyValueFactory<>("mitgliedName"));
+        mNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberName"));
 
         final TableColumn<FeeData, Long> betragColumn = new TableColumn<>(FeeFieldNames.BETRAG);
         betragColumn.setCellValueFactory(new PropertyValueFactory<>("betrag"));
@@ -62,8 +62,8 @@ public class ClubTableAddMissingFee {
         final TableColumn<FeeData, String> zahlartColumn = new TableColumn<>(FeeFieldNames.ZAHLART);
         zahlartColumn.setCellValueFactory(new PropertyValueFactory<>("paymentTypeData"));
 
-        tc.add(nrColumn);
-        tc.add(mNrColumn);
+        tc.add(noColumn);
+        tc.add(mNoColumn);
         tc.add(mNameColumn);
         tc.add(betragColumn);
         tc.add(jahrColumn);

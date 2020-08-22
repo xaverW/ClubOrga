@@ -115,9 +115,9 @@ public class FeeRateDataDialogController extends PDialogExtra {
                 control = ((ConfigExtra) configData).getControl();
                 ((PTextFieldMoney) control).setLabelLike(true);
 
-            } else if (configData.getName().equals(FeeRateFieldNames.NR) && id <= FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId()) {
+            } else if (configData.getName().equals(FeeRateFieldNames.NO) && id <= FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId()) {
                 control = new Label();
-                ((Label) control).setText(feeRateDataCopy.getNr() + "");
+                ((Label) control).setText(feeRateDataCopy.getNo() + "");
 
             } else if (configData instanceof ConfigExtra) {
                 // rest

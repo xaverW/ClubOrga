@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.gui.guiMember.guiConfig;
+package de.p2tools.clubOrga.gui.guiFee.guiConfig;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
@@ -42,7 +42,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
-public class GuiMemberFeeRate extends BorderPane {
+public class GuiFeeRate extends BorderPane {
 
     private final ScrollPane scrollPaneTable = new ScrollPane();
     private final VBox vBoxRight = new VBox();
@@ -63,7 +63,7 @@ public class GuiMemberFeeRate extends BorderPane {
 
     private FeeRateData feeRateData = null;
 
-    public GuiMemberFeeRate(ClubConfig clubConfig) {
+    public GuiFeeRate(ClubConfig clubConfig) {
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
 
@@ -176,7 +176,7 @@ public class GuiMemberFeeRate extends BorderPane {
 
 
         int r = 0;
-        gridPane.add(new Label(FeeRateFieldNames.NR_), 0, r);
+        gridPane.add(new Label(FeeRateFieldNames.NO_), 0, r);
         gridPane.add(txtNr, 1, r);
         gridPane.add(new Label(FeeRateFieldNames.NAME_), 0, ++r);
         gridPane.add(txtName, 1, r);
@@ -268,10 +268,10 @@ public class GuiMemberFeeRate extends BorderPane {
         }
 
 
-        txtNr.setStateLabel(feeRateData.getId() < FeeRateFactory.RATA_TYPE_SIZE);
+        txtNr.setStateLabel(feeRateData.getId() < FeeRateFactory.RATE_TYPE_SIZE);
         txtBetrag.setLabelLike(feeRateData.getId() == FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId());
 
-        txtNr.bindBidirectional(feeRateData.nrProperty());
+        txtNr.bindBidirectional(feeRateData.noProperty());
         txtName.textProperty().bindBidirectional(feeRateData.nameProperty());
         txtBetrag.bindBidirectional(feeRateData.betragProperty());
         txtText.textProperty().bindBidirectional(feeRateData.textProperty());

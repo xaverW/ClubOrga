@@ -191,10 +191,10 @@ public class GuiFinanceAccount extends BorderPane {
 
 
         int r = 0;
-        gridPane.add(new Label(FinanceAccountFieldNames.NR_), 0, r);
+        gridPane.add(new Label(FinanceAccountFieldNames.NO_), 0, r);
         gridPane.add(txtNr, 1, r);
 
-        gridPane.add(new Label(FinanceAccountFieldNames.KONTO_), 0, ++r);
+        gridPane.add(new Label(FinanceAccountFieldNames.NAME_), 0, ++r);
         gridPane.add(txtKonto, 1, r);
 
 
@@ -272,7 +272,7 @@ public class GuiFinanceAccount extends BorderPane {
 
         txtNr.unBind();
         tglGiro.selectedProperty().unbindBidirectional(financeAccountData.giroProperty());
-        txtKonto.textProperty().unbindBidirectional(financeAccountData.kontoProperty());
+        txtKonto.textProperty().unbindBidirectional(financeAccountData.nameProperty());
         txtBic.textProperty().unbindBidirectional(financeAccountData.bicProperty());
         txtIban.textProperty().unbindBidirectional(financeAccountData.ibanProperty());
         txtBank.textProperty().unbindBidirectional(financeAccountData.bankProperty());
@@ -291,9 +291,9 @@ public class GuiFinanceAccount extends BorderPane {
         txtNr.setStateLabel(financeAccountData.getId() < FinanceAccountFactory.ACCOUNT_TYPE_SIZE);
         tglGiro.setCheckBoxDisable(financeAccountData.getId() < FinanceAccountFactory.ACCOUNT_TYPE_SIZE);
 
-        txtNr.bindBidirectional(financeAccountData.nrProperty());
+        txtNr.bindBidirectional(financeAccountData.noProperty());
         tglGiro.selectedProperty().bindBidirectional(financeAccountData.giroProperty());
-        txtKonto.textProperty().bindBidirectional(financeAccountData.kontoProperty());
+        txtKonto.textProperty().bindBidirectional(financeAccountData.nameProperty());
         txtBic.textProperty().bindBidirectional(financeAccountData.bicProperty());
         txtIban.textProperty().bindBidirectional(financeAccountData.ibanProperty());
         txtBank.textProperty().bindBidirectional(financeAccountData.bankProperty());

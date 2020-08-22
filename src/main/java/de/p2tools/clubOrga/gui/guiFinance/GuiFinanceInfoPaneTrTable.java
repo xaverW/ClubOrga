@@ -219,7 +219,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
 //        gridPane.add(new Label(FinanceFieldNames.NR_), 0, row);
 //        gridPane.add(txtFinanceNr, 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.BELEG_NR_), 0, row);
+        gridPane.add(new Label(FinanceFieldNames.RECEIPT_NR_), 0, row);
         gridPane.add(txtFinanceBelegNr, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), 0, ++row);
@@ -321,13 +321,13 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
 
         int row = 0;
 
-        gridPane.add(new Label(FinanceFieldNames.NR_), 0, row);
+        gridPane.add(new Label(FinanceFieldNames.NO_), 0, row);
         gridPane.add(txtTransactionNr, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.BETRAG_), 0, ++row);
         gridPane.add(txtTransactionBetrag, 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), 0, ++row);
+        gridPane.add(new Label(FinanceFieldNames.CATEGORY_), 0, ++row);
         gridPane.add(cboCategory, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.TEXT_), 0, ++row);
@@ -370,8 +370,8 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
             return;
         }
 
-        txtFinanceNr.bindBidirectional(financeData.nrProperty());
-        txtFinanceBelegNr.textProperty().bindBidirectional(financeData.belegNrProperty());
+        txtFinanceNr.bindBidirectional(financeData.noProperty());
+        txtFinanceBelegNr.textProperty().bindBidirectional(financeData.receiptNoProperty());
         txtFinanceBetrag.bindBidirectional(financeData.gesamtbetragProperty());
         txtFinanceText.textProperty().bindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.bindBidirectional(financeData.geschaeftsJahrProperty());
@@ -391,7 +391,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
         }
 
         txtFinanceNr.unBind();
-        txtFinanceBelegNr.textProperty().unbindBidirectional(financeData.belegNrProperty());
+        txtFinanceBelegNr.textProperty().unbindBidirectional(financeData.receiptNoProperty());
         txtFinanceBetrag.unBind();
         txtFinanceText.textProperty().unbindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.unbind();
@@ -417,7 +417,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
             return;
         }
 
-        txtTransactionNr.bindBidirectional(transactionData.nrProperty());
+        txtTransactionNr.bindBidirectional(transactionData.noProperty());
         txtTransactionBetrag.bindBidirectional(transactionData.betragProperty());
         cboCategory.bindSelValueProperty(transactionData.financeCategoryDataProperty());
         txtTransactionText.textProperty().bindBidirectional(transactionData.textProperty());

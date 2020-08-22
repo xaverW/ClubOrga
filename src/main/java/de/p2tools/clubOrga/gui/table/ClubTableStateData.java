@@ -42,8 +42,8 @@ public class ClubTableStateData {
 
         table.getColumns().clear();
 
-        final TableColumn<StateData, Long> nrColumn = new TableColumn<>(StateFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<StateData, Long> nrColumn = new TableColumn<>(StateFieldNames.NO);
+        nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
         final TableColumn<StateData, String> nameColumn = new TableColumn<>(StateFieldNames.NAME);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

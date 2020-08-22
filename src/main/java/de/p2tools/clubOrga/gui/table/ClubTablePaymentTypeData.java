@@ -43,17 +43,17 @@ public class ClubTablePaymentTypeData {
 
         table.getColumns().clear();
 
-        final TableColumn<PaymentTypeData, Long> nrColumn = new TableColumn<>(PaymentTypeNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<PaymentTypeData, Long> nrColumn = new TableColumn<>(PaymentTypeNames.NO);
+        nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
         final TableColumn<PaymentTypeData, String> nameColumn = new TableColumn<>(PaymentTypeNames.NAME);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        final TableColumn<PaymentTypeData, Object> kontoColumn = new TableColumn<>(PaymentTypeNames.KONTO);
+        final TableColumn<PaymentTypeData, Object> kontoColumn = new TableColumn<>(PaymentTypeNames.ACCOUNT);
         kontoColumn.setCellValueFactory(new PropertyValueFactory<>("financeAccountData"));
 
-        final TableColumn<PaymentTypeData, Boolean> einzugColumn = new TableColumn<>(PaymentTypeNames.EINZUG);
-        einzugColumn.setCellValueFactory(new PropertyValueFactory<>("einzug"));
+        final TableColumn<PaymentTypeData, Boolean> einzugColumn = new TableColumn<>(PaymentTypeNames.DIRECT_DEBIT);
+        einzugColumn.setCellValueFactory(new PropertyValueFactory<>("directDebit"));
         einzugColumn.setCellFactory(new PCheckBoxCell().cellFactoryBool);
 
         final TableColumn<PaymentTypeData, String> textColumn = new TableColumn<>(PaymentTypeNames.DESCRIPTION);

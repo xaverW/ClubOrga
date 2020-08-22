@@ -51,11 +51,11 @@ public class ClubTableFinance {
 
         table.getColumns().clear();
 
-        final TableColumn<FinanceData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<FinanceData, Long> noColumn = new TableColumn<>(FinanceFieldNames.NO);
+        noColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
-        final TableColumn<FinanceData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.BELEG_NR);
-        belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("belegNr"));
+        final TableColumn<FinanceData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.RECEIPT_NR);
+        belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("receiptNo"));
 
         final TableColumn<FinanceData, String> textColumn = new TableColumn<>(FinanceFieldNames.TEXT);
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
@@ -67,8 +67,8 @@ public class ClubTableFinance {
         final TableColumn<FinanceData, String> kontoColumn = new TableColumn<>(FinanceFieldNames.KONTO);
         kontoColumn.setCellValueFactory(new PropertyValueFactory<>("financeAccountData"));
 
-        final TableColumn<FinanceData, String> kategorieColumn = new TableColumn<>(FinanceFieldNames.KATEGORIE);
-        kategorieColumn.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
+        final TableColumn<FinanceData, String> kategorieColumn = new TableColumn<>(FinanceFieldNames.CATEGORY);
+        kategorieColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 
         final TableColumn<FinanceData, Integer> geschaeftsJahrColumn = new TableColumn<>(FinanceFieldNames.GESCHAEFTSJAHR);
         geschaeftsJahrColumn.setCellValueFactory(new PropertyValueFactory<>("geschaeftsJahr"));
@@ -79,7 +79,7 @@ public class ClubTableFinance {
         final TableColumn<FinanceData, PLocalDate> erstellDatumColumn = new TableColumn<>(FinanceFieldNames.ERSTELLDATUM);
         erstellDatumColumn.setCellValueFactory(new PropertyValueFactory<>("erstellDatum"));
 
-        tc.add(nrColumn);
+        tc.add(noColumn);
         tc.add(belegNrColumn);
         tc.add(textColumn);
         tc.add(gesamtbetragColumn);

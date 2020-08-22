@@ -72,7 +72,7 @@ public class FinanceCalculationDataList extends SimpleListProperty<FinanceCalcul
                 FinanceCategoryData ca = clubConfig.financeCategoryDataList.getById(entry.getKey());
                 if (ca != null) {
                     FinanceCalculationData calculationData = new FinanceCalculationData();
-                    calculationData.setCategory(ca.getKategorie());
+                    calculationData.setCategory(ca.getCategory());
                     calculationData.setValue(entry.getValue());
                     calculationDataList.add(calculationData);
                 }
@@ -82,7 +82,7 @@ public class FinanceCalculationDataList extends SimpleListProperty<FinanceCalcul
                 FinanceAccountData ca = clubConfig.financeAccountDataList.getById(entry.getKey());
                 if (ca != null) {
                     FinanceCalculationData calculationData = new FinanceCalculationData();
-                    calculationData.setCategory(ca.getKonto());
+                    calculationData.setCategory(ca.getName());
                     calculationData.setValue(entry.getValue());
                     calculationDataList.add(calculationData);
                 }

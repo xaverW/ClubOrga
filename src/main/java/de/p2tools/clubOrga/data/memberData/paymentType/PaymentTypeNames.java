@@ -20,17 +20,17 @@ package de.p2tools.clubOrga.data.memberData.paymentType;
 public class PaymentTypeNames {
 
     public static final String ID = "Id";
-    public static final String NR = "Nr";
+    public static final String NO = "Nr";
     public static final String NAME = "Name";
-    public static final String KONTO = "Konto";
-    public static final String EINZUG = "Bankeinzug";
+    public static final String ACCOUNT = "Konto";
+    public static final String DIRECT_DEBIT = "Bankeinzug";
     public static final String DESCRIPTION = "Beschreibung";
 
     public static final String ID_ = ID + ":";
-    public static final String NR_ = NR + ":";
+    public static final String NO_ = NO + ":";
     public static final String NAME_ = NAME + ":";
-    public static final String KONTO_ = KONTO + ":";
-    public static final String EINZUG_ = EINZUG + ":";
+    public static final String ACCOUNT_ = ACCOUNT + ":";
+    public static final String DIRECT_DEBIT_ = DIRECT_DEBIT + ":";
     public static final String DESCRIPTION_ = DESCRIPTION + ":";
 
 }

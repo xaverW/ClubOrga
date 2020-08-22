@@ -31,10 +31,10 @@ public class FinanceCategoryDataList extends FinanceCategoryDataListBase {
         final int idBeitrag = FinanceCategoryFactory.CATEGORY_TYPE.CATEGORY_BEITRAG.getId();
         if (isEmpty() || get(idBeitrag).getId() != idBeitrag) {
             final FinanceCategoryData data = new FinanceCategoryData();
-            data.setKategorie(FinanceCategoryFactory.CATEGORY_TYPE.CATEGORY_BEITRAG.getName());
+            data.setCategory(FinanceCategoryFactory.CATEGORY_TYPE.CATEGORY_BEITRAG.getName());
             data.setDescription(FinanceCategoryFactory.CATEGORY_TYPE.CATEGORY_BEITRAG.getDescription());
             data.setId(idBeitrag);
-            data.setNr(FinanceCategoryFactory.CATEGORY_TYPE.CATEGORY_BEITRAG.getShowNo());
+            data.setNo(FinanceCategoryFactory.CATEGORY_TYPE.CATEGORY_BEITRAG.getShowNo());
 
             add(idBeitrag, data);
         }

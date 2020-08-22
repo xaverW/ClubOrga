@@ -125,7 +125,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
         pYearPickerFinanceGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
         pdpFinanceBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
-        gridPane.add(new Label(FinanceFieldNames.BELEG_NR_), c, row);
+        gridPane.add(new Label(FinanceFieldNames.RECEIPT_NR_), c, row);
         gridPane.add(txtFinanceBelegNr, c + 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), c, ++row);
@@ -155,7 +155,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
         gridPane.add(pdpFinanceBuchungsdatum, c + 1, row);
 
 
-        gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), c, ++row);
+        gridPane.add(new Label(FinanceFieldNames.CATEGORY_), c, ++row);
         gridPane.add(cboCategory, c + 1, row);
 
 //        gridPane.add(new Label(FinanceFieldNames.TEXT_), 3, ++row);
@@ -214,8 +214,8 @@ public class GuiFinanceInfoPane extends AnchorPane {
             return;
         }
 
-        txtFinanceNr.bindBidirectional(financeData.nrProperty());
-        txtFinanceBelegNr.textProperty().bindBidirectional(financeData.belegNrProperty());
+        txtFinanceNr.bindBidirectional(financeData.noProperty());
+        txtFinanceBelegNr.textProperty().bindBidirectional(financeData.receiptNoProperty());
         txtFinanceText.textProperty().bindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.bindBidirectional(financeData.geschaeftsJahrProperty());
         pdpFinanceBuchungsdatum.setpDateProperty(financeData.buchungsDatumProperty());
@@ -230,7 +230,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
         }
 
         txtFinanceNr.unBind();
-        txtFinanceBelegNr.textProperty().unbindBidirectional(financeData.belegNrProperty());
+        txtFinanceBelegNr.textProperty().unbindBidirectional(financeData.receiptNoProperty());
         txtFinanceText.textProperty().unbindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.unbind();
         pdpFinanceBuchungsdatum.clearDate();
@@ -247,7 +247,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
             return;
         }
 
-        txtTransactionNr.bindBidirectional(transactionData.nrProperty());
+        txtTransactionNr.bindBidirectional(transactionData.noProperty());
         txtTransactionBetrag.bindBidirectional(transactionData.betragProperty());
 //        cboAccount.bindSelValueProperty(transactionData.financeAccountDataProperty());
         cboCategory.bindSelValueProperty(transactionData.financeCategoryDataProperty());

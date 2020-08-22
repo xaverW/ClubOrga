@@ -89,14 +89,14 @@ public class ProgSaveFactory {
         if (clubConfig.guiMember != null) {
             clubConfig.guiMember.saveTable();
         }
-        if (clubConfig.guiMemberFeeRate != null) {
-            clubConfig.guiMemberFeeRate.saveTable();
+        if (clubConfig.guiFeeRate != null) {
+            clubConfig.guiFeeRate.saveTable();
         }
         if (clubConfig.guiMemberState != null) {
             clubConfig.guiMemberState.saveTable();
         }
-        if (clubConfig.guiMemberPaymentType != null) {
-            clubConfig.guiMemberPaymentType.saveTable();
+        if (clubConfig.guiFeePaymentType != null) {
+            clubConfig.guiFeePaymentType.saveTable();
         }
         if (clubConfig.guiFee != null) {
             clubConfig.guiFee.saveTable();

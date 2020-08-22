@@ -56,7 +56,7 @@ public class FinanceFilterPredicate {
 
         if (!searchFinanceBelegNr.isEmpty()) {
             filtered.set(true);
-            predicate = predicate.and(financeData -> financeData.getBelegNr().toLowerCase().startsWith(searchFinanceBelegNr));
+            predicate = predicate.and(financeData -> financeData.getReceiptNo().toLowerCase().startsWith(searchFinanceBelegNr));
         }
 
         if (searchGeschaeftsJahr != null && searchGeschaeftsJahr > 0) {

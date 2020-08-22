@@ -58,7 +58,7 @@ public class MemberData extends MemberDataBase {
 
     @Override
     public String toString() {
-        return "[" + this.getNr() + "]  " + this.getNachname() +
+        return "[" + this.getNo() + "]  " + this.getNachname() +
                 (this.getVorname().isEmpty() ? "" : (", " + this.getVorname()))
                 ;
     }

@@ -65,8 +65,7 @@ public class ExtraDataController extends AnchorPane {
     }
 
     private Collection<TitledPane> createPanes() {
-        Collection<TitledPane> result = new ArrayList<TitledPane>();
-//        makeExtraName(result);
+        Collection<TitledPane> result = new ArrayList<>();
 
         ExtraDataPane expMember = new ExtraDataPane(stage, clubConfig);
         TitledPane tpMember = expMember.getExtraPane(clubConfig.extraDataListMember);
@@ -85,61 +84,5 @@ public class ExtraDataController extends AnchorPane {
 
         return result;
     }
-
-//    private void makeExtraName(Collection<TitledPane> result) {
-//        final GridPane gridPane = new GridPane();
-//        gridPane.setHgap(15);
-//        gridPane.setVgap(15);
-//        gridPane.setPadding(new Insets(20, 20, 20, 20));
-//
-//        TitledPane tpConfig = new TitledPane("Namen", gridPane);
-//        result.add(tpConfig);
-//
-//        gridPane.add(new Label("Mitglieder"), 0, 0);
-//        gridPane.add(new Label("Beiträge"), 1, 0);
-//        gridPane.add(new Label("Finanzen"), 2, 0);
-//
-//        int row = 1;
-//        for (int i = 0; i < ProgConst.MAX_EXTRA_DATA_MAX_MEMBER; ++i) {
-//            TextField txt = new TextField();
-//            ExtraData ex = clubConfig.extraDataListMember.get(i);
-//            txt.textProperty().bindBidirectional(ex.nameProperty());
-//            gridPane.add(txt, 0, row++);
-//        }
-//
-//        row = 1;
-//        for (int i = 0; i < ProgConst.MAX_EXTRA_DATA_MAX_FEE; ++i) {
-//            TextField txt = new TextField();
-//            ExtraData ex = clubConfig.extraDataListFee.get(i);
-//            txt.textProperty().bindBidirectional(ex.nameProperty());
-//            gridPane.add(txt, 1, row++);
-//        }
-//
-//        row = 1;
-//        for (int i = 0; i < ProgConst.MAX_EXTRA_DATA_MAX_FINANCE; ++i) {
-//            TextField txt = new TextField();
-//            ExtraData ex = clubConfig.extraDataListFinance.get(i);
-//            txt.textProperty().bindBidirectional(ex.nameProperty());
-//            gridPane.add(txt, 2, row++);
-//        }
-//
-//
-//        gridPane.add(new Label(" "), 0, row++);
-//
-//        final Button btnHelp = new Button("");
-//        btnHelp.setTooltip(new Tooltip("Hilfe anzeigen."));
-//        btnHelp.setGraphic(new ProgIcons().ICON_BUTTON_HELP);
-//        btnHelp.setOnAction(a -> PAlert.showHelpAlert(stage, "Extrafelder",
-//                "Die Mitgliedsdaten, Beitragsdaten und Finanzdaten enthalten je ein paar Felder " +
-//                        "die das Programm nicht nutzt. Diese sind gedacht, für Infos die für den Verein wichtig sind und " +
-//                        "so erfasst werden können. Die Titel der Felder können hier angepasst werden."));
-//        GridPane.setHalignment(btnHelp, HPos.RIGHT);
-//        gridPane.add(btnHelp, 2, row);
-//
-//        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(),
-//                PColumnConstraints.getCcComputedSizeAndHgrow(),
-//                PColumnConstraints.getCcComputedSizeAndHgrow());
-//    }
-
 
 }

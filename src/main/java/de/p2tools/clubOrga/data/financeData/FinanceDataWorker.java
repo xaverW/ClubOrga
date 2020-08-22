@@ -53,10 +53,10 @@ public class FinanceDataWorker extends FinanceDataBase {
 
         ArrayList<String> strList = new ArrayList<>();
         getTransactionDataList().stream().filter(transactionData -> transactionData.getFinanceCategoryData() != null)
-                .forEach(transactionData -> strList.add(transactionData.getFinanceCategoryData().getKategorie()));
+                .forEach(transactionData -> strList.add(transactionData.getFinanceCategoryData().getCategory()));
 
         ret = PStringUtils.appendList(strList, ", ", true, true);
-        setKategorie(ret);
+        setCategory(ret);
 
         return ret;
     }

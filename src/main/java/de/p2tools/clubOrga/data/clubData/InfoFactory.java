@@ -48,7 +48,7 @@ public class InfoFactory {
     }
 
     private static TreeItem<ClubInfoData> generateMemberInfo() {
-        TreeItem<ClubInfoData> member = createGroup("Mitglieder", clubConfig.memberDataList.size(), "",
+        TreeItem<ClubInfoData> treeItemMember = createGroup("Mitglieder", clubConfig.memberDataList.size(), "",
                 true, false);
 
         TreeItem<ClubInfoData> stateItem = createGroup("Stati", false, false);
@@ -85,66 +85,59 @@ public class InfoFactory {
         });
 
 
-        member.getChildren().addAll(stateItem, feeRate, paymentType);
-        return member;
+        treeItemMember.getChildren().addAll(stateItem, feeRate, paymentType);
+        return treeItemMember;
     }
 
     private static TreeItem<ClubInfoData> generateFeeInfo() {
-        TreeItem<ClubInfoData> feeItem = createGroup("Beiträge", "" + clubConfig.feeDataList.size(), "",
+        TreeItem<ClubInfoData> treeItemFeeInfo = createGroup("Beiträge", "" + clubConfig.feeDataList.size(), "",
                 true, false);
 
-        TreeItem<ClubInfoData> treeItem = createGroup("Rechnung");
-
+        TreeItem<ClubInfoData> treeItemFee = createGroup("Rechnung");
         ClubInfoData ciRechnungOk = new ClubInfoData();
         ciRechnungOk.setName("erstellt");
         ciRechnungOk.setText("Rechnung wurde erstellt");
         ciRechnungOk.setAmount(clubConfig.feeDataList.stream()
                 .filter(data -> !data.getRechnung().isEmpty()).count());
-        treeItem.getChildren().add(new TreeItem<>(ciRechnungOk));
-
+        treeItemFee.getChildren().add(new TreeItem<>(ciRechnungOk));
         ClubInfoData ciRechnung = new ClubInfoData();
         ciRechnung.setName("fehlt");
         ciRechnung.setText("Rechnung wurde nicht erstellt");
         ciRechnung.setAmount(clubConfig.feeDataList.stream()
                 .filter(data -> data.getRechnung().isEmpty()).count());
-        treeItem.getChildren().add(new TreeItem<>(ciRechnung));
-        feeItem.getChildren().add(treeItem);
+        treeItemFee.getChildren().add(new TreeItem<>(ciRechnung));
 
-        treeItem = createGroup("Bezahlt");
-
+        TreeItem<ClubInfoData> treeItemPayed = createGroup("Bezahlt");
         ClubInfoData ciBezahlt = new ClubInfoData();
         ciBezahlt.setName("bezahlt");
         ciBezahlt.setText("Beitrag ist bezahlt");
         ciBezahlt.setAmount(clubConfig.feeDataList.stream()
                 .filter(data -> !data.getBezahlt().isEmpty()).count());
-        treeItem.getChildren().add(new TreeItem<>(ciBezahlt));
-
+        treeItemPayed.getChildren().add(new TreeItem<>(ciBezahlt));
         ClubInfoData ciNichtBezahlt = new ClubInfoData();
         ciNichtBezahlt.setName("nicht bezahlt");
         ciNichtBezahlt.setText("Beitrag ist nicht bezahlt");
         ciNichtBezahlt.setAmount((int) clubConfig.feeDataList.stream()
                 .filter(data -> data.getBezahlt().isEmpty()).count());
-        treeItem.getChildren().add(new TreeItem<>(ciNichtBezahlt));
-        feeItem.getChildren().add(treeItem);
+        treeItemPayed.getChildren().add(new TreeItem<>(ciNichtBezahlt));
 
-        treeItem = createGroup("Spendenquittung");
-
+        TreeItem<ClubInfoData> treeItemSq = createGroup("Spendenquittung");
         ClubInfoData ciSqOk = new ClubInfoData();
         ciSqOk.setName("erstellt");
         ciSqOk.setText("Spendenquittung wurde erstellt");
         ciSqOk.setAmount(clubConfig.feeDataList.stream()
                 .filter(data -> !data.getSpendenQ().isEmpty()).count());
-        treeItem.getChildren().add(new TreeItem<>(ciSqOk));
-
+        treeItemSq.getChildren().add(new TreeItem<>(ciSqOk));
         ClubInfoData ciSq = new ClubInfoData();
         ciSq.setName("fehlt");
         ciSq.setText("Spendenquittung wurde nicht erstellt");
         ciSq.setAmount(clubConfig.feeDataList.stream()
                 .filter(data -> data.getSpendenQ().isEmpty()).count());
-        treeItem.getChildren().add(new TreeItem<>(ciSq));
-        feeItem.getChildren().add(treeItem);
+        treeItemSq.getChildren().add(new TreeItem<>(ciSq));
 
-        return feeItem;
+        treeItemFeeInfo.getChildren().addAll(treeItemFee, treeItemPayed, treeItemSq);
+
+        return treeItemFeeInfo;
     }
 
     private static TreeItem<ClubInfoData> generateFinanceInfo() {
@@ -161,12 +154,12 @@ public class InfoFactory {
         TreeMap<String, Long> treeMapAccount = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         clubConfig.financeDataList.stream()
                 .forEach(financeData -> {
-                    if (treeMapAccount.containsKey(financeData.getFinanceAccountData().getKonto())) {
-                        long old = treeMapAccount.get(financeData.getFinanceAccountData().getKonto());
-                        treeMapAccount.put(financeData.getFinanceAccountData().getKonto(),
+                    if (treeMapAccount.containsKey(financeData.getFinanceAccountData().getName())) {
+                        long old = treeMapAccount.get(financeData.getFinanceAccountData().getName());
+                        treeMapAccount.put(financeData.getFinanceAccountData().getName(),
                                 old + financeData.financeDataGetSumBetrag());
                     } else {
-                        treeMapAccount.put(financeData.getFinanceAccountData().getKonto(),
+                        treeMapAccount.put(financeData.getFinanceAccountData().getName(),
                                 financeData.financeDataGetSumBetrag());
                     }
                 });
@@ -184,11 +177,11 @@ public class InfoFactory {
         clubConfig.financeDataList.stream().forEach(financeData -> financeData.getTransactionDataList()
                 .stream()
                 .forEach(transactionData -> {
-                    if (treeMapCategory.containsKey(transactionData.getFinanceCategoryData().getKategorie())) {
-                        long old = treeMapCategory.get(transactionData.getFinanceCategoryData().getKategorie());
-                        treeMapCategory.put(transactionData.getFinanceCategoryData().getKategorie(), old + transactionData.getBetrag());
+                    if (treeMapCategory.containsKey(transactionData.getFinanceCategoryData().getCategory())) {
+                        long old = treeMapCategory.get(transactionData.getFinanceCategoryData().getCategory());
+                        treeMapCategory.put(transactionData.getFinanceCategoryData().getCategory(), old + transactionData.getBetrag());
                     } else {
-                        treeMapCategory.put(transactionData.getFinanceCategoryData().getKategorie(), transactionData.getBetrag());
+                        treeMapCategory.put(transactionData.getFinanceCategoryData().getCategory(), transactionData.getBetrag());
                     }
                 })
         );
@@ -223,12 +216,12 @@ public class InfoFactory {
         clubConfig.financeDataList.stream()
                 .filter(financeData -> financeData.getGeschaeftsJahr() == actYear)
                 .forEach(financeData -> {
-                    if (treeMapAccount.containsKey(financeData.getFinanceAccountData().getKonto())) {
-                        long old = treeMapAccount.get(financeData.getFinanceAccountData().getKonto());
-                        treeMapAccount.put(financeData.getFinanceAccountData().getKonto(),
+                    if (treeMapAccount.containsKey(financeData.getFinanceAccountData().getName())) {
+                        long old = treeMapAccount.get(financeData.getFinanceAccountData().getName());
+                        treeMapAccount.put(financeData.getFinanceAccountData().getName(),
                                 old + financeData.financeDataGetSumBetrag());
                     } else {
-                        treeMapAccount.put(financeData.getFinanceAccountData().getKonto(),
+                        treeMapAccount.put(financeData.getFinanceAccountData().getName(),
                                 financeData.financeDataGetSumBetrag());
                     }
                 });
@@ -248,11 +241,11 @@ public class InfoFactory {
                 .forEach(financeData -> financeData.getTransactionDataList()
                         .stream()
                         .forEach(transactionData -> {
-                            if (treeMapCategory.containsKey(transactionData.getFinanceCategoryData().getKategorie())) {
-                                long old = treeMapCategory.get(transactionData.getFinanceCategoryData().getKategorie());
-                                treeMapCategory.put(transactionData.getFinanceCategoryData().getKategorie(), old + transactionData.getBetrag());
+                            if (treeMapCategory.containsKey(transactionData.getFinanceCategoryData().getCategory())) {
+                                long old = treeMapCategory.get(transactionData.getFinanceCategoryData().getCategory());
+                                treeMapCategory.put(transactionData.getFinanceCategoryData().getCategory(), old + transactionData.getBetrag());
                             } else {
-                                treeMapCategory.put(transactionData.getFinanceCategoryData().getKategorie(), transactionData.getBetrag());
+                                treeMapCategory.put(transactionData.getFinanceCategoryData().getCategory(), transactionData.getBetrag());
                             }
                         })
                 );

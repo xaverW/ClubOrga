@@ -128,10 +128,10 @@ public class FeePane extends VBox {
 
     private Control getControl(ConfigExtra config) {
         Control control;
-        if (config.getName().equals(FeeFieldNames.MEMBER_NR)) {
+        if (config.getName().equals(FeeFieldNames.MEMBER_NO)) {
             control = new PTextFieldLong(true);
             if (memberData != null) {
-                ((PTextFieldLong) control).bindBidirectional(memberData.nrProperty());
+                ((PTextFieldLong) control).bindBidirectional(memberData.noProperty());
             }
 
         } else if (config.getName().equals(FeeFieldNames.MEMBER_NAME)) {

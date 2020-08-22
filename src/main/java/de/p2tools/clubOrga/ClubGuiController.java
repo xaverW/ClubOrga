@@ -24,13 +24,13 @@ import de.p2tools.clubOrga.gui.StatusBarController;
 import de.p2tools.clubOrga.gui.guiClub.GuiClub;
 import de.p2tools.clubOrga.gui.guiClub.GuiClubInfo;
 import de.p2tools.clubOrga.gui.guiFee.GuiFee;
+import de.p2tools.clubOrga.gui.guiFee.guiConfig.GuiFeePaymentType;
+import de.p2tools.clubOrga.gui.guiFee.guiConfig.GuiFeeRate;
 import de.p2tools.clubOrga.gui.guiFinance.GuiFinance;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceAccount;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceCategory;
 import de.p2tools.clubOrga.gui.guiFinanceReport.GuiFinanceReport;
 import de.p2tools.clubOrga.gui.guiMember.GuiMember;
-import de.p2tools.clubOrga.gui.guiMember.guiConfig.GuiMemberFeeRate;
-import de.p2tools.clubOrga.gui.guiMember.guiConfig.GuiMemberPaymentType;
 import de.p2tools.clubOrga.gui.guiMember.guiConfig.GuiMemberState;
 import de.p2tools.p2Lib.guiTools.pMask.PMaskerPane;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -77,10 +77,10 @@ public class ClubGuiController extends StackPane {
             clubConfig.guiClub = new GuiClub(clubConfig);
             clubConfig.guiClubInfo = new GuiClubInfo(clubConfig);
             clubConfig.guiMember = new GuiMember(clubConfig);
-            clubConfig.guiMemberFeeRate = new GuiMemberFeeRate(clubConfig);
             clubConfig.guiMemberState = new GuiMemberState(clubConfig);
-            clubConfig.guiMemberPaymentType = new GuiMemberPaymentType(clubConfig);
             clubConfig.guiFee = new GuiFee(clubConfig);
+            clubConfig.guiFeeRate = new GuiFeeRate(clubConfig);
+            clubConfig.guiFeePaymentType = new GuiFeePaymentType(clubConfig);
             clubConfig.guiFinance = new GuiFinance(clubConfig);
             clubConfig.guiFinanceReport = new GuiFinanceReport(clubConfig);
             clubConfig.guiFinanceAccount = new GuiFinanceAccount(clubConfig);
@@ -88,8 +88,8 @@ public class ClubGuiController extends StackPane {
 
             stackPaneCont.getChildren().addAll(clubConfig.guiClub, clubConfig.guiClubInfo,
                     clubConfig.guiMember,
-                    clubConfig.guiMemberFeeRate, clubConfig.guiMemberState, clubConfig.guiMemberPaymentType,
-                    clubConfig.guiFee,
+                    clubConfig.guiMemberState,
+                    clubConfig.guiFee, clubConfig.guiFeeRate, clubConfig.guiFeePaymentType,
                     clubConfig.guiFinance, clubConfig.guiFinanceReport,
                     clubConfig.guiFinanceAccount, clubConfig.guiFinanceCategory
             );
@@ -137,25 +137,25 @@ public class ClubGuiController extends StackPane {
                 clubConfig.guiMember.isShown();
                 setSelPane(GuiFactory.PANE.MEMBER);
                 break;
-            case MEMBER_FEE_RATE:
-                clubConfig.guiMemberFeeRate.toFront();
-                clubConfig.guiMemberFeeRate.isShown();
-                setSelPane(GuiFactory.PANE.MEMBER_FEE_RATE);
-                break;
             case MEMBER_STATE:
                 clubConfig.guiMemberState.toFront();
                 clubConfig.guiMemberState.isShown();
                 setSelPane(GuiFactory.PANE.MEMBER_STATE);
                 break;
-            case MEMBER_PAYMENT_TYPE:
-                clubConfig.guiMemberPaymentType.toFront();
-                clubConfig.guiMemberPaymentType.isShown();
-                setSelPane(GuiFactory.PANE.MEMBER_PAYMENT_TYPE);
-                break;
             case FEE:
                 clubConfig.guiFee.toFront();
                 clubConfig.guiFee.isShown();
                 setSelPane(GuiFactory.PANE.FEE);
+                break;
+            case FEE_RATE:
+                clubConfig.guiFeeRate.toFront();
+                clubConfig.guiFeeRate.isShown();
+                setSelPane(GuiFactory.PANE.FEE_RATE);
+                break;
+            case FEE_PAYMENT_TYPE:
+                clubConfig.guiFeePaymentType.toFront();
+                clubConfig.guiFeePaymentType.isShown();
+                setSelPane(GuiFactory.PANE.FEE_PAYMENT_TYPE);
                 break;
             case FINANCE:
                 clubConfig.guiFinance.toFront();
@@ -213,9 +213,7 @@ public class ClubGuiController extends StackPane {
             }
         });
         addSelectButton(vbMember, "Mitglieder", GuiFactory.PANE.MEMBER);
-        addSelectButton(vbMember, "Beitragssätze", GuiFactory.PANE.MEMBER_FEE_RATE);
         addSelectButton(vbMember, "Mitgliederstati", GuiFactory.PANE.MEMBER_STATE);
-        addSelectButton(vbMember, "Zahlarten", GuiFactory.PANE.MEMBER_PAYMENT_TYPE);
 
 
         // Beitrag
@@ -230,6 +228,8 @@ public class ClubGuiController extends StackPane {
             }
         });
         addSelectButton(vbfee, "Beiträge", GuiFactory.PANE.FEE);
+        addSelectButton(vbfee, "Beitragssätze", GuiFactory.PANE.FEE_RATE);
+        addSelectButton(vbfee, "Zahlarten", GuiFactory.PANE.FEE_PAYMENT_TYPE);
 
 
         // Finanzen

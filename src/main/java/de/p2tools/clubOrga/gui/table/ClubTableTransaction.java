@@ -47,14 +47,14 @@ public class ClubTableTransaction {
 
         table.getColumns().clear();
 
-        final TableColumn<TransactionData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<TransactionData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NO);
+        nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
         final TableColumn<TransactionData, Long> betragColumn = new TableColumn<>(FinanceFieldNames.BETRAG);
         betragColumn.setCellValueFactory(new PropertyValueFactory<>("betrag"));
         betragColumn.setCellFactory((final TableColumn<TransactionData, Long> param) -> new PTableFactory.PCellMoney<>());
 
-        final TableColumn<TransactionData, String> kategorieColumn = new TableColumn<>(FinanceFieldNames.KATEGORIE);
+        final TableColumn<TransactionData, String> kategorieColumn = new TableColumn<>(FinanceFieldNames.CATEGORY);
         kategorieColumn.setCellValueFactory(new PropertyValueFactory<>("financeCategoryData"));
 
         final TableColumn<TransactionData, String> mitgliedColumn = new TableColumn<>("Mitgliedsbeitrag");

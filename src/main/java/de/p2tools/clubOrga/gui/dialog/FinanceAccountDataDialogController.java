@@ -109,9 +109,9 @@ public class FinanceAccountDataDialogController extends PDialogExtra {
             if (configData.getName().equals(FinanceAccountFieldNames.ID)) {
                 continue;
 
-            } else if (configData.getName().equals(FinanceAccountFieldNames.NR) &&
+            } else if (configData.getName().equals(FinanceAccountFieldNames.NO) &&
                     id < FinanceAccountFactory.ACCOUNT_TYPE_SIZE) {
-                control = new PTextField(dataCopy.getNr() + "", true);
+                control = new PTextField(dataCopy.getNo() + "", true);
 
             } else if (configData.getName().equals(FinanceAccountFieldNames.GIRO) &&
                     id == FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId()) {

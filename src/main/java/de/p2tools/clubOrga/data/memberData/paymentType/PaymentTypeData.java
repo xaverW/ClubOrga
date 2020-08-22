@@ -35,8 +35,8 @@ public class PaymentTypeData extends PaymentTypeDataBase {
     public PaymentTypeData(ClubConfig clubConfig) {
         this.clubConfig = clubConfig;
         setId(getNewId());
-        this.setNr(clubConfig.paymentTypeDataList.getNextNr());
-        this.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId());
+        this.setNo(clubConfig.paymentTypeDataList.getNextNr());
+        this.setAccount(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId());
     }
 
     private long getNewId() {

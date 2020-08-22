@@ -181,9 +181,9 @@ public class GuiFinanceCategory extends BorderPane {
 
 
         int r = 0;
-        gridPane.add(new Label(FinanceCategoryFieldNames.NR_), 0, r);
+        gridPane.add(new Label(FinanceCategoryFieldNames.NO_), 0, r);
         gridPane.add(txtNr, 1, r);
-        gridPane.add(new Label(FinanceCategoryFieldNames.KATEGORIE_), 0, ++r);
+        gridPane.add(new Label(FinanceCategoryFieldNames.DATEGORY_), 0, ++r);
         gridPane.add(txtKategorie, 1, r);
 
         r = 0;
@@ -246,7 +246,7 @@ public class GuiFinanceCategory extends BorderPane {
         }
 
         txtNr.unBind();
-        txtKategorie.textProperty().unbindBidirectional(financeCategoryData.kategorieProperty());
+        txtKategorie.textProperty().unbindBidirectional(financeCategoryData.categoryProperty());
         txtText.textProperty().unbindBidirectional(financeCategoryData.descriptionProperty());
     }
 
@@ -261,8 +261,8 @@ public class GuiFinanceCategory extends BorderPane {
 
         txtNr.setStateLabel(financeCategoryData.getId() < FinanceCategoryFactory.CATEGORY_TYPE_SIZE);
 
-        txtNr.bindBidirectional(financeCategoryData.nrProperty());
-        txtKategorie.textProperty().bindBidirectional(financeCategoryData.kategorieProperty());
+        txtNr.bindBidirectional(financeCategoryData.noProperty());
+        txtKategorie.textProperty().bindBidirectional(financeCategoryData.categoryProperty());
         txtText.textProperty().bindBidirectional(financeCategoryData.descriptionProperty());
     }
 

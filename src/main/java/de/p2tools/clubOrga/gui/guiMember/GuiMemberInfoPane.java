@@ -122,7 +122,7 @@ public class GuiMemberInfoPane extends AnchorPane {
 
 
         int row = 0;
-        gridPane.add(new Label(MemberFieldNames.NR_), 0, row);
+        gridPane.add(new Label(MemberFieldNames.NO_), 0, row);
         gridPane.add(txtNr, 1, row);
 
         gridPane.add(new Label(MemberFieldNames.NACHNAME_), 0, ++row);
@@ -246,7 +246,7 @@ public class GuiMemberInfoPane extends AnchorPane {
 //            memberFeeWorker.clearSelection();
 
         } else {
-            txtNr.bindBidirectional(memberData.nrProperty());
+            txtNr.bindBidirectional(memberData.noProperty());
             txtNachname.textProperty().bindBidirectional(memberData.nachnameProperty());
             txtVorname.textProperty().bindBidirectional(memberData.vornameProperty());
             cboAnrede.bindSelValueProperty(memberData.anredeProperty());

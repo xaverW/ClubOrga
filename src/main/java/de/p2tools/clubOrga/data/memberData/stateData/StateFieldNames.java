@@ -20,12 +20,12 @@ package de.p2tools.clubOrga.data.memberData.stateData;
 public class StateFieldNames {
 
     public static final String ID = "Id";
-    public static final String NR = "Nr";
+    public static final String NO = "No";
     public static final String NAME = "Name";
     public static final String DESCRIPTION = "Beschreibung";
 
     public static final String ID_ = ID + ":";
-    public static final String NR_ = NR + ":";
+    public static final String NO_ = NO + ":";
     public static final String NAME_ = NAME + ":";
     public static final String DESCRIPTION_ = DESCRIPTION + ":";
 

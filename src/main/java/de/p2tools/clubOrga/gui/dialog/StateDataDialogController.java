@@ -110,9 +110,9 @@ public class StateDataDialogController extends PDialogExtra {
                 GridPane.setVgrow(control, Priority.ALWAYS);
                 ((TextArea) control).textProperty().bindBidirectional(stateDataCopy.textProperty());
 
-            } else if (configData.getName().equals(StateFieldNames.NR) && id < StateDataFactory.STATE_TYPE_SIZE) {
+            } else if (configData.getName().equals(StateFieldNames.NO) && id < StateDataFactory.STATE_TYPE_SIZE) {
                 control = new Label();
-                ((Label) control).setText(stateDataCopy.getNr() + "");
+                ((Label) control).setText(stateDataCopy.getNo() + "");
 
             } else if (configData instanceof ConfigExtra) {
                 // rest

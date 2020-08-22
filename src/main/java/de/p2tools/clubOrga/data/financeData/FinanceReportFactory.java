@@ -38,18 +38,18 @@ public class FinanceReportFactory {
 
         // tabel header
         clubConfig.financeAccountDataList.stream().forEach(acc -> {
-            clubConfig.financeReportDataList.getAccounts().add(acc.getKonto());
+            clubConfig.financeReportDataList.getAccounts().add(acc.getName());
         });
         clubConfig.financeCategoryDataList.stream().forEach(cat -> {
-            clubConfig.financeReportDataList.getCategories().add(cat.getKategorie());
+            clubConfig.financeReportDataList.getCategories().add(cat.getCategory());
         });
 
         // table data
         clubConfig.financeDataList.stream().forEach(financeData -> {
             FinanceReportData reportData = new FinanceReportData(financeData);
 
-            reportData.setNr(financeData.getNr());
-            reportData.setBelegNr(financeData.getBelegNr());
+            reportData.setNo(financeData.getNo());
+            reportData.setReceiptNo(financeData.getReceiptNo());
             reportData.setText(financeData.getText());
             reportData.setGeschaeftsJahr(financeData.getGeschaeftsJahr());
             reportData.setBuchungsDatum(financeData.getBuchungsDatum());
@@ -100,7 +100,7 @@ public class FinanceReportFactory {
         } else {
             for (int i = 0; i < clubConfig.financeAccountDataList.size(); ++i) {
                 if (!clubConfig.financeReportDataList.getAccounts().get(i).
-                        equals(clubConfig.financeAccountDataList.get(i).getKonto())) {
+                        equals(clubConfig.financeAccountDataList.get(i).getName())) {
                     changed = true;
                 }
             }
@@ -110,7 +110,7 @@ public class FinanceReportFactory {
         } else {
             for (int i = 0; i < clubConfig.financeCategoryDataList.size(); ++i) {
                 if (!clubConfig.financeReportDataList.getCategories().get(i).
-                        equals(clubConfig.financeCategoryDataList.get(i).getKategorie())) {
+                        equals(clubConfig.financeCategoryDataList.get(i).getCategory())) {
                     changed = true;
                 }
             }

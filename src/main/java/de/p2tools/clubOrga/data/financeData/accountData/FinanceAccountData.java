@@ -34,7 +34,7 @@ public class FinanceAccountData extends FinanceAccountDataBase {
     public FinanceAccountData(ClubConfig clubConfig) {
         this.clubConfig = clubConfig;
         setId(getNewId());
-        this.setNr(clubConfig.financeAccountDataList.getNextNr());
+        this.setNo(clubConfig.financeAccountDataList.getNextNr());
     }
 
     private long getNewId() {
@@ -77,11 +77,11 @@ public class FinanceAccountData extends FinanceAccountDataBase {
 
     @Override
     public String toString() {
-        return getKonto();
+        return getName();
     }
 
     @Override
     public int compareTo(FinanceAccountData o) {
-        return o.getKonto().compareTo(getKonto());
+        return o.getName().compareTo(getName());
     }
 }

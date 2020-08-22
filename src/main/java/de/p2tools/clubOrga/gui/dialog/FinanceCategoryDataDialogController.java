@@ -105,9 +105,9 @@ public class FinanceCategoryDataDialogController extends PDialogExtra {
             if (configData.getName().equals(FinanceCategoryFieldNames.ID)) {
                 continue;
 
-            } else if (configData.getName().equals(FinanceCategoryFieldNames.NR) &&
+            } else if (configData.getName().equals(FinanceCategoryFieldNames.NO) &&
                     id < FinanceCategoryFactory.CATEGORY_TYPE_SIZE) {
-                control = new PTextField(dataCopy.getNr() + "", true);
+                control = new PTextField(dataCopy.getNo() + "", true);
 
             } else if (configData.getName().equals(FinanceCategoryFieldNames.DESCRIPTION)) {
                 control = new TextArea();

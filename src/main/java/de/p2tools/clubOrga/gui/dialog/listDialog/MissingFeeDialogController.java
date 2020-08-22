@@ -42,7 +42,7 @@ import javafx.scene.control.Tooltip;
 /**
  * fehlende Beiträge anlegen
  */
-public class AddMissingFeeDialogController extends abListDialogController {
+public class MissingFeeDialogController extends abListDialogController {
 
     private final PToggleSwitch tglBill = new PToggleSwitch("Rechnung erstellen", true);
 
@@ -75,10 +75,8 @@ public class AddMissingFeeDialogController extends abListDialogController {
     private ObservableList<FeeData> feeDataList;
 
 
-    public AddMissingFeeDialogController(ClubConfig clubConfig, ObservableList<FeeData> feeDataList) {
-        super(clubConfig,
-                clubConfig.FEE_DIALOG_SIZE,
-                clubConfig.ADD_MISSING_FEE_DIALOG_DIVIDER,
+    public MissingFeeDialogController(ClubConfig clubConfig, ObservableList<FeeData> feeDataList) {
+        super(clubConfig, clubConfig.MISSING_FEE_DIALOG_SIZE, clubConfig.MISSING_FEE_DIALOG_DIVIDER,
                 feeDataList, "Beitrag anlegen");
 
         this.clubConfig = clubConfig;
@@ -141,7 +139,7 @@ public class AddMissingFeeDialogController extends abListDialogController {
         feeDataList.addListener((ListChangeListener<FeeData>) c -> {
             long no = clubConfig.feeDataList.getNextNr();
             for (FeeData feeData : feeDataList) {
-                feeData.setNr(no++);
+                feeData.setNo(no++);
             }
         });
         initListener();

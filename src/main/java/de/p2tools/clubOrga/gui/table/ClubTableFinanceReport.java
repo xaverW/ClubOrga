@@ -47,11 +47,11 @@ public class ClubTableFinanceReport {
 
         table.getColumns().clear();
 
-        final TableColumn<FinanceReportData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<FinanceReportData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NO);
+        nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
-        final TableColumn<FinanceReportData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.BELEG_NR);
-        belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("belegNr"));
+        final TableColumn<FinanceReportData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.RECEIPT_NR);
+        belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("receiptNo"));
 
         final TableColumn<FinanceReportData, String> textColumn = new TableColumn<>(FinanceFieldNames.TEXT);
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));

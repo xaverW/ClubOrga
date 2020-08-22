@@ -43,8 +43,8 @@ public class ClubTableRateData {
 
         table.getColumns().clear();
 
-        final TableColumn<FeeRateData, Long> nrColumn = new TableColumn<>(FeeRateFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<FeeRateData, Long> nrColumn = new TableColumn<>(FeeRateFieldNames.NO);
+        nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
         final TableColumn<FeeRateData, String> nameColumn = new TableColumn<>(FeeRateFieldNames.NAME);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

@@ -287,7 +287,7 @@ public class Sepa {
         writer.writeStartElement("MndtRltdInf");
         newLine();
         tab(3);
-        element("MndtId", beitrag.getMitgliedNr() + "");
+        element("MndtId", beitrag.getMemberNo() + "");
         tab(3);
         element("DtOfSgntr", getSepaStartDate(mitglied));
         tab(3);

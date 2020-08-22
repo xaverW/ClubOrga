@@ -34,7 +34,7 @@ public class FeeRateData extends FeeRateDataBase {
     public FeeRateData(ClubConfig clubConfig) {
         this.clubConfig = clubConfig;
         setId(getNewId());
-        this.setNr(clubConfig.feeRateDataList.getNextNr());
+        this.setNo(clubConfig.feeRateDataList.getNextNr());
     }
 
     private long getNewId() {

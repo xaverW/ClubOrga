@@ -17,6 +17,7 @@
 package de.p2tools.clubOrga.data.financeData.accountData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.p2Lib.alert.PAlert;
 
 import java.util.Collection;
@@ -31,10 +32,10 @@ public class FinanceAccountDataList extends FinanceAccountDataListBase {
         final int idBar = FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getId();
         if (isEmpty() || get(idBar).getId() != idBar) {
             final FinanceAccountData financeBar = new FinanceAccountData();
-            financeBar.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getName());
+            financeBar.setName(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getName());
             financeBar.setDescription(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getDescription());
             financeBar.setId(idBar);
-            financeBar.setNr(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getShownNo());
+            financeBar.setNo(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_BAR.getShownNo());
 
             add(idBar, financeBar);
         }
@@ -42,11 +43,11 @@ public class FinanceAccountDataList extends FinanceAccountDataListBase {
         final int idGiro = FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getId();
         if (size() <= idGiro || get(idGiro).getId() != idGiro) {
             final FinanceAccountData financeGiro = new FinanceAccountData();
-            financeGiro.setKonto(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getName());
+            financeGiro.setName(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getName());
             financeGiro.setDescription(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getDescription());
             financeGiro.setGiro(true);
             financeGiro.setId(idGiro);
-            financeGiro.setNr(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getShownNo());
+            financeGiro.setNo(FinanceAccountFactory.ACCOUNT_TYPE.ACCOUNT_GIRO.getShownNo());
 
             add(idGiro, financeGiro);
         }
@@ -95,8 +96,18 @@ public class FinanceAccountDataList extends FinanceAccountDataListBase {
 
     public boolean checkRemove(FinanceAccountData financeAccountData) {
         if (financeAccountData.getId() < FinanceAccountFactory.ACCOUNT_TYPE_SIZE) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Konto löschen", "Das ist ein Standardkonto das nicht gelöscht werden kann.");
+            PAlert.showErrorAlert(clubConfig.getStage(), "Konto löschen",
+                    "Das ist ein Standardkonto das nicht gelöscht werden kann.");
             return false;
+        }
+
+        for (PaymentTypeData paymentTypeData : clubConfig.paymentTypeDataList) {
+            if (paymentTypeData.getAccount() == financeAccountData.getId()) {
+                PAlert.showErrorAlert(clubConfig.getStage(), "Konto löschen",
+                        "Das Konto wird bei den Zahlarten verwendet und kann nicht " +
+                                "gelöscht werden.");
+                return false;
+            }
         }
 
         return true;

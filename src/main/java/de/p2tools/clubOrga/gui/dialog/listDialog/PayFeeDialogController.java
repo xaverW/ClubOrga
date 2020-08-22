@@ -35,6 +35,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -73,7 +74,8 @@ public class PayFeeDialogController extends abListDialogController {
                     "Andernfalls wird für jeden Beitrag ein Finanzeintrag mit einer Transaktion erstellt.");
 
     public PayFeeDialogController(ClubConfig clubConfig, ObservableList<FeeData> feeDataList) {
-        super(clubConfig, feeDataList, "Beitrag bezahlen");
+        super(clubConfig, clubConfig.PAY_FEE_DIALOG_SIZE, clubConfig.PAY_FEE_DIALOG_DIVIDER,
+                feeDataList, "Beitrag bezahlen");
 
         helpHeader = "Beitrag bezahlen";
         helpText = "In dem Dialog können Beiträge bezahlt werden. Die vorgenommenen " +
@@ -96,11 +98,13 @@ public class PayFeeDialogController extends abListDialogController {
 
         tglFinances.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_FINANCES);
         chkTransaction.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_TRANSACTIONS);
+        tglSepa.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_DTAUS);
         chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
         btnHelpChk.disableProperty().bind(tglFinances.selectedProperty().not());
 
-//        feeDataList.addListener((ListChangeListener<FeeData>) c -> initChkTransaction());
-//        initChkTransaction();
+        btnSepaDirList.setTooltip(new Tooltip("einen Ordner zum Speichern auswählen"));
+        btnProposeSepaBegleit.setTooltip(new Tooltip("einen Dateinamen vorschlagen"));
+        btnProposeSepaFile.setTooltip(new Tooltip("einen Dateinamen vorschlagen"));
 
         pYearPickerFinanceDataGeschaeftsjahr.disableProperty().bind(tglFinances.selectedProperty().not());
         pYearPickerFinanceDataGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
@@ -116,7 +120,7 @@ public class PayFeeDialogController extends abListDialogController {
 
         btnSepaDirList.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
         btnSepaDirList.disableProperty().bind(tglSepa.selectedProperty().not());
-        btnSepaDirList.setOnAction(event -> PDirFileChooser.DirChooser(this.getStage(), cboSepaDirList));
+        btnSepaDirList.setOnAction(event -> PDirFileChooser.DirChooser(this.getStage(), cboSepaDirList, clubConfig.getClubPath()));
 
         cboSepaFile.init(clubConfig.PAY_FEE_SEPA_FILE_LIST, clubConfig.PAY_FEE_SEPA_FILE);
         cboSepaFile.disableProperty().bind(tglSepa.selectedProperty().not());
@@ -163,7 +167,7 @@ public class PayFeeDialogController extends abListDialogController {
         gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), 0, ++row);
         gridPane.add(pYearPickerFinanceDataGeschaeftsjahr, 1, row, 2, 1);
 
-        gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), 0, ++row);
+        gridPane.add(new Label(FinanceFieldNames.CATEGORY_), 0, ++row);
         gridPane.add(cboCategory, 1, row, 2, 1);
 
         gridPane.add(chkTransaction, 1, ++row);
@@ -218,7 +222,7 @@ public class PayFeeDialogController extends abListDialogController {
             // nur die Beiträge mit "Bankeinzug" nehmen
             ObservableList<FeeData> feeDataListSepa = FXCollections.observableArrayList();
             feeDataList.stream().forEach(feeData -> {
-                if (feeData.getPaymentTypeData().isEinzug()) {
+                if (feeData.getPaymentTypeData().getDirectDebit()) {
                     feeDataListSepa.add(feeData);
                 }
             });

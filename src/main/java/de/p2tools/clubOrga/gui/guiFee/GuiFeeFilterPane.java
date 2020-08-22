@@ -43,7 +43,7 @@ public class GuiFeeFilterPane extends FilterPane {
     private final Label lblBezahlt = new Label("");
     private final Label lblRechnung = new Label("");
     private final Label lblSq = new Label("");
-    private final Label lblNachname = new Label(FeeFieldNames.MITGLIED_NAME_);
+    private final Label lblNachname = new Label(FeeFieldNames.MEMBER_NAME_);
     private final Label lblJahr = new Label(FeeFieldNames.JAHR_);
     private final Label lblZahlart = new Label(FeeFieldNames.ZAHLART_);
     private final PFilterComboBoxObject<Integer> filterCboJahr = new PFilterComboBoxObject<>();

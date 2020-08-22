@@ -20,7 +20,7 @@ package de.p2tools.clubOrga.data.feeData;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
-import de.p2tools.clubOrga.gui.dialog.listDialog.AddMissingFeeDialogController;
+import de.p2tools.clubOrga.gui.dialog.listDialog.MissingFeeDialogController;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.tools.PIndex;
@@ -67,7 +67,7 @@ public class FeeFactory {
             return;
         }
 
-        if (new AddMissingFeeDialogController(clubConfig, feeDataList).isOk() &&
+        if (new MissingFeeDialogController(clubConfig, feeDataList).isOk() &&
                 !feeDataList.isEmpty()) {
 
             clubConfig.feeDataList.addAll(feeDataList);
@@ -84,7 +84,7 @@ public class FeeFactory {
     public static FeeData getNewFeeWithNo(ClubConfig clubConfig) {
         FeeData feeData = new FeeData(clubConfig);
         feeData.setId(PIndex.getIndex());
-        feeData.setNr(clubConfig.feeDataList.getNextNr());
+        feeData.setNo(clubConfig.feeDataList.getNextNr());
 
         return feeData;
     }
@@ -135,8 +135,8 @@ public class FeeFactory {
 
         feeData.setMemberData(memberData);
         feeData.setMemberId(memberData.getId());
-        feeData.setMitgliedNr(memberData.getNr());
-        feeData.setMitgliedName(memberData.getNachname());
+        feeData.setMemberNo(memberData.getNo());
+        feeData.setMemberName(memberData.getNachname());
         feeData.setBetrag(memberData.getBeitrag());
         feeData.setJahr(year);
         feeData.setPaymentTypeData(memberData.getPaymentTypeData());

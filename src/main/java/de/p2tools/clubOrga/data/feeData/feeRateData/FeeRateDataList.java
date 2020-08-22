@@ -37,7 +37,7 @@ public class FeeRateDataList extends FeeRateDataListBase {
             feeRateDataStandard.setText(FeeRateFactory.RATE_TYPE.RATE_STANDARD.getDescription());
             feeRateDataStandard.setBetrag(FeeRateFactory.RATE_TYPE.RATE_STANDARD.getBetrag());
             feeRateDataStandard.setId(rateStandard);
-            feeRateDataStandard.setNr(FeeRateFactory.RATE_TYPE.RATE_STANDARD.getShownNo());
+            feeRateDataStandard.setNo(FeeRateFactory.RATE_TYPE.RATE_STANDARD.getShownNo());
 
             add(rateStandard, feeRateDataStandard);
         }
@@ -49,7 +49,7 @@ public class FeeRateDataList extends FeeRateDataListBase {
             feeRateDataFrei.setText(FeeRateFactory.RATE_TYPE.RATE_FREE.getDescription());
             feeRateDataFrei.setBetrag(FeeRateFactory.RATE_TYPE.RATE_FREE.getBetrag());
             feeRateDataFrei.setId(rateFree);
-            feeRateDataFrei.setNr(FeeRateFactory.RATE_TYPE.RATE_FREE.getShownNo());
+            feeRateDataFrei.setNo(FeeRateFactory.RATE_TYPE.RATE_FREE.getShownNo());
 
             add(rateFree, feeRateDataFrei);
         }
@@ -61,7 +61,7 @@ public class FeeRateDataList extends FeeRateDataListBase {
             feeRateDataOhne.setText(FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getDescription());
             feeRateDataOhne.setBetrag(FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getBetrag());
             feeRateDataOhne.setId(rateWithout);
-            feeRateDataOhne.setNr(FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getShownNo());
+            feeRateDataOhne.setNo(FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getShownNo());
 
             add(rateWithout, feeRateDataOhne);
         }
@@ -111,7 +111,7 @@ public class FeeRateDataList extends FeeRateDataListBase {
     }
 
     private boolean checkRemove(Object obj) {
-        if (((FeeRateData) obj).getId() < FeeRateFactory.RATA_TYPE_SIZE) {
+        if (((FeeRateData) obj).getId() < FeeRateFactory.RATE_TYPE_SIZE) {
             PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag löschen", "Das sind Standardbeiträge die nicht gelöscht werden können.");
             return false;
         }

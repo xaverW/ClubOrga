@@ -45,9 +45,9 @@ public class FeeDataBase extends PDataSample<FeeData> {
 
     private final LongProperty id = new SimpleLongProperty(0);
     private final LongProperty memberId = new SimpleLongProperty(0);
-    private final LongProperty nr = new SimpleLongProperty(0);
-    private final LongProperty mitgliedNr = new SimpleLongProperty(0);
-    private final StringProperty mitgliedName = new SimpleStringProperty("");
+    private final LongProperty no = new SimpleLongProperty(0);
+    private final LongProperty memberNo = new SimpleLongProperty(0);
+    private final StringProperty memberName = new SimpleStringProperty("");
     private final LongProperty betrag = new SimpleLongProperty(0);
 
     private final IntegerProperty jahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
@@ -129,9 +129,9 @@ public class FeeDataBase extends PDataSample<FeeData> {
         ArrayList<Config> list = new ArrayList<>();
         list.add(new ConfigLongPropExtra("id", FeeFieldNames.ID, id));
         list.add(new ConfigLongPropExtra("memberId", FeeFieldNames.MEMBER_ID, memberId));
-        list.add(new ConfigLongPropExtra("nr", FeeFieldNames.NR, nr));
-        list.add(new ConfigLongPropExtra("mitgliedNr", FeeFieldNames.MEMBER_NR, mitgliedNr));
-        list.add(new ConfigStringPropExtra("mitgliedName", FeeFieldNames.MEMBER_NAME, mitgliedName));
+        list.add(new ConfigLongPropExtra("nr", FeeFieldNames.NO, no));
+        list.add(new ConfigLongPropExtra("mitgliedNr", FeeFieldNames.MEMBER_NO, memberNo));
+        list.add(new ConfigStringPropExtra("mitgliedName", FeeFieldNames.MEMBER_NAME, memberName));
         list.add(new ConfigMoneyPropExtra("betrag", FeeFieldNames.BETRAG, betrag));
         list.add(new ConfigIntPropExtra("jahr", FeeFieldNames.JAHR, jahr));
 
@@ -208,28 +208,28 @@ public class FeeDataBase extends PDataSample<FeeData> {
         this.memberId.set(memberId);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
-    public long getMitgliedNr() {
-        return mitgliedNr.get();
+    public long getMemberNo() {
+        return memberNo.get();
     }
 
-    public LongProperty mitgliedNrProperty() {
-        return mitgliedNr;
+    public LongProperty memberNoProperty() {
+        return memberNo;
     }
 
-    public void setMitgliedNr(long mitgliedNr) {
-        this.mitgliedNr.set(mitgliedNr);
+    public void setMemberNo(long memberNo) {
+        this.memberNo.set(memberNo);
     }
 
     public void setMitgliedNr(String mitgliederNr) {
@@ -239,19 +239,19 @@ public class FeeDataBase extends PDataSample<FeeData> {
         } catch (Exception ex) {
             no = 0;
         }
-        this.mitgliedNr.set(no);
+        this.memberNo.set(no);
     }
 
-    public String getMitgliedName() {
-        return mitgliedName.get();
+    public String getMemberName() {
+        return memberName.get();
     }
 
-    public StringProperty mitgliedNameProperty() {
-        return mitgliedName;
+    public StringProperty memberNameProperty() {
+        return memberName;
     }
 
-    public void setMitgliedName(String mitgliedName) {
-        this.mitgliedName.set(mitgliedName);
+    public void setMemberName(String memberName) {
+        this.memberName.set(memberName);
     }
 
     public long getBetrag() {

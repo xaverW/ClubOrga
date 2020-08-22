@@ -32,7 +32,7 @@ public class FeeRateDataBase extends PDataSample<FeeRateData> {
     public static final String TAG = "FeeRateData";
 
     private final LongProperty id = new SimpleLongProperty(0);
-    private final LongProperty nr = new SimpleLongProperty(0);
+    private final LongProperty no = new SimpleLongProperty(0);
     private final LongProperty betrag = new SimpleLongProperty(0);
     private final StringProperty name = new SimpleStringProperty("");
     private final StringProperty text = new SimpleStringProperty("");
@@ -55,7 +55,7 @@ public class FeeRateDataBase extends PDataSample<FeeRateData> {
     private Config[] getConfigs() {
         return new Config[]{
                 new ConfigLongPropExtra("id", FeeRateFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FeeRateFieldNames.NR, nr),
+                new ConfigLongPropExtra("nr", FeeRateFieldNames.NO, no),
                 new ConfigStringPropExtra("name", FeeRateFieldNames.NAME, name),
                 new ConfigMoneyPropExtra("betrag", FeeRateFieldNames.BETRAG, betrag),
                 new ConfigStringPropExtra("text", FeeRateFieldNames.DESCRIPTION, text),
@@ -74,16 +74,16 @@ public class FeeRateDataBase extends PDataSample<FeeRateData> {
         this.id.set(id);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
     public long getBetrag() {

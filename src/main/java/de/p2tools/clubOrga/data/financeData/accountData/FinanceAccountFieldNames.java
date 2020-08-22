@@ -20,18 +20,18 @@ package de.p2tools.clubOrga.data.financeData.accountData;
 public class FinanceAccountFieldNames {
 
     public static final String ID = "Id";
-    public static final String NR = "Nr";
+    public static final String NO = "Nr";
     public static final String GIRO = "Giro";
-    public static final String KONTO = "Kontoname";
+    public static final String NAME = "Kontoname";
     public static final String BIC = "BIC";
     public static final String IBAN = "IBAN";
     public static final String BANK = "Bank";
     public static final String DESCRIPTION = "Beschreibung";
 
     public static final String ID_ = ID + ":";
-    public static final String NR_ = NR + ":";
+    public static final String NO_ = NO + ":";
     public static final String GIRO_ = GIRO + ":";
-    public static final String KONTO_ = KONTO + ":";
+    public static final String NAME_ = NAME + ":";
     public static final String BIC_ = BIC + ":";
     public static final String IBAN_ = IBAN + ":";
     public static final String BANK_ = BANK + ":";

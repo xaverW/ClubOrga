@@ -145,7 +145,7 @@ public class GuiFeeMenu extends VBox {
         boolean found = list.stream().filter(feeData -> feeData.isFeePayed()).findAny().isPresent();
         if (found) {
             PAlert.BUTTON button = PAlert.showAlert_yes_no(clubConfig.getStage(),
-                    "Beitrag bezehlen", "Beitrag bereits bezehlt",
+                    "Beitrag bezahlen", "Beitrag bereits bezahlt",
                     "Es sind bereits bezahlte Beiträge dabei. Sollen die nochmal bezahlt werden?");
             if (button != PAlert.BUTTON.YES) {
                 return;

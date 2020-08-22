@@ -178,7 +178,7 @@ public class DemoMemberDataFactory {
         // und noch die Nummer setzen
         long nr = clubConfig.memberDataList.getNextNr();
         for (MemberData memberData : newMemberList) {
-            memberData.setNr(nr++);
+            memberData.setNo(nr++);
         }
 
         return newMemberList;

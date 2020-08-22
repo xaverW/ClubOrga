@@ -180,7 +180,7 @@ public class ExportOdsFinanceDataList {
 
         // Spalte BelegNr, Geschäftsjahr, Datum
         Cell cellHeader = table.getCellByPosition(startCol, tableHeaderRow);
-        cellHeader.setStringValue(FinanceFieldNames.BELEG_NR);
+        cellHeader.setStringValue(FinanceFieldNames.RECEIPT_NR);
         cellHeader.setBorders(StyleTypeDefinitions.CellBordersType.ALL_FOUR, border);
         cellHeader.setCellBackgroundColor(color);
 
@@ -197,7 +197,7 @@ public class ExportOdsFinanceDataList {
         int start = tableAccountCol, stop = tableAccountCol + countFinanceAccount;
         for (int col = start; col < stop; ++col) {
             Cell cell = table.getCellByPosition(col, tableHeaderRow);
-            cell.setStringValue(clubConfig.financeAccountDataList.get(col - start).getKonto());
+            cell.setStringValue(clubConfig.financeAccountDataList.get(col - start).getName());
             cell.setBorders(StyleTypeDefinitions.CellBordersType.ALL_FOUR, border);
             cell.setCellBackgroundColor(color);
         }
@@ -206,7 +206,7 @@ public class ExportOdsFinanceDataList {
         stop = tableCategoryCol + countFinanceCategory;
         for (int col = start; col < stop; ++col) {
             Cell cell = table.getCellByPosition(col, tableHeaderRow);
-            cell.setStringValue(clubConfig.financeCategoryDataList.get(col - start).getKategorie());
+            cell.setStringValue(clubConfig.financeCategoryDataList.get(col - start).getCategory());
             cell.setBorders(StyleTypeDefinitions.CellBordersType.ALL_FOUR, border);
             cell.setCellBackgroundColor(color);
         }
@@ -216,7 +216,7 @@ public class ExportOdsFinanceDataList {
     private void addInfoCell(Table table, int row, int startCol, FinanceData financeData, boolean last) {
 
         Cell cell = table.getCellByPosition(startCol, row);
-        cell.setStringValue(financeData.getBelegNr());
+        cell.setStringValue(financeData.getReceiptNo());
         cell.setBorders(StyleTypeDefinitions.CellBordersType.LEFT_RIGHT, border);
         if (last) {
             cell.setBorders(StyleTypeDefinitions.CellBordersType.BOTTOM, border);

@@ -114,19 +114,19 @@ public class PaymentTypeDataDialogController extends PDialogExtra {
             if (configData.getName().equals(PaymentTypeNames.ID)) {
                 continue;
 
-            } else if (configData.getName().equals(PaymentTypeNames.NR) && id < PaymentTypeFactory.PAYMENT_TYPE_SIZE) {
-                control = new PTextField(paymentTypeDataCopy.getNr() + "", true);
+            } else if (configData.getName().equals(PaymentTypeNames.NO) && id < PaymentTypeFactory.PAYMENT_TYPE_SIZE) {
+                control = new PTextField(paymentTypeDataCopy.getNo() + "", true);
 
-            } else if (configData.getName().equals(PaymentTypeNames.KONTO) && id < PaymentTypeFactory.PAYMENT_TYPE_SIZE) {
-                control = new PTextField(paymentTypeDataCopy.getFinanceAccountData().getKonto(), true);
+            } else if (configData.getName().equals(PaymentTypeNames.ACCOUNT) && id < PaymentTypeFactory.PAYMENT_TYPE_SIZE) {
+                control = new PTextField(paymentTypeDataCopy.getFinanceAccountData().getName(), true);
 
-            } else if (configData.getName().equals(PaymentTypeNames.KONTO)) {
+            } else if (configData.getName().equals(PaymentTypeNames.ACCOUNT)) {
                 control = getPComboObject(clubConfig.financeAccountDataList, paymentTypeDataCopy.financeAccountDataProperty());
 
 
-            } else if (configData.getName().equals(PaymentTypeNames.EINZUG)) {
+            } else if (configData.getName().equals(PaymentTypeNames.DIRECT_DEBIT)) {
                 control = chkEinzug;
-                chkEinzug.selectedProperty().bindBidirectional(paymentTypeDataCopy.einzugProperty());
+                chkEinzug.selectedProperty().bindBidirectional(paymentTypeDataCopy.directDebitProperty());
                 if (paymentTypeDataCopy.getFinanceAccountData() == null) {
                     chkEinzug.setDisable(true);
                 } else {

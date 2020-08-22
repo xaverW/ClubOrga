@@ -82,7 +82,7 @@ public class CsvFactory {
 
         for (Config configExtra : confArr) {
             if (configExtra.getName().equals(MemberFieldNames.ID) ||
-                    configExtra.getName().equals(MemberFieldNames.NR) ||
+                    configExtra.getName().equals(MemberFieldNames.NO) ||
                     configExtra.getName().equals(MemberFieldNames.ERSTELLDATUM)) {
                 continue;
             }
@@ -141,7 +141,7 @@ public class CsvFactory {
         }
         if (found) {
             memberData.initAfterLoad();
-            memberData.setNr(clubConfig.memberDataList.getNextNr());
+            memberData.setNo(clubConfig.memberDataList.getNextNr());
             clubConfig.memberDataList.add(memberData);
         }
     }
@@ -211,7 +211,7 @@ public class CsvFactory {
                     if (configExtra.getName().equals(FinanceFieldNames.GESAMTBETRAG)) {
                         list.add(DF.format(1.0 * financeData.getGesamtbetrag() / 100));
                     } else if (configExtra.getName().equals(FinanceFieldNames.KONTO)) {
-                        list.add(financeData.getFinanceAccountData().getKonto());
+                        list.add(financeData.getFinanceAccountData().getName());
                     } else {
                         list.add(configExtra.getActValueString());
                     }
@@ -270,8 +270,8 @@ public class CsvFactory {
 
     private static String[] getFinanceReportDataHeaderArr(ClubConfig clubConfig) {
         ArrayList<String> headers = new ArrayList<>();
-        headers.add(FinanceFieldNames.NR);
-        headers.add(FinanceFieldNames.BELEG_NR);
+        headers.add(FinanceFieldNames.NO);
+        headers.add(FinanceFieldNames.RECEIPT_NR);
         headers.add(FinanceFieldNames.GESAMTBETRAG);
         headers.add(FinanceFieldNames.GESCHAEFTSJAHR);
         headers.add(FinanceFieldNames.BUCHUNGS_DATUM);
@@ -291,8 +291,8 @@ public class CsvFactory {
 
     private static ArrayList<String> getDataRow(FinanceReportData financeReportData) {
         ArrayList<String> dataRow = new ArrayList<>();
-        dataRow.add(financeReportData.getNr() + "");
-        dataRow.add(financeReportData.getBelegNr());
+        dataRow.add(financeReportData.getNo() + "");
+        dataRow.add(financeReportData.getReceiptNo());
         dataRow.add(DF.format(1.0 * financeReportData.getGesamtbetrag() / 100));
         dataRow.add(financeReportData.getGeschaeftsJahr() + "");
         dataRow.add(financeReportData.getBuchungsDatum().toString());

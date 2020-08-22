@@ -42,11 +42,11 @@ public class ClubTableFinanceCategory {
 
         table.getColumns().clear();
 
-        final TableColumn<FinanceCategoryData, Long> nrColumn = new TableColumn<>(FinanceCategoryFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<FinanceCategoryData, Long> nrColumn = new TableColumn<>(FinanceCategoryFieldNames.NO);
+        nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
-        final TableColumn<FinanceCategoryData, String> kategorieColumn = new TableColumn<>(FinanceCategoryFieldNames.KATEGORIE);
-        kategorieColumn.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
+        final TableColumn<FinanceCategoryData, String> kategorieColumn = new TableColumn<>(FinanceCategoryFieldNames.CATEGORY);
+        kategorieColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 
         final TableColumn<FinanceCategoryData, String> textColumn = new TableColumn<>(FinanceCategoryFieldNames.DESCRIPTION);
         textColumn.setCellValueFactory(new PropertyValueFactory<>("description"));

@@ -36,7 +36,7 @@ public class StateDataList extends StateDataListBase {
             stateDataActive.setName(StateDataFactory.STATE_TYPE.STATE_ACTIVE.getName());
             stateDataActive.setText(StateDataFactory.STATE_TYPE.STATE_ACTIVE.getDescription());
             stateDataActive.setId(idStateActive);
-            stateDataActive.setNr(StateDataFactory.STATE_TYPE.STATE_ACTIVE.getShownNo());
+            stateDataActive.setNo(StateDataFactory.STATE_TYPE.STATE_ACTIVE.getShownNo());
 
             add(idStateActive, stateDataActive);
         }
@@ -48,7 +48,7 @@ public class StateDataList extends StateDataListBase {
             stateDataPassive.setName(StateDataFactory.STATE_TYPE.STATE_PASSIVE.getName());
             stateDataPassive.setText(StateDataFactory.STATE_TYPE.STATE_PASSIVE.getDescription());
             stateDataPassive.setId(idStatePassive);
-            stateDataPassive.setNr(StateDataFactory.STATE_TYPE.STATE_PASSIVE.getShownNo());
+            stateDataPassive.setNo(StateDataFactory.STATE_TYPE.STATE_PASSIVE.getShownNo());
 
             add(idStatePassive, stateDataPassive);
         }

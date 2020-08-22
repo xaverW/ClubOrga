@@ -34,7 +34,7 @@ public class StateData extends StateDataBase {
     public StateData(ClubConfig clubConfig) {
         this.clubConfig = clubConfig;
         setId(getNewId());
-        this.setNr(clubConfig.stateDataList.getNextNr());
+        this.setNo(clubConfig.stateDataList.getNextNr());
     }
 
     private long getNewId() {

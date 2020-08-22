@@ -94,8 +94,8 @@ public class DemoData {
         Collections.sort(newFinances, Comparator.comparing(FinanceDataBase::getBuchungsDatum));
         long no = clubConfig.financeDataList.getNextNr();
         for (FinanceData financeData : newFinances) {
-            financeData.setNr(no);
-            financeData.setBelegNr(no + "");
+            financeData.setNo(no);
+            financeData.setReceiptNo(no + "");
             ++no;
         }
 

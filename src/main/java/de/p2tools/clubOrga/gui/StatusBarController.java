@@ -154,8 +154,8 @@ public class StatusBarController extends AnchorPane {
         textPane.toFront();
         switch (selPane) {
             case MEMBER:
-            case MEMBER_FEE_RATE:
-            case MEMBER_PAYMENT_TYPE:
+            case FEE_RATE:
+            case FEE_PAYMENT_TYPE:
             case MEMBER_STATE:
                 lblLeft.setText(getMemberText());
                 lblRight.setText("");

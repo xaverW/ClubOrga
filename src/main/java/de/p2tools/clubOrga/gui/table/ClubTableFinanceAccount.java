@@ -43,11 +43,11 @@ public class ClubTableFinanceAccount {
 
         table.getColumns().clear();
 
-        final TableColumn<FinanceAccountData, Long> nrColumn = new TableColumn<>(FinanceAccountFieldNames.NR);
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+        final TableColumn<FinanceAccountData, Long> nrColumn = new TableColumn<>(FinanceAccountFieldNames.NO);
+        nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
-        final TableColumn<FinanceAccountData, String> kontoColumn = new TableColumn<>(FinanceAccountFieldNames.KONTO);
-        kontoColumn.setCellValueFactory(new PropertyValueFactory<>("konto"));
+        final TableColumn<FinanceAccountData, String> kontoColumn = new TableColumn<>(FinanceAccountFieldNames.NAME);
+        kontoColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         final TableColumn<FinanceAccountData, Boolean> giroColumn = new TableColumn<>(FinanceAccountFieldNames.GIRO);
         giroColumn.setCellValueFactory(new PropertyValueFactory<>("giro"));

@@ -30,10 +30,10 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
     public static final String TAG = "PaymentTypeData";
 
     private final LongProperty id = new SimpleLongProperty(0);
-    private final LongProperty nr = new SimpleLongProperty(0);
+    private final LongProperty no = new SimpleLongProperty(0);
     private final StringProperty name = new SimpleStringProperty("");
-    private final LongProperty konto = new SimpleLongProperty(0);
-    private final BooleanProperty einzug = new SimpleBooleanProperty(false);
+    private final LongProperty account = new SimpleLongProperty(0);
+    private final BooleanProperty directDebit = new SimpleBooleanProperty(false);
     private final StringProperty text = new SimpleStringProperty("");
     private final ObjectProperty<FinanceAccountData> financeAccountData = new SimpleObjectProperty<>();
 
@@ -42,7 +42,7 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
     public PaymentTypeDataBase() {
         financeAccountData.addListener((obs, old, newV) -> {
             if (newV != null) {
-                setKonto(newV.getId());
+                setAccount(newV.getId());
             }
         });
     }
@@ -63,10 +63,10 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
     private Config[] getConfigs() {
         return new Config[]{
                 new ConfigLongPropExtra("id", PaymentTypeNames.ID, id),
-                new ConfigLongPropExtra("nr", PaymentTypeNames.NR, nr),
+                new ConfigLongPropExtra("no", PaymentTypeNames.NO, no),
                 new ConfigStringPropExtra("name", PaymentTypeNames.NAME, name),
-                new ConfigLongPropExtra("konto", PaymentTypeNames.KONTO, konto),
-                new ConfigBoolPropExtra("einzug", PaymentTypeNames.EINZUG, einzug),
+                new ConfigLongPropExtra("konto", PaymentTypeNames.ACCOUNT, account),
+                new ConfigBoolPropExtra("directDebit", PaymentTypeNames.DIRECT_DEBIT, directDebit),
                 new ConfigStringPropExtra("text", PaymentTypeNames.DESCRIPTION, text),
         };
     }
@@ -95,40 +95,40 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
         this.id.set(id);
     }
 
-    public long getKonto() {
-        return konto.get();
+    public long getAccount() {
+        return account.get();
     }
 
-    public LongProperty kontoProperty() {
-        return konto;
+    public LongProperty accountProperty() {
+        return account;
     }
 
-    public void setKonto(long konto) {
-        this.konto.set(konto);
+    public void setAccount(long account) {
+        this.account.set(account);
     }
 
-    public boolean isEinzug() {
-        return einzug.get();
+    public boolean getDirectDebit() {
+        return directDebit.get();
     }
 
-    public BooleanProperty einzugProperty() {
-        return einzug;
+    public BooleanProperty directDebitProperty() {
+        return directDebit;
     }
 
-    public void setEinzug(boolean einzug) {
-        this.einzug.set(einzug);
+    public void setDirectDebit(boolean directDebit) {
+        this.directDebit.set(directDebit);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
     public String getName() {

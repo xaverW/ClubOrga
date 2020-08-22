@@ -170,7 +170,7 @@ public class GuiMemberState extends BorderPane {
 
 
         int r = 0;
-        gridPane.add(new Label(FeeRateFieldNames.NR_), 0, r);
+        gridPane.add(new Label(FeeRateFieldNames.NO_), 0, r);
         gridPane.add(txtNr, 1, r);
         gridPane.add(new Label(FeeRateFieldNames.NAME_), 0, ++r);
         gridPane.add(txtName, 1, r);
@@ -249,7 +249,7 @@ public class GuiMemberState extends BorderPane {
         }
 
         txtNr.setStateLabel(stateData.getId() < StateDataFactory.STATE_TYPE_SIZE);
-        txtNr.bindBidirectional(stateData.nrProperty());
+        txtNr.bindBidirectional(stateData.noProperty());
         txtName.textProperty().bindBidirectional(stateData.nameProperty());
         txtText.textProperty().bindBidirectional(stateData.textProperty());
     }

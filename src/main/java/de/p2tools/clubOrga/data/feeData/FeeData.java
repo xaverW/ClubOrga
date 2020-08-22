@@ -39,8 +39,8 @@ public class FeeData extends FeeDataWorker {
 
         MemberData memberData = memberDataList.getById(getMemberId());
         setMemberData(memberData);
-        setMitgliedNr(memberData == null ? "" : memberData.getNr() + "");
-        setMitgliedName(memberData == null ? "" : memberData.getNachname() + " " + memberData.getVorname());
+        setMitgliedNr(memberData == null ? "" : memberData.getNo() + "");
+        setMemberName(memberData == null ? "" : memberData.getNachname() + " " + memberData.getVorname());
 
         PaymentTypeData paymentTypeData = paymentTypeDataList.getById(getZahlart());
         setPaymentTypeData(paymentTypeData);

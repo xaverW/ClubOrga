@@ -20,13 +20,13 @@ package de.p2tools.clubOrga.data.financeData.categoryData;
 public class FinanceCategoryFieldNames {
 
     public static final String ID = "Id";
-    public static final String NR = "Nr";
-    public static final String KATEGORIE = "Kategorie";
+    public static final String NO = "Nr";
+    public static final String CATEGORY = "Kategorie";
     public static final String DESCRIPTION = "Beschreibung";
 
     public static final String ID_ = ID + ":";
-    public static final String NR_ = NR + ":";
-    public static final String KATEGORIE_ = KATEGORIE + ":";
+    public static final String NO_ = NO + ":";
+    public static final String DATEGORY_ = CATEGORY + ":";
     public static final String DESCRIPTION_ = DESCRIPTION + ":";
 
 }

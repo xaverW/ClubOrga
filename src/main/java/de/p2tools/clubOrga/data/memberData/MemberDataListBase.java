@@ -151,8 +151,8 @@ public class MemberDataListBase extends SimpleListProperty<MemberData> implement
     public long getNextNr() {
         long nr = 1;
         for (MemberData memberData : this) {
-            if (memberData.getNr() >= nr) {
-                nr = memberData.getNr() + 1;
+            if (memberData.getNo() >= nr) {
+                nr = memberData.getNo() + 1;
             }
         }
         return nr;

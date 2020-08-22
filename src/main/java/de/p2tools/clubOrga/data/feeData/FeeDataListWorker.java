@@ -109,7 +109,7 @@ public class FeeDataListWorker extends FeeDataListBase {
 
         long no = clubConfig.feeDataList.getNextNr();
         for (FeeData feeData : missingFees) {
-            feeData.setNr(no++);
+            feeData.setNo(no++);
         }
 
         return missingFees;

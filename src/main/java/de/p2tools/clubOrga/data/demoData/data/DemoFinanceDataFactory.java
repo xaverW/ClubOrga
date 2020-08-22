@@ -51,37 +51,37 @@ public class DemoFinanceDataFactory {
         ArrayList<FinanceCategoryData> list = new ArrayList<>();
         // Finanzen eintragen
         FinanceCategoryData fcBrot = new FinanceCategoryData(clubConfig);
-        fcBrot.setKategorie("Brot und Spiele");
+        fcBrot.setCategory("Brot und Spiele");
         list.add(fcBrot);
 
         FinanceCategoryData fcBildung = new FinanceCategoryData(clubConfig);
-        fcBildung.setKategorie("Bildung");
+        fcBildung.setCategory("Bildung");
         list.add(fcBildung);
 
         FinanceCategoryData fcMaterial = new FinanceCategoryData(clubConfig);
-        fcMaterial.setKategorie("Süßwaren");
+        fcMaterial.setCategory("Süßwaren");
         list.add(fcMaterial);
 
         FinanceCategoryData fcAuto = new FinanceCategoryData(clubConfig);
-        fcAuto.setKategorie("Auto");
+        fcAuto.setCategory("Auto");
         list.add(fcAuto);
 
         FinanceCategoryData fcSport = new FinanceCategoryData(clubConfig);
-        fcSport.setKategorie("Sport");
+        fcSport.setCategory("Sport");
         list.add(fcSport);
 
         FinanceCategoryData fcWein = new FinanceCategoryData(clubConfig);
-        fcWein.setKategorie("Weinkeller");
+        fcWein.setCategory("Weinkeller");
         list.add(fcWein);
 
         FinanceCategoryData fcKonzert = new FinanceCategoryData(clubConfig);
-        fcKonzert.setKategorie("Konzerte");
+        fcKonzert.setCategory("Konzerte");
         list.add(fcKonzert);
 
 
         long no = clubConfig.financeCategoryDataList.getNextNr();
         for (FinanceCategoryData categoryData : list) {
-            categoryData.setNr(no++);
+            categoryData.setNo(no++);
         }
 
         return list;

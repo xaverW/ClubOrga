@@ -59,8 +59,8 @@ public class FinanceFactory {
 
         FinanceData financeData = getNewFinanceWithId(clubConfig);
 
-        financeData.setNr(clubConfig.financeDataList.getNextNr());
-        financeData.setBelegNr(financeData.getNr() + "");
+        financeData.setNo(clubConfig.financeDataList.getNextNr());
+        financeData.setReceiptNo(financeData.getNo() + "");
         financeData.setBuchungsDatum(buchungsDatum);
         financeData.setGeschaeftsJahr(PDateFactory.getAktYearInt());
         financeData.setFinanceAccountData(financeAccountData);
@@ -82,8 +82,8 @@ public class FinanceFactory {
 
         FinanceData financeData = getNewFinanceWithId(clubConfig);
 
-        financeData.setNr(clubConfig.financeDataList.getNextNr());
-        financeData.setBelegNr(financeData.getNr() + "");
+        financeData.setNo(clubConfig.financeDataList.getNextNr());
+        financeData.setReceiptNo(financeData.getNo() + "");
         financeData.setBuchungsDatum(buchungsDatum);
         financeData.setGeschaeftsJahr(PDateFactory.getAktYearInt());
         financeData.setFinanceAccountData(financeAccountData);

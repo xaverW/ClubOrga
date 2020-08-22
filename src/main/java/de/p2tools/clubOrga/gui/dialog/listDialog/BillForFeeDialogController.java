@@ -34,6 +34,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 
 /**
  * Rechnung erstellen: Rechnungsdatum wird gesetzt,
@@ -72,7 +73,8 @@ public class BillForFeeDialogController extends abListDialogController {
     public enum TYPE {BILL, SQ}
 
     public BillForFeeDialogController(ClubConfig clubConfig, ObservableList<FeeData> feeDataList, TYPE type) {
-        super(clubConfig, feeDataList, type.equals(TYPE.BILL) ? "Rechnung erstellen" : "Spendenquittung erstellen");
+        super(clubConfig, clubConfig.BILL_FOR_FEE_DIALOG_SIZE, clubConfig.BILL_FOR_FEE_DIALOG_DIVIDER,
+                feeDataList, type.equals(TYPE.BILL) ? "Rechnung erstellen" : "Spendenquittung erstellen");
 
         this.clubConfig = clubConfig;
         this.type = type;
@@ -125,6 +127,10 @@ public class BillForFeeDialogController extends abListDialogController {
         pCboNewsletterName.setMaxWidth(Double.MAX_VALUE);
         pCboNewsletterPath.setMaxWidth(Double.MAX_VALUE);
 
+        btnTemplate.setTooltip(new Tooltip("eine Vorlage auswählen"));
+        btnNewsletterPath.setTooltip(new Tooltip("einen Ordner zum Speichern auswählen"));
+        btnProposeFileName.setTooltip(new Tooltip("einen Dateinamen vorschlagen"));
+
         gridPane.add(lblDatum, 0, row);
         gridPane.add(pDatePickerFeeDateBuchungsdatum, 1, row, 2, 1);
         gridPane.add(new Label(" "), 0, ++row);
@@ -169,10 +175,10 @@ public class BillForFeeDialogController extends abListDialogController {
         btnProposeFileName.disableProperty().bind(tglBill.selectedProperty().not());
 
         btnTemplate.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
-        btnTemplate.setOnAction(event -> PDirFileChooser.FileChooser(clubConfig.getStage(), pCboTemplate));
+        btnTemplate.setOnAction(event -> PDirFileChooser.FileChooser(clubConfig.getStage(), pCboTemplate, clubConfig.getClubPath()));
 
         btnNewsletterPath.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
-        btnNewsletterPath.setOnAction(event -> PDirFileChooser.DirChooser(clubConfig.getStage(), pCboNewsletterPath));
+        btnNewsletterPath.setOnAction(event -> PDirFileChooser.DirChooser(clubConfig.getStage(), pCboNewsletterPath, clubConfig.getClubPath()));
 
         btnProposeFileName.setGraphic(new ProgIcons().ICON_BUTTON_GUI_GEN_NAME);
         btnProposeFileName.setOnAction(event -> {

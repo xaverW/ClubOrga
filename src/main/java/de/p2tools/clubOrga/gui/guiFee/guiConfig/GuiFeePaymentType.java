@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.gui.guiMember.guiConfig;
+package de.p2tools.clubOrga.gui.guiFee.guiConfig;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
@@ -42,7 +42,7 @@ import javafx.scene.layout.*;
 
 import java.util.Optional;
 
-public class GuiMemberPaymentType extends BorderPane {
+public class GuiFeePaymentType extends BorderPane {
 
     private final ScrollPane scrollPaneTable = new ScrollPane();
     private final HBox hBoxSelect = new HBox(10);
@@ -65,7 +65,7 @@ public class GuiMemberPaymentType extends BorderPane {
 
     private PaymentTypeData paymentTypeData = null;
 
-    public GuiMemberPaymentType(ClubConfig clubConfig) {
+    public GuiFeePaymentType(ClubConfig clubConfig) {
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
 
@@ -179,11 +179,11 @@ public class GuiMemberPaymentType extends BorderPane {
                 return;
             }
 
-            this.paymentTypeData.setKonto(financeAccountData.getId());
+            this.paymentTypeData.setAccount(financeAccountData.getId());
             this.paymentTypeData.setFinanceAccountData(financeAccountData);
             tglEinzug.setDisable(!financeAccountData.isGiro());
             if (!financeAccountData.isGiro()) {
-                this.paymentTypeData.setEinzug(false);
+                this.paymentTypeData.setDirectDebit(false);
             }
         });
 
@@ -196,13 +196,13 @@ public class GuiMemberPaymentType extends BorderPane {
 
 
         int r = 0;
-        gridPane.add(new Label(PaymentTypeNames.NR_), 0, r);
+        gridPane.add(new Label(PaymentTypeNames.NO_), 0, r);
         gridPane.add(txtNr, 1, r);
         gridPane.add(new Label(PaymentTypeNames.NAME_), 0, ++r);
         gridPane.add(txtName, 1, r);
-        gridPane.add(new Label(PaymentTypeNames.KONTO_), 0, ++r);
+        gridPane.add(new Label(PaymentTypeNames.ACCOUNT_), 0, ++r);
         gridPane.add(cboFinanceAccountData, 1, r);
-        gridPane.add(new Label(PaymentTypeNames.EINZUG_), 0, ++r);
+        gridPane.add(new Label(PaymentTypeNames.DIRECT_DEBIT_), 0, ++r);
         gridPane.add(tglEinzug, 1, r);
 
         r = 0;
@@ -270,7 +270,7 @@ public class GuiMemberPaymentType extends BorderPane {
         txtName.textProperty().unbindBidirectional(paymentTypeData.nameProperty());
         txtText.textProperty().unbindBidirectional(paymentTypeData.textProperty());
         cboFinanceAccountData.unbindSelValueProperty();
-        tglEinzug.selectedProperty().unbindBidirectional(paymentTypeData.einzugProperty());
+        tglEinzug.selectedProperty().unbindBidirectional(paymentTypeData.directDebitProperty());
     }
 
     private void bind() {
@@ -288,11 +288,11 @@ public class GuiMemberPaymentType extends BorderPane {
         txtNr.setStateLabel(paymentTypeData.getId() < PaymentTypeFactory.PAYMENT_TYPE_SIZE);
         cboFinanceAccountData.setDisable(paymentTypeData.getId() < PaymentTypeFactory.PAYMENT_TYPE_SIZE);
 
-        txtNr.bindBidirectional(paymentTypeData.nrProperty());
+        txtNr.bindBidirectional(paymentTypeData.noProperty());
         txtName.textProperty().bindBidirectional(paymentTypeData.nameProperty());
         txtText.textProperty().bindBidirectional(paymentTypeData.textProperty());
         cboFinanceAccountData.bindSelValueProperty(paymentTypeData.financeAccountDataProperty());
-        tglEinzug.selectedProperty().bindBidirectional(paymentTypeData.einzugProperty());
+        tglEinzug.selectedProperty().bindBidirectional(paymentTypeData.directDebitProperty());
         tglEinzug.setDisable(paymentTypeData.getId() < PaymentTypeFactory.PAYMENT_TYPE_SIZE ||
                 !paymentTypeData.getFinanceAccountData().isGiro());
     }

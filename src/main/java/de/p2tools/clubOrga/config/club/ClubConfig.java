@@ -44,13 +44,13 @@ import de.p2tools.clubOrga.data.memberData.stateData.StateDataList;
 import de.p2tools.clubOrga.gui.guiClub.GuiClub;
 import de.p2tools.clubOrga.gui.guiClub.GuiClubInfo;
 import de.p2tools.clubOrga.gui.guiFee.GuiFee;
+import de.p2tools.clubOrga.gui.guiFee.guiConfig.GuiFeePaymentType;
+import de.p2tools.clubOrga.gui.guiFee.guiConfig.GuiFeeRate;
 import de.p2tools.clubOrga.gui.guiFinance.GuiFinance;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceAccount;
 import de.p2tools.clubOrga.gui.guiFinance.guiConfig.GuiFinanceCategory;
 import de.p2tools.clubOrga.gui.guiFinanceReport.GuiFinanceReport;
 import de.p2tools.clubOrga.gui.guiMember.GuiMember;
-import de.p2tools.clubOrga.gui.guiMember.guiConfig.GuiMemberFeeRate;
-import de.p2tools.clubOrga.gui.guiMember.guiConfig.GuiMemberPaymentType;
 import de.p2tools.clubOrga.gui.guiMember.guiConfig.GuiMemberState;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.pData.PDataProgConfig;
@@ -98,9 +98,13 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty EXPORT_CLUB_DIALOG_SIZE = addStr("export-club-dialog-size", "700:400");
     public StringProperty DELETE_ALL_DATA_DIALOG_SIZE = addStr("delete-all-data-dialog-size", "600:300");
 
-    public StringProperty FEE_DIALOG_SIZE = addStrC("Dialoge", "fee-dialog-size", "800:600");
-    public DoubleProperty FEE_DIALOG_DIVIDER = addDouble("fee-dialog-divider", 0.3);
-    public DoubleProperty ADD_MISSING_FEE_DIALOG_DIVIDER = addDouble("add-missing-fee-dialog-divider", 0.3);
+    public DoubleProperty MISSING_FEE_DIALOG_DIVIDER = addDouble("missing-fee-dialog-divider", 0.3);
+    public StringProperty MISSING_FEE_DIALOG_SIZE = addStrC("Dialoge", "fee-dialog-size", "800:600");
+    public DoubleProperty BILL_FOR_FEE_DIALOG_DIVIDER = addDouble("bill-for-fee-dialog-divider", 0.3);
+    public StringProperty BILL_FOR_FEE_DIALOG_SIZE = addStr("bill-for-fee-dialog-size");
+    public DoubleProperty PAY_FEE_DIALOG_DIVIDER = addDouble("pay-fee-dialog-divider", 0.3);
+    public StringProperty PAY_FEE_DIALOG_SIZE = addStr("pay-fee-dialog-size");
+
     public BooleanProperty FEE_DIALOG_ADD_FINANCES = addBool("fee-dialog-add-finance", Boolean.TRUE);
     public BooleanProperty FEE_DIALOG_ADD_TRANSACTIONS = addBool("fee-dialog-add-transactions", Boolean.TRUE);
     public BooleanProperty FEE_DIALOG_ADD_DTAUS = addBool("fee-dialog-add-dtaus", Boolean.TRUE);
@@ -337,9 +341,9 @@ public class ClubConfig extends PDataProgConfig {
     public GuiClub guiClub = null;
     public GuiClubInfo guiClubInfo = null;
     public GuiMember guiMember = null;
-    public GuiMemberFeeRate guiMemberFeeRate = null;
+    public GuiFeeRate guiFeeRate = null;
     public GuiMemberState guiMemberState = null;
-    public GuiMemberPaymentType guiMemberPaymentType = null;
+    public GuiFeePaymentType guiFeePaymentType = null;
     public GuiFee guiFee = null;
     public GuiFinance guiFinance = null;
     public GuiFinanceReport guiFinanceReport = null;

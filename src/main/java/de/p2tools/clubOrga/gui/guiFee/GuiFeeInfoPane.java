@@ -106,12 +106,12 @@ public class GuiFeeInfoPane extends AnchorPane {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         int row = 0;
-        gridPane.add(new Label(FeeFieldNames.NR_), 0, row);
+        gridPane.add(new Label(FeeFieldNames.NO_), 0, row);
         gridPane.add(txtNr, 1, row);
 
-        gridPane.add(new Label(FeeFieldNames.MEMBER_NR), 0, ++row);
+        gridPane.add(new Label(FeeFieldNames.MEMBER_NO), 0, ++row);
         gridPane.add(txtMitgliedNr, 1, row);
-        gridPane.add(new Label(FeeFieldNames.MITGLIED_NAME_), 0, ++row);
+        gridPane.add(new Label(FeeFieldNames.MEMBER_NAME_), 0, ++row);
         gridPane.add(txtMitgliedName, 1, row);
         gridPane.add(new Label(FeeFieldNames.BEZAHLT_), 0, ++row);
         gridPane.add(pDatePicker, 1, row);
@@ -160,7 +160,7 @@ public class GuiFeeInfoPane extends AnchorPane {
 
         txtNr.unBind();
         txtMitgliedNr.unBind();
-        txtMitgliedName.textProperty().unbindBidirectional(feeData.mitgliedNameProperty());
+        txtMitgliedName.textProperty().unbindBidirectional(feeData.memberNameProperty());
         txtText.textProperty().unbindBidirectional(feeData.textProperty());
         pDatePicker.clearDate();
     }
@@ -175,9 +175,9 @@ public class GuiFeeInfoPane extends AnchorPane {
             return;
         }
 
-        txtNr.bindBidirectional(feeData.nrProperty());
-        txtMitgliedNr.bindBidirectional(feeData.mitgliedNrProperty());
-        txtMitgliedName.textProperty().bindBidirectional(feeData.mitgliedNameProperty());
+        txtNr.bindBidirectional(feeData.noProperty());
+        txtMitgliedNr.bindBidirectional(feeData.memberNoProperty());
+        txtMitgliedName.textProperty().bindBidirectional(feeData.memberNameProperty());
         txtText.textProperty().bindBidirectional(feeData.textProperty());
         pDatePicker.setpDateProperty(feeData.bezahltProperty());
     }

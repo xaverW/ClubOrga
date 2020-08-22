@@ -36,7 +36,7 @@ public class GuiFinanceReportFilterPane extends FilterPane {
 
     private final Label lblJahr = new Label(FinanceFieldNames.GESCHAEFTSJAHR_);
     private final Label lblKonto = new Label(FinanceFieldNames.KONTO_);
-    private final Label lblKategorie = new Label(FinanceFieldNames.KATEGORIE_);
+    private final Label lblKategorie = new Label(FinanceFieldNames.CATEGORY_);
 
     private final ClubConfig clubConfig;
 

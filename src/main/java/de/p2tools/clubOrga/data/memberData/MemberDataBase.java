@@ -42,7 +42,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
     public static final String TAG = "MemberData";
 
     private final LongProperty id = new SimpleLongProperty(0);
-    private final LongProperty nr = new SimpleLongProperty(0);
+    private final LongProperty no = new SimpleLongProperty(0);
     private final StringProperty nachname = new SimpleStringProperty("");
     private final StringProperty vorname = new SimpleStringProperty("");
 
@@ -189,7 +189,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
 
         ArrayList<Config> list = new ArrayList<>();
         list.add(new ConfigLongPropExtra("id", MemberFieldNames.ID, id));
-        list.add(new ConfigLongPropExtra("nr", MemberFieldNames.NR, nr));
+        list.add(new ConfigLongPropExtra("nr", MemberFieldNames.NO, no));
         list.add(new ConfigStringPropExtra("nachname", MemberFieldNames.NACHNAME, nachname));
         list.add(new ConfigStringPropExtra("vorname", MemberFieldNames.VORNAME, vorname));
 
@@ -288,16 +288,16 @@ public class MemberDataBase extends PDataSample<MemberData> {
         this.id.set(id);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
     public String getNachname() {

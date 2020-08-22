@@ -42,7 +42,7 @@ public class MemberFactory {
         memberData.setId(PIndex.getIndex());
         memberData.setNachname(nachName);
         if (addNo) {
-            memberData.setNr(clubConfig.memberDataList.getNextNr());
+            memberData.setNo(clubConfig.memberDataList.getNextNr());
         }
 
         memberData.setFeeRateData(clubConfig.feeRateDataList.getRateDataStandard(FeeRateFactory.RATE_TYPE.RATE_STANDARD));

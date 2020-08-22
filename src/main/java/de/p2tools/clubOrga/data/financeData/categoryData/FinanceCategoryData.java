@@ -34,7 +34,7 @@ public class FinanceCategoryData extends FinanceCategoryDataBase {
     public FinanceCategoryData(ClubConfig clubConfig) {
         this.clubConfig = clubConfig;
         setId(getNewId());
-        this.setNr(clubConfig.financeCategoryDataList.getNextNr());
+        this.setNo(clubConfig.financeCategoryDataList.getNextNr());
     }
 
     private long getNewId() {
@@ -77,11 +77,11 @@ public class FinanceCategoryData extends FinanceCategoryDataBase {
 
     @Override
     public String toString() {
-        return getKategorie();
+        return getCategory();
     }
 
     @Override
     public int compareTo(FinanceCategoryData o) {
-        return o.getKategorie().compareTo(getKategorie());
+        return o.getCategory().compareTo(getCategory());
     }
 }

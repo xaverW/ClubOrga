@@ -35,7 +35,7 @@ public class StateDataBase extends PDataSample<StateData> {
     public static final String TAG = "StateData";
 
     private final LongProperty id = new SimpleLongProperty(0);
-    private final LongProperty nr = new SimpleLongProperty(0);
+    private final LongProperty no = new SimpleLongProperty(0);
     private final StringProperty name = new SimpleStringProperty("");
     private final StringProperty text = new SimpleStringProperty("");
 
@@ -57,7 +57,7 @@ public class StateDataBase extends PDataSample<StateData> {
     private Config[] getConfigs() {
         return new Config[]{
                 new ConfigLongPropExtra("id", StateFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", StateFieldNames.NR, nr),
+                new ConfigLongPropExtra("nr", StateFieldNames.NO, no),
                 new ConfigStringPropExtra("name", StateFieldNames.NAME, name),
                 new ConfigStringPropExtra("text", StateFieldNames.DESCRIPTION, text),
         };
@@ -75,16 +75,16 @@ public class StateDataBase extends PDataSample<StateData> {
         this.id.set(id);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
     public String getName() {

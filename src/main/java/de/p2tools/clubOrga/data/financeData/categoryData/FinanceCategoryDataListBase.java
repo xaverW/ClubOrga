@@ -101,8 +101,8 @@ public class FinanceCategoryDataListBase extends SimpleListProperty<FinanceCateg
     public long getNextNr() {
         long no = 1;
         for (FinanceCategoryData data : this) {
-            if (data.getNr() >= no) {
-                no = data.getNr() + 1;
+            if (data.getNo() >= no) {
+                no = data.getNo() + 1;
             }
         }
         return no;

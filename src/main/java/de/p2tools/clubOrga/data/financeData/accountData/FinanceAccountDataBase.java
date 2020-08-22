@@ -30,8 +30,8 @@ public class FinanceAccountDataBase extends PDataSample<FinanceAccountData> impl
     public static final String TAG = "FinanceAccountData";
 
     private final LongProperty id = new SimpleLongProperty(0);
-    private final LongProperty nr = new SimpleLongProperty(0);
-    private final StringProperty konto = new SimpleStringProperty("");
+    private final LongProperty no = new SimpleLongProperty(0);
+    private final StringProperty name = new SimpleStringProperty("");
     private final StringProperty description = new SimpleStringProperty("");
 
     private final BooleanProperty giro = new SimpleBooleanProperty(false);
@@ -57,9 +57,9 @@ public class FinanceAccountDataBase extends PDataSample<FinanceAccountData> impl
     private Config[] getConfigs() {
         return new Config[]{
                 new ConfigLongPropExtra("id", FinanceAccountFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FinanceAccountFieldNames.NR, nr),
-                new ConfigStringPropExtra("konto", FinanceAccountFieldNames.KONTO, konto),
-                new ConfigStringPropExtra("description", FinanceAccountFieldNames.DESCRIPTION, description),
+                new ConfigLongPropExtra("nr", FinanceAccountFieldNames.NO, no),
+                new ConfigStringPropExtra("name", FinanceAccountFieldNames.NAME, name),
+                new ConfigStringPropExtra("beschreibung", FinanceAccountFieldNames.DESCRIPTION, description),
                 new ConfigBoolPropExtra("giro", FinanceAccountFieldNames.GIRO, giro),
                 new ConfigStringPropExtra("bic", FinanceAccountFieldNames.BIC, bic),
                 new ConfigStringPropExtra("iban", FinanceAccountFieldNames.IBAN, iban),
@@ -79,28 +79,28 @@ public class FinanceAccountDataBase extends PDataSample<FinanceAccountData> impl
         this.id.set(id);
     }
 
-    public long getNr() {
-        return nr.get();
+    public long getNo() {
+        return no.get();
     }
 
-    public LongProperty nrProperty() {
-        return nr;
+    public LongProperty noProperty() {
+        return no;
     }
 
-    public void setNr(long nr) {
-        this.nr.set(nr);
+    public void setNo(long no) {
+        this.no.set(no);
     }
 
-    public String getKonto() {
-        return konto.get();
+    public String getName() {
+        return name.get();
     }
 
-    public StringProperty kontoProperty() {
-        return konto;
+    public StringProperty nameProperty() {
+        return name;
     }
 
-    public void setKonto(String konto) {
-        this.konto.set(konto);
+    public void setName(String name) {
+        this.name.set(name);
     }
 
     public String getDescription() {
