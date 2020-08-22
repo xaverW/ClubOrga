@@ -18,10 +18,10 @@
 package de.p2tools.clubOrga.data.feeData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeDataList;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberDataList;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeDataList;
 
 public class FeeData extends FeeDataWorker {
 

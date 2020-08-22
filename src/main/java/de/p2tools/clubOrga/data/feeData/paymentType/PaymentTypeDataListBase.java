@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.data.memberData.paymentType;
+package de.p2tools.clubOrga.data.feeData.paymentType;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.p2Lib.configFile.pData.PDataList;
@@ -67,7 +67,7 @@ public class PaymentTypeDataListBase extends SimpleListProperty<PaymentTypeData>
 
     @Override
     public String getComment() {
-        return "Liste der Bezahlarten";
+        return "Liste der Zahlarten";
     }
 
     @Override

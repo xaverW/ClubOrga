@@ -19,8 +19,8 @@ package de.p2tools.clubOrga.gui.guiFee;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.FeeData;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.gui.tools.PPredicate;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

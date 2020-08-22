@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.clubOrga.data.memberData.paymentType;
+package de.p2tools.clubOrga.data.feeData.paymentType;
 
 public class PaymentTypeNames {
 

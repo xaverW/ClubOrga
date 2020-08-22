@@ -14,11 +14,12 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.data.memberData.paymentType;
+package de.p2tools.clubOrga.data.feeData.paymentType;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFactory;
+import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.tools.log.PLog;
 
@@ -108,10 +109,19 @@ public class PaymentTypeDataList extends PaymentTypeDataListBase {
     @Override
     public boolean remove(Object obj) {
         if (((PaymentTypeData) obj).getId() <= PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_BANKEINZUG.getId()) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Bezahlart löschen", "Das sind Standardeinstellungen die nicht gelöscht werden können.");
+            PAlert.showErrorAlert(clubConfig.getStage(), "Zahlart löschen",
+                    "Das sind Standardeinstellungen die nicht gelöscht werden können.");
             return false;
         }
 
+        for (MemberData md : clubConfig.memberDataList) {
+            if (md.getPaymentType() == ((PaymentTypeData) obj).getId()) {
+                PAlert.showErrorAlert(clubConfig.getStage(), "Zahlart löschen",
+                        "Die Zahlart wird noch bei einem Mitglied verwendet und kann nicht gelöscht werden. " +
+                                "Bitte zuerst die Zahlart ändern.");
+                return false;
+            }
+        }
         return super.remove(obj);
     }
 

@@ -19,8 +19,8 @@ package de.p2tools.clubOrga.gui.table;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeNames;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeNames;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;

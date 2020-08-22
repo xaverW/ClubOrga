@@ -17,8 +17,6 @@
 
 package de.p2tools.clubOrga.data.financeData.accountData;
 
-import de.p2tools.clubOrga.config.club.ClubConfig;
-
 public class FinanceAccountFactory {
 
     public static int ACCOUNT_TYPE_SIZE = ACCOUNT_TYPE.values().length;
@@ -60,10 +58,10 @@ public class FinanceAccountFactory {
     private FinanceAccountFactory() {
     }
 
-    public static boolean searchAccount(ClubConfig clubConfig, FinanceAccountData financeAccountData) {
-        boolean found = clubConfig.financeDataList.stream()
-                .filter(financeData -> financeData.getFinanceAccountData().equals(financeAccountData))
-                .findAny().isPresent();
-        return found;
-    }
+//    public static boolean searchAccount(ClubConfig clubConfig, FinanceAccountData financeAccountData) {
+//        boolean found = clubConfig.financeDataList.stream()
+//                .filter(financeData -> financeData.getFinanceAccountData().equals(financeAccountData))
+//                .findAny().isPresent();
+//        return found;
+//    }
 }

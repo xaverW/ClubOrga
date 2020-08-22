@@ -19,7 +19,7 @@ package de.p2tools.clubOrga.data.memberData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateFactory;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeFactory;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeFactory;
 import de.p2tools.clubOrga.data.memberData.stateData.StateDataFactory;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.tools.PIndex;
@@ -52,7 +52,7 @@ public class MemberFactory {
         memberData.setStatus(memberData.getStateData().getId());
 
         memberData.setPaymentTypeData(clubConfig.paymentTypeDataList.getStateDataStandard(PaymentTypeFactory.PAYMENT_TYPE.PAYMENT_UEBERWEISUNG));
-        memberData.setZahlart(memberData.getPaymentTypeData().getId());
+        memberData.setPaymentType(memberData.getPaymentTypeData().getId());
 
         return memberData;
     }

@@ -18,10 +18,10 @@ package de.p2tools.clubOrga.gui.dialog;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeFactory;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeNames;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeFactory;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeNames;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;

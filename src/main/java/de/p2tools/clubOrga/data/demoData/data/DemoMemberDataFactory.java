@@ -20,9 +20,9 @@ package de.p2tools.clubOrga.data.demoData.data;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.demoData.DemoDataFactory;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateFactory;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeFactory;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFactory;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeFactory;
 import de.p2tools.clubOrga.data.memberData.stateData.StateDataFactory;
 
 import java.time.LocalDateTime;

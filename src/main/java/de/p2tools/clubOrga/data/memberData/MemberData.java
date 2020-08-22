@@ -20,8 +20,8 @@ package de.p2tools.clubOrga.data.memberData;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateFactory;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeFactory;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeFactory;
 import de.p2tools.clubOrga.data.memberData.stateData.StateData;
 import de.p2tools.clubOrga.data.memberData.stateData.StateDataFactory;
 
@@ -86,7 +86,7 @@ public class MemberData extends MemberDataBase {
 
         // Zahlart
         Optional<PaymentTypeData> paymentTypeData = clubConfig.paymentTypeDataList.stream()
-                .filter(data -> getZahlart() == data.getId()).findAny();
+                .filter(data -> getPaymentType() == data.getId()).findAny();
 
         if (paymentTypeData.isPresent()) {
             setPaymentTypeData(paymentTypeData.get());

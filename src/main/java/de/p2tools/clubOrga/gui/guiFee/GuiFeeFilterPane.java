@@ -18,9 +18,9 @@ package de.p2tools.clubOrga.gui.guiFee;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberDataList;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.gui.FilterPane;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PFilterControl.PFilterComboBoxObject;

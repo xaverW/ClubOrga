@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.clubOrga.data.memberData.paymentType;
+package de.p2tools.clubOrga.data.feeData.paymentType;
 
 public class PaymentTypeFactory {
     public static int PAYMENT_TYPE_SIZE = PAYMENT_TYPE.values().length;

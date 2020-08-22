@@ -17,7 +17,8 @@
 package de.p2tools.clubOrga.data.financeData.accountData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
+import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.p2Lib.alert.PAlert;
 
 import java.util.Collection;
@@ -94,18 +95,29 @@ public class FinanceAccountDataList extends FinanceAccountDataListBase {
         return this.stream().filter(data -> data.getId() == id).findFirst().orElse(null);
     }
 
-    public boolean checkRemove(FinanceAccountData financeAccountData) {
+    private boolean checkRemove(FinanceAccountData financeAccountData) {
         if (financeAccountData.getId() < FinanceAccountFactory.ACCOUNT_TYPE_SIZE) {
             PAlert.showErrorAlert(clubConfig.getStage(), "Konto löschen",
                     "Das ist ein Standardkonto das nicht gelöscht werden kann.");
             return false;
         }
 
+        for (FinanceData fa : clubConfig.financeDataList) {
+            if (fa.getFinanceAccountData().getId() == financeAccountData.getId()) {
+                PAlert.showErrorAlert(clubConfig.getStage(), "Konto löschen",
+                        "Das Konto wird noch in Finanzdaten verwendet und kann nicht " +
+                                "gelöscht werden. " +
+                                "Bitte zuerst die Finanzdaten ändern.");
+                return false;
+            }
+        }
+
         for (PaymentTypeData paymentTypeData : clubConfig.paymentTypeDataList) {
             if (paymentTypeData.getAccount() == financeAccountData.getId()) {
                 PAlert.showErrorAlert(clubConfig.getStage(), "Konto löschen",
-                        "Das Konto wird bei den Zahlarten verwendet und kann nicht " +
-                                "gelöscht werden.");
+                        "Das Konto wird noch bei den Zahlarten verwendet und kann nicht " +
+                                "gelöscht werden. " +
+                                "Bitte zuerst die Zahlart ändern.");
                 return false;
             }
         }

@@ -21,7 +21,7 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.extraData.ExtraData;
 import de.p2tools.clubOrga.data.extraData.ExtraDataProperty;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
-import de.p2tools.clubOrga.data.memberData.paymentType.PaymentTypeData;
+import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.memberData.stateData.StateData;
 import de.p2tools.p2Lib.configFile.config.*;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
@@ -59,7 +59,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
     private final LongProperty status = new SimpleLongProperty(0);
     private final LongProperty beitrag = new SimpleLongProperty(0);
     private final LongProperty beitragssatz = new SimpleLongProperty(0);
-    private final LongProperty zahlart = new SimpleLongProperty(0);
+    private final LongProperty paymentType = new SimpleLongProperty(0);
     private final StringProperty bank = new SimpleStringProperty("");
     private final StringProperty iban = new SimpleStringProperty("");
     private final StringProperty bic = new SimpleStringProperty("");
@@ -91,7 +91,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
         });
         paymentTypeData.addListener((obs, old, newV) -> {
             if (newV != null) {
-                setZahlart(newV.getId());
+                setPaymentType(newV.getId());
             }
         });
     }
@@ -184,7 +184,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
         }
 
         if (getPaymentTypeData() != null) {
-            setZahlart(getPaymentTypeData().getId());
+            setPaymentType(getPaymentTypeData().getId());
         }
 
         ArrayList<Config> list = new ArrayList<>();
@@ -210,7 +210,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
         list.add(new ConfigStringPropExtra("iban", MemberFieldNames.IBAN, iban));
         list.add(new ConfigStringPropExtra("bic", MemberFieldNames.BIC, bic));
         list.add(new ConfigStringPropExtra("kontoinhaber", MemberFieldNames.KONTOINHABER, kontoinhaber));
-        list.add(new ConfigLongPropExtra("zahlart", MemberFieldNames.ZAHLART, zahlart));
+        list.add(new ConfigLongPropExtra("zahlart", MemberFieldNames.ZAHLART, paymentType));
         list.add(new ConfigLocalDateExtra("zahlungsbeginn", MemberFieldNames.ZAHLUNGSBEGINN, zahlungsbeginn));
         list.add(new ConfigLocalDateExtra("sepabeginn", MemberFieldNames.SEPABEGINN, sepaBeginn));
         list.add(new ConfigLocalDateExtra("beitritt", MemberFieldNames.BEITRITT, beitritt));
@@ -456,16 +456,16 @@ public class MemberDataBase extends PDataSample<MemberData> {
         this.beitragssatz.set(beitragssatz);
     }
 
-    public long getZahlart() {
-        return zahlart.get();
+    public long getPaymentType() {
+        return paymentType.get();
     }
 
-    public LongProperty zahlartProperty() {
-        return zahlart;
+    public LongProperty paymentTypeProperty() {
+        return paymentType;
     }
 
-    public void setZahlart(long zahlart) {
-        this.zahlart.set(zahlart);
+    public void setPaymentType(long paymentType) {
+        this.paymentType.set(paymentType);
     }
 
     public String getBank() {
