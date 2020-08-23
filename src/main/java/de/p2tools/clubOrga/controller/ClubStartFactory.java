@@ -29,6 +29,7 @@ import de.p2tools.clubOrga.controller.newsletter.NewsletterFactory;
 import de.p2tools.clubOrga.data.demoData.DemoData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.icon.GetIcon;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
@@ -163,7 +164,8 @@ public class ClubStartFactory {
                 Scene scene = new Scene(clubConfig.clubGuiController,
                         PGuiSize.getWidth(clubConfig.GUI_CLUB_PANEL),
                         PGuiSize.getHeight(clubConfig.GUI_CLUB_PANEL));
-                addCss(scene);
+                setTheme(scene);
+                ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> setTheme(scene));
 
                 clubConfig.getStage().setScene(scene);
                 clubConfig.getStage().getIcons().add(GetIcon.getImage(ProgConst.P2_ICON_32, ProgConst.P2_ICON_PATH, 32, 32));
@@ -231,18 +233,20 @@ public class ClubStartFactory {
         return true;
     }
 
-    private static void addCss(Scene scene) {
-        P2LibInit.addP2LibCssToScene(scene);
-        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> setTheme(scene));
-        setTheme(scene);
-    }
+//    private static void addCss(Scene scene) {
+//        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> setTheme(scene));
+//        setTheme(scene);
+//    }
 
     private static void setTheme(Scene scene) {
         if (ProgConfig.SYSTEM_DARK_THEME.get()) {
+            P2LibInit.addCssFile(P2LibConst.CSS_GUI_DARK);
             P2LibInit.addCssFile(ProgConst.CSS_FILE_DARK_THEME);
         } else {
+            P2LibInit.removeCssFile(P2LibConst.CSS_GUI_DARK);
             P2LibInit.removeCssFile(ProgConst.CSS_FILE_DARK_THEME);
         }
+
         P2LibInit.addP2LibCssToScene(scene);
     }
 

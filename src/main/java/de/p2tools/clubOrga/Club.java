@@ -17,11 +17,14 @@ package de.p2tools.clubOrga;
 
 import de.p2tools.clubOrga.clubStart.StartDialogController;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
+import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.controller.ProgStartFactory;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubDataFactory;
+import de.p2tools.p2Lib.P2LibConst;
+import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import javafx.application.Application;
@@ -45,14 +48,15 @@ public class Club extends Application {
         PDuration.onlyPing("Programmstart");
         progData = ProgData.getInstance();
 
-//        initP2lib();
+        initP2lib();
         final boolean firstProgramStart = ProgStartFactory.loadProgConfigData();
-
+      
         if (firstProgramStart) {
             // Verein mit Standarddaten/Pfad anlegen
             initNewClub(primaryStage);
 
         } else {
+            addThemeCss();
             KnownClubData knownClubData = progData.knownClubDataList.getKnownClubForStart();
             if (ProgConfig.START_CLUB_SELECTOR_FIRST.get() || knownClubData == null) {
                 // dann mit der Auswahl starten
@@ -65,6 +69,24 @@ public class Club extends Application {
         }
 
         PDuration.counterStop("Programmstart");
+    }
+
+    private void initP2lib() {
+//        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME,
+                "", ProgData.debug, ProgData.duration);
+        P2LibInit.addCssFile(P2LibConst.CSS_GUI);
+        P2LibInit.addCssFile(ProgConst.CSS_FILE);
+    }
+
+    private void addThemeCss() {
+        if (ProgConfig.SYSTEM_DARK_THEME.get()) {
+            P2LibInit.addCssFile(P2LibConst.CSS_GUI_DARK);
+            P2LibInit.addCssFile(ProgConst.CSS_FILE_DARK_THEME);
+        } else {
+            P2LibInit.removeCssFile(P2LibConst.CSS_GUI_DARK);
+            P2LibInit.removeCssFile(ProgConst.CSS_FILE_DARK_THEME);
+        }
     }
 
     private void initNewClub(Stage primaryStage) {

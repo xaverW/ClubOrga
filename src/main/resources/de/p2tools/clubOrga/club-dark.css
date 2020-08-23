@@ -1,29 +1,5 @@
 /*  style sheet for the dark-theme */
 
-.root {
-    -fx-base: #383b3d;
-    -fx-accent: #e7eff7 ;
-    -fx-default-button: #7f878f ;
-    -fx-focus-color: #dfdfdf;
-    -fx-faint-focus-color: #efefef22;
-    -fx-focused-text-base-color : ladder(
-            -fx-selection-bar,
-            -fx-light-text-color 45%,
-            -fx-dark-text-color 46%,
-            -fx-dark-text-color 59%,
-            -fx-mid-text-color 60%
-        );
-    -fx-focused-mark-color : -fx-focused-text-base-color ;
-
-    -tab-button-1: #969696;
-    -tab-button-2: #a6a6a6;
-    -lin-grad-1: linear-gradient(from 0% 0% to 100% 100%, -tab-button-1 50%, white 100%);
-    -rad-grad-1: radial-gradient(center 50% -40%, radius 200%, -tab-button-2 45%, -tab-button-3 50%);
-    -lin-grad-btn-func-1: linear-gradient(from 0% 0% to 100% 100%, -tab-button-1 40%, white 90%);
-    -rad-grad-btn-func-1: radial-gradient(center 80% -70%, radius 200%, -tab-button-2 35%, -tab-button-3 40%);
-    -style-tab-border-color-1: #003ca0;
-    -style-tab-border-color-2: #003cff;
-}
 
 /* ========================================================================== */
 /* clubOrga */
@@ -35,15 +11,15 @@
     -fx-background-color: null;
 }
 
-.button-accordion {
+/*.button-accordion {
     -fx-background-color: linear-gradient(from 15% 53% to 15% 120% , #9B9B9B, #DBDBDB 100% );
-}
+}*/
 
 /* ========================================================================== */
 /* sind javafx gui Elemente */
 /* ========================================================================== */
-.combo-box-popup .list-view .list-cell:hover {
-    /* ist der markierte Eintrag in der Liste beim Auswählen mit der Maus*/
+/*.combo-box-popup .list-view .list-cell:hover {
+    *//* ist der markierte Eintrag in der Liste beim Auswählen mit der Maus*//*
     -fx-background-color: #b7bccf;
     -fx-text-fill: black;
 }
@@ -69,9 +45,9 @@
 }
 .list-cell:empty {
     -fx-background-color: #b5babd;
-}
+}*/
 /* sind alle Context-Menüs */
-.context-menu {
+/*.context-menu {
     -fx-background-color: #44484a;
     -fx-border-color: #939a9f;
 }
@@ -81,9 +57,10 @@
 .check-menu-item{
     -fx-focused-mark-color: #0b99c9;
     -fx-mark-color: #0b99c9;
-}
+}*/
 
 /* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+/*
 .scroll-bar:horizontal .thumb {
     -fx-background-color: #55595b, linear-gradient(from 50% 100% to 50% 50% , repeat, #B3B3B3, #6F777E 100% );
 	-fx-background-insets: 1,2;
@@ -103,4 +80,5 @@
     -fx-background-color: #55595b, linear-gradient(from -50% 50% to 50% 50% , repeat, #CCCCCC, #A0A6AC 100% );
 }
 
+*/
 

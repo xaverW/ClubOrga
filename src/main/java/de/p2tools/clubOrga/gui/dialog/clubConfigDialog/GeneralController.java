@@ -47,6 +47,7 @@ public class GeneralController extends AnchorPane {
 
     private final PToggleSwitch tglSearch = new PToggleSwitch("einmal am Tag nach einer neuen Programmversion suchen");
     private final PToggleSwitch tglSearchBeta = new PToggleSwitch("auch nach neuen Vorabversionen suchen");
+    private final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
     private final Button btnNow = new Button("_Jetzt suchen");
     private Button btnHelpBeta;
     ScrollPane scrollPane = new ScrollPane();
@@ -80,6 +81,10 @@ public class GeneralController extends AnchorPane {
 
     }
 
+    public void close() {
+        tglDarkTheme.selectedProperty().unbindBidirectional(propDarkTheme);
+    }
+
     private Collection<TitledPane> createPanes() {
         Collection<TitledPane> result = new ArrayList<TitledPane>();
         makeConfig(result);
@@ -97,7 +102,7 @@ public class GeneralController extends AnchorPane {
         TitledPane tpConfig = new TitledPane("Allgemein", gridPane);
         result.add(tpConfig);
 
-        final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
+
         tglDarkTheme.selectedProperty().bindBidirectional(propDarkTheme);
         final Button btnHelpTheme = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.DARK_THEME);
