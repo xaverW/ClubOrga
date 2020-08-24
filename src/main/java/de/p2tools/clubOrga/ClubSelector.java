@@ -51,8 +51,8 @@ public class ClubSelector extends PDialogExtra {
     private final TableView<KnownClubData> tableView = new TableView<>();
 
     public ClubSelector(Stage stage) {
-        super(stage, ProgConfig.SYSTEM_SIZE_CLUB_SELECTOR_GUI, "Verein auswählen",
-                false, true, DECO.SMALL);
+        super(stage, ProgConfig.CLUB_SELECTOR_GUI_SIZE, "Verein auswählen",
+                false, false, DECO.SMALL);
         this.progData = ProgData.getInstance();
         init(true);
     }

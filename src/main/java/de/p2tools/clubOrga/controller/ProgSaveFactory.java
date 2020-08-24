@@ -46,7 +46,7 @@ public class ProgSaveFactory {
     private static void saveProgConfig() {
         // ist die Clubauswahl und der Dialog dazu
         PLog.sysLog("save progConfig");
-        getProgConfigSizes();
+//        getProgConfigSizes();
 
         final Path xmlFilePath = ProgInfos.getSettingsFile();
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
@@ -59,14 +59,14 @@ public class ProgSaveFactory {
         readWriteConfigFile.writeConfigFile();
     }
 
-    private static void getProgConfigSizes() {
-        ProgData progData = ProgData.getInstance();
-
-        // Hauptfenster Clubauswahl
-        if (progData.clubSelector != null) {
-            PGuiSize.getSizeScene(ProgConfig.SYSTEM_SIZE_CLUB_SELECTOR_GUI, progData.clubSelector.getStage());
-        }
-    }
+//    private static void getProgConfigSizes() {
+//        ProgData progData = ProgData.getInstance();
+//
+//        // Hauptfenster Clubauswahl
+//        if (progData.clubSelector != null) {
+//            PGuiSize.getSizeScene(ProgConfig.SYSTEM_SIZE_CLUB_SELECTOR_GUI, progData.clubSelector.getStage());
+//        }
+//    }
 
     public static void saveClub(ClubConfig clubConfig) {
         PLog.sysLog("save club: " + clubConfig.clubData.getName());

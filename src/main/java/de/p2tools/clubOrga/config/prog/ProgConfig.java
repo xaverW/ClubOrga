@@ -44,7 +44,7 @@ public class ProgConfig extends PDataProgConfig {
 
 
     // GuiStart
-    public static StringProperty SYSTEM_SIZE_CLUB_SELECTOR_GUI = addStr("system-size-club-selector-gui", "800:500");
+    public static StringProperty CLUB_SELECTOR_GUI_SIZE = addStr("club-selector-gui-size", "800:500");
 
     // ConfigDialog
     public static BooleanProperty START_CLUB_SELECTOR_FIRST = addBool("start-club-slector-first", false);
