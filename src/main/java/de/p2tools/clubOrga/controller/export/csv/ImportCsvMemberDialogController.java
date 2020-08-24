@@ -20,7 +20,6 @@ package de.p2tools.clubOrga.controller.export.csv;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
-import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
@@ -33,7 +32,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.nio.file.Path;
@@ -97,7 +95,8 @@ public class ImportCsvMemberDialogController extends PDialogExtra {
 
         cboImportFile.setMaxWidth(Double.MAX_VALUE);
 
-        HBox hBoxTitle = GuiFactory.getDialogTitle("Mitglieder aus CVS-Datei importieren");
+        getHBoxTitle().getChildren().add(new Label("Mitglieder aus CVS-Datei importieren"));
+//        HBox hBoxTitle = GuiFactory.getDialogTitle("Mitglieder aus CVS-Datei importieren");
 
         final GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
@@ -121,7 +120,7 @@ public class ImportCsvMemberDialogController extends PDialogExtra {
 //        scDir.setContent(gridPane);
 //        VBox.setVgrow(scDir, Priority.ALWAYS);
 
-        getvBoxCont().getChildren().addAll(hBoxTitle, gridPane);
+        getvBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
 
         initListener();
     }

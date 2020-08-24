@@ -25,4 +25,23 @@ public class HelpText {
     public static final String DARK_THEME = "Das Programm wird damit mit einer dunklen " +
             "Programmoberfläche angezeigt. Damit alle Elemente der Programmoberfläche " +
             "geändert werden, kann ein Programmneustart notwendig sein.";
+
+    public static final String HELP_CLUB_SELECTOR = "Dieser Dialog dient zum Verwalten der bekannten Vereine." +
+            "\n" +
+            "Es können Vereine gestartet, in die Liste aufgenommen und aus ihr auch wieder gelöscht werden." +
+            "\n\n" +
+            "Die Liste enthält die Vereine die dem Programm bereits bekannt sind. Mit dem \"Pfeil\" " +
+            "kann man einen davon starten. Das \"X\" löscht ihn aus der Liste. (Die Vereinsdaten selbst werden " +
+            "aber damit nicht gelöscht, können also auch wieder in die Liste aufgenommen werden.)" +
+            "\n\n" +
+            "\"neuen Verein anlegen\" macht genau das, es wird ein neuer Verein angelegt, im nächsten Dialog " +
+            "wird dann Speicherort und Vereinsname angegeben." +
+            "\n\n" +
+            "Ein erstellter Verein kann in eine ZIP-Datei gesichert werden. " +
+            "Es werden damit alle Infos zum Verein gesichert. Mit \"ZIP-Datei importieren\" " +
+            "kann dann ein so gesicherter Verein wieder gestartet werden." +
+            "\n\n" +
+            "Vereinsdaten die vorhanden, aber nicht mehr in der Liste enthalten " +
+            "sind, können mit \"Verzeichnis importeren\" dem Programm wieder bekannt gemacht " +
+            "und der Verein wieder gestartet werden.";
 }

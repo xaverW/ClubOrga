@@ -25,7 +25,6 @@ import de.p2tools.clubOrga.controller.export.ExportFactory;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
-import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
@@ -39,7 +38,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.nio.file.Path;
@@ -140,8 +138,10 @@ public class ExportCsvDialogController extends PDialogExtra {
         cboExportDir.setMaxWidth(Double.MAX_VALUE);
         cboExportFile.setMaxWidth(Double.MAX_VALUE);
 
-        HBox hBoxTitle = GuiFactory.getDialogTitle((exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
-                " in CVS-Datei exportieren");
+        getHBoxTitle().getChildren().add(new Label((exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
+                " in CVS-Datei exportieren"));
+//        HBox hBoxTitle = GuiFactory.getDialogTitle((exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
+//                " in CVS-Datei exportieren");
 
         final GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
@@ -161,7 +161,7 @@ public class ExportCsvDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
 
-        getvBoxCont().getChildren().addAll(hBoxTitle, gridPane);
+        getvBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
 
         initListener();
     }

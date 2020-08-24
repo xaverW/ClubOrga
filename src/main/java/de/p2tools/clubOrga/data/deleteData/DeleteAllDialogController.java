@@ -18,7 +18,6 @@ package de.p2tools.clubOrga.data.deleteData;
 
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
@@ -28,7 +27,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -79,7 +77,8 @@ public class DeleteAllDialogController extends PDialogExtra {
         });
         btnCancel.setOnAction(a -> close());
 
-        HBox hBoxTitle = GuiFactory.getDialogTitle("Alle Vereinsdaten löschen");
+        getHBoxTitle().getChildren().add(new Label("Alle Vereinsdaten löschen"));
+//        HBox hBoxTitle = GuiFactory.getDialogTitle("Alle Vereinsdaten löschen");
         final int member = clubConfig.memberDataList.size();
         final int fee = clubConfig.feeDataList.size();
         final int finances = clubConfig.financeDataList.size();
@@ -104,7 +103,7 @@ public class DeleteAllDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         VBox.setVgrow(gridPane, Priority.ALWAYS);
-        getvBoxCont().getChildren().addAll(hBoxTitle, gridPane);
+        getvBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
     }
 
     private boolean check() {

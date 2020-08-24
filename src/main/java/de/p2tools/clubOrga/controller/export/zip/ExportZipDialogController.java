@@ -23,7 +23,6 @@ import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.clubOrga.controller.ProgSaveFactory;
 import de.p2tools.clubOrga.controller.export.ExportFactory;
-import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
@@ -36,7 +35,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -97,7 +95,8 @@ public class ExportZipDialogController extends PDialogExtra {
         cboExportDir.setMaxWidth(Double.MAX_VALUE);
         cboExportFile.setMaxWidth(Double.MAX_VALUE);
 
-        HBox hBoxTitle = GuiFactory.getDialogTitle("Vereinsdaten in ZIP-Datei exportieren");
+        getHBoxTitle().getChildren().add(new Label("Vereinsdaten in ZIP-Datei exportieren"));
+//        HBox hBoxTitle = GuiFactory.getDialogTitle("Vereinsdaten in ZIP-Datei exportieren");
 
         final GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
@@ -117,7 +116,7 @@ public class ExportZipDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
 
-        getvBoxCont().getChildren().addAll(hBoxTitle, gridPane);
+        getvBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
 
         initListener();
     }

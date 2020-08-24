@@ -27,7 +27,7 @@ import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.controller.ProgQuitFactory;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubDataFactory;
-import de.p2tools.clubOrga.gui.tools.GuiFactory;
+import de.p2tools.clubOrga.gui.tools.HelpText;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
@@ -51,7 +51,8 @@ public class ClubSelector extends PDialogExtra {
     private final TableView<KnownClubData> tableView = new TableView<>();
 
     public ClubSelector(Stage stage) {
-        super(stage, ProgConfig.SYSTEM_SIZE_CLUB_SELECTOR_GUI, "Verein auswählen", false, true);
+        super(stage, ProgConfig.SYSTEM_SIZE_CLUB_SELECTOR_GUI, "Verein auswählen",
+                false, true, DECO.SMALL);
         this.progData = ProgData.getInstance();
         init(true);
     }
@@ -59,20 +60,11 @@ public class ClubSelector extends PDialogExtra {
     @Override
     protected void make() {
         this.stage = getStage();
-        HBox hBoxTitle = GuiFactory.getTitle("Vereine verwalten");
-        ScrollPane scrollPaneTable = getTable();
-        TilePane tilePane = getGenClubButton();
+        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> updateCss());
 
-//        getVboxCont().setPadding(new Insets(0));
-//        vBox.setPadding(new Insets(10));
-//        vBox.getChildren().addAll(hBoxTitle, scrollPaneTable, tilePane);
-//        VBox.setVgrow(vBox, Priority.ALWAYS);
-//        getVboxCont().getChildren().addAll(vBox);
-
-        VBox.setVgrow(tableView, Priority.ALWAYS);
-        getvBoxCont().setSpacing(10);
-        getvBoxCont().setPadding(new Insets(10));
-        getvBoxCont().getChildren().addAll(hBoxTitle, tableView, tilePane);
+        getHBoxTitle().getChildren().add(new Label("Vereine verwalten"));
+        initTable();
+        getGenClubButton();
         addOk();
     }
 
@@ -82,6 +74,31 @@ public class ClubSelector extends PDialogExtra {
         super.close();
     }
 
+    private void getGenClubButton() {
+        final Button btnNew = new Button("neuen Verein anlegen");
+        btnNew.setMaxWidth(Double.MAX_VALUE);
+        btnNew.setTooltip(new Tooltip("Ein neuer Verein wird angelegt."));
+        btnNew.setOnAction(a -> addNewClub());
+
+        Button btnImportZip = new Button("Zip-Datei importieren");
+        btnImportZip.setMaxWidth(Double.MAX_VALUE);
+        btnImportZip.setTooltip(new Tooltip("Einen bereits angelegten Verein aus einer ZIP-Datei " +
+                "importieren und starten."));
+        btnImportZip.setOnAction(a -> importZipClub());
+
+        Button btnImportDir = new Button("Verzeichnis importieren");
+        btnImportDir.setTooltip(new Tooltip("Einen bereits angelegten Verein aus einem Verzeichnis " +
+                "importieren und starten."));
+        btnImportDir.setOnAction(a -> importDirClub());
+
+        TilePane tilePane = new TilePane();
+        tilePane.getChildren().addAll(btnNew, btnImportZip, btnImportDir);
+        tilePane.setAlignment(Pos.CENTER_LEFT);
+        tilePane.setHgap(10);
+        tilePane.setVgap(5);
+        getvBoxCont().getChildren().addAll(tilePane);
+    }
+
     private void addOk() {
         Button btnOk = new Button("Ok");
         btnOk.setMaxWidth(Double.MAX_VALUE);
@@ -89,31 +106,10 @@ public class ClubSelector extends PDialogExtra {
         btnOk.setTooltip(new Tooltip("Dialog wieder schließen"));
         btnOk.setOnAction(a -> close()); // wenn letztes Fenster, dann schließt das Programm nicht richtig
 
-        Button btnHelp = PButton.helpButton(stage, "Vereine verwalten",
-                "Dieser Dialog dient zum Verwalten der dem Programm bekannten Vereine." +
-                        "\n" +
-                        "Es können Vereine gestartet, in die Liste aufgenommen und aus ihr auch wieder gelöscht werden." +
-                        "\n\n" +
-                        "Die Liste enthält die Vereine die dem Programm bereits bekannt sind. Mit dem \"Pfeil\" " +
-                        "kann man einen davon starten. Das \"X\" löscht ihn aus der Liste. (Die Vereinsdaten selbst werden " +
-                        "aber damit nicht gelöscht, können also auch wieder in die Liste aufgenommen werden.)" +
-                        "\n\n" +
-                        "\"neuen Verein anlegen\" macht genau das, es wird ein neuer Verein angelegt, im nächsten Dialog " +
-                        "wird dann Speicherort und Vereinsname angegeben." +
-                        "\n\n" +
-                        "Ein erstellter Verein kann in eine ZIP-Datei gesichert werden. " +
-                        "Es werden damit alle Infos zum Verein gesichert. Mit \"ZIP-Datei importieren\" " +
-                        "kann dann ein so gesichertet Verein wieder gestartet werden." +
-                        "\n\n" +
-                        "Vereinsdaten die noch auf dem Rechner liegen, aber nicht mehr in der Liste enthalten " +
-                        "sind, können mit \"Verzeichnis importeren\" dem Programm wieder bekannt gemacht " +
-                        "und der Verein wieder gestartet werden.");
+        Button btnHelp = PButton.helpButton(stage, "Vereine verwalten", HelpText.HELP_CLUB_SELECTOR);
 
-
-//        HBox hBoxOk = getHboxLeft();
         CheckBox chkStartFirst = new CheckBox("Dialog immer zuerst starten");
         chkStartFirst.selectedProperty().bindBidirectional(ProgConfig.START_CLUB_SELECTOR_FIRST);
-//        hBoxOk.getChildren().addAll(chkStartFirst);
 
         getHBoxOverButtons().setPadding(new Insets(0, 0, 10, 0));
         getHBoxOverButtons().getChildren().addAll(chkStartFirst);
@@ -122,19 +118,14 @@ public class ClubSelector extends PDialogExtra {
         addAnyButton(btnHelp);
     }
 
-    private ScrollPane getTable() {
-        ScrollPane scrollPaneTable = new ScrollPane();
-        scrollPaneTable.setFitToHeight(true);
-        scrollPaneTable.setFitToWidth(true);
-        scrollPaneTable.setMaxHeight(Double.MAX_VALUE);
-        scrollPaneTable.setContent(tableView);
-        VBox.setVgrow(scrollPaneTable, Priority.ALWAYS);
-
+    private void initTable() {
+        getvBoxCont().getChildren().addAll(tableView);
         tableView.setMaxHeight(Double.MAX_VALUE);
         tableView.setTableMenuButtonVisible(false);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableView.setItems(progData.knownClubDataList);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        VBox.setVgrow(tableView, Priority.ALWAYS);
 
         final TableColumn<KnownClubData, Boolean> selectedColumn = new TableColumn<>("Autostart");
         selectedColumn.setCellValueFactory(new PropertyValueFactory<>("autostart"));
@@ -154,39 +145,14 @@ public class ClubSelector extends PDialogExtra {
 
         tableView.setOnMouseClicked(m -> {
             if (m.getButton().equals(MouseButton.PRIMARY) && m.getClickCount() == 2) {
-                startClub();
+                KnownClubData knownClubData = tableView.getSelectionModel().getSelectedItem();
+                startClub(knownClubData);
             }
         });
 
         if (!progData.knownClubDataList.isEmpty()) {
             tableView.getSelectionModel().selectFirst();
         }
-        return scrollPaneTable;
-    }
-
-    private TilePane getGenClubButton() {
-        final Button btnNew = new Button("neuen Verein anlegen");
-        btnNew.setTooltip(new Tooltip("Ein neuer Verein wird angelegt."));
-        btnNew.setOnAction(a -> addNewClub());
-
-        Button btnImportZip = new Button("Zip-Datei importieren");
-        btnImportZip.setTooltip(new Tooltip("Einen bereits angelegten Verein aus einer ZIP-Datei " +
-                "importieren und starten."));
-        btnImportZip.setOnAction(a -> importZipClub());
-
-        Button btnImportDir = new Button("Verzeichnis importieren");
-        btnImportDir.setTooltip(new Tooltip("Einen bereits angelegten Verein aus einem Verzeichnis " +
-                "importieren und starten."));
-        btnImportDir.setOnAction(a -> importDirClub());
-
-        TilePane tilePane = new TilePane();
-        tilePane.getChildren().addAll(btnNew, btnImportZip, btnImportDir);
-        tilePane.setAlignment(Pos.CENTER_LEFT);
-        tilePane.setHgap(10);
-        tilePane.setVgap(5);
-        btnImportZip.setMaxWidth(Double.MAX_VALUE);
-        btnNew.setMaxWidth(Double.MAX_VALUE);
-        return tilePane;
     }
 
     private Callback<TableColumn<KnownClubData, Boolean>, TableCell<KnownClubData, Boolean>> callbackActive =
@@ -221,49 +187,6 @@ public class ClubSelector extends PDialogExtra {
                 };
                 return cell;
             };
-
-    private void addNewClub() {
-        KnownClubData knownClubData = KnownClubDataFactory.getNextNewKnownClubData();
-
-        if (knownClubData == null) {
-            PAlert.showErrorAlert(stage, "Neuen Verein anlegen",
-                    "Das Programm kann keinen Verein anlegen. Es findet keinen Speicherplatz dafür.");
-            return;
-        }
-
-        AddNewClubDialogController addNewClubDialogController = new AddNewClubDialogController(stage, progData, knownClubData);
-        if (addNewClubDialogController.isOk()) {
-            tableView.getSelectionModel().select(knownClubData);
-            Platform.runLater(() -> ClubStartFactory.startNewClub(knownClubData));
-            close();
-        }
-    }
-
-    private void removeClub(KnownClubData knownClubData) {
-        if (knownClubData != null) {
-            progData.knownClubDataList.remove(knownClubData);
-        }
-    }
-
-    private void importZipClub() {
-        ImportZipClubDialogController imz = new ImportZipClubDialogController(stage);
-    }
-
-    private void importDirClub() {
-        ImportDirClubDialogController imd = new ImportDirClubDialogController(stage);
-    }
-
-    private void startClub() {
-        KnownClubData knownClubData = tableView.getSelectionModel().getSelectedItem();
-        startClub(knownClubData);
-    }
-
-    private void startClub(KnownClubData knownClubData) {
-        if (knownClubData == null) {
-            return;
-        }
-        Platform.runLater(() -> ClubStartFactory.startClub(null, knownClubData));
-    }
 
     private Callback<TableColumn<KnownClubData, String>, TableCell<KnownClubData, String>> cellFactoryStart
             = (final TableColumn<KnownClubData, String> param) -> {
@@ -307,5 +230,42 @@ public class ClubSelector extends PDialogExtra {
         return cell;
     };
 
+    private void startClub(KnownClubData knownClubData) {
+        if (knownClubData == null) {
+            return;
+        }
+        Platform.runLater(() -> ClubStartFactory.startClub(null, knownClubData));
+    }
+
+    private void removeClub(KnownClubData knownClubData) {
+        if (knownClubData != null) {
+            progData.knownClubDataList.remove(knownClubData);
+        }
+    }
+
+    private void addNewClub() {
+        KnownClubData knownClubData = KnownClubDataFactory.getNextNewKnownClubData();
+
+        if (knownClubData == null) {
+            PAlert.showErrorAlert(stage, "Neuen Verein anlegen",
+                    "Das Programm kann keinen Verein anlegen. Es findet keinen Speicherplatz dafür.");
+            return;
+        }
+
+        AddNewClubDialogController addNewClubDialogController = new AddNewClubDialogController(stage, progData, knownClubData);
+        if (addNewClubDialogController.isOk()) {
+            tableView.getSelectionModel().select(knownClubData);
+            Platform.runLater(() -> ClubStartFactory.startNewClub(knownClubData));
+            close();
+        }
+    }
+
+    private void importZipClub() {
+        ImportZipClubDialogController imz = new ImportZipClubDialogController(stage);
+    }
+
+    private void importDirClub() {
+        ImportDirClubDialogController imd = new ImportDirClubDialogController(stage);
+    }
 
 }

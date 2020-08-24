@@ -155,26 +155,34 @@
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }*/
+
+
 /* damit leere Tabellenzeilen nicht angezeigt werden */
-/*.table-row-cell:empty {
+/*
+.table-row-cell:empty {
     -fx-background-color: white;
 }
 .table-row-cell:empty .table-cell {
     -fx-border-width: 0px;
 }
-*//* Zeilenrahmen anzeigen *//*
+*/
+
+/* Zeilenrahmen anzeigen *//*
 .tree-table-row-cell {
     -fx-border-width: 0 0 1 0;
     -fx-border-color: -fx-table-cell-border-color;
-}*/
-/* damit leere Tabellenzeilen nicht angezeigt werden */
-/*.tree-table-row-cell:empty {
+}
+*//* damit leere Tabellenzeilen nicht angezeigt werden *//*
+.tree-table-row-cell:empty {
     -fx-border-width: 0;
     -fx-background-color: transparent;
 }
 .tree-table-row-cell:empty .tree-table-cell {
     -fx-border-width: 0px;
 }*/
+
+
+
 /*.alignCenter {
   -fx-alignment: center;
 }

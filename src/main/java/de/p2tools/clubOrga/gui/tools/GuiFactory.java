@@ -51,11 +51,17 @@ public class GuiFactory {
     }
 
     public static HBox getTitle(String title) {
+        return getTitle(null, title);
+    }
+
+    public static HBox getTitle(HBox hBox, String title) {
         Label lblTitle = new Label(title);
         lblTitle.setMaxWidth(Double.MAX_VALUE);
         lblTitle.getStyleClass().add("label-tile-title");
 
-        HBox hBox = new HBox();
+        if (hBox == null) {
+            hBox = new HBox();
+        }
         HBox.setHgrow(lblTitle, Priority.ALWAYS);
         hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().add(lblTitle);
@@ -63,11 +69,17 @@ public class GuiFactory {
     }
 
     public static HBox getDialogTitle(String title) {
+        return getDialogTitle(null, title);
+    }
+
+    public static HBox getDialogTitle(HBox hBox, String title) {
         Label lblTitle = new Label(title);
         lblTitle.setMaxWidth(Double.MAX_VALUE);
         lblTitle.getStyleClass().add("label-dialog-title");
 
-        HBox hBox = new HBox();
+        if (hBox == null) {
+            hBox = new HBox();
+        }
         HBox.setHgrow(lblTitle, Priority.ALWAYS);
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(5, 0, 15, 0));
