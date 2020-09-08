@@ -17,9 +17,7 @@
 
 package de.p2tools.clubOrga.gui.tools;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -30,13 +28,13 @@ public class GuiFactory {
     private GuiFactory() {
     }
 
-    public static void setColor(Control tf, boolean set) {
-        if (set) {
-            tf.getStyleClass().add("txtIsEmpty");
-        } else {
-            tf.getStyleClass().removeAll("txtIsEmpty");
-        }
-    }
+//    public static void setColor(Control tf, boolean set) {
+//        if (set) {
+//            tf.getStyleClass().add("txtIsEmpty");
+//        } else {
+//            tf.getStyleClass().removeAll("txtIsEmpty");
+//        }
+//    }
 
     public static void setPaneTitle(BorderPane borderPane, String title) {
         Label lblTitle = new Label(title);
@@ -50,41 +48,41 @@ public class GuiFactory {
         borderPane.setTop(hBox);
     }
 
-    public static HBox getTitle(String title) {
-        return getTitle(null, title);
-    }
+//    public static HBox getTitle(String title) {
+//        return getTitle(null, title);
+//    }
+//
+//    public static HBox getTitle(HBox hBox, String title) {
+//        Label lblTitle = new Label(title);
+//        lblTitle.setMaxWidth(Double.MAX_VALUE);
+//        lblTitle.getStyleClass().add("label-tile-title");
+//
+//        if (hBox == null) {
+//            hBox = new HBox();
+//        }
+//        HBox.setHgrow(lblTitle, Priority.ALWAYS);
+//        hBox.setAlignment(Pos.CENTER);
+//        hBox.getChildren().add(lblTitle);
+//        return hBox;
+//    }
 
-    public static HBox getTitle(HBox hBox, String title) {
-        Label lblTitle = new Label(title);
-        lblTitle.setMaxWidth(Double.MAX_VALUE);
-        lblTitle.getStyleClass().add("label-tile-title");
-
-        if (hBox == null) {
-            hBox = new HBox();
-        }
-        HBox.setHgrow(lblTitle, Priority.ALWAYS);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().add(lblTitle);
-        return hBox;
-    }
-
-    public static HBox getDialogTitle(String title) {
-        return getDialogTitle(null, title);
-    }
-
-    public static HBox getDialogTitle(HBox hBox, String title) {
-        Label lblTitle = new Label(title);
-        lblTitle.setMaxWidth(Double.MAX_VALUE);
-        lblTitle.getStyleClass().add("label-dialog-title");
-
-        if (hBox == null) {
-            hBox = new HBox();
-        }
-        HBox.setHgrow(lblTitle, Priority.ALWAYS);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setPadding(new Insets(5, 0, 15, 0));
-        hBox.getChildren().add(lblTitle);
-        return hBox;
-    }
+//    public static HBox getDialogTitle(String title) {
+//        return getDialogTitle(null, title);
+//    }
+//
+//    public static HBox getDialogTitle(HBox hBox, String title) {
+//        Label lblTitle = new Label(title);
+//        lblTitle.setMaxWidth(Double.MAX_VALUE);
+//        lblTitle.getStyleClass().add("label-dialog-title");
+//
+//        if (hBox == null) {
+//            hBox = new HBox();
+//        }
+//        HBox.setHgrow(lblTitle, Priority.ALWAYS);
+//        hBox.setAlignment(Pos.CENTER);
+//        hBox.setPadding(new Insets(5, 0, 15, 0));
+//        hBox.getChildren().add(lblTitle);
+//        return hBox;
+//    }
 
 }

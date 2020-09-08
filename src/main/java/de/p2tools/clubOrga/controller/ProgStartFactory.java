@@ -56,7 +56,7 @@ public class ProgStartFactory {
 //        }
 
         ArrayList<String> list = new ArrayList<>();
-        list.add("Verzeichnisse:");
+        list.add("Verzeichnisse");
         list.add("Programmpfad: " + ProgInfos.getPathJar());
         list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
 

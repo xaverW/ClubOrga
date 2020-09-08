@@ -32,9 +32,21 @@ public class InfoFactory {
     public static TreeItem<ClubInfoData> generate(ClubConfig cConfig) {
         clubConfig = cConfig;
 
-        ClubInfoData clubInfoData = new ClubInfoData("Verein");
-        clubInfoData.setText(clubConfig.clubData.getName());
-        TreeItem<ClubInfoData> root = new TreeItem<>(clubInfoData);
+        TreeItem<ClubInfoData> club = createGroup("Verein", true, false);
+        club.getValue().setText(clubConfig.clubData.getName());
+        TreeItem<ClubInfoData> root = new TreeItem<>(club.getValue());
+
+//        ClubInfoData clubInfoData = new ClubInfoData("Verein");
+//        clubInfoData.setText(clubConfig.clubData.getName());
+//        TreeItem<ClubInfoData> root = new TreeItem<>(clubInfoData);
+
+        ClubInfoData clubInfoDataPath = new ClubInfoData("Speicherpfad");
+        clubInfoDataPath.setText(clubConfig.getClubPath());
+        root.getChildren().add(new TreeItem<>(clubInfoDataPath));
+
+//        TreeItem<ClubInfoData> path = createGroup("Speicherpfad", false, true);
+//        path.getValue().setText(clubConfig.getClubPath());
+//        root.getChildren().add(path);
 
         root.getChildren().addAll(generateMemberInfo());
         root.getChildren().add(generateFeeInfo());

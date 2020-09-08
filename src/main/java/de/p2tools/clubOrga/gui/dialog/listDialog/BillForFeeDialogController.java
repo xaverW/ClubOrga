@@ -160,7 +160,7 @@ public class BillForFeeDialogController extends abListDialogController {
 
     private void initListener() {
         pCboTemplate.init(clubConfig.CBO_LIST_NEWSLETTER_TEMPLATE, newsletterTemplateProperty);
-        pCboNewsletterPath.init(clubConfig.CBO_LIST_NEWSLETTER_DIR, newsletterDirProperty);
+        pCboNewsletterPath.init(clubConfig.CBO_LIST_NEWSLETTER_DIR, clubConfig.getClubPath(), newsletterDirProperty);
         pCboNewsletterName.init(clubConfig.CBO_LIST_NEWSLETTER_FILE, newsletterNameProperty);
 
         pCboTemplate.disableProperty().bind(tglBill.selectedProperty().not());
@@ -182,27 +182,9 @@ public class BillForFeeDialogController extends abListDialogController {
 
         btnProposeFileName.setGraphic(new ProgIcons().ICON_BUTTON_GUI_GEN_NAME);
         btnProposeFileName.setOnAction(event -> {
-            String fileName = newsletterNameProperty.getValueSafe();
-            NewsletterFactory.NEWSLETTER_TYPE newsletterType;
-
-            final String sourceFile;
-            if ((sourceFile = ClubFactory.getAbsolutFilePath(clubConfig, getStage(), pCboTemplate.getSelValue())).isEmpty()) {
-                return;
-            }
-            if ((newsletterType = NewsletterFactory.getType(sourceFile)) == null) {
-                return;
-            }
-
-            if (fileName.isEmpty()) {
-                fileName = proposeFileName;
-            }
-
-            final String suffix = NewsletterFactory.getSuffix(newsletterType);
-            String destPath = newsletterDirProperty.getValueSafe();
-
-            final String newFileName = PFileName.getNextFileNameWithDate(destPath, fileName, suffix);
-            newsletterNameProperty.setValue(newFileName);
+            getProposedFileName();
         });
+//        getProposedFileName();
 
         btnOk.disableProperty().bind(tglBill.selectedProperty().and(
                 pCboTemplate.getSelectionModel().selectedItemProperty().isNull()
@@ -216,6 +198,31 @@ public class BillForFeeDialogController extends abListDialogController {
                 )
         );
 
+    }
+
+    private void getProposedFileName() {
+        String fileName = newsletterNameProperty.getValueSafe();
+        NewsletterFactory.NEWSLETTER_TYPE newsletterType;
+
+        final String sourceFile;
+        if (/*pCboTemplate.getSelValue().isEmpty() ||*/
+                (sourceFile = ClubFactory.getAbsolutFilePath(clubConfig, getStage(), pCboTemplate.getSelValue()))
+                        .isEmpty()) {
+            return;
+        }
+        if ((newsletterType = NewsletterFactory.getType(sourceFile)) == null) {
+            return;
+        }
+
+        if (fileName.isEmpty()) {
+            fileName = proposeFileName;
+        }
+
+        final String suffix = NewsletterFactory.getSuffix(newsletterType);
+        String destPath = newsletterDirProperty.getValueSafe();
+
+        final String newFileName = PFileName.getNextFileNameWithDate(destPath, fileName, suffix);
+        newsletterNameProperty.setValue(newFileName);
     }
 
     @Override

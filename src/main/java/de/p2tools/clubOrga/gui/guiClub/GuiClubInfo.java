@@ -36,6 +36,8 @@ public class GuiClubInfo extends AnchorPane {
     private final ProgData progData;
     private final ClubConfig clubConfig;
     private final TreeTableView<ClubInfoData> treeTableView = new TreeTableView<>();
+    private final String GROUP_STYLE_1 = "goupStyle1";
+    private final String GROUP_STYLE_2 = "goupStyle2";
 
     public GuiClubInfo(ClubConfig clubConfig) {
         this.progData = ProgData.getInstance();
@@ -46,15 +48,11 @@ public class GuiClubInfo extends AnchorPane {
     }
 
     public void isShown() {
-
         initTable();
-//        treeTableView.refresh();
-
     }
 
 
     private void initCont() {
-
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPadding(new Insets(10));
         scrollPane.setFitToHeight(true);
@@ -70,6 +68,12 @@ public class GuiClubInfo extends AnchorPane {
         VBox.setVgrow(treeTableView, Priority.ALWAYS);
 
         scrollPane.setContent(vBox);
+
+//        HBox hBox = new HBox(10);
+//        hBox.getChildren().add(new Label("Speicherpfad des Vereins:"));
+//        hBox.getChildren().add(new Label(clubConfig.getClubPath()));
+//        vBox.getChildren().add(hBox);
+
         this.getChildren().add(scrollPane);
     }
 
@@ -81,12 +85,8 @@ public class GuiClubInfo extends AnchorPane {
         addRowFact(treeTableView);
     }
 
-    final String GROUP_STYLE_1 = "goupStyle1";
-    final String GROUP_STYLE_2 = "goupStyle2";
-
     private void addRowFact(TreeTableView<ClubInfoData> table) {
-
-        table.setRowFactory(tableview -> new TreeTableRow<ClubInfoData>() {
+        table.setRowFactory(tableview -> new TreeTableRow<>() {
             @Override
             public void updateItem(ClubInfoData clubInfoData, boolean empty) {
                 super.updateItem(clubInfoData, empty);
@@ -95,29 +95,17 @@ public class GuiClubInfo extends AnchorPane {
                 getStyleClass().removeAll(GROUP_STYLE_2);
                 if (clubInfoData == null || empty) {
                     setStyle("");
-                } else {
-//                    if (clubInfoData.isGroup()) {
-//                        for (int i = 0; i < getChildren().size(); i++) {
-//                            getChildren().get(i).setStyle(cssFontBold);
-//                        }
-//
-//                    } else {
-//                        for (int i = 0; i < getChildren().size(); i++) {
-//                            getChildren().get(i).setStyle("");
-//                        }
-//                    }
 
+                } else {
                     if (clubInfoData.isGroup1()) {
                         getStyleClass().add(GROUP_STYLE_1);
 
                     } else if (clubInfoData.isGroup2()) {
                         getStyleClass().add(GROUP_STYLE_2);
                     }
-
                 }
             }
         });
-
     }
 
     private List<TreeTableColumn<ClubInfoData, ?>> createColumns() {
@@ -133,22 +121,12 @@ public class GuiClubInfo extends AnchorPane {
     private void registerRenderer(TreeTableColumn<ClubInfoData, String> countColumn) {
         countColumn.setCellFactory(new Callback<>() {
             public TreeTableCell<ClubInfoData, String> call(TreeTableColumn<ClubInfoData, String> P) {
-                return new TreeTableCell<ClubInfoData, String>() {
+                return new TreeTableCell<>() {
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         setStyle("-fx-alignment: CENTER_RIGHT;");
                         setPadding(new Insets(0, 10, 0, 10));
                         setText(item);
-//                        if (!empty) {
-//                            if (item.intValue() == -1) {
-//                                setText(null);
-//                            } else {
-//                                setText(item.toString());
-//                            }
-//
-//                        } else {
-//                            setText(null);
-//                        }
                     }
                 };
             }
@@ -161,6 +139,5 @@ public class GuiClubInfo extends AnchorPane {
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>(attrName));
         return column;
     }
-
 
 }
