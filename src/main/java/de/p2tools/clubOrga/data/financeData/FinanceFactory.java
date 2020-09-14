@@ -151,9 +151,12 @@ public class FinanceFactory {
      * @param dataFrom
      * @param dataTo
      */
-    public static void copyFinanceData(FinanceData dataFrom, FinanceData dataTo) {
-        if (dataFrom == null || dataTo == null) {
-            return;
+    public static FinanceData copyFinanceData(ClubConfig clubConfig, FinanceData dataFrom, FinanceData dataTo) {
+        if (dataFrom == null) {
+            return null;
+        }
+        if (dataTo == null) {
+            dataTo = FinanceFactory.getNewFinanceWithId(clubConfig);
         }
 
         Config[] configs = dataFrom.getConfigsArr();
@@ -161,34 +164,15 @@ public class FinanceFactory {
         for (int i = 0; i < configs.length; ++i) {
 
             if (configs[i] instanceof ConfigPDataList) {
-                copyTransactionDataList(dataFrom.getTransactionDataList(), dataTo.getTransactionDataList());
+                TransactionFactory.copyTransactionDataList(clubConfig,
+                        dataFrom.getTransactionDataList(), dataTo.getTransactionDataList());
             } else {
                 configsCopy[i].setActValue(configs[i].getActValueString());
             }
         }
 
         dataTo.setFinanceAccountData(dataFrom.getFinanceAccountData());
+
+        return dataTo;
     }
-
-    private static void copyTransactionDataList(TransactionDataList listFrom, TransactionDataList listTo) {
-        if (listFrom == null || listTo == null) {
-            return;
-        }
-
-        for (int listI = 0; listI < listFrom.size(); ++listI) {
-
-            TransactionData trFrom = listFrom.get(listI);
-            TransactionData trTo;
-
-            if (listTo.size() < listI + 1) {
-                trTo = new TransactionData();
-                listTo.add(trTo);
-            } else {
-                trTo = listTo.get(listI);
-            }
-
-            TransactionFactory.copyTransactionData(trFrom, trTo);
-        }
-    }
-
 }

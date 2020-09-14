@@ -27,6 +27,9 @@ import de.p2tools.p2Lib.configFile.config.ConfigMoneyPropExtra;
 import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.*;
+import javafx.util.converter.NumberStringConverter;
+
+import java.text.DecimalFormat;
 
 public class TransactionDataBase extends PDataSample<TransactionDataBase> {
     public static final String TAG = "TransactionData";
@@ -44,6 +47,14 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
 
     private final ObjectProperty<FinanceCategoryData> financeCategoryData = new SimpleObjectProperty<>();
     private final ObjectProperty<FeeData> feeData = new SimpleObjectProperty<>(null);
+
+    static final DecimalFormat DF;
+    static final NumberStringConverter NSC;
+
+    static {
+        DF = new DecimalFormat("###,##0.00 €");
+        NSC = new NumberStringConverter(DF);
+    }
 
     public TransactionDataBase() {
     }

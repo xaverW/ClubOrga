@@ -17,18 +17,23 @@
 
 package de.p2tools.clubOrga.data.financeData;
 
+import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.p2Lib.configFile.config.Config;
 
 public class TransactionFactory {
     /**
-     * copy memberData FROM to the memeberData TO
+     * copy TransactionData FROM to the TransactionData TO
      *
      * @param dataFrom
-     * @param dataTo
      */
-    public static void copyTransactionData(TransactionData dataFrom, TransactionData dataTo) {
-        if (dataFrom == null || dataTo == null) {
-            return;
+    private static TransactionData copyTransactionData(ClubConfig clubConfig, boolean copyFeeData, boolean copyMemberDate,
+                                                       TransactionData dataFrom, TransactionData dataTo) {
+        if (dataFrom == null) {
+            return null;
+        }
+        if (dataTo == null) {
+            dataTo = new TransactionData();
         }
 
         Config[] configs = dataFrom.getConfigsArr();
@@ -37,8 +42,64 @@ public class TransactionFactory {
             configsCopy[i].setActValue(configs[i].getActValueString());
         }
 
-//        dataTo.setFinanceAccountData(dataFrom.getFinanceAccountData());
         dataTo.setFinanceCategoryData(dataFrom.getFinanceCategoryData());
-        dataTo.setFeeData(dataFrom.getFeeData());
+        if (copyFeeData) {
+            dataTo.setFeeData(FeeFactory.copyFeeData(clubConfig, copyMemberDate, dataFrom.getFeeData(), dataTo.getFeeData()));
+        }
+
+        return dataTo;
+    }
+
+
+    /**
+     * copy TransactionDataList FROM to the TransactionDataList TO
+     *
+     * @param dataListFrom
+     * @param dataListTo
+     */
+    public static TransactionDataList copyTransactionDataList(ClubConfig clubConfig,
+                                                              TransactionDataList dataListFrom, TransactionDataList dataListTo) {
+        if (dataListFrom == null) {
+            return null;
+        }
+        if (dataListTo == null) {
+            dataListTo = new TransactionDataList();
+        }
+
+        for (int i = 0; i < dataListFrom.getSize(); ++i) {
+            TransactionData trFrom = dataListFrom.get(i);
+            TransactionData trTo = null;
+            if (dataListTo.size() > i) {
+                trTo = dataListTo.remove(i);
+            }
+            trTo = copyTransactionData(clubConfig, true, true, trFrom, trTo);
+            dataListTo.add(i, trTo);
+
+//            boolean foundFee = false;
+//            boolean foundMember = false;
+//            int ii;
+//            for (ii = 0; ii < i; ++ii) {
+//                if (dataListFrom.get(ii).getFeeData().equals(dataListFrom.get(i).getFeeData())) {
+//                    // wenn die gleiche FeeData in verschiedenen Trans vorkommen
+//                    foundFee = true;
+//                    break;
+//                } else if (dataListFrom.get(ii).getFeeData().getMemberData().equals(dataListFrom.get(i).getFeeData().getMemberData())) {
+//                    // oder MemberData
+//                    foundMember = true;
+//                    break;
+//                }
+//            }
+//
+//            trTo = copyTransactionData(clubConfig, foundFee, foundMember, trFrom, trTo);
+//            dataListTo.add(i, trTo);
+//            if (foundFee) {
+//                trTo.setFeeData(dataListTo.get(i).getFeeData());
+//            }
+//            if (foundMember) {
+//                trTo.getFeeData().setMemberData(dataListTo.get(i).getFeeData().getMemberData());
+//            }
+        }
+
+        return dataListTo;
     }
 }

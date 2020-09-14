@@ -40,12 +40,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
-import java.nio.file.Path;
 
 public class AboutDialogController extends PDialogExtra {
 
@@ -80,12 +79,17 @@ public class AboutDialogController extends PDialogExtra {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(0, 10, 0, 10));
+//        gridPane.setGridLinesVisible(true);
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcComputedSizeAndHgrow());
+
         HBox hBox = new HBox();
         hBox.getChildren().add(gridPane);
         hBox.setAlignment(Pos.CENTER);
-
+        HBox.setHgrow(gridPane, Priority.ALWAYS);
         hBox.getStyleClass().add("dialog-about");
         getvBoxCont().getChildren().add(hBox);
+
 
         int row = 0;
 
@@ -94,7 +98,7 @@ public class AboutDialogController extends PDialogExtra {
         iv.setSmooth(true);
         iv.setCache(true);
         iv.setImage(im);
-        gridPane.add(iv, 0, row, 1, 3);
+        gridPane.add(iv, 0, row, 1, 2);
 
         // top
         Text text1 = new Text(ProgConst.PROGRAMNAME);
@@ -105,30 +109,25 @@ public class AboutDialogController extends PDialogExtra {
 
         Text text2 = new Text(P2LibConst.LINE_SEPARATOR + "Version: " + ProgramTools.getProgVersion());
         text2.setFont(new Font(18));
-        gridPane.add(text2, 1, ++row);
-        GridPane.setHalignment(text2, HPos.CENTER);
-
         Text text3 = new Text("[ Build: " + ProgramTools.getBuild() + " vom " + ProgramTools.getCompileDate() + " ]");
-        text3.setFont(new Font(15));
-        text3.setFill(GRAY);
-        gridPane.add(text3, 1, ++row);
-        GridPane.setValignment(text3, VPos.BOTTOM);
-        GridPane.setHalignment(text3, HPos.CENTER);
 
-        HBox.setHgrow(gridPane, Priority.ALWAYS);
-//        gridPane.setGridLinesVisible(true);
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
-                PColumnConstraints.getCcComputedSizeAndHgrow());
+        VBox vBox = new VBox(5);
+        vBox.getChildren().addAll(text2, text3);
+        vBox.setAlignment(Pos.BOTTOM_CENTER);
+        GridPane.setValignment(vBox, VPos.BOTTOM);
+        GridPane.setHalignment(vBox, HPos.CENTER);
+        gridPane.add(vBox, 1, ++row);
+
 
         //=======================
         gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         getvBoxCont().getChildren().add(gridPane);
 
         row = 0;
-        int c = 0;
+        final int c = 0;
 
         Text text = new Text(P2LibConst.LINE_SEPARATORx2 + "Autor");
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
@@ -144,33 +143,48 @@ public class AboutDialogController extends PDialogExtra {
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, c, ++row, 2, 1);
 
-
         PHyperlink hyperlinkWeb = new PHyperlink(ProgConst.WEBSITE_CLUB);
         hyperlinkWeb.setStyle("-fx-font-size: 15px;");
 
         PHyperlink hyperlinkHelp = new PHyperlink(ProgConst.WEBSITE_CLUB_HELP);
+        hyperlinkHelp.setStyle("-fx-font-size: 15px;");
 
         text = new Text("Website:");
         text.setFont(new Font(15));
-        text.setFill(GRAY);
+//        text.setFill(GRAY);
         gridPane.add(text, c, ++row);
         gridPane.add(hyperlinkWeb, c + 1, row);
 
         text = new Text("Anleitung:");
         text.setFont(new Font(15));
-        text.setFill(GRAY);
+//        text.setFill(GRAY);
         gridPane.add(text, c, ++row);
         gridPane.add(hyperlinkHelp, c + 1, row);
 
-        text = new Text("Einstellungen:");
+
+        // Pfade
+        text = new Text(P2LibConst.LINE_SEPARATORx2 + "Pfade der Einstellungen");
+        text.setFont(Font.font(null, FontWeight.BOLD, 15));
+        gridPane.add(text, c, ++row, 2, 1);
+
+        text = new Text("Programm:");
         text.setFont(new Font(15));
-        text.setFill(GRAY);
+//        text.setFill(GRAY);
         gridPane.add(text, c, ++row);
 
-        final Path xmlFilePath = new ProgInfos().getSettingsFile();
-        text = new Text(xmlFilePath.toAbsolutePath().toString());
+        text = new Text(new ProgInfos().getSettingsFile().toAbsolutePath().toString());
         text.setFont(new Font(15));
-        text.setFill(GRAY);
+//        text.setFill(GRAY);
+        gridPane.add(text, c + 1, row);
+
+        text = new Text("Verein:");
+        text.setFont(new Font(15));
+//        text.setFill(GRAY);
+        gridPane.add(text, c, ++row);
+
+        text = new Text(clubConfig.getClubPath());
+        text.setFont(new Font(15));
+//        text.setFill(GRAY);
         gridPane.add(text, c + 1, row);
 
 
@@ -181,24 +195,24 @@ public class AboutDialogController extends PDialogExtra {
 
         text = new Text("Version:");
         text.setFont(new Font(15));
-        text.setFill(GRAY);
+//        text.setFill(GRAY);
         gridPane.add(text, c, ++row);
 
         text = new Text(System.getProperty("java.version"));
         text.setFont(new Font(15));
-        text.setFill(GRAY);
+//        text.setFill(GRAY);
         gridPane.add(text, c + 1, row);
 
         text = new Text("Type:");
         text.setFont(new Font(15));
-        text.setFill(GRAY);
+//        text.setFill(GRAY);
         gridPane.add(text, c, ++row);
 
         String strVmType = System.getProperty("java.vm.name");
         strVmType += " (" + System.getProperty("java.vendor") + ")";
         text = new Text(strVmType);
         text.setFont(new Font(15));
-        text.setFill(GRAY);
+//        text.setFill(GRAY);
         gridPane.add(text, c + 1, row);
 
         text = new Text(P2LibConst.LINE_SEPARATORx2 + "Ein Dankeschön an alle," + P2LibConst.LINE_SEPARATOR +

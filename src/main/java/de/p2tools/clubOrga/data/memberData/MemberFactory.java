@@ -63,9 +63,13 @@ public class MemberFactory {
      * @param memberDataFrom
      * @param memberDataTo
      */
-    public static void copyMemberData(MemberData memberDataFrom, MemberData memberDataTo) {
-        if (memberDataFrom == null || memberDataTo == null) {
-            return;
+    public static MemberData copyMemberData(ClubConfig clubConfig,
+                                            MemberData memberDataFrom, MemberData memberDataTo) {
+        if (memberDataFrom == null) {
+            return null;
+        }
+        if (memberDataTo == null) {
+            memberDataTo = MemberFactory.getNewMemberData(clubConfig, "", false);
         }
 
         Config[] configs = memberDataFrom.getConfigsArr();
@@ -77,6 +81,8 @@ public class MemberFactory {
         memberDataTo.setFeeRateData(memberDataFrom.getFeeRateData());
         memberDataTo.setStateData(memberDataFrom.getStateData());
         memberDataTo.setPaymentTypeData(memberDataFrom.getPaymentTypeData());
+
+        return memberDataTo;
     }
 
     public static String getShortIban(MemberData memberData) {

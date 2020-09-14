@@ -19,6 +19,7 @@ package de.p2tools.clubOrga.data.feeData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.memberData.MemberData;
+import de.p2tools.clubOrga.data.memberData.MemberFactory;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.clubOrga.gui.dialog.listDialog.MissingFeeDialogController;
 import de.p2tools.p2Lib.alert.PAlert;
@@ -107,8 +108,7 @@ public class FeeFactory {
         }
 
         FeeData feeData = getNewFeeForMember(clubConfig, memberData);
-        if (new DataDialogController(clubConfig, DataDialogController.OPEN.FEE_PANE,
-                memberData, feeData, null, null).isOk()) {
+        if (new DataDialogController(clubConfig, feeData).isOk()) {
             clubConfig.feeDataList.add(feeData);
         }
     }
@@ -161,15 +161,18 @@ public class FeeFactory {
      * copy feeData FROM to the feeData TO
      *
      * @param dataFrom
-     * @param dataTo
      */
-    public static void copyFeeData(FeeDataWorker dataFrom, FeeDataWorker dataTo) {
-        if (dataFrom == null || dataTo == null) {
-            return;
-        }
+    public static FeeData copyFeeData(ClubConfig clubConfig, FeeData dataFrom, FeeData dataTo) {
+        return copyFeeData(clubConfig, true, dataFrom, dataTo);
+    }
 
-        dataTo.setMemberData(dataFrom.getMemberData());
-        dataTo.setPaymentTypeData(dataFrom.getPaymentTypeData());
+    public static FeeData copyFeeData(ClubConfig clubConfig, boolean copyMemberData, FeeData dataFrom, FeeData dataTo) {
+        if (dataFrom == null) {
+            return null;
+        }
+        if (dataTo == null) {
+            dataTo = FeeFactory.getNewFeeWithNo(clubConfig);
+        }
 
         Config[] configs = dataFrom.getConfigsArr();
         Config[] configsCopy = dataTo.getConfigsArr();
@@ -177,5 +180,11 @@ public class FeeFactory {
             configsCopy[i].setActValue(configs[i].getActValueString());
         }
 
+        dataTo.setPaymentTypeData(dataFrom.getPaymentTypeData());
+        if (copyMemberData) {
+            dataTo.setMemberData(MemberFactory.copyMemberData(clubConfig, dataFrom.getMemberData(), dataTo.getMemberData()));
+        }
+
+        return dataTo;
     }
 }

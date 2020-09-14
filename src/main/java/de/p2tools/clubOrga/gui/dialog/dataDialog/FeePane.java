@@ -164,12 +164,7 @@ public class FeePane extends VBox {
         return cboStatus;
     }
 
-    private boolean check() {
-        boolean ret = true;
-        return ret;
-    }
-
     public boolean isOk() {
-        return check();
+        return true;
     }
 }

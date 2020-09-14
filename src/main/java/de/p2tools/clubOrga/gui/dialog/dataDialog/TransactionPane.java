@@ -39,24 +39,40 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TransactionPane extends VBox {
 
     private final FinanceData financeData;
-    private final TransactionData transactionData;
+    private int transactionDataNo;
+    private final TransactionDataList transactionDataList;
+    private final PComboBoxObject<TransactionData> cboTransaction;
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
 
-    public TransactionPane(ClubConfig clubConfig, FinanceData financeData, TransactionData transactionData) {
+    private List<ActionInterface> listeners = new ArrayList<>();
 
+    public TransactionPane(ClubConfig clubConfig, FinanceData financeData, int transactionDataNO) {
         this.clubConfig = clubConfig;
         this.financeData = financeData;
-        this.transactionData = transactionData;
-
+        this.transactionDataNo = transactionDataNO;
+        this.transactionDataList = financeData.getTransactionDataList();
         this.progData = ProgData.getInstance();
+
+        cboTransaction = new PComboBoxObject<>();
         make();
     }
 
+    public void addListener(ActionInterface actionInterface) {
+        listeners.add(actionInterface);
+    }
+
+    public void reportAction() {
+        for (ActionInterface ai : listeners)
+            ai.reportAction(cboTransaction.getSelectionModel().getSelectedIndex());
+    }
 
     private void make() {
         final GridPane gridPane = new GridPane();
@@ -66,9 +82,36 @@ public class TransactionPane extends VBox {
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
+        ScrollPane scrollPane = new ScrollPane();
+        if (transactionDataNo < 0) {
+            // dann wird die erste angezeigt
+            transactionDataNo = 0;
+        }
+        if (transactionDataList.size() > 1) {
+            cboTransaction.init(transactionDataList, null);
+            cboTransaction.setMaxWidth(Double.MAX_VALUE);
+            cboTransaction.setOnAction(a -> {
+                int tr = cboTransaction.getSelectionModel().getSelectedIndex();
+                if (tr < 0) {
+                    return;
+                }
+                this.transactionDataNo = tr;
+                addTransactionData(gridPane);
+                reportAction();
+            });
+            cboTransaction.getSelectionModel().select(transactionDataNo);
+
+            final VBox vBox = new VBox(10);
+            vBox.setPadding(new Insets(10));
+            vBox.getChildren().addAll(cboTransaction, gridPane);
+            scrollPane.setContent(vBox);
+
+        } else {
+            scrollPane.setContent(gridPane);
+        }
+
         addTransactionData(gridPane);
 
-        ScrollPane scrollPane = new ScrollPane(gridPane);
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
@@ -78,6 +121,7 @@ public class TransactionPane extends VBox {
 
     private void addTransactionData(GridPane gridPane) {
         int row = 0;
+        TransactionData transactionData = transactionDataList.get(transactionDataNo);
         Config[] configs = transactionData.getConfigsArr();
 
         try {
@@ -95,8 +139,6 @@ public class TransactionPane extends VBox {
                 } else if (config.getName().equals(FinanceFieldNames.BETRAG)) {
                     control = ((ConfigExtra) config).getControl();
 
-//                } else if (config.getName().equals(FinanceFieldNames.KONTO)) {
-//                    control = getPComboObject(transactionData.financeAccountDataProperty(), clubConfig.financeAccountDataList);
                 } else if (config.getName().equals(FinanceFieldNames.CATEGORY)) {
                     control = getPComboObject(transactionData.financeCategoryDataProperty(), clubConfig.financeCategoryDataList);
 
@@ -127,12 +169,7 @@ public class TransactionPane extends VBox {
         return cboStatus;
     }
 
-    private boolean check() {
-        boolean ret = true;
-        return ret;
-    }
-
     public boolean isOk() {
-        return check();
+        return true;
     }
 }

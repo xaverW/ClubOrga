@@ -18,10 +18,7 @@ package de.p2tools.clubOrga.gui.guiFinance;
 
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
-import de.p2tools.clubOrga.data.financeData.TransactionData;
-import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -46,25 +43,9 @@ public class GuiFinanceContextMenu {
     private void getMenu(ContextMenu contextMenu, FinanceData financeData) {
         final MenuItem miFinancesInfo = new MenuItem("Buchungsinfos anzeigen");
 
-        final FeeData feeData;
-        final MemberData memberData;
-        final TransactionData transactionData;
-        if (financeData.getTransactionDataList().size() == 1) {
-            transactionData = financeData.getTransactionDataList().get(0);
-            feeData = transactionData.getFeeData();
-            if (feeData != null) {
-                memberData = feeData.getMemberData();
-            } else {
-                memberData = null;
-            }
-        } else {
-            feeData = null;
-            memberData = null;
-            transactionData = null;
-        }
         miFinancesInfo.setOnAction(a -> {
             if (new DataDialogController(clubConfig, DataDialogController.OPEN.FINANCE_PANE,
-                    memberData, feeData, financeData, transactionData).isOk()) {
+                    financeData, 0).isOk()) {
                 tableView.refresh();
             }
         });

@@ -141,8 +141,7 @@ public class GuiMemberMenu extends VBox {
 
     private void addNewMember() {
         MemberData memberData = MemberFactory.getNewMemberData(clubConfig, "", true);
-        if (new DataDialogController(clubConfig, DataDialogController.OPEN.MEMBER_PANE,
-                memberData, null, null, null).isOk()) {
+        if (new DataDialogController(clubConfig, memberData).isOk()) {
             clubConfig.memberDataList.add(memberData);
         }
     }

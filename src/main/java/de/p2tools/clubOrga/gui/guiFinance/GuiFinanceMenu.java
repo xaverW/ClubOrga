@@ -22,7 +22,6 @@ import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.export.csv.ExportCsvDialogController;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFactory;
-import de.p2tools.clubOrga.data.financeData.TransactionData;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.tools.date.PLocalDate;
@@ -95,16 +94,13 @@ public class GuiFinanceMenu extends VBox {
         getChildren().addAll(mb, btnNew, btnDel, btnChange);
     }
 
-    private void addNewFinance() { //todo -> factory
+    private void addNewFinance() {
         FinanceData financeData = FinanceFactory.getNewFinanceData(clubConfig, new PLocalDate(),
                 0, clubConfig.financeAccountDataList.get(0), clubConfig.financeCategoryDataList.get(0));
 
-        TransactionData transactionData = financeData.getTransactionDataList().size() > 0 ?
-                financeData.getTransactionDataList().get(0) : null;
         if (new DataDialogController(clubConfig, DataDialogController.OPEN.FINANCE_PANE,
-                null, null, financeData, transactionData).isOk()) {
+                financeData, 0).isOk()) {
             clubConfig.financeDataList.add(financeData);
-//                guiFinance.selectFinance(financeData);
         }
     }
 

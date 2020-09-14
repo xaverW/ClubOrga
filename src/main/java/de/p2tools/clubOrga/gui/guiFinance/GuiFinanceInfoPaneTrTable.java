@@ -19,13 +19,11 @@ package de.p2tools.clubOrga.gui.guiFinance;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
-import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.TransactionData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
-import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.clubOrga.gui.table.ClubTable;
 import de.p2tools.p2Lib.alert.PAlert;
@@ -186,16 +184,14 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
 
     private void showDialog() {
         TransactionData transactionData = tableView.getSelectionModel().getSelectedItem();
+        int no = tableView.getSelectionModel().getSelectedIndex();
         if (financeData == null || transactionData == null) {
             new PAlert().showInfoNoSelection(clubConfig.getStage());
             return;
         }
 
-        FeeData feeData = transactionData.getFeeData();
-        MemberData memberData = feeData == null ? null : feeData.getMemberData();
-
         if (new DataDialogController(clubConfig, DataDialogController.OPEN.TRANSACTION_PANE,
-                memberData, feeData, financeData, transactionData).isOk()) {
+                financeData, no).isOk()) {
             tableView.refresh();
         }
     }
@@ -215,9 +211,6 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
 
         pYearPickerFinanceGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
         pdpFinanceBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
-
-//        gridPane.add(new Label(FinanceFieldNames.NR_), 0, row);
-//        gridPane.add(txtFinanceNr, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.RECEIPT_NR_), 0, row);
         gridPane.add(txtFinanceBelegNr, 1, row);
@@ -432,5 +425,6 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
         txtTransactionNr.unBind();
         txtTransactionBetrag.unBind();
         cboCategory.unbindSelValueProperty();
+        txtTransactionText.textProperty().unbindBidirectional(transactionData.textProperty());
     }
 }

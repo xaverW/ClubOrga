@@ -18,10 +18,7 @@ package de.p2tools.clubOrga.gui.guiFinance;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
-import de.p2tools.clubOrga.data.financeData.TransactionData;
-import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.clubOrga.gui.table.ClubTable;
 import de.p2tools.clubOrga.gui.tools.GuiFactory;
@@ -265,19 +262,11 @@ public class GuiFinance extends BorderPane {
             return;
         }
 
-        MemberData memberData = null;
-        FeeData feeData = null;
-        TransactionData transactionData = null;
-
-        if (financeData.getTransactionDataList().size() == 1) {
-            feeData = financeData.getTransactionDataList().get(0).getFeeData();
-            memberData = feeData == null ? null : feeData.getMemberData();
-            transactionData = financeData.getTransactionDataList().get(0);
-        }
         if (new DataDialogController(clubConfig, DataDialogController.OPEN.FINANCE_PANE,
-                memberData, feeData, financeData, transactionData).isOk()) {
+                financeData, 0).isOk()) {
             tableView.refresh();
         }
+
         guiFinanceCalculationPane.setFinanceDataChanged();
     }
 

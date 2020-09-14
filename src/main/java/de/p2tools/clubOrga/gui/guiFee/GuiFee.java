@@ -232,8 +232,7 @@ public class GuiFee extends BorderPane {
         }
 
         final FeeData feeData = feeDataOpt.get();
-        if (new DataDialogController(clubConfig, DataDialogController.OPEN.FEE_PANE,
-                feeData.getMemberData(), feeData, null, null).isOk()) {
+        if (new DataDialogController(clubConfig, feeData).isOk()) {
             tableView.refresh();
         }
     }

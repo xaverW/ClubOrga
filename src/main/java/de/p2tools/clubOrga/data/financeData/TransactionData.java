@@ -21,12 +21,10 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 
 public class TransactionData extends TransactionDataWorker {
 
-
     public TransactionData() {
         setId(getNewId());
         addListener();
     }
-
 
     /*
  ist zum Anlegen einer neuen Teilbuchung
@@ -35,15 +33,23 @@ public class TransactionData extends TransactionDataWorker {
     public TransactionData(long nr, ClubConfig clubConfig) {
         setId(getNewId());
         setNo(nr);
-//        setFinanceAccountData(clubConfig.financeAccountDataList.get(0));
         setFinanceCategoryData(clubConfig.financeCategoryDataList.get(0));
         addListener();
     }
 
     public void initDataAfterClubLoad(ClubConfig clubConfig) {
-//        this.initFinanceAccountData(clubConfig);
         this.initFinanceCategoryData(clubConfig);
         this.initFeeData(clubConfig);
+    }
+
+    @Override
+    public String toString() {
+        final String betrag = NSC.toString(1.0 * getBetrag() / 100);
+        final String text = getText().isEmpty() ? "" : "   -   " + FinanceFieldNames.TEXT_ + " " + getText();
+
+        return FinanceFieldNames.NO_ + " " + getNo() + "   -   " +
+                FinanceFieldNames.BETRAG_ + " " + betrag +
+                text;
     }
 
 }

@@ -50,8 +50,7 @@ public class GuiMemberContextMenu {
 
         MenuItem miMemberInfo = new MenuItem("Mitgliederinfos anzeigen");
         miMemberInfo.setOnAction(a -> {
-            if (new DataDialogController(clubConfig, DataDialogController.OPEN.MEMBER_PANE,
-                    memberData, null, null, null).isOk()) {
+            if (new DataDialogController(clubConfig, memberData).isOk()) {
                 tableView.refresh();
             }
         });
