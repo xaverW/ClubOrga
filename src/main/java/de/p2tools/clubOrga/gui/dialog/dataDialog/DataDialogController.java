@@ -311,6 +311,17 @@ public class DataDialogController extends PDialogExtra implements ActionInterfac
             FinanceFactory.copyFinanceData(clubConfig, financeDataCopy, financeDataOrg);
         }
 
+        if (feeDataOrg != null) {
+            // falls sich MittgliedDaten geändert haben
+            clubConfig.feeDataList.stream().forEach(feeData -> feeData.initMemberName());
+        }
+//        if (memberDataOrg != null) {
+//            memberDataOrg.initAfterLoad();
+//        }
+//        if (financeDataOrg != null) {
+//            financeDataOrg.initDataAfterClubLoad(clubConfig);
+//        }
+
         return true;
     }
 }

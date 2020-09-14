@@ -43,7 +43,7 @@ public class StartDialogClubPane {
     public TitledPane makePane() {
         VBox vBox = new VBox();
         vBox.setSpacing(20);
-        vBox.setPadding(new Insets(25, 20, 20, 20));
+        vBox.setPadding(new Insets(25));
 
         initPane(vBox);
 

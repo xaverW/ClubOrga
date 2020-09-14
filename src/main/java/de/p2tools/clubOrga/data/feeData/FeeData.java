@@ -45,4 +45,13 @@ public class FeeData extends FeeDataWorker {
         PaymentTypeData paymentTypeData = paymentTypeDataList.getById(getZahlart());
         setPaymentTypeData(paymentTypeData);
     }
+
+    /**
+     * init memberName
+     */
+    public void initMemberName() {
+        MemberData memberData = getMemberData();
+        setMitgliedNr(memberData == null ? "" : memberData.getNo() + "");
+        setMemberName(memberData == null ? "" : memberData.getNachname() + " " + memberData.getVorname());
+    }
 }

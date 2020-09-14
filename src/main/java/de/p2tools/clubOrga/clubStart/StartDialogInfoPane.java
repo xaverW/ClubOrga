@@ -41,7 +41,7 @@ public class StartDialogInfoPane {
 
         HBox hBox = new HBox();
         hBox.setSpacing(25);
-        hBox.setPadding(new Insets(10));
+        hBox.setPadding(new Insets(25));
 
         ImageView iv = new ImageView();
         Image im = getHelpScreen1();
@@ -81,7 +81,7 @@ public class StartDialogInfoPane {
 
         HBox hBox = new HBox();
         hBox.setSpacing(25);
-        hBox.setPadding(new Insets(10));
+        hBox.setPadding(new Insets(25));
 
         ImageView iv = new ImageView();
         Image im = getHelpScreen2();
