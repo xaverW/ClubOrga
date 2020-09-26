@@ -76,23 +76,25 @@ public class ClubFactory {
                     "Es wurde kein Speicherziel (Pfad und Datei) angeben!");
             return "";
         }
+        Path dDir = Paths.get(destPath);
+        Path dFile = Paths.get(destPath, destFileName);
 
-
-        if (!PFileUtils.fileExist(destPath)) {
-            File file = new File(destPath);
-            file.mkdirs();
-        }
-        if (!PFileUtils.fileExist(destPath)) {
-            PAlert.showErrorAlert(stage, "Zielverzeichnis existiert nicht",
-                    "Das Zielverzeichnis existiert nicht und kann nicht angelegt werden!");
+        if (!dDir.toFile().exists() && !dDir.toFile().mkdirs()) {
+            PAlert.showErrorAlert(stage, "Exportverzeichnis", "Das angegebene Exportverzeichnis existiert " +
+                    "nicht und kann nicht angelegt werden.");
             return "";
         }
 
-        Path destFile = Paths.get(destPath, destFileName);
-        if (!PFileUtils.checkFileToCreate(stage, destFile)) {
+        if (dFile.toFile().exists() && !dFile.toFile().isFile()) {
+            PAlert.showErrorAlert(stage, "Exportdatei", "Die angegebene Exportdatei existiert " +
+                    "und ist ein Ordner.");
             return "";
         }
 
-        return destFile.toString();
+        if (!PFileUtils.checkFileToCreate(stage, dFile)) {
+            return "";
+        }
+
+        return dFile.toString();
     }
 }

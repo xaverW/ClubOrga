@@ -72,5 +72,6 @@ public class ProgConst {
 
     public final static String CSV_SUFFIX = "csv";
     public final static String ZIP_SUFFIX = "zip";
+    public final static String PDF_SUFFIX = "pdf";
 
 }

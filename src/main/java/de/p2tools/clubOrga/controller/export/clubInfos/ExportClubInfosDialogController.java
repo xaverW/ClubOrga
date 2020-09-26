@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.clubOrga.controller.export.zip;
+package de.p2tools.clubOrga.controller.export.clubInfos;
 
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
@@ -35,10 +35,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 
-public class ExportZipDialogController extends PDialogExtra {
+public class ExportClubInfosDialogController extends PDialogExtra {
 
     private final Button btnOk = new Button("Ok");
     private final Button btnCancel = new Button("Abbrechen");
@@ -50,13 +49,19 @@ public class ExportZipDialogController extends PDialogExtra {
     private final Button btnProposeFileName = new Button();
 
     private final ClubConfig clubConfig;
+    public final ArrayList<String> infoslist;
+    public String destDir = "";
+    public String destFile = "";
+
+
     private boolean ok = false;
 
 
-    public ExportZipDialogController(ClubConfig clubConfig) {
-        super(clubConfig.getStage(), clubConfig.EXPORT_CLUB_ZIP_DIALOG_SIZE,
-                "Verein exportieren", true, true);
+    public ExportClubInfosDialogController(ClubConfig clubConfig, ArrayList<String> infoslist) {
+        super(clubConfig.getStage(), clubConfig.EXPORT_CLUB_INFOS_DIALOG_SIZE,
+                "Vereinsinfos exportieren", true, true);
         this.clubConfig = clubConfig;
+        this.infoslist = infoslist;
         init(true);
     }
 
@@ -66,18 +71,9 @@ public class ExportZipDialogController extends PDialogExtra {
 
     @Override
     protected void make() {
-        btnHelp = PButton.helpButton(getStage(), "Verein exportieren",
-                "Beim Export der Vereinsdaten wird der Inhalt des Ordners mit den Vereinsdaten " +
-                        "in eine ZIP-Datei gepackt. Diese kann wieder in einen beliebigen Ordner entpackt " +
-                        "werden und das Programm kann dann wieder mit diesem Verein arbeiten.");
-
-//        HBox hBoxHelp = new HBox();
-//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-//        hBoxHelp.getChildren().addAll(btnHelp);
-//
-//        HBox hBox = new HBox();
-//        HBox.setHgrow(hBox, Priority.ALWAYS);
-//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
+        btnHelp = PButton.helpButton(getStage(), "Vereinsinfos exportieren",
+                "Beim Export der Vereinsinfos werden die wichtigsten " +
+                        "Kenndaten des Vereins in ein PDF geschrieben.");
 
         addOkCancelButtons(btnOk, btnCancel);
         ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
@@ -94,8 +90,7 @@ public class ExportZipDialogController extends PDialogExtra {
         cboExportDir.setMaxWidth(Double.MAX_VALUE);
         cboExportFile.setMaxWidth(Double.MAX_VALUE);
 
-        getHBoxTitle().getChildren().add(new Label("Vereinsdaten in ZIP-Datei exportieren"));
-//        HBox hBoxTitle = GuiFactory.getDialogTitle("Vereinsdaten in ZIP-Datei exportieren");
+        getHBoxTitle().getChildren().add(new Label("Vereinsinfos in ein PDF schreiben"));
 
         final GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
@@ -121,12 +116,12 @@ public class ExportZipDialogController extends PDialogExtra {
     }
 
     private void initListener() {
-        cboExportFile.init(clubConfig.CBO_LIST_EXPORT_ZIP_FILE, clubConfig.EXPORT_ZIP_FILE);
+        cboExportFile.init(clubConfig.CBO_LIST_EXPORT_INFOS_FILE, clubConfig.EXPORT_INFOS_FILE);
         if (cboExportFile.getSelValue().isEmpty()) {
-            cboExportFile.selectElement(clubConfig.clubData.getName() + "." + ProgConst.ZIP_SUFFIX);
+            cboExportFile.selectElement(clubConfig.clubData.getName() + "." + ProgConst.PDF_SUFFIX);
         }
 
-        cboExportDir.init(clubConfig.CBO_LIST_EXPORT_ZIP_DIR, clubConfig.EXPORT_ZIP_DIR);
+        cboExportDir.init(clubConfig.CBO_LIST_EXPORT_INFOS_DIR, clubConfig.EXPORT_INFOS_DIR);
         btnExportDir.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
         btnExportDir.setTooltip(new Tooltip("Speicherpfad auswählen"));
         btnExportDir.setOnAction(event -> PDirFileChooser.DirChooser(getStage(), cboExportDir,
@@ -135,16 +130,16 @@ public class ExportZipDialogController extends PDialogExtra {
         btnProposeFileName.setGraphic(new ProgIcons().ICON_BUTTON_GUI_GEN_NAME);
         btnProposeFileName.setTooltip(new Tooltip("einen Dateinamen vorschlagen"));
         btnProposeFileName.setOnAction(event -> {
-            String fileName = clubConfig.EXPORT_ZIP_FILE.getValueSafe();
+            String fileName = clubConfig.EXPORT_INFOS_FILE.getValueSafe();
 
             if (fileName.isEmpty()) {
                 fileName = clubConfig.clubData.getName();
             }
 
-            final String suffix = ProgConst.ZIP_SUFFIX;
+            final String suffix = ProgConst.PDF_SUFFIX;
             final String destPath = cboExportDir.getSelValue();
 
-            clubConfig.EXPORT_ZIP_FILE.setValue(PFileName.getNextFileNameWithDate(destPath, fileName, suffix));
+            clubConfig.EXPORT_INFOS_FILE.setValue(PFileName.getNextFileNameWithDate(destPath, fileName, suffix));
         });
 
         btnOk.disableProperty().bind(cboExportDir.getSelectionModel().selectedItemProperty().isNull()
@@ -152,23 +147,10 @@ public class ExportZipDialogController extends PDialogExtra {
     }
 
     private boolean check() {
-        String destDir = cboExportDir.getSelValue();
-        String destFile = cboExportFile.getSelValue();
-
-        Path pathClub = Paths.get(clubConfig.getClubPath());
-//        if (pathClub.toFile().exists() && !pathClub.toFile().isDirectory()) {
-//            PAlert.showErrorAlert(getStage(), "Verein", "Der angegebene Speicherort des Vereins " +
-//                    "existiert nicht");
-//            //???? todo nach dem ersten Start??
-//            return false;
-//        }
+        destDir = cboExportDir.getSelValue();
+        destFile = cboExportFile.getSelValue();
 
         if (ClubFactory.getDestinationPath(getStage(), destDir, destFile).isEmpty()) {
-            return false;
-        }
-
-        Path pathExportFile = Paths.get(destDir, destFile);
-        if (!ZipFactory.exportClub(clubConfig.getStage(), pathClub, pathExportFile)) {
             return false;
         }
 

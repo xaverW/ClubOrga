@@ -17,7 +17,7 @@
 package de.p2tools.clubOrga.data.feeData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.clubOrga.data.clubData.ClubInfoData;
+import de.p2tools.clubOrga.data.clubInfoData.ClubInfoData;
 import de.p2tools.p2Lib.alert.PAlert;
 
 import java.util.ArrayList;

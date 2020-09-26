@@ -21,7 +21,7 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
-import de.p2tools.clubOrga.controller.export.ExportFactory;
+import de.p2tools.clubOrga.controller.ClubFactory;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
@@ -201,7 +201,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         String destDir = cboExportDir.getSelValue();
         String destFile = cboExportFile.getSelValue();
 
-        if (!ExportFactory.check(getStage(), destDir, destFile)) {
+        if (ClubFactory.getDestinationPath(clubConfig.getStage(), destDir, destFile).isEmpty()) {
             return false;
         }
 

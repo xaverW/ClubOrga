@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.clubOrga.data.clubData;
+package de.p2tools.clubOrga.data.clubInfoData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
@@ -36,17 +36,9 @@ public class InfoFactory {
         club.getValue().setText(clubConfig.clubData.getName());
         TreeItem<ClubInfoData> root = new TreeItem<>(club.getValue());
 
-//        ClubInfoData clubInfoData = new ClubInfoData("Verein");
-//        clubInfoData.setText(clubConfig.clubData.getName());
-//        TreeItem<ClubInfoData> root = new TreeItem<>(clubInfoData);
-
         ClubInfoData clubInfoDataPath = new ClubInfoData("Speicherpfad");
         clubInfoDataPath.setText(clubConfig.getClubPath());
         root.getChildren().add(new TreeItem<>(clubInfoDataPath));
-
-//        TreeItem<ClubInfoData> path = createGroup("Speicherpfad", false, true);
-//        path.getValue().setText(clubConfig.getClubPath());
-//        root.getChildren().add(path);
 
         root.getChildren().addAll(generateMemberInfo());
         root.getChildren().add(generateFeeInfo());

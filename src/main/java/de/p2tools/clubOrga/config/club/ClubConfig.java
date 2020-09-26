@@ -95,7 +95,8 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty ADD_DEMO_DATA_DIALOG_SIZE = addStr("add-demo-data-dialog-size");
     public StringProperty EXPORT_CSV_DIALOG_SIZE = addStr("export-member-csv-dialog-size", "700:400");
     public StringProperty IMPORT_MEMBER_CSV_DIALOG_SIZE = addStr("import-member-csv-dialog-size", "700:400");
-    public StringProperty EXPORT_CLUB_DIALOG_SIZE = addStr("export-club-dialog-size", "700:400");
+    public StringProperty EXPORT_CLUB_ZIP_DIALOG_SIZE = addStr("export-club-zip-dialog-size", "700:400");
+    public StringProperty EXPORT_CLUB_INFOS_DIALOG_SIZE = addStr("export-club-infos-dialog-size", "700:400");
     public StringProperty DELETE_ALL_DATA_DIALOG_SIZE = addStr("delete-all-data-dialog-size", "600:300");
 
     public DoubleProperty MISSING_FEE_DIALOG_DIVIDER = addDouble("missing-fee-dialog-divider", 0.3);
@@ -292,6 +293,11 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty EXPORT_CSV_FILE = addStr("export-csv-file");
     public ObservableList<String> CBO_LIST_IMPORT_CSV_FILE = addListProp(arrayList, "cbo-list-import-csv-file");
     public StringProperty IMPORT_CSV_FILE = addStr("import-csv-file");
+    // Infos
+    public ObservableList<String> CBO_LIST_EXPORT_INFOS_DIR = addListProp(arrayList, "cbo-list-export-infos-dir");
+    public StringProperty EXPORT_INFOS_DIR = addStr("export-infos-dir");
+    public ObservableList<String> CBO_LIST_EXPORT_INFOS_FILE = addListProp(arrayList, "cbo-list-export-infos-file");
+    public StringProperty EXPORT_INFOS_FILE = addStr("export-infos-file");
     // ZIP
     public ObservableList<String> CBO_LIST_EXPORT_ZIP_DIR = addListProp(arrayList, "cbo-list-export-zip-dir");
     public StringProperty EXPORT_ZIP_DIR = addStr("export-zip-dir");

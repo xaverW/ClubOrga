@@ -18,16 +18,27 @@ package de.p2tools.clubOrga.gui.guiClub;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.clubOrga.data.clubData.ClubInfoData;
-import de.p2tools.clubOrga.data.clubData.InfoFactory;
+import de.p2tools.clubOrga.controller.export.clubInfos.ExportClubInfosDialogController;
+import de.p2tools.clubOrga.controller.newsletter.document.pdfFile.CreateClubInfos;
+import de.p2tools.clubOrga.data.clubInfoData.ClubInfoData;
+import de.p2tools.clubOrga.data.clubInfoData.InfoFactory;
+import de.p2tools.clubOrga.data.clubInfoData.InfoFactoryPdf;
+import de.p2tools.p2Lib.P2LibConst;
+import de.p2tools.p2Lib.alert.PAlert;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,6 +49,7 @@ public class GuiClubInfo extends AnchorPane {
     private final TreeTableView<ClubInfoData> treeTableView = new TreeTableView<>();
     private final String GROUP_STYLE_1 = "goupStyle1";
     private final String GROUP_STYLE_2 = "goupStyle2";
+    private final String BEFORE = "_____";
 
     public GuiClubInfo(ClubConfig clubConfig) {
         this.progData = ProgData.getInstance();
@@ -69,12 +81,36 @@ public class GuiClubInfo extends AnchorPane {
 
         scrollPane.setContent(vBox);
 
-//        HBox hBox = new HBox(10);
-//        hBox.getChildren().add(new Label("Speicherpfad des Vereins:"));
-//        hBox.getChildren().add(new Label(clubConfig.getClubPath()));
-//        vBox.getChildren().add(hBox);
+        Button btnExport = new Button("Exportieren");
+        btnExport.setTooltip(new Tooltip("Infos in Datei exportieren"));
+        btnExport.setOnAction(a -> {
+            exportInfos();
+        });
+        HBox hBox = new HBox(10);
+        hBox.setAlignment(Pos.CENTER_LEFT);
+        hBox.getChildren().add(new Label("Infos in Datei schreiben:"));
+        hBox.getChildren().add(btnExport);
+        vBox.getChildren().add(hBox);
 
         this.getChildren().add(scrollPane);
+    }
+
+    private void exportInfos() {
+        ArrayList<String> list = new ArrayList<>();
+        InfoFactoryPdf.generateInfoList(clubConfig, list);
+        ExportClubInfosDialogController infosDialogController =
+                new ExportClubInfosDialogController(clubConfig, list);
+        if (infosDialogController.isOk()) {
+            if (!new CreateClubInfos(clubConfig).createPdf(infosDialogController.destDir, infosDialogController.destFile, list)) {
+                PLog.errorLog(774196698, "Die Vereinsinfos konnten nicht in ein PDF geschrieben werden.");
+
+                Path pathExportFile = Paths.get(infosDialogController.destDir, infosDialogController.destFile);
+                PAlert.showErrorAlert(clubConfig.getStage(), "Export der Vereinsinfos fehlgeschlagen",
+                        "Das Schreiben der Verinsinfos:" + P2LibConst.LINE_SEPARATOR +
+                                pathExportFile.toString() + P2LibConst.LINE_SEPARATOR +
+                                "hat nicht geklappt");
+            }
+        }
     }
 
     private void initTable() {

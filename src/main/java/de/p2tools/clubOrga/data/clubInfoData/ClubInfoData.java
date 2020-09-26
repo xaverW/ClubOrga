@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.clubOrga.data.clubData;
+package de.p2tools.clubOrga.data.clubInfoData;
 
 import java.text.DecimalFormat;
 

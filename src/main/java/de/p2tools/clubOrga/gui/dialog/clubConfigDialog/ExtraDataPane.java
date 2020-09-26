@@ -68,8 +68,8 @@ public class ExtraDataPane extends AnchorPane {
     private void initGrid() {
         gridPane.getChildren().clear();
 
-        gridPane.add(new Label("An"), 0, 0);
-        gridPane.add(new Label("Name"), 1, 0);
+        gridPane.add(new Label("Eingeschaltet"), 0, 0);
+        gridPane.add(new Label("Feldname"), 1, 0);
         gridPane.add(new Label("Startwert"), 2, 0);
         gridPane.add(new Label("Feldart"), 3, 0);
 
@@ -122,9 +122,11 @@ public class ExtraDataPane extends AnchorPane {
         btnHelp.setTooltip(new Tooltip("Hilfe anzeigen."));
         btnHelp.setGraphic(new ProgIcons().ICON_BUTTON_HELP);
         btnHelp.setOnAction(a -> PAlert.showHelpAlert(stage, "Extrafelder",
-                "Die Mitgliedsdaten, Beitragsdaten und Finanzdaten enthalten je ein paar Felder " +
-                        "die das Programm nicht nutzt. Diese sind gedacht, für Infos die für den Verein wichtig sind und " +
-                        "so erfasst werden können. Die Titel der Felder können hier angepasst werden."));
+                "Die Mitgliedsdaten, Beitragsdaten und Finanzdaten enthalten ein paar zusätzliche Felder " +
+                        "die das Programm selbst nicht nutzt. Diese sind gedacht, für weitere " +
+                        "Infos die für den Verein wichtig sind. Mit diesen zusätzlichen Feldern können diese Infos " +
+                        "erfasst werden. Die verwendeten Felder können hier eingeschaltet und der " +
+                        "Titel angepasst werden."));
         GridPane.setHalignment(btnHelp, HPos.RIGHT);
         gridPane.add(btnHelp, 3, ++row);
 
