@@ -29,7 +29,6 @@ import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.guiTools.PDatePicker;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
@@ -48,7 +47,6 @@ public class MissingFeeDialogController extends abListDialogController {
 
     private final Label lblFeeDate = new Label("Rechnungsdatum");
     private final PDatePicker pDatePickerDate = new PDatePicker();
-    final PLocalDate pDateData = new PLocalDate();
 
     private final PComboBoxString pCboTemplate = new PComboBoxString();
     private final PComboBoxString pCboNewsletterPath = new PComboBoxString();
@@ -107,7 +105,6 @@ public class MissingFeeDialogController extends abListDialogController {
     public void make() {
         super.make();
 
-        pDatePickerDate.setDate(pDateData);
         pDatePickerDate.setMaxWidth(Double.MAX_VALUE);
 
         tglBill.selectedProperty().bindBidirectional(addNewsletterProperty);
@@ -239,7 +236,7 @@ public class MissingFeeDialogController extends abListDialogController {
                     null, feeDataList,
                     sourceFile, destP, destF);
 
-            feeDataList.stream().forEach(fee -> fee.setBill(pDateData));
+            feeDataList.stream().forEach(fee -> fee.setBill(pDatePickerDate.getpLocalDate()));
         }
 
         return true;

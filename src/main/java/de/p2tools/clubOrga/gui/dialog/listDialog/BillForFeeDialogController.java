@@ -27,7 +27,6 @@ import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.guiTools.PDatePicker;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
@@ -44,7 +43,6 @@ public class BillForFeeDialogController extends abListDialogController {
 
     final Label lblDatum = new Label("Buchungsdatum");
     final PDatePicker pDatePickerFeeDateBuchungsdatum = new PDatePicker();
-    final PLocalDate pDateFeeDataBuchungsdatum = new PLocalDate();
 
     private final PToggleSwitch tglBill = new PToggleSwitch("Rechnung erstellen", true);
 
@@ -118,7 +116,6 @@ public class BillForFeeDialogController extends abListDialogController {
     public void make() {
         super.make();
 
-        pDatePickerFeeDateBuchungsdatum.setDate(pDateFeeDataBuchungsdatum);
         pDatePickerFeeDateBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
         tglBill.selectedProperty().bindBidirectional(addNewsletterProperty);
@@ -253,11 +250,11 @@ public class BillForFeeDialogController extends abListDialogController {
 
         switch (type) {
             case BILL:
-                feeDataList.stream().forEach(fee -> fee.setBill(pDateFeeDataBuchungsdatum));
+                feeDataList.stream().forEach(fee -> fee.setBill(pDatePickerFeeDateBuchungsdatum.getpLocalDate()));
                 break;
             case SQ:
             default:
-                feeDataList.stream().forEach(fee -> fee.setSQ(pDateFeeDataBuchungsdatum));
+                feeDataList.stream().forEach(fee -> fee.setSQ(pDatePickerFeeDateBuchungsdatum.getpLocalDate()));
         }
 
         return true;

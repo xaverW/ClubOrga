@@ -28,7 +28,6 @@ import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.*;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.file.PFileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,7 +51,6 @@ public class PayFeeDialogController extends abListDialogController {
 
     final Label lblDatum = new Label("Buchungsdatum");
     final PDatePicker pDatePickerFeeDateBuchungsdatum = new PDatePicker();
-    final PLocalDate pDateFeeDataBuchungsdatum = new PLocalDate();
 
     // Finanzen
     private final PToggleSwitch tglFinances = new PToggleSwitch("Eintrag in den Finanzen anlegen", true);
@@ -93,7 +91,6 @@ public class PayFeeDialogController extends abListDialogController {
     public void make() {
         super.make();
 
-        pDatePickerFeeDateBuchungsdatum.setDate(pDateFeeDataBuchungsdatum);
         pDatePickerFeeDateBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
         tglFinances.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_FINANCES);
@@ -192,20 +189,6 @@ public class PayFeeDialogController extends abListDialogController {
 
     }
 
-//    private void initChkTransaction() {
-//        chkTransaction.disableProperty().unbind();
-//        btnHelpChk.disableProperty().unbind();
-//
-//        if (feeDataList.size() <= 1) {
-//            chkTransaction.setDisable(true);
-//            btnHelpChk.setDisable(true);
-//
-//        } else {
-//            chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
-//            btnHelpChk.disableProperty().bind(tglFinances.selectedProperty().not());
-//        }
-//    }
-
     @Override
     boolean check() {
         boolean ret = true;
@@ -230,7 +213,7 @@ public class PayFeeDialogController extends abListDialogController {
         }
 
         // Beiträge bezahlen
-        feeDataList.stream().forEach(fee -> fee.payFeeData(pDateFeeDataBuchungsdatum));
+        feeDataList.stream().forEach(fee -> fee.payFeeData(pDatePickerFeeDateBuchungsdatum.getpLocalDate()));
 
         if (tglFinances.isSelected()) {
             // wenn Finanzen anlegen, dann die Infos dazu sammeln und anlegen
@@ -243,7 +226,7 @@ public class PayFeeDialogController extends abListDialogController {
                 getKonto(feeDataList, feeDataListTmp, fee.getPaymentTypeData().getId());
 
                 clubConfig.financeDataList.addFinanceFromPayedFee(clubConfig, feeDataListTmp, chkTransaction.isSelected(),
-                        pDateFeeDataBuchungsdatum, pYearPickerFinanceDataGeschaeftsjahr.getValue(),
+                        pDatePickerFeeDateBuchungsdatum.getpLocalDate(), pYearPickerFinanceDataGeschaeftsjahr.getValue(),
                         cboCategory.getSelValue());
             }
         }
