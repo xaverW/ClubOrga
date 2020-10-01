@@ -257,6 +257,7 @@ public class BillForFeeDialogController extends abListDialogController {
                 feeDataList.stream().forEach(fee -> fee.setSQ(pDatePickerFeeDateBuchungsdatum.getpLocalDate()));
         }
 
+        clubConfig.guiFee.updateFilteredList();
         return true;
     }
 

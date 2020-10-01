@@ -96,12 +96,9 @@ public class GuiFee extends BorderPane {
     }
 
     public void refreshTable() {
-//        saveTable();
         tableView.setItems(null);
         tableView.getColumns().clear();
         initTable();
-//        new ClubTable(clubConfig).setTable(tableView, ClubTable.TABLE.MEMBER);
-
         tableView.refresh();
     }
 
@@ -225,7 +222,6 @@ public class GuiFee extends BorderPane {
 
     public void changeFee() {
         setFeeInfo();
-
         final Optional<FeeData> feeDataOpt = getSel();
         if (!feeDataOpt.isPresent()) {
             return;
@@ -234,7 +230,12 @@ public class GuiFee extends BorderPane {
         final FeeData feeData = feeDataOpt.get();
         if (new DataDialogController(clubConfig, feeData).isOk()) {
             tableView.refresh();
+            updateFilteredList();
         }
+    }
+
+    public void updateFilteredList() {
+        setFilter(false);
     }
 
     private void setFilter(boolean onlySelected) {

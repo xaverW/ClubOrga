@@ -231,6 +231,7 @@ public class PayFeeDialogController extends abListDialogController {
             }
         }
 
+        clubConfig.guiFee.updateFilteredList();
         return ret;
     }
 
