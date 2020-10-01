@@ -18,11 +18,15 @@ package de.p2tools.clubOrga.gui.guiFinance;
 
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.controller.export.financeInfo.FinanceReportController;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiFinanceContextMenu {
 
@@ -42,7 +46,6 @@ public class GuiFinanceContextMenu {
 
     private void getMenu(ContextMenu contextMenu, FinanceData financeData) {
         final MenuItem miFinancesInfo = new MenuItem("Buchungsinfos anzeigen");
-
         miFinancesInfo.setOnAction(a -> {
             if (new DataDialogController(clubConfig, DataDialogController.OPEN.FINANCE_PANE,
                     financeData, 0).isOk()) {
@@ -51,6 +54,16 @@ public class GuiFinanceContextMenu {
         });
         contextMenu.getItems().add(miFinancesInfo);
 
+        final MenuItem miFinanceReport = new MenuItem("Beleg erstellen");
+        miFinanceReport.setOnAction(a -> {
+            List<FinanceData> list = new ArrayList<>();
+            list.add(financeData);
+            if (!list.isEmpty()) {
+                new FinanceReportController(clubConfig.getStage(), clubConfig, list);
+            }
+        });
+        contextMenu.getItems().add(miFinanceReport);
+        
         MenuItem resetTable = new MenuItem("Tabelle zurücksetzen");
         resetTable.setOnAction(a -> clubConfig.guiFinance.resetTable());
         contextMenu.getItems().add(resetTable);

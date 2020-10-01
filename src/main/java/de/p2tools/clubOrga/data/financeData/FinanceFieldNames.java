@@ -24,7 +24,7 @@ public class FinanceFieldNames {
     public static final String FEED_ID = "BeitragId";
     public static final String NO = "Nr";
     public static final String RECEIPT_NR = "BelegNr";
-    public static final String TRANSACTIONS_NR = "Tr-Nr";
+    public static final String TRANSACTIONS_NR = "TrNr";
 
     public static final String GESAMTBETRAG = "Gesamtbetrag";
     public static final String BETRAG = "Betrag";

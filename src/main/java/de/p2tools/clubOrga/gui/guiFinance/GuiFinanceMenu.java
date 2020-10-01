@@ -20,6 +20,7 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.export.csv.ExportCsvDialogController;
+import de.p2tools.clubOrga.controller.export.financeInfo.FinanceReportController;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFactory;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
@@ -67,6 +68,11 @@ public class GuiFinanceMenu extends VBox {
         MenuItem miDelFinance = new MenuItem("ausgewählte Finanzeinträge löschen");
         miDelFinance.setOnAction(a -> delFinance());
 
+        MenuItem miFinanceReceipt = new MenuItem("einen Beleg der Finanzeinträge erstellen");
+        miFinanceReceipt.setOnAction(a ->
+                writeReceipt()
+        );
+
         // Menü Export
         MenuItem miExportShown = new MenuItem("angezeigte Finanzen exportieren");
         miExportShown.setOnAction(a -> exportFinances(clubConfig.financeDataList.getFilteredList()));
@@ -78,7 +84,7 @@ public class GuiFinanceMenu extends VBox {
         mExport.getItems().addAll(miExportShown, miExportAll);
 
 
-        mb.getItems().addAll(miAddFinance, miChangeFinance, miDelFinance,
+        mb.getItems().addAll(miAddFinance, miChangeFinance, miDelFinance, miFinanceReceipt,
                 mExport);
 
 
@@ -108,6 +114,13 @@ public class GuiFinanceMenu extends VBox {
         List<FinanceData> transactionData = guiFinance.getSelList();
         if (!transactionData.isEmpty()) {
             clubConfig.financeDataList.financeDataListRemoveAll(transactionData);
+        }
+    }
+
+    private void writeReceipt() {
+        List<FinanceData> list = guiFinance.getSelList();
+        if (!list.isEmpty()) {
+            new FinanceReportController(clubConfig.getStage(), clubConfig, list);
         }
     }
 

@@ -94,6 +94,7 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty PAYMENT_TYPE_DATA_DIALOG_SIZE = addStr("payment-type-data-dialog-size");
     public StringProperty ADD_DEMO_DATA_DIALOG_SIZE = addStr("add-demo-data-dialog-size");
     public StringProperty EXPORT_CSV_DIALOG_SIZE = addStr("export-member-csv-dialog-size", "700:400");
+    public StringProperty EXPORT_FINANCE_REPORT = addStr("export-finance-report", "700:400");
     public StringProperty IMPORT_MEMBER_CSV_DIALOG_SIZE = addStr("import-member-csv-dialog-size", "700:400");
     public StringProperty EXPORT_CLUB_ZIP_DIALOG_SIZE = addStr("export-club-zip-dialog-size", "700:400");
     public StringProperty EXPORT_CLUB_INFOS_DIALOG_SIZE = addStr("export-club-infos-dialog-size", "700:400");
@@ -285,6 +286,12 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty NEWSLETTER_TEMPLATE = addStr("newsletter-template");
     public StringProperty NEWSLETTER_DIR = addStr("newsletter-dir");
     public StringProperty NEWSLETTER_FILE = addStr("newsletter-file");
+
+    // CSV
+    public ObservableList<String> CBO_LIST_DIR_FINANZREPORT = addListProp(arrayList, "cbo-list-finanzreport");
+    public StringProperty EXPORT_DIR_FINANZREPORT = addStr("export-dir-finanzreport");
+    public ObservableList<String> CBO_LIST_EXPORT_FILE_FINANZREPORT = addListProp(arrayList, "cbo-list-export-file-finanzreport");
+    public StringProperty EXPORT_FILE_FINANZREPORT = addStr("export-file-finanzreport");
 
     // CSV
     public ObservableList<String> CBO_LIST_EXPORT_CSV_DIR = addListProp(arrayList, "cbo-list-export-csv-dir");
