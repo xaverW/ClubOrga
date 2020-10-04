@@ -271,7 +271,7 @@ public class CsvFactory {
     private static String[] getFinanceReportDataHeaderArr(ClubConfig clubConfig) {
         ArrayList<String> headers = new ArrayList<>();
         headers.add(FinanceFieldNames.NO);
-        headers.add(FinanceFieldNames.RECEIPT_NR);
+        headers.add(FinanceFieldNames.RECEIPT_NO);
         headers.add(FinanceFieldNames.GESAMTBETRAG);
         headers.add(FinanceFieldNames.GESCHAEFTSJAHR);
         headers.add(FinanceFieldNames.BUCHUNGS_DATUM);

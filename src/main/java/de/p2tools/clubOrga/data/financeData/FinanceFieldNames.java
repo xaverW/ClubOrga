@@ -22,9 +22,10 @@ public class FinanceFieldNames {
     public static final String ID = "Id";
     public static final String FINANCE_ID = "FinanzId";
     public static final String FEED_ID = "BeitragId";
+    public static final String FEED_NO = "BeitragsNr";
     public static final String NO = "Nr";
-    public static final String RECEIPT_NR = "BelegNr";
-    public static final String TRANSACTIONS_NR = "TrNr";
+    public static final String RECEIPT_NO = "BelegNr";
+    public static final String TRANSACTION_NO = "TrNr";
 
     public static final String GESAMTBETRAG = "Gesamtbetrag";
     public static final String BETRAG = "Betrag";
@@ -36,8 +37,8 @@ public class FinanceFieldNames {
     public static final String TEXT = "Text";
 
     public static final String NO_ = NO + ":";
-    public static final String RECEIPT_NR_ = RECEIPT_NR + ":";
-    public static final String TRANSACTIONS_NR_ = TRANSACTIONS_NR + ":";
+    public static final String RECEIPT_NR_ = RECEIPT_NO + ":";
+    public static final String TRANSACTIONS_NR_ = TRANSACTION_NO + ":";
 
     public static final String GESAMTBETRAG_ = GESAMTBETRAG + ":";
     public static final String BETRAG_ = BETRAG + ":";

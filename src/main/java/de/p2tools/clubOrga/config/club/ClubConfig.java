@@ -287,11 +287,12 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty NEWSLETTER_DIR = addStr("newsletter-dir");
     public StringProperty NEWSLETTER_FILE = addStr("newsletter-file");
 
-    // CSV
+    // Finanzreport
     public ObservableList<String> CBO_LIST_DIR_FINANZREPORT = addListProp(arrayList, "cbo-list-finanzreport");
     public StringProperty EXPORT_DIR_FINANZREPORT = addStr("export-dir-finanzreport");
     public ObservableList<String> CBO_LIST_EXPORT_FILE_FINANZREPORT = addListProp(arrayList, "cbo-list-export-file-finanzreport");
     public StringProperty EXPORT_FILE_FINANZREPORT = addStr("export-file-finanzreport");
+    public BooleanProperty EXPORT_TRANSACTION_SHORT = addBool("export-transaction-short", false);
 
     // CSV
     public ObservableList<String> CBO_LIST_EXPORT_CSV_DIR = addListProp(arrayList, "cbo-list-export-csv-dir");

@@ -60,10 +60,14 @@ public class ClubTableTransaction {
         final TableColumn<TransactionData, String> mitgliedColumn = new TableColumn<>("Mitgliedsbeitrag");
         mitgliedColumn.setCellFactory(cellFactoryNachname);
 
+        final TableColumn<TransactionData, String> feeNoColumn = new TableColumn<>(FinanceFieldNames.FEED_NO);
+        feeNoColumn.setCellFactory(cellFactoryFeeNo);
+
         tc.add(nrColumn);
         tc.add(betragColumn);
         tc.add(kategorieColumn);
         tc.add(mitgliedColumn);
+        tc.add(feeNoColumn);
 
         return tc.toArray(new TableColumn[]{});
     }
@@ -71,7 +75,7 @@ public class ClubTableTransaction {
     private Callback<TableColumn<TransactionData, String>, TableCell<TransactionData, String>> cellFactoryNachname
             = (final TableColumn<TransactionData, String> param) -> {
 
-        final TableCell<TransactionData, String> cell = new TableCell<TransactionData, String>() {
+        final TableCell<TransactionData, String> cell = new TableCell<>() {
 
             @Override
             public void updateItem(String item, boolean empty) {
@@ -93,6 +97,31 @@ public class ClubTableTransaction {
                 }
                 if (memberData != null) {
                     setText(memberData.toString());
+                } else {
+                    setText("");
+                }
+            }
+        };
+
+        return cell;
+    };
+    private Callback<TableColumn<TransactionData, String>, TableCell<TransactionData, String>> cellFactoryFeeNo
+            = (final TableColumn<TransactionData, String> param) -> {
+
+        final TableCell<TransactionData, String> cell = new TableCell<>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setText(null);
+                    return;
+                }
+
+                TransactionData transactionData = getTableView().getItems().get(getIndex());
+                if (transactionData.getFeeData() != null) {
+                    setText(transactionData.getFeeData().getNo() + "");
                 } else {
                     setText("");
                 }

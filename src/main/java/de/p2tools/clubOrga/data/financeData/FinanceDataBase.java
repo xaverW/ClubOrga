@@ -80,7 +80,7 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
 
         list.add(new ConfigLongPropExtra("id", FinanceFieldNames.ID, id));
         list.add(new ConfigLongPropExtra("nr", FinanceFieldNames.NO, no));
-        list.add(new ConfigStringPropExtra("belegNr", FinanceFieldNames.RECEIPT_NR, receiptNo));
+        list.add(new ConfigStringPropExtra("belegNr", FinanceFieldNames.RECEIPT_NO, receiptNo));
 
         list.add(new ConfigMoneyPropExtra("gesamtbetrag", FinanceFieldNames.GESAMTBETRAG, gesamtbetrag, true));
         list.add(new ConfigLongPropExtra("konto", FinanceFieldNames.KONTO, konto));

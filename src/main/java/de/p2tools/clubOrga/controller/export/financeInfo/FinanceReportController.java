@@ -31,10 +31,7 @@ import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -52,6 +49,7 @@ public class FinanceReportController extends PDialogExtra {
     private final Button btnExportDir = new Button();
     private final PComboBoxString cboExportFile = new PComboBoxString();
     private final Button btnProposeFileName = new Button();
+    private final CheckBox chkShort = new CheckBox("Transaktionen nur Kurzinfos");
 
     private final ClubConfig clubConfig;
     private final List<FinanceData> financeDataList;
@@ -108,6 +106,8 @@ public class FinanceReportController extends PDialogExtra {
         gridPane.add(cboExportFile, 1, row);
         gridPane.add(btnProposeFileName, 2, row);
 
+        gridPane.add(chkShort, 1, ++row);
+
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
@@ -144,6 +144,7 @@ public class FinanceReportController extends PDialogExtra {
             clubConfig.EXPORT_FILE_FINANZREPORT.setValue(PFileName.getNextFileNameWithDate(destPath, fileName, suffix));
         });
 
+        chkShort.selectedProperty().bindBidirectional(clubConfig.EXPORT_TRANSACTION_SHORT);
         btnOk.disableProperty().bind(cboExportDir.getSelectionModel().selectedItemProperty().isNull()
                 .or(cboExportFile.getSelectionModel().selectedItemProperty().isNull()));
     }
@@ -157,7 +158,7 @@ public class FinanceReportController extends PDialogExtra {
         }
 
         Path dFile = Paths.get(destDir, destFile);
-        if (!FinanceReceiptFactory.writeBeleg(dFile.toString(), financeDataList)) {
+        if (!FinanceReceiptFactory.writeBeleg(dFile.toString(), financeDataList, clubConfig.EXPORT_TRANSACTION_SHORT.get())) {
             PAlert.showErrorAlert(getStage(), "Finanzbeleg", "Der Finanzbeleg konnte nicht erstellt werden.");
             return false;
         }

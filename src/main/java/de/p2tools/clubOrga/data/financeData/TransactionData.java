@@ -38,8 +38,7 @@ public class TransactionData extends TransactionDataWorker {
     }
 
     public void initDataAfterClubLoad(ClubConfig clubConfig) {
-        this.initFinanceCategoryData(clubConfig);
-        this.initFeeData(clubConfig);
+        this.initData(clubConfig);
     }
 
     @Override

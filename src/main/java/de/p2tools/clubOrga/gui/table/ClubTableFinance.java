@@ -54,7 +54,7 @@ public class ClubTableFinance {
         final TableColumn<FinanceData, Long> noColumn = new TableColumn<>(FinanceFieldNames.NO);
         noColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
-        final TableColumn<FinanceData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.RECEIPT_NR);
+        final TableColumn<FinanceData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.RECEIPT_NO);
         belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("receiptNo"));
 
         final TableColumn<FinanceData, String> textColumn = new TableColumn<>(FinanceFieldNames.TEXT);

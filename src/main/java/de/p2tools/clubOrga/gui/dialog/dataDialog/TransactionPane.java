@@ -27,6 +27,7 @@ import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxObject;
+import de.p2tools.p2Lib.guiTools.PTextField;
 import de.p2tools.p2Lib.tools.PException;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.beans.property.ObjectProperty;
@@ -131,9 +132,16 @@ public class TransactionPane extends VBox {
 
                 if (config.getName().equals(FinanceFieldNames.ID) ||
                         config.getName().equals(FinanceFieldNames.FINANCE_ID) ||
-                        config.getName().equals(FinanceFieldNames.FEED_ID) ||
                         config.getName().equals(TransactionDataList.TAG)) {
                     // spezielle Felder
+                    continue;
+
+                } else if (config.getName().equals(FinanceFieldNames.FEED_ID) &&
+                        transactionData.getFeeData() != null) {
+                    control = new PTextField(transactionData.getFeeNo() + "", true);
+                    gridPane.add(new Label(FinanceFieldNames.FEED_NO + ":"), 0, row);
+                    gridPane.add(control, 1, row);
+                    ++row;
                     continue;
 
                 } else if (config.getName().equals(FinanceFieldNames.BETRAG)) {

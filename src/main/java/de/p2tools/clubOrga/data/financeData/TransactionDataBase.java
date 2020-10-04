@@ -38,6 +38,7 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
     private final LongProperty no = new SimpleLongProperty(0);
 
     private final LongProperty feeId = new SimpleLongProperty(0);
+    private final LongProperty feeNo = new SimpleLongProperty(0);
 
     private final LongProperty betrag = new SimpleLongProperty(0);
     private final LongProperty category = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
@@ -72,9 +73,7 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
             category.set(ProgConst.STANDARD_FIELD);
         }
 
-        if (getFeeData() != null) {
-            feeId.set(getFeeData().getId());
-        }
+        initFeeData();
 
         return new Config[]{
                 new ConfigLongPropExtra("id", FinanceFieldNames.ID, id),
@@ -88,6 +87,13 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
         };
     }
 
+    void initData(ClubConfig clubConfig) {
+        setFinanceCategoryData(clubConfig.financeCategoryDataList.getFinanceCategoryDataOrStandard(category.get()));
+        setFeeData(clubConfig.feeDataList.getFeeById(feeId.get()));
+    }
+
+    // =============================================================
+    // ==== FinanceCategoryData ====
     public FinanceCategoryData getFinanceCategoryData() {
         return financeCategoryData.get();
     }
@@ -100,8 +106,21 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
         this.financeCategoryData.set(financeCategoryData);
     }
 
-    public void initFinanceCategoryData(ClubConfig clubConfig) {
-        setFinanceCategoryData(clubConfig.financeCategoryDataList.getFinanceCategoryDataOrStandard(category.get()));
+    // =============================================================
+    // ==== FeeData ====
+    private void initFeeData() {
+        if (getFeeData() != null) {
+            feeId.set(getFeeData().getId());
+            feeNo.set(getFeeData().getNo());
+        } else {
+            feeId.set(0);
+            feeNo.set(0);
+        }
+    }
+
+    public long getFeeNo() {
+        initFeeData();
+        return feeNo.get();
     }
 
     public FeeData getFeeData() {
@@ -114,10 +133,6 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
 
     public void setFeeData(FeeData feeData) {
         this.feeData.set(feeData);
-    }
-
-    public void initFeeData(ClubConfig clubConfig) {
-        setFeeData(clubConfig.feeDataList.getFeeById(feeId.get()));
     }
     // =============================================================
 

@@ -45,7 +45,7 @@ public class FinanceReceiptFactory {
     private void FinanceReceipt() {
     }
 
-    public static boolean writeBeleg(String destFile, List<FinanceData> liste) {
+    public static boolean writeBeleg(String destFile, List<FinanceData> liste, boolean transactionShort) {
         final int GREY = 230;
         try {
             PdfWriter writer = new PdfWriter(destFile);
@@ -56,8 +56,11 @@ public class FinanceReceiptFactory {
             boolean second = false;
             for (FinanceData data : liste) {
                 if (second) {
-                    document.add(new Paragraph(" "));
-                    document.add(new Paragraph(" "));
+                    if (!transactionShort) {
+                        // nur eine schmale Leerzeile
+                        document.add(new Paragraph(" "));
+                        document.add(new Paragraph(" "));
+                    }
                     document.add(new Paragraph(" "));
                 }
                 second = true;
@@ -65,7 +68,7 @@ public class FinanceReceiptFactory {
                 Table table = new Table(4, true);
                 PdfFont bold = PdfFontFactory.createFont(StandardFonts.TIMES_BOLD);
 
-                Paragraph paragraph = new Paragraph(FinanceFieldNames.RECEIPT_NR + ": " + data.getReceiptNo());
+                Paragraph paragraph = new Paragraph(FinanceFieldNames.RECEIPT_NO + ": " + data.getReceiptNo());
                 paragraph.setFont(bold);
                 Cell cell = new Cell(1, 4).add(paragraph);
                 cell.setBackgroundColor(new DeviceRgb(250, 104, 0));
@@ -97,47 +100,75 @@ public class FinanceReceiptFactory {
                     table.addCell(cell);
                 }
 
-                cell = new Cell(1, 4);
-                table.addCell(cell);
+                if (!transactionShort) {
+                    cell = new Cell(1, 4);
+                    table.addCell(cell);
+                }
                 cell = new Cell(1, 4).add(new Paragraph("Transaktionen").setFont(bold));
                 cell.setBackgroundColor(new DeviceRgb(255, 227, 167));
                 table.addCell(cell);
 
                 boolean secondTr = false;
                 for (TransactionData transactionData : data.getTransactionDataList()) {
-                    if (secondTr) {
-                        cell = new Cell(1, 4);
+                    if (transactionShort) {
+                        Paragraph paragraphTr = new Paragraph(FinanceFieldNames.TRANSACTION_NO + ": " + transactionData.getNo());
+                        paragraphTr.setFont(bold);
+                        cell = new Cell().add(paragraphTr);
                         table.addCell(cell);
-                    }
-                    secondTr = true;
 
-                    Paragraph paragraphTr = new Paragraph(FinanceFieldNames.TRANSACTIONS_NR + ": " + transactionData.getNo());
-                    paragraphTr.setFont(bold);
-                    cell = new Cell(1, 4).add(paragraphTr);
-                    cell.setBackgroundColor(new DeviceRgb(242, 242, 242));
-                    table.addCell(cell);
-
-                    cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.BETRAG + ": " + DF.format(1.0 * transactionData.getBetrag() / 100)));
-                    table.addCell(cell);
-
-                    if (transactionData.getFinanceCategoryData() != null) {
-                        cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.CATEGORY + ": " + transactionData.getFinanceCategoryData().getCategory()));
+                        cell = new Cell().add(new Paragraph(FinanceFieldNames.BETRAG + ": " + DF.format(1.0 * transactionData.getBetrag() / 100)));
                         table.addCell(cell);
+
+                        if (transactionData.getFinanceCategoryData() != null) {
+                            cell = new Cell().add(new Paragraph(FinanceFieldNames.CATEGORY + ": " + transactionData.getFinanceCategoryData().getCategory()));
+                            table.addCell(cell);
+                        } else {
+                            cell = new Cell().add(new Paragraph(FinanceFieldNames.CATEGORY));
+                            table.addCell(cell);
+                        }
+
+                        if (transactionData.getFeeData() != null) {
+                            cell = new Cell().add(new Paragraph("BeitragsNr: " + transactionData.getFeeData().getNo()));
+                            table.addCell(cell);
+                        } else {
+                            table.addCell(new Cell());
+                        }
+
                     } else {
-                        cell = new Cell().add(new Paragraph(FinanceFieldNames.CATEGORY));
-                        table.addCell(cell);
-                        table.addCell(new Cell());
-                    }
+                        if (secondTr) {
+                            cell = new Cell(1, 4);
+                            table.addCell(cell);
+                        }
+                        secondTr = true;
 
-                    if (transactionData.getFeeData() != null) {
-                        table.addCell(new Cell(1, 2));
-                        cell = new Cell(1, 2).add(new Paragraph("BeitragsNr: " + transactionData.getFeeData().getNo()));
+                        Paragraph paragraphTr = new Paragraph(FinanceFieldNames.TRANSACTION_NO + ": " + transactionData.getNo());
+                        paragraphTr.setFont(bold);
+                        cell = new Cell(1, 4).add(paragraphTr);
+                        cell.setBackgroundColor(new DeviceRgb(242, 242, 242));
                         table.addCell(cell);
-                    }
 
-                    if (!transactionData.getText().isEmpty()) {
-                        cell = new Cell(1, 4).add(new Paragraph(FinanceFieldNames.TEXT + ": " + transactionData.getText()));
+                        cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.BETRAG + ": " + DF.format(1.0 * transactionData.getBetrag() / 100)));
                         table.addCell(cell);
+
+                        if (transactionData.getFinanceCategoryData() != null) {
+                            cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.CATEGORY + ": " + transactionData.getFinanceCategoryData().getCategory()));
+                            table.addCell(cell);
+                        } else {
+                            cell = new Cell().add(new Paragraph(FinanceFieldNames.CATEGORY));
+                            table.addCell(cell);
+                            table.addCell(new Cell());
+                        }
+
+                        if (transactionData.getFeeData() != null) {
+                            table.addCell(new Cell(1, 2));
+                            cell = new Cell(1, 2).add(new Paragraph("BeitragsNr: " + transactionData.getFeeData().getNo()));
+                            table.addCell(cell);
+                        }
+
+                        if (!transactionData.getText().isEmpty()) {
+                            cell = new Cell(1, 4).add(new Paragraph(FinanceFieldNames.TEXT + ": " + transactionData.getText()));
+                            table.addCell(cell);
+                        }
                     }
                 }
                 document.add(table);
