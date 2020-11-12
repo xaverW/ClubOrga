@@ -141,7 +141,7 @@ public class ClubSelector extends PDialogExtra {
         startColumn.setCellFactory(cellFactoryStart);
         startColumn.getStyleClass().add("alignCenter");
 
-        tableView.getColumns().addAll(nameColumn, pathColumn, startColumn);
+        tableView.getColumns().addAll(nameColumn, pathColumn, startColumn, selectedColumn);
 
         tableView.setOnMouseClicked(m -> {
             if (m.getButton().equals(MouseButton.PRIMARY) && m.getClickCount() == 2) {

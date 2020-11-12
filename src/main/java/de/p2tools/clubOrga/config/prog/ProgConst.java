@@ -74,4 +74,6 @@ public class ProgConst {
     public final static String ZIP_SUFFIX = "zip";
     public final static String PDF_SUFFIX = "pdf";
 
+    public static final int MIN_TABLE_HEIGHT = 200;
+    
 }

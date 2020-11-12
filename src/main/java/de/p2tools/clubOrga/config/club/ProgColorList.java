@@ -25,10 +25,6 @@ import javafx.scene.paint.Color;
 
 public class ProgColorList extends PColorList {
 
-    // Filter wenn RegEx
-    public static final PColorData FILTER_REGEX = addNewKey("filter-regex", Color.rgb(153, 214, 255), "Filter ist RegEx");
-    public static final PColorData FILTER_REGEX_ERROR = addNewKey("filter-regex-error", Color.RED, "Filter ist Regex, fehlerhaft");
-
     public static final PColorData CLUB_AUTOSTART = addNewKey("club-autostart", Color.rgb(145, 200, 255), "Autostart Club");
 
     public static PData getConfigsData() {

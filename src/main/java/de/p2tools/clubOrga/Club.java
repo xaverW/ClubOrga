@@ -50,7 +50,7 @@ public class Club extends Application {
 
         initP2lib();
         final boolean firstProgramStart = ProgStartFactory.loadProgConfigData();
-      
+
         if (firstProgramStart) {
             // Verein mit Standarddaten/Pfad anlegen
             initNewClub(primaryStage);
@@ -64,7 +64,10 @@ public class Club extends Application {
 
             } else {
                 // Prog sofort mit dem Club starten
-                ClubStartFactory.startClub(primaryStage, knownClubData);
+                if (!ClubStartFactory.startClub(primaryStage, knownClubData)) {
+                    // dann mit der Auswahl starten
+                    ClubStartFactory.startClubSelector();
+                }
             }
         }
 

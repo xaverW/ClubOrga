@@ -73,7 +73,7 @@ public class ClubStartFactory {
      *
      * @param knownClubData
      */
-    public static void startNewClub(KnownClubData knownClubData) {
+    public static boolean startNewClub(KnownClubData knownClubData) {
         ProgData progData = ProgData.getInstance();
         progData.knownClubDataList.add(knownClubData);
 
@@ -81,7 +81,7 @@ public class ClubStartFactory {
         clubConfig.setFirstStart(true);
         clubConfig.setAddDemoData(knownClubData.isAddDemoData());
 
-        startClubGui(clubConfig);
+        return startClubGui(clubConfig);
     }
 
     /**
@@ -90,9 +90,9 @@ public class ClubStartFactory {
      * @param stage
      * @param knownClubData
      */
-    public static void startClub(Stage stage, KnownClubData knownClubData) {
+    public static boolean startClub(Stage stage, KnownClubData knownClubData) {
         initClubConfig(stage, knownClubData);
-        startClubGui(knownClubData.getClubConfig());
+        return startClubGui(knownClubData.getClubConfig());
     }
 
     private static ClubConfig initClubConfig(Stage stage, KnownClubData knownClubData) {
@@ -118,9 +118,11 @@ public class ClubStartFactory {
         return clubConfig;
     }
 
-    private static void startClubGui(ClubConfig clubConfig) {
+    private static boolean startClubGui(ClubConfig clubConfig) {
         // lädt die Daten/init der Daten beim ersten Start
         // und startet dann die GUI
+        boolean ret = true;
+
         try {
             PDuration.onlyPing("startClub");
 
@@ -138,20 +140,23 @@ public class ClubStartFactory {
 
             } else {
                 // bereits erstellten Club laden
-                ProgStartFactory.loadClubConfigData(clubConfig);
+                ret = ProgStartFactory.loadClubConfigData(clubConfig);
                 PDuration.onlyPing("startClub: ClubConfigData geladen");
             }
 
             // geladen und jetzt das ClubGUI starten
             clubConfig.setClubIsStarting(false);
-            showClubGui(clubConfig);
-            PDuration.onlyPing("startClub: geladen");
+            if (ret) {
+                showClubGui(clubConfig);
+                PDuration.onlyPing("startClub: geladen");
+            }
 
         } catch (final Exception e) {
             PLog.errorLog(945120125, "startClub");
             PAlert.showErrorAlert((Stage) null, "Fehler beim Start", e.getLocalizedMessage());
             ClubStartFactory.startClubSelector();
         }
+        return ret;
     }
 
     private static void showClubGui(ClubConfig clubConfig) {

@@ -117,7 +117,7 @@ public class ImportZipClubDialogController extends PDialogExtra {
 
     private void initListener() {
         btnZipFile.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
-        btnZipFile.setOnAction(event -> PDirFileChooser.FileChooser(getStage(), txtZipFile));
+        btnZipFile.setOnAction(event -> PDirFileChooser.FileChooserOpenFile(getStage(), txtZipFile));
 
         btnDestDir.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
         btnDestDir.setOnAction(event -> PDirFileChooser.DirChooser(getStage(), txtDestDir));
@@ -157,8 +157,7 @@ public class ImportZipClubDialogController extends PDialogExtra {
             return false;
         }
 
-        ClubStartFactory.startClub(null, knownClubData);
-        return true;
+        return ClubStartFactory.startClub(null, knownClubData);
     }
 
 }

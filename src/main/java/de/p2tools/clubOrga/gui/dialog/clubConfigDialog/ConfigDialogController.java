@@ -25,12 +25,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-public class ProgConfigDialogController extends PDialogExtra {
+public class ConfigDialogController extends PDialogExtra {
 
     private TabPane tabPane = new TabPane();
     private Button btnOk = new Button("Ok");
@@ -38,10 +37,14 @@ public class ProgConfigDialogController extends PDialogExtra {
     private final ProgData progData;
     private final ClubConfig clubConfig;
     private ButtonBar buttonBar = new ButtonBar();
+
+    GeneralController generalController;
+    ExtraDataController extraDataController;
+
     //    StringProperty sizeProperty = ProgConfig.CONFIG_DIALOG_SIZE;
 
 
-    public ProgConfigDialogController(ClubConfig clubConfig) {
+    public ConfigDialogController(ClubConfig clubConfig) {
         super(clubConfig.getStage(), clubConfig.CLUB_CONFIG_DIALOG_SIZE, "Einstellungen", true, false, DECO.NONE);
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -73,18 +76,16 @@ public class ProgConfigDialogController extends PDialogExtra {
 
     private void initPanel() {
         try {
-            AnchorPane configPane = new GeneralController(getStage(), clubConfig);
-
+            generalController = new GeneralController(getStage(), clubConfig);
             Tab tab = new Tab("Allgemein");
             tab.setClosable(false);
-            tab.setContent(configPane);
+            tab.setContent(generalController);
             tabPane.getTabs().add(tab);
 
-            AnchorPane extraDataPane = new ExtraDataController(getStage(), clubConfig);
-
+            extraDataController = new ExtraDataController(getStage(), clubConfig);
             tab = new Tab("Extra Felder");
             tab.setClosable(false);
-            tab.setContent(extraDataPane);
+            tab.setContent(extraDataController);
             tabPane.getTabs().add(tab);
 
         } catch (final Exception ex) {

@@ -21,6 +21,7 @@ import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.pData.PDataProgConfig;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class ProgConfig extends PDataProgConfig {
     public static IntegerProperty SYSTEM_UPDATE_INFO_NR_SHOWN = addInt("system-update-info-nr-shown", 0);
     public static IntegerProperty SYSTEM_UPDATE_BETA_VERSION_SHOWN = addInt("system-update-beta-version-shown", 0);
     public static IntegerProperty SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN = addInt("system-update-beta-build-nr-shown", 0);
+    public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBool("config_dialog-accordion", true);
+    public static IntegerProperty SYSTEM_CONFIG_DIALOG_CONFIG = new SimpleIntegerProperty(-1);
 
 //    public static MLConfigs SYSTEM_UPDATE_BETA_VERSION_SHOWN = addNewKey("system-update-beta-version-shown"); // zuletzt angezeigtes Update mit versionNo
 //    public static MLConfigs SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN = addNewKey("system-update-beta-build-nr-shown"); // zuletzt angezeigtes Update mit buildNo

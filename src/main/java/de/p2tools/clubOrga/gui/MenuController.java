@@ -28,7 +28,7 @@ import de.p2tools.clubOrga.controller.export.zip.ExportZipDialogController;
 import de.p2tools.clubOrga.data.deleteData.DeleteDataFactory;
 import de.p2tools.clubOrga.data.demoData.DemoData;
 import de.p2tools.clubOrga.gui.dialog.AboutDialogController;
-import de.p2tools.clubOrga.gui.dialog.clubConfigDialog.ProgConfigDialogController;
+import de.p2tools.clubOrga.gui.dialog.clubConfigDialog.ConfigDialogController;
 import de.p2tools.p2Lib.dialogs.ProgInfoDialog;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
@@ -71,7 +71,7 @@ public class MenuController {
         miExportClub.setOnAction(event -> new ExportZipDialogController(clubConfig));
 
         MenuItem miClubConfig = new MenuItem("Programmeinstellungen");
-        miClubConfig.setOnAction(a -> new ProgConfigDialogController(clubConfig));
+        miClubConfig.setOnAction(a -> new ConfigDialogController(clubConfig));
 
         MenuItem miDemoData = new MenuItem("Demodaten (Mitglieder, Beiträge, Finanzen) einfügen");
         miDemoData.setOnAction(a -> new DemoData().addDemoData(clubConfig));

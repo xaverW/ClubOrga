@@ -72,14 +72,6 @@ public class ImportDirClubDialogController extends PDialogExtra {
                         "muss zum Import lediglich der Speicherort (Ordner) " +
                         "des Vereins dem Programm bekannt gemacht werden.");
 
-//        HBox hBoxHelp = new HBox();
-//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-//        hBoxHelp.getChildren().addAll(btnHelp);
-//
-//        HBox hBox = new HBox();
-//        HBox.setHgrow(hBox, Priority.ALWAYS);
-//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
-
         addOkCancelButtons(btnOk, btnCancel);
         ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
         addAnyButton(btnHelp);
@@ -139,8 +131,7 @@ public class ImportDirClubDialogController extends PDialogExtra {
         // Prüfen ob schon in der Liste
         for (KnownClubData knownClubData : progData.knownClubDataList) {
             if (knownClubData.getClubpath().equals(sourceFile)) {
-                ClubStartFactory.startClub(null, knownClubData);
-                return true;
+                return ClubStartFactory.startClub(null, knownClubData);
             }
         }
 
@@ -151,8 +142,7 @@ public class ImportDirClubDialogController extends PDialogExtra {
             return false;
         }
 
-        ClubStartFactory.startClub(null, knownClubData);
-        return true;
+        return ClubStartFactory.startClub(null, knownClubData);
     }
 
 }

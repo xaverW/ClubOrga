@@ -21,75 +21,55 @@ import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.controller.SearchProgramUpdate;
-import de.p2tools.clubOrga.gui.tools.HelpText;
 import de.p2tools.p2Lib.P2LibConst;
+import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
-import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GeneralController extends AnchorPane {
-
-    private final Accordion accordion = new Accordion();
-    private final HBox hBox = new HBox(0);
+public class GeneralController extends PAccordionPane {
 
     private final PToggleSwitch tglSearch = new PToggleSwitch("einmal am Tag nach einer neuen Programmversion suchen");
     private final PToggleSwitch tglSearchBeta = new PToggleSwitch("auch nach neuen Vorabversionen suchen");
-    private final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
     private final Button btnNow = new Button("_Jetzt suchen");
     private Button btnHelpBeta;
-    ScrollPane scrollPane = new ScrollPane();
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
     private final Stage stage;
-    BooleanProperty propDarkTheme = ProgConfig.SYSTEM_DARK_THEME;
+    private ColorPane colorPane;
 
     public GeneralController(Stage stage, ClubConfig clubConfig) {
-        progData = ProgData.getInstance();
-        this.clubConfig = clubConfig;
+        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_CONFIG);
         this.stage = stage;
+        this.clubConfig = clubConfig;
 
-        HBox.setHgrow(scrollPane, Priority.ALWAYS);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setFitToWidth(true);
-
-        hBox.getChildren().addAll(scrollPane);
-        getChildren().addAll(hBox);
-
-        accordion.setPadding(new Insets(1));
-
-        AnchorPane.setLeftAnchor(hBox, 10.0);
-        AnchorPane.setBottomAnchor(hBox, 10.0);
-        AnchorPane.setRightAnchor(hBox, 10.0);
-        AnchorPane.setTopAnchor(hBox, 10.0);
-
-        accordion.getPanes().addAll(createPanes());
-        scrollPane.setContent(accordion);
-
+        progData = ProgData.getInstance();
+        init();
     }
 
     public void close() {
-        tglDarkTheme.selectedProperty().unbindBidirectional(propDarkTheme);
+
     }
 
-    private Collection<TitledPane> createPanes() {
+    public Collection<TitledPane> createPanes() {
         Collection<TitledPane> result = new ArrayList<TitledPane>();
         makeConfig(result);
+        colorPane = new ColorPane(stage);
+        colorPane.makeColor(result);
         makeUpdate(result);
-//        accordion.setExpandedPane(result.stream().findFirst().get());
         return result;
     }
 
@@ -101,14 +81,6 @@ public class GeneralController extends AnchorPane {
 
         TitledPane tpConfig = new TitledPane("Allgemein", gridPane);
         result.add(tpConfig);
-
-
-        tglDarkTheme.selectedProperty().bindBidirectional(propDarkTheme);
-        final Button btnHelpTheme = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
-                HelpText.DARK_THEME);
-
-        gridPane.add(tglDarkTheme, 0, 0);
-        gridPane.add(btnHelpTheme, 1, 0);
 
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
     }
@@ -145,8 +117,6 @@ public class GeneralController extends AnchorPane {
 
         //jetzt suchen
         btnNow.setOnAction(event -> new SearchProgramUpdate(clubConfig.getStage(), clubConfig).searchNewVersionInfos());
-
-
         checkBeta();
         tglSearch.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
