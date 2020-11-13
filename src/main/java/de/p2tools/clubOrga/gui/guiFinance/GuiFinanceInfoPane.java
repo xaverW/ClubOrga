@@ -123,7 +123,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
 
         int row = 0;
         int c = 0;
-        gridPane.add(new Label(FinanceFieldNames.RECEIPT_NR_), c, row);
+        gridPane.add(new Label(FinanceFieldNames.BELEG_NR_), c, row);
         gridPane.add(txtFinanceBelegNr, c + 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), c, ++row);
@@ -149,10 +149,10 @@ public class GuiFinanceInfoPane extends AnchorPane {
         gridPane.add(new Label(FinanceFieldNames.BETRAG_), c, row);
         gridPane.add(txtTransactionBetrag, c + 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.BUCHUNGS_DATUM_), c, ++row);
+        gridPane.add(new Label(FinanceFieldNames.BUCHUNGSDATUM_), c, ++row);
         gridPane.add(pdpFinanceBuchungsdatum, c + 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.CATEGORY_), c, ++row);
+        gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), c, ++row);
         gridPane.add(cboCategory, c + 1, row);
 
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),

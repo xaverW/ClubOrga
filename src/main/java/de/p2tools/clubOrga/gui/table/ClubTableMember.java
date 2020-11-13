@@ -51,7 +51,7 @@ public class ClubTableMember {
 
         table.getColumns().clear();
 
-        final TableColumn<MemberData, Long> nrColumn = new TableColumn<>(MemberFieldNames.NO);
+        final TableColumn<MemberData, Long> nrColumn = new TableColumn<>(MemberFieldNames.NR);
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
         final TableColumn<MemberData, String> nachnameColumn = new TableColumn<>(MemberFieldNames.NACHNAME);

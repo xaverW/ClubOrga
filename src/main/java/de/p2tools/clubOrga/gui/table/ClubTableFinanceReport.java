@@ -47,10 +47,10 @@ public class ClubTableFinanceReport {
 
         table.getColumns().clear();
 
-        final TableColumn<FinanceReportData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NO);
+        final TableColumn<FinanceReportData, Long> nrColumn = new TableColumn<>(FinanceFieldNames.NR);
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
-        final TableColumn<FinanceReportData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.RECEIPT_NO);
+        final TableColumn<FinanceReportData, String> belegNrColumn = new TableColumn<>(FinanceFieldNames.BELEG_NR);
         belegNrColumn.setCellValueFactory(new PropertyValueFactory<>("receiptNo"));
 
         final TableColumn<FinanceReportData, String> textColumn = new TableColumn<>(FinanceFieldNames.TEXT);
@@ -59,7 +59,7 @@ public class ClubTableFinanceReport {
         final TableColumn<FinanceReportData, Integer> geschaeftsJahrColumn = new TableColumn<>(FinanceFieldNames.GESCHAEFTSJAHR);
         geschaeftsJahrColumn.setCellValueFactory(new PropertyValueFactory<>("geschaeftsJahr"));
 
-        final TableColumn<FinanceReportData, PLocalDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGS_DATUM);
+        final TableColumn<FinanceReportData, PLocalDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGSDATUM);
         buchungsDatumColumn.setCellValueFactory(new PropertyValueFactory<>("buchungsDatum"));
 
         final TableColumn<FinanceReportData, Long> gesamtbetragColumn = new TableColumn<>(FinanceFieldNames.GESAMTBETRAG);

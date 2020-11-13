@@ -23,21 +23,23 @@ import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.clubOrga.controller.ClubFactory;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
+import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
+import de.p2tools.clubOrga.data.memberData.MemberFieldNames;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
+import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 import java.nio.file.Path;
@@ -89,8 +91,8 @@ public class ExportCsvDialogController extends PDialogExtra {
 
         this.clubConfig = clubConfig;
         this.memberDataList = null;
-        this.financeDataList = financeDataList;
-        this.financeReportDataList = financeReportDataList;
+        this.financeDataList = financeDataList; //aus Menü Finanzen
+        this.financeReportDataList = financeReportDataList; //aus Menü Finanzübersicht: Konten..., Kategorien...
 
         if (financeDataList != null) {
             exportingWhat = exporting.FINANCES;
@@ -115,14 +117,6 @@ public class ExportCsvDialogController extends PDialogExtra {
                         "(Das Dateiformat CSV beschreibt den Aufbau einer Textdatei " +
                         "zur Speicherung oder zum Austausch einfach strukturierter Daten.)");
 
-//        HBox hBoxHelp = new HBox();
-//        hBoxHelp.setAlignment(Pos.CENTER_LEFT);
-//        hBoxHelp.getChildren().addAll(btnHelp);
-//
-//        HBox hBox = new HBox();
-//        HBox.setHgrow(hBox, Priority.ALWAYS);
-//        getHboxOk().getChildren().addAll(btnHelp, hBox, btnOk, btnCancel);
-
         addOkCancelButtons(btnOk, btnCancel);
         ButtonBar.setButtonData(btnHelp, ButtonBar.ButtonData.HELP);
         addAnyButton(btnHelp);
@@ -140,8 +134,6 @@ public class ExportCsvDialogController extends PDialogExtra {
 
         getHBoxTitle().getChildren().add(new Label((exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
                 " in CVS-Datei exportieren"));
-//        HBox hBoxTitle = GuiFactory.getDialogTitle((exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
-//                " in CVS-Datei exportieren");
 
         final GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
@@ -161,10 +153,191 @@ public class ExportCsvDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
 
-        getvBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
+        getvBoxCont().getChildren().addAll(gridPane);
+        if (exportingWhat == exporting.MEMBER) {
+            addMemberColumn();
+        } else if (exportingWhat == exporting.FINANCES) {
+            addFinanceColumn();
+        }
 
         initListener();
     }
+
+    private void addMemberColumn() {
+
+        final GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10));
+        gridPane.setVgap(10);
+        gridPane.setHgap(25);
+
+        int row = 0;
+
+        CheckBox chkNo = new CheckBox(MemberFieldNames.NR);
+        chkNo.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Nr);
+        gridPane.add(chkNo, 0, ++row);
+
+        CheckBox chkNachname = new CheckBox(MemberFieldNames.NACHNAME);
+        chkNachname.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Nachname);
+        gridPane.add(chkNachname, 0, ++row);
+
+        CheckBox chkVorname = new CheckBox(MemberFieldNames.VORNAME);
+        chkVorname.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Vorname);
+        gridPane.add(chkVorname, 0, ++row);
+
+        CheckBox chkAnrede = new CheckBox(MemberFieldNames.ANREDE);
+        chkAnrede.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Anrede);
+        gridPane.add(chkAnrede, 0, ++row);
+
+        CheckBox chkEmail = new CheckBox(MemberFieldNames.EMAIL);
+        chkEmail.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Email);
+        gridPane.add(chkEmail, 0, ++row);
+
+        CheckBox chkTelefon = new CheckBox(MemberFieldNames.TELEFON);
+        chkTelefon.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Telefon);
+        gridPane.add(chkTelefon, 0, ++row);
+
+        CheckBox chkStrasse = new CheckBox(MemberFieldNames.STRASSE);
+        chkStrasse.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Strasse);
+        gridPane.add(chkStrasse, 0, ++row);
+
+        row = 0;
+        CheckBox chkPLZ = new CheckBox(MemberFieldNames.PLZ);
+        chkPLZ.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_PLZ);
+        gridPane.add(chkPLZ, 1, ++row);
+
+        CheckBox chkOrt = new CheckBox(MemberFieldNames.ORT);
+        chkOrt.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Ort);
+        gridPane.add(chkOrt, 1, ++row);
+
+        CheckBox chkLand = new CheckBox(MemberFieldNames.LAND);
+        chkLand.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Land);
+        gridPane.add(chkLand, 1, ++row);
+
+        CheckBox chkStatus = new CheckBox(MemberFieldNames.STATUS);
+        chkStatus.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Status);
+        gridPane.add(chkStatus, 1, ++row);
+
+        CheckBox chkBeitrag = new CheckBox(MemberFieldNames.BEITRAG);
+        chkBeitrag.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Beitrag);
+        gridPane.add(chkBeitrag, 1, ++row);
+
+        CheckBox chkBeitragssatz = new CheckBox(MemberFieldNames.BEITRAGSSATZ);
+        chkBeitragssatz.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Beitragssatz);
+        gridPane.add(chkBeitragssatz, 1, ++row);
+
+        CheckBox chkBank = new CheckBox(MemberFieldNames.BANK);
+        chkBank.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Bank);
+        gridPane.add(chkBank, 1, ++row);
+
+        row = 0;
+        CheckBox chkIban = new CheckBox(MemberFieldNames.IBAN);
+        chkIban.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Iban);
+        gridPane.add(chkIban, 2, ++row);
+
+        CheckBox chkBic = new CheckBox(MemberFieldNames.BIC);
+        chkBic.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Bic);
+        gridPane.add(chkBic, 2, ++row);
+
+        CheckBox chkKontoinhaber = new CheckBox(MemberFieldNames.KONTOINHABER);
+        chkKontoinhaber.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Kontoinhaber);
+        gridPane.add(chkKontoinhaber, 2, ++row);
+
+        CheckBox chkZahlart = new CheckBox(MemberFieldNames.ZAHLART);
+        chkZahlart.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Zahlart);
+        gridPane.add(chkZahlart, 2, ++row);
+
+        CheckBox chkZahlungsbeginn = new CheckBox(MemberFieldNames.ZAHLUNGSBEGINN);
+        chkZahlungsbeginn.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Zahlungsbeginn);
+        gridPane.add(chkZahlungsbeginn, 2, ++row);
+
+        CheckBox chkSepabeginn = new CheckBox(MemberFieldNames.SEPABEGINN);
+        chkSepabeginn.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Sepabeginn);
+        gridPane.add(chkSepabeginn, 2, ++row);
+
+        CheckBox chkBeitritt = new CheckBox(MemberFieldNames.BEITRITT);
+        chkBeitritt.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_DATA_Beitritt);
+        gridPane.add(chkBeitritt, 2, ++row);
+
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcPrefSize());
+
+        PToggleSwitch tglAll = new PToggleSwitch("Alle Felder exportieren");
+        tglAll.selectedProperty().bindBidirectional(clubConfig.MEMBER_EXPORT_ALL);
+        gridPane.setDisable(tglAll.isSelected());
+        tglAll.selectedProperty().addListener((observable, oldValue, newValue) -> gridPane.setDisable(tglAll.isSelected()));
+
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(25, 10, 10, 10));
+        HBox.setHgrow(tglAll, Priority.ALWAYS);
+        hBox.getChildren().add(tglAll);
+
+        getvBoxCont().getChildren().addAll(gridPane, hBox);
+    }
+
+    private void addFinanceColumn() {
+
+        final GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10));
+        gridPane.setVgap(10);
+        gridPane.setHgap(25);
+
+        int row = 0;
+        CheckBox chkNo = new CheckBox(FinanceFieldNames.NR);
+        chkNo.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_Nr);
+        gridPane.add(chkNo, 0, row++);
+
+        CheckBox chkNachname = new CheckBox(FinanceFieldNames.BELEG_NR);
+        chkNachname.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_BelegNr);
+        gridPane.add(chkNachname, 0, row++);
+
+        CheckBox chkVorname = new CheckBox(FinanceFieldNames.GESAMTBETRAG);
+        chkVorname.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_Gesamtbetrag);
+        gridPane.add(chkVorname, 0, row++);
+
+        row = 0;
+        CheckBox chkTelefon = new CheckBox(FinanceFieldNames.KONTO);
+        chkTelefon.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_Konto);
+        gridPane.add(chkTelefon, 1, row++);
+
+        CheckBox chkStrasse = new CheckBox(FinanceFieldNames.KATEGORIE);
+        chkStrasse.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_Kategorie);
+        gridPane.add(chkStrasse, 1, row++);
+
+        CheckBox chkPLZ = new CheckBox(FinanceFieldNames.GESCHAEFTSJAHR);
+        chkPLZ.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_Geschäftsjahr);
+        gridPane.add(chkPLZ, 1, row++);
+
+        row = 0;
+        CheckBox chkOrt = new CheckBox(FinanceFieldNames.BUCHUNGSDATUM);
+        chkOrt.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_Buchungsdatum);
+        gridPane.add(chkOrt, 2, row++);
+
+        CheckBox chkLand = new CheckBox(FinanceFieldNames.ERSTELLDATUM);
+        chkLand.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_Erstelldatum);
+        gridPane.add(chkLand, 2, row++);
+
+        CheckBox chkStatus = new CheckBox(FinanceFieldNames.TEXT);
+        chkStatus.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_DATA_Text);
+        gridPane.add(chkStatus, 2, row++);
+
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcPrefSize());
+
+        PToggleSwitch tglAll = new PToggleSwitch("Alle Felder exportieren");
+        tglAll.selectedProperty().bindBidirectional(clubConfig.FINANCE_EXPORT_ALL);
+        gridPane.setDisable(tglAll.isSelected());
+        tglAll.selectedProperty().addListener((observable, oldValue, newValue) -> gridPane.setDisable(tglAll.isSelected()));
+
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(25, 10, 10, 10));
+        HBox.setHgrow(tglAll, Priority.ALWAYS);
+        hBox.getChildren().add(tglAll);
+
+        getvBoxCont().getChildren().addAll(gridPane, hBox);
+    }
+
 
     private void initListener() {
         cboExportFile.init(clubConfig.CBO_LIST_EXPORT_CSV_FILE, clubConfig.EXPORT_CSV_FILE);
@@ -208,20 +381,20 @@ public class ExportCsvDialogController extends PDialogExtra {
         Path dFile = Paths.get(destDir, destFile);
         switch (exportingWhat) {
             case MEMBER:
-                if (!CsvFactory.exportMember(memberDataList, dFile)) {
+                if (!CsvFactoryMember.exportMember(clubConfig, memberDataList, dFile)) {
                     PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
                     return false;
                 }
                 break;
             case FINANCES:
-                if (!CsvFactory.exportFinances(financeDataList, dFile)) {
+                if (!CsvFactoryFinance.exportFinances(clubConfig, financeDataList, dFile)) {
                     PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
                     return false;
                 }
                 break;
             case FINANCEREPORTS:
             default:
-                if (!CsvFactory.exportFinancesReport(clubConfig, financeReportDataList, dFile)) {
+                if (!CsvFactoryFinanceReport.exportFinancesReport(clubConfig, financeReportDataList, dFile)) {
                     PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
                     return false;
                 }

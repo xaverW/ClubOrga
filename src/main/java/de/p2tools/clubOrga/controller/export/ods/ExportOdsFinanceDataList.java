@@ -180,7 +180,7 @@ public class ExportOdsFinanceDataList {
 
         // Spalte BelegNr, Geschäftsjahr, Datum
         Cell cellHeader = table.getCellByPosition(startCol, tableHeaderRow);
-        cellHeader.setStringValue(FinanceFieldNames.RECEIPT_NO);
+        cellHeader.setStringValue(FinanceFieldNames.BELEG_NR);
         cellHeader.setBorders(StyleTypeDefinitions.CellBordersType.ALL_FOUR, border);
         cellHeader.setCellBackgroundColor(color);
 
@@ -190,7 +190,7 @@ public class ExportOdsFinanceDataList {
         cellHeader.setCellBackgroundColor(color);
 
         cellHeader = table.getCellByPosition(startCol + 2, tableHeaderRow);
-        cellHeader.setStringValue(FinanceFieldNames.BUCHUNGS_DATUM);
+        cellHeader.setStringValue(FinanceFieldNames.BUCHUNGSDATUM);
         cellHeader.setBorders(StyleTypeDefinitions.CellBordersType.ALL_FOUR, border);
         cellHeader.setCellBackgroundColor(color);
 

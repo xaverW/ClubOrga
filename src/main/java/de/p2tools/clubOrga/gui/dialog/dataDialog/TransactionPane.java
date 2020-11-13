@@ -147,7 +147,7 @@ public class TransactionPane extends VBox {
                 } else if (config.getName().equals(FinanceFieldNames.BETRAG)) {
                     control = ((ConfigExtra) config).getControl();
 
-                } else if (config.getName().equals(FinanceFieldNames.CATEGORY)) {
+                } else if (config.getName().equals(FinanceFieldNames.KATEGORIE)) {
                     control = getPComboObject(transactionData.financeCategoryDataProperty(), clubConfig.financeCategoryDataList);
 
                 } else if (config instanceof ConfigExtra) {

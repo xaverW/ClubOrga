@@ -156,7 +156,7 @@ public class ImportCsvMemberDialogController extends PDialogExtra {
             return false;
         }
 
-        if (!CsvFactory.importMember(clubConfig, dFile)) {
+        if (!CsvFactoryMember.importMember(clubConfig, dFile)) {
             PAlert.showErrorAlert(getStage(), "Mitgliederimport", "Es konnten keine Mitglieder aus der " +
                     "CVS-Datei importiert werden.");
             return false;

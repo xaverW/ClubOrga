@@ -104,7 +104,7 @@ public class FinancePane extends VBox {
                 } else if (config.getName().equals(FinanceFieldNames.KONTO)) {
                     control = getPComboObject(financeData.financeAccountDataProperty(), clubConfig.financeAccountDataList);
 
-                } else if (config.getName().equals(FinanceFieldNames.CATEGORY)) {
+                } else if (config.getName().equals(FinanceFieldNames.KATEGORIE)) {
                     control = new PTextField(config.getActValueString(), true);
 
                 } else if (config.getName().equals(FinanceFieldNames.ERSTELLDATUM)) {

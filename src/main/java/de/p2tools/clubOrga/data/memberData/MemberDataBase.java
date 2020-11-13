@@ -176,7 +176,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
 
         ArrayList<Config> list = new ArrayList<>();
         list.add(new ConfigLongPropExtra("id", MemberFieldNames.ID, id));
-        list.add(new ConfigLongPropExtra("nr", MemberFieldNames.NO, no));
+        list.add(new ConfigLongPropExtra("nr", MemberFieldNames.NR, no));
         list.add(new ConfigStringPropExtra("nachname", MemberFieldNames.NACHNAME, nachname));
         list.add(new ConfigStringPropExtra("vorname", MemberFieldNames.VORNAME, vorname));
 

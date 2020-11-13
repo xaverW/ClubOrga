@@ -68,7 +68,7 @@ public class FinanceReceiptFactory {
                 Table table = new Table(4, true);
                 PdfFont bold = PdfFontFactory.createFont(StandardFonts.TIMES_BOLD);
 
-                Paragraph paragraph = new Paragraph(FinanceFieldNames.RECEIPT_NO + ": " + data.getReceiptNo());
+                Paragraph paragraph = new Paragraph(FinanceFieldNames.BELEG_NR + ": " + data.getReceiptNo());
                 paragraph.setFont(bold);
                 Cell cell = new Cell(1, 4).add(paragraph);
                 cell.setBackgroundColor(new DeviceRgb(250, 104, 0));
@@ -92,7 +92,7 @@ public class FinanceReceiptFactory {
                 cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.GESCHAEFTSJAHR + ": " + data.getGeschaeftsJahr()));
                 table.addCell(cell);
 
-                cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.BUCHUNGS_DATUM + ": " + data.getBuchungsDatum().toString()));
+                cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.BUCHUNGSDATUM + ": " + data.getBuchungsDatum().toString()));
                 table.addCell(cell);
 
                 if (!data.getText().isEmpty()) {
@@ -111,7 +111,7 @@ public class FinanceReceiptFactory {
                 boolean secondTr = false;
                 for (TransactionData transactionData : data.getTransactionDataList()) {
                     if (transactionShort) {
-                        Paragraph paragraphTr = new Paragraph(FinanceFieldNames.TRANSACTION_NO + ": " + transactionData.getNo());
+                        Paragraph paragraphTr = new Paragraph(FinanceFieldNames.TRANSAKTIONS_NR + ": " + transactionData.getNo());
                         paragraphTr.setFont(bold);
                         cell = new Cell().add(paragraphTr);
                         table.addCell(cell);
@@ -120,10 +120,10 @@ public class FinanceReceiptFactory {
                         table.addCell(cell);
 
                         if (transactionData.getFinanceCategoryData() != null) {
-                            cell = new Cell().add(new Paragraph(FinanceFieldNames.CATEGORY + ": " + transactionData.getFinanceCategoryData().getCategory()));
+                            cell = new Cell().add(new Paragraph(FinanceFieldNames.KATEGORIE + ": " + transactionData.getFinanceCategoryData().getCategory()));
                             table.addCell(cell);
                         } else {
-                            cell = new Cell().add(new Paragraph(FinanceFieldNames.CATEGORY));
+                            cell = new Cell().add(new Paragraph(FinanceFieldNames.KATEGORIE));
                             table.addCell(cell);
                         }
 
@@ -141,7 +141,7 @@ public class FinanceReceiptFactory {
                         }
                         secondTr = true;
 
-                        Paragraph paragraphTr = new Paragraph(FinanceFieldNames.TRANSACTION_NO + ": " + transactionData.getNo());
+                        Paragraph paragraphTr = new Paragraph(FinanceFieldNames.TRANSAKTIONS_NR + ": " + transactionData.getNo());
                         paragraphTr.setFont(bold);
                         cell = new Cell(1, 4).add(paragraphTr);
                         cell.setBackgroundColor(new DeviceRgb(242, 242, 242));
@@ -151,10 +151,10 @@ public class FinanceReceiptFactory {
                         table.addCell(cell);
 
                         if (transactionData.getFinanceCategoryData() != null) {
-                            cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.CATEGORY + ": " + transactionData.getFinanceCategoryData().getCategory()));
+                            cell = new Cell(1, 2).add(new Paragraph(FinanceFieldNames.KATEGORIE + ": " + transactionData.getFinanceCategoryData().getCategory()));
                             table.addCell(cell);
                         } else {
-                            cell = new Cell().add(new Paragraph(FinanceFieldNames.CATEGORY));
+                            cell = new Cell().add(new Paragraph(FinanceFieldNames.KATEGORIE));
                             table.addCell(cell);
                             table.addCell(new Cell());
                         }

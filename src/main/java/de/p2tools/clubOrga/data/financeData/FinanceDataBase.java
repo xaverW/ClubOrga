@@ -79,16 +79,15 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
         }
 
         list.add(new ConfigLongPropExtra("id", FinanceFieldNames.ID, id));
-        list.add(new ConfigLongPropExtra("nr", FinanceFieldNames.NO, no));
-        list.add(new ConfigStringPropExtra("belegNr", FinanceFieldNames.RECEIPT_NO, receiptNo));
+        list.add(new ConfigLongPropExtra("nr", FinanceFieldNames.NR, no));
+        list.add(new ConfigStringPropExtra("belegNr", FinanceFieldNames.BELEG_NR, receiptNo));
 
         list.add(new ConfigMoneyPropExtra("gesamtbetrag", FinanceFieldNames.GESAMTBETRAG, gesamtbetrag, true));
         list.add(new ConfigLongPropExtra("konto", FinanceFieldNames.KONTO, konto));
-//        list.add(new ConfigStringPropExtra("konto", FinanceFieldNames.KONTO, konto));
-        list.add(new ConfigStringPropExtra("kategorie", FinanceFieldNames.CATEGORY, category));
+        list.add(new ConfigStringPropExtra("kategorie", FinanceFieldNames.KATEGORIE, category));
         list.add(new ConfigIntPropExtra("geschaeftsJahr", FinanceFieldNames.GESCHAEFTSJAHR, geschaeftsJahr));
 
-        list.add(new ConfigLocalDatePropExtra("buchungsDatum", FinanceFieldNames.BUCHUNGS_DATUM, buchungsDatum));
+        list.add(new ConfigLocalDatePropExtra("buchungsDatum", FinanceFieldNames.BUCHUNGSDATUM, buchungsDatum));
         list.add(new ConfigLocalDateExtra("erstellDatum", FinanceFieldNames.ERSTELLDATUM, erstellDatum));
 
         list.add(new ConfigStringPropExtra("text", FinanceFieldNames.TEXT, text));

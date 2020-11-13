@@ -77,11 +77,11 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
 
         return new Config[]{
                 new ConfigLongPropExtra("id", FinanceFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FinanceFieldNames.NO, no),
+                new ConfigLongPropExtra("nr", FinanceFieldNames.NR, no),
                 new ConfigLongPropExtra("feeId", FinanceFieldNames.FEED_ID, feeId),
 
                 new ConfigMoneyPropExtra("betrag", FinanceFieldNames.BETRAG, betrag),
-                new ConfigLongPropExtra("kategorie", FinanceFieldNames.CATEGORY, category),
+                new ConfigLongPropExtra("kategorie", FinanceFieldNames.KATEGORIE, category),
 
                 new ConfigStringPropExtra("text", FinanceFieldNames.TEXT, text)
         };

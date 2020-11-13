@@ -23,29 +23,29 @@ public class FinanceFieldNames {
     public static final String FINANCE_ID = "FinanzId";
     public static final String FEED_ID = "BeitragId";
     public static final String FEED_NO = "BeitragsNr";
-    public static final String NO = "Nr";
-    public static final String RECEIPT_NO = "BelegNr";
-    public static final String TRANSACTION_NO = "TrNr";
+    public static final String NR = "Nr";
+    public static final String BELEG_NR = "BelegNr";
+    public static final String TRANSAKTIONS_NR = "TrNr";
 
     public static final String GESAMTBETRAG = "Gesamtbetrag";
     public static final String BETRAG = "Betrag";
     public static final String KONTO = "Konto";
-    public static final String CATEGORY = "Kategorie";
+    public static final String KATEGORIE = "Kategorie";
     public static final String GESCHAEFTSJAHR = "Geschäftsjahr";
-    public static final String BUCHUNGS_DATUM = "Buchungsdatum";
+    public static final String BUCHUNGSDATUM = "Buchungsdatum";
     public static final String ERSTELLDATUM = "Erstelldatum";
     public static final String TEXT = "Text";
 
-    public static final String NO_ = NO + ":";
-    public static final String RECEIPT_NR_ = RECEIPT_NO + ":";
-    public static final String TRANSACTIONS_NR_ = TRANSACTION_NO + ":";
+    public static final String Nr_ = NR + ":";
+    public static final String BELEG_NR_ = BELEG_NR + ":";
+    public static final String TRANAKTIONS_NR_ = TRANSAKTIONS_NR + ":";
 
     public static final String GESAMTBETRAG_ = GESAMTBETRAG + ":";
     public static final String BETRAG_ = BETRAG + ":";
     public static final String KONTO_ = KONTO + ":";
-    public static final String CATEGORY_ = CATEGORY + ":";
+    public static final String KATEGORIE_ = KATEGORIE + ":";
     public static final String GESCHAEFTSJAHR_ = GESCHAEFTSJAHR + ":";
-    public static final String BUCHUNGS_DATUM_ = BUCHUNGS_DATUM + ":";
-    public static final String ERSTELL_DATUM_ = ERSTELLDATUM + ":";
+    public static final String BUCHUNGSDATUM_ = BUCHUNGSDATUM + ":";
+    public static final String ERSTELLDATUM_ = ERSTELLDATUM + ":";
     public static final String TEXT_ = TEXT + ":";
 }

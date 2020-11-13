@@ -20,7 +20,6 @@ package de.p2tools.clubOrga.controller.export.csv;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
 import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
-import de.p2tools.clubOrga.data.financeData.*;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFactory;
 import de.p2tools.clubOrga.data.memberData.MemberFieldNames;
@@ -43,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class CsvFactory {
+public class CsvFactoryMember {
     private static final DecimalFormat DF;
     private static final NumberFormat NF;
     private static final Locale locale = Locale.GERMAN;
@@ -53,7 +52,7 @@ public class CsvFactory {
         DF = new DecimalFormat("###,##0.00");
     }
 
-    private CsvFactory() {
+    private CsvFactoryMember() {
     }
 
     public static boolean importMember(ClubConfig clubConfig, Path importPath) {
@@ -82,7 +81,7 @@ public class CsvFactory {
 
         for (Config configExtra : confArr) {
             if (configExtra.getName().equals(MemberFieldNames.ID) ||
-                    configExtra.getName().equals(MemberFieldNames.NO) ||
+                    configExtra.getName().equals(MemberFieldNames.NR) ||
                     configExtra.getName().equals(MemberFieldNames.ERSTELLDATUM)) {
                 continue;
             }
@@ -146,7 +145,7 @@ public class CsvFactory {
         }
     }
 
-    public static boolean exportMember(List<MemberData> memberDataList, Path exportPath) {
+    public static boolean exportMember(ClubConfig clubConfig, List<MemberData> memberDataList, Path exportPath) {
         ArrayList<String> list = new ArrayList<>();
         if (memberDataList.isEmpty()) {
             return true;
@@ -157,7 +156,7 @@ public class CsvFactory {
             if (configExtra.getName().equals(MemberFieldNames.ID)) {
                 continue;
             }
-            list.add(configExtra.getName());
+            addMemberNameToList(clubConfig, list, configExtra);
         }
         String[] HEADERS = list.toArray(new String[]{});
 
@@ -171,11 +170,8 @@ public class CsvFactory {
                     if (configExtra.getName().equals(MemberFieldNames.ID)) {
                         continue;
                     }
-                    if (configExtra.getName().equals(MemberFieldNames.BEITRAG)) {
-                        list.add(DF.format(1.0 * memberData.getBeitrag() / 100));
-                    } else {
-                        list.add(configExtra.getActValueString());
-                    }
+
+                    addMemberToList(clubConfig, list, configExtra, memberData);
                 }
                 Object[] sArr = list.toArray(new String[]{});
                 printer.printRecord(sArr);
@@ -189,133 +185,70 @@ public class CsvFactory {
         return true;
     }
 
-    public static boolean exportFinances(List<FinanceData> financeDataList, Path exportPath) {
-        if (financeDataList == null || financeDataList.isEmpty()) {
-            return false;
-        }
-        ArrayList<String> list = new ArrayList<>();
-        String[] HEADERS = getFinanceDataHeaderArr(financeDataList.get(0));
-
-        try (FileWriter out = new FileWriter(exportPath.toFile());
-             CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(HEADERS))) {
-
-            for (FinanceData financeData : financeDataList) {
-//                ArrayList<String> line = financeData.getDataRow();
-//                printer.printRecord(line);
-
-                list.clear();
-                for (Config configExtra : financeData.getConfigsArr()) {
-                    if (configExtra.getName().equals(FinanceFieldNames.ID)) {
-                        continue;
-                    }
-                    if (configExtra.getName().equals(FinanceFieldNames.GESAMTBETRAG)) {
-                        list.add(DF.format(1.0 * financeData.getGesamtbetrag() / 100));
-                    } else if (configExtra.getName().equals(FinanceFieldNames.KONTO)) {
-                        list.add(financeData.getFinanceAccountData().getName());
-                    } else {
-                        list.add(configExtra.getActValueString());
-                    }
-
-                }
-                Object[] sArr = list.toArray(new String[]{});
-                printer.printRecord(sArr);
+    private static void addMemberNameToList(ClubConfig clubConfig, ArrayList<String> list, Config configExtra) {
+        if (!clubConfig.MEMBER_EXPORT_ALL.get()) {
+            if (configExtra.getName().equals(MemberFieldNames.NR) && clubConfig.MEMBER_EXPORT_DATA_Nr.get() ||
+                    configExtra.getName().equals(MemberFieldNames.NACHNAME) && clubConfig.MEMBER_EXPORT_DATA_Nachname.get() ||
+                    configExtra.getName().equals(MemberFieldNames.VORNAME) && clubConfig.MEMBER_EXPORT_DATA_Vorname.get() ||
+                    configExtra.getName().equals(MemberFieldNames.ANREDE) && clubConfig.MEMBER_EXPORT_DATA_Anrede.get() ||
+                    configExtra.getName().equals(MemberFieldNames.EMAIL) && clubConfig.MEMBER_EXPORT_DATA_Email.get() ||
+                    configExtra.getName().equals(MemberFieldNames.TELEFON) && clubConfig.MEMBER_EXPORT_DATA_Telefon.get() ||
+                    configExtra.getName().equals(MemberFieldNames.STRASSE) && clubConfig.MEMBER_EXPORT_DATA_Strasse.get() ||
+                    configExtra.getName().equals(MemberFieldNames.PLZ) && clubConfig.MEMBER_EXPORT_DATA_PLZ.get() ||
+                    configExtra.getName().equals(MemberFieldNames.ORT) && clubConfig.MEMBER_EXPORT_DATA_Ort.get() ||
+                    configExtra.getName().equals(MemberFieldNames.LAND) && clubConfig.MEMBER_EXPORT_DATA_Land.get() ||
+                    configExtra.getName().equals(MemberFieldNames.STATUS) && clubConfig.MEMBER_EXPORT_DATA_Status.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BEITRAG) && clubConfig.MEMBER_EXPORT_DATA_Beitrag.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BEITRAGSSATZ) && clubConfig.MEMBER_EXPORT_DATA_Beitragssatz.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BANK) && clubConfig.MEMBER_EXPORT_DATA_Bank.get() ||
+                    configExtra.getName().equals(MemberFieldNames.IBAN) && clubConfig.MEMBER_EXPORT_DATA_Iban.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BIC) && clubConfig.MEMBER_EXPORT_DATA_Bic.get() ||
+                    configExtra.getName().equals(MemberFieldNames.KONTOINHABER) && clubConfig.MEMBER_EXPORT_DATA_Kontoinhaber.get() ||
+                    configExtra.getName().equals(MemberFieldNames.ZAHLART) && clubConfig.MEMBER_EXPORT_DATA_Zahlart.get() ||
+                    configExtra.getName().equals(MemberFieldNames.ZAHLUNGSBEGINN) && clubConfig.MEMBER_EXPORT_DATA_Zahlungsbeginn.get() ||
+                    configExtra.getName().equals(MemberFieldNames.SEPABEGINN) && clubConfig.MEMBER_EXPORT_DATA_Sepabeginn.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BEITRITT) && clubConfig.MEMBER_EXPORT_DATA_Beitritt.get()) {
+                list.add(configExtra.getName());
             }
-
-        } catch (Exception ex) {
-            PLog.errorLog(645120123, ex, "export csv");
-            return false;
+        } else {
+            //export all
+            list.add(configExtra.getName());
         }
-
-        return true;
     }
 
-    private static String[] getFinanceDataHeaderArr(FinanceData financeData) {
-        ArrayList<String> headers = new ArrayList<>();
-
-        for (Config configExtra : financeData.getConfigsArr()) {
-            if (configExtra.getName().equals(FinanceFieldNames.ID)) {
-                continue;
+    private static void addMemberToList(ClubConfig clubConfig, ArrayList<String> list, Config configExtra, MemberData memberData) {
+        if (!clubConfig.MEMBER_EXPORT_ALL.get()) {
+            if (configExtra.getName().equals(MemberFieldNames.BEITRAG) && clubConfig.MEMBER_EXPORT_DATA_Beitrag.get()) {
+                list.add(DF.format(1.0 * memberData.getBeitrag() / 100));
+            } else if (configExtra.getName().equals(MemberFieldNames.NR) && clubConfig.MEMBER_EXPORT_DATA_Nr.get() ||
+                    configExtra.getName().equals(MemberFieldNames.NACHNAME) && clubConfig.MEMBER_EXPORT_DATA_Nachname.get() ||
+                    configExtra.getName().equals(MemberFieldNames.VORNAME) && clubConfig.MEMBER_EXPORT_DATA_Vorname.get() ||
+                    configExtra.getName().equals(MemberFieldNames.ANREDE) && clubConfig.MEMBER_EXPORT_DATA_Anrede.get() ||
+                    configExtra.getName().equals(MemberFieldNames.EMAIL) && clubConfig.MEMBER_EXPORT_DATA_Email.get() ||
+                    configExtra.getName().equals(MemberFieldNames.TELEFON) && clubConfig.MEMBER_EXPORT_DATA_Telefon.get() ||
+                    configExtra.getName().equals(MemberFieldNames.STRASSE) && clubConfig.MEMBER_EXPORT_DATA_Strasse.get() ||
+                    configExtra.getName().equals(MemberFieldNames.PLZ) && clubConfig.MEMBER_EXPORT_DATA_PLZ.get() ||
+                    configExtra.getName().equals(MemberFieldNames.ORT) && clubConfig.MEMBER_EXPORT_DATA_Ort.get() ||
+                    configExtra.getName().equals(MemberFieldNames.LAND) && clubConfig.MEMBER_EXPORT_DATA_Land.get() ||
+                    configExtra.getName().equals(MemberFieldNames.STATUS) && clubConfig.MEMBER_EXPORT_DATA_Status.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BEITRAGSSATZ) && clubConfig.MEMBER_EXPORT_DATA_Beitragssatz.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BANK) && clubConfig.MEMBER_EXPORT_DATA_Bank.get() ||
+                    configExtra.getName().equals(MemberFieldNames.IBAN) && clubConfig.MEMBER_EXPORT_DATA_Iban.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BIC) && clubConfig.MEMBER_EXPORT_DATA_Bic.get() ||
+                    configExtra.getName().equals(MemberFieldNames.KONTOINHABER) && clubConfig.MEMBER_EXPORT_DATA_Kontoinhaber.get() ||
+                    configExtra.getName().equals(MemberFieldNames.ZAHLART) && clubConfig.MEMBER_EXPORT_DATA_Zahlart.get() ||
+                    configExtra.getName().equals(MemberFieldNames.ZAHLUNGSBEGINN) && clubConfig.MEMBER_EXPORT_DATA_Zahlungsbeginn.get() ||
+                    configExtra.getName().equals(MemberFieldNames.SEPABEGINN) && clubConfig.MEMBER_EXPORT_DATA_Sepabeginn.get() ||
+                    configExtra.getName().equals(MemberFieldNames.BEITRITT) && clubConfig.MEMBER_EXPORT_DATA_Beitritt.get()) {
+                list.add(configExtra.getActValueString());
             }
-            headers.add(configExtra.getName());
-        }
-
-        String[] HEADERS = headers.toArray(new String[]{});
-        return HEADERS;
-    }
-
-    public static boolean exportFinancesReport(ClubConfig clubConfig, List<FinanceReportData> financeReportDataList,
-                                               Path exportPath) {
-
-        if (financeReportDataList == null || financeReportDataList.isEmpty()) {
-            return false;
-        }
-
-        String[] HEADERS = getFinanceReportDataHeaderArr(clubConfig);
-
-        try (FileWriter out = new FileWriter(exportPath.toFile());
-             CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(HEADERS))) {
-
-            for (FinanceReportData financeReportData : financeReportDataList) {
-                final ArrayList<String> line = getDataRow(financeReportData);
-                printer.printRecord(line);
-            }
-
-        } catch (Exception ex) {
-            PLog.errorLog(945120145, ex, "export csv");
-            return false;
-        }
-
-        return true;
-    }
-
-    private static String[] getFinanceReportDataHeaderArr(ClubConfig clubConfig) {
-        ArrayList<String> headers = new ArrayList<>();
-        headers.add(FinanceFieldNames.NO);
-        headers.add(FinanceFieldNames.RECEIPT_NO);
-        headers.add(FinanceFieldNames.GESAMTBETRAG);
-        headers.add(FinanceFieldNames.GESCHAEFTSJAHR);
-        headers.add(FinanceFieldNames.BUCHUNGS_DATUM);
-        headers.add(FinanceFieldNames.TEXT);
-
-        FinanceReportDataList financeReportDataList = clubConfig.financeReportDataList;
-        headers.addAll(financeReportDataList.getAccounts());
-        headers.addAll(financeReportDataList.getCategories());
-
-        String[] HEADERS = headers.toArray(new String[]{});
-        for (int i = 0; i < headers.size(); ++i) {
-            HEADERS[i] = HEADERS[i].replace(FinanceReportFactory.KONTO, "");
-            HEADERS[i] = HEADERS[i].replace(FinanceReportFactory.KATEGORIE, "");
-        }
-        return HEADERS;
-    }
-
-    private static ArrayList<String> getDataRow(FinanceReportData financeReportData) {
-        ArrayList<String> dataRow = new ArrayList<>();
-        dataRow.add(financeReportData.getNo() + "");
-        dataRow.add(financeReportData.getReceiptNo());
-        dataRow.add(DF.format(1.0 * financeReportData.getGesamtbetrag() / 100));
-        dataRow.add(financeReportData.getGeschaeftsJahr() + "");
-        dataRow.add(financeReportData.getBuchungsDatum().toString());
-        dataRow.add(financeReportData.getText());
-
-        for (int i = 0; i < financeReportData.getAccountList().size(); i++) {
-            final long l = financeReportData.getAccountList().get(i).getBetrag();
-            if (l == 0) {
-                dataRow.add("");
+        } else {
+            //export all
+            if (configExtra.getName().equals(MemberFieldNames.BEITRAG)) {
+                list.add(DF.format(1.0 * memberData.getBeitrag() / 100));
             } else {
-                dataRow.add(DF.format(1.0 * l / 100));
+                list.add(configExtra.getActValueString());
             }
         }
-
-        for (int i = 0; i < financeReportData.getCategoryList().size(); i++) {
-            final long l = financeReportData.getCategoryList().get(i).getBetrag();
-            if (l == 0) {
-                dataRow.add("");
-            } else {
-                dataRow.add(DF.format(1.0 * l / 100));
-            }
-        }
-
-        return dataRow;
     }
 }

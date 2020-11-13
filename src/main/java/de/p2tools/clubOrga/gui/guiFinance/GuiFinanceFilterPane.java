@@ -35,9 +35,9 @@ public class GuiFinanceFilterPane extends FilterPane {
     private final PFilterComboBoxObject<FinanceCategoryData> filterCboCategory = new PFilterComboBoxObject<>();
 
     private final Label lblJahr = new Label(FinanceFieldNames.GESCHAEFTSJAHR_);
-    private final Label lblBelegNr = new Label(FinanceFieldNames.RECEIPT_NR_);
+    private final Label lblBelegNr = new Label(FinanceFieldNames.BELEG_NR_);
     private final Label lblKonto = new Label(FinanceFieldNames.KONTO_);
-    private final Label lblKategorie = new Label(FinanceFieldNames.CATEGORY_);
+    private final Label lblKategorie = new Label(FinanceFieldNames.KATEGORIE_);
 
     private final ClubConfig clubConfig;
 

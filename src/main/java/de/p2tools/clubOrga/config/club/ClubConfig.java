@@ -349,6 +349,42 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty DEMO_DATA_ADD_CLUB_BANK = addStr("demo-data-add-club-bank", DemoClubDataFactory.getBank());
     public StringProperty DEMO_DATA_ADD_CLUB_GLAEUBIGER_ID = addStr("demo-data-add-club-glaeubiger-id", DemoClubDataFactory.getGlaeubigerId());
 
+    // export member data
+    public final BooleanProperty MEMBER_EXPORT_ALL = addBool("member-export-all", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Nr = addBool("member-export-data-nr", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Nachname = addBool("member-export-data-nachname", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Vorname = addBool("member-export-data-vorname", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Anrede = addBool("member-export-data-anrede", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Email = addBool("member-export-data-email", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Telefon = addBool("member-export-data-telefon", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Strasse = addBool("member-export-data-strasse", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_PLZ = addBool("member-export-data-plz", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Ort = addBool("member-export-data-ort", true);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Land = addBool("member-export-data-land", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Status = addBool("member-export-data-status", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Beitrag = addBool("member-export-data-beitrag", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Beitragssatz = addBool("member-export-data-beitragssatz", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Bank = addBool("member-export-data-bank", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Iban = addBool("member-export-data-iban", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Bic = addBool("member-export-data-bic", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Kontoinhaber = addBool("member-export-data-kontoinhaber", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Zahlart = addBool("member-export-data-zahlart", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Zahlungsbeginn = addBool("member-export-data-zahlungsbeginn", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Sepabeginn = addBool("member-export-data-sepabeginn", false);
+    public final BooleanProperty MEMBER_EXPORT_DATA_Beitritt = addBool("member-export-data-beitritt", false);
+
+    //expport finance data
+    public final BooleanProperty FINANCE_EXPORT_ALL = addBool("finance-export-all", false);
+    public final BooleanProperty FINANCE_EXPORT_DATA_Nr = addBool("finance-export-data-nr", true);
+    public final BooleanProperty FINANCE_EXPORT_DATA_BelegNr = addBool("finance-export-data-belegNr", true);
+    public final BooleanProperty FINANCE_EXPORT_DATA_Gesamtbetrag = addBool("finance-export-data-gesamtbetrag", true);
+    public final BooleanProperty FINANCE_EXPORT_DATA_Konto = addBool("finance-export-data-konto", true);
+    public final BooleanProperty FINANCE_EXPORT_DATA_Kategorie = addBool("finance-export-data-kategorie", true);
+    public final BooleanProperty FINANCE_EXPORT_DATA_Geschäftsjahr = addBool("finance-export-data-geschäftsjahr", true);
+    public final BooleanProperty FINANCE_EXPORT_DATA_Buchungsdatum = addBool("finance-export-data-buchungsdatum", true);
+    public final BooleanProperty FINANCE_EXPORT_DATA_Erstelldatum = addBool("finance-export-data-erstelldatum", true);
+    public final BooleanProperty FINANCE_EXPORT_DATA_Text = addBool("finance-export-data-text", true);
+
 
     // Gui
     public ClubGuiController clubGuiController = null;

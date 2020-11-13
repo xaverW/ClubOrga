@@ -20,7 +20,7 @@ package de.p2tools.clubOrga.data.memberData;
 public class MemberFieldNames {
 
     public static final String ID = "Id";
-    public static final String NO = "Nr";
+    public static final String NR = "Nr";
     public static final String NACHNAME = "Nachname";
     public static final String VORNAME = "Vorname";
     public static final String BEITRAG = "Beitrag";
@@ -50,7 +50,7 @@ public class MemberFieldNames {
 
 
     public static final String ID_ = ID + ":";
-    public static final String NO_ = NO + ":";
+    public static final String NO_ = NR + ":";
     public static final String NACHNAME_ = NACHNAME + ":";
     public static final String VORNAME_ = VORNAME + ":";
     public static final String BEITRAG_ = BEITRAG + ":";

@@ -46,7 +46,7 @@ public class TransactionData extends TransactionDataWorker {
         final String betrag = NSC.toString(1.0 * getBetrag() / 100);
         final String text = getText().isEmpty() ? "" : "   -   " + FinanceFieldNames.TEXT_ + " " + getText();
 
-        return FinanceFieldNames.NO_ + " " + getNo() + "   -   " +
+        return FinanceFieldNames.Nr_ + " " + getNo() + "   -   " +
                 FinanceFieldNames.BETRAG_ + " " + betrag +
                 text;
     }

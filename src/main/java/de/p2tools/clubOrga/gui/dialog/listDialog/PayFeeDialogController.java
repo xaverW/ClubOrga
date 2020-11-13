@@ -164,7 +164,7 @@ public class PayFeeDialogController extends abListDialogController {
         gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), 0, ++row);
         gridPane.add(pYearPickerFinanceDataGeschaeftsjahr, 1, row, 2, 1);
 
-        gridPane.add(new Label(FinanceFieldNames.CATEGORY_), 0, ++row);
+        gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), 0, ++row);
         gridPane.add(cboCategory, 1, row, 2, 1);
 
         gridPane.add(chkTransaction, 1, ++row);

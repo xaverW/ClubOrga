@@ -212,7 +212,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
         pYearPickerFinanceGeschaeftsjahr.setMaxWidth(Double.MAX_VALUE);
         pdpFinanceBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
-        gridPane.add(new Label(FinanceFieldNames.RECEIPT_NR_), 0, row);
+        gridPane.add(new Label(FinanceFieldNames.BELEG_NR_), 0, row);
         gridPane.add(txtFinanceBelegNr, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.GESCHAEFTSJAHR_), 0, ++row);
@@ -221,7 +221,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
         gridPane.add(new Label(FinanceFieldNames.GESAMTBETRAG_), 0, ++row);
         gridPane.add(txtFinanceBetrag, 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.BUCHUNGS_DATUM_), 0, ++row);
+        gridPane.add(new Label(FinanceFieldNames.BUCHUNGSDATUM_), 0, ++row);
         gridPane.add(pdpFinanceBuchungsdatum, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.KONTO_), 0, ++row);
@@ -314,13 +314,13 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
 
         int row = 0;
 
-        gridPane.add(new Label(FinanceFieldNames.NO_), 0, row);
+        gridPane.add(new Label(FinanceFieldNames.Nr_), 0, row);
         gridPane.add(txtTransactionNr, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.BETRAG_), 0, ++row);
         gridPane.add(txtTransactionBetrag, 1, row);
 
-        gridPane.add(new Label(FinanceFieldNames.CATEGORY_), 0, ++row);
+        gridPane.add(new Label(FinanceFieldNames.KATEGORIE_), 0, ++row);
         gridPane.add(cboCategory, 1, row);
 
         gridPane.add(new Label(FinanceFieldNames.TEXT_), 0, ++row);
