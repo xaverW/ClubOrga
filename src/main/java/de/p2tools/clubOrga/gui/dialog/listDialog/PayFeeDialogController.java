@@ -96,7 +96,11 @@ public class PayFeeDialogController extends abListDialogController {
         tglFinances.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_FINANCES);
         chkTransaction.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_TRANSACTIONS);
         tglSepa.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_DTAUS);
-        chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
+        if (feeDataList.size() <= 1) {
+            chkTransaction.setDisable(true);
+        } else {
+            chkTransaction.disableProperty().bind(tglFinances.selectedProperty().not());
+        }
         btnHelpChk.disableProperty().bind(tglFinances.selectedProperty().not());
 
         btnSepaDirList.setTooltip(new Tooltip("einen Ordner zum Speichern auswählen"));

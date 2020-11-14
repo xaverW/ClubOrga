@@ -52,7 +52,7 @@ public class ClubTableFee {
 
         table.getColumns().clear();
 
-        final TableColumn<FeeData, Long> nrColumn = new TableColumn<>(FeeFieldNames.NO);
+        final TableColumn<FeeData, Long> nrColumn = new TableColumn<>(FeeFieldNames.NR);
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
         final TableColumn<FeeData, Long> mNrColumn = new TableColumn<>(FeeFieldNames.MEMBER_NO);

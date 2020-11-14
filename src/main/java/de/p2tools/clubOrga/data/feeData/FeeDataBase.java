@@ -129,7 +129,7 @@ public class FeeDataBase extends PDataSample<FeeData> {
         ArrayList<Config> list = new ArrayList<>();
         list.add(new ConfigLongPropExtra("id", FeeFieldNames.ID, id));
         list.add(new ConfigLongPropExtra("memberId", FeeFieldNames.MEMBER_ID, memberId));
-        list.add(new ConfigLongPropExtra("nr", FeeFieldNames.NO, no));
+        list.add(new ConfigLongPropExtra("nr", FeeFieldNames.NR, no));
         list.add(new ConfigLongPropExtra("mitgliedNr", FeeFieldNames.MEMBER_NO, memberNo));
         list.add(new ConfigStringPropExtra("mitgliedName", FeeFieldNames.MEMBER_NAME, memberName));
         list.add(new ConfigMoneyPropExtra("betrag", FeeFieldNames.BETRAG, betrag));

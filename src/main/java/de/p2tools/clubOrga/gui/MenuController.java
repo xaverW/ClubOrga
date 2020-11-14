@@ -112,7 +112,8 @@ public class MenuController {
     }
 
     private void exportAllMember() {
-        new ExportCsvDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList);
+        new ExportCsvDialogController(clubConfig.getStage(), clubConfig, clubConfig.memberDataList,
+                null, null, null);
     }
 
     private void importMember() {

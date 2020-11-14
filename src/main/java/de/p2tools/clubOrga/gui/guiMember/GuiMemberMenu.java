@@ -131,7 +131,8 @@ public class GuiMemberMenu extends VBox {
 
     private void exportMember(List<MemberData> memberDataList) {
         if (memberDataList != null && !memberDataList.isEmpty()) {
-            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, memberDataList);
+            new ExportCsvDialogController(clubConfig.getStage(), clubConfig,
+                    memberDataList, null, null, null);
         }
     }
 

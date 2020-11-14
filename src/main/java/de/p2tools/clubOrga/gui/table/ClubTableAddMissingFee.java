@@ -43,7 +43,7 @@ public class ClubTableAddMissingFee {
 
         table.getColumns().clear();
 
-        final TableColumn<FeeData, Long> noColumn = new TableColumn<>(FeeFieldNames.NO);
+        final TableColumn<FeeData, Long> noColumn = new TableColumn<>(FeeFieldNames.NR);
         noColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
 
         final TableColumn<FeeData, Long> mNoColumn = new TableColumn<>(FeeFieldNames.MEMBER_NO);

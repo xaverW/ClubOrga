@@ -373,6 +373,21 @@ public class ClubConfig extends PDataProgConfig {
     public final BooleanProperty MEMBER_EXPORT_DATA_Sepabeginn = addBool("member-export-data-sepabeginn", false);
     public final BooleanProperty MEMBER_EXPORT_DATA_Beitritt = addBool("member-export-data-beitritt", false);
 
+    // export member data
+    public final BooleanProperty FEE_EXPORT_ALL = addBool("fee-export-all", false);
+    public final BooleanProperty FEE_EXPORT_DATA_Nr = addBool("fee-export-data-nr", true);
+    public final BooleanProperty FEE_EXPORT_DATA_MemberNr = addBool("fee-export-data-memberNr", true);
+    public final BooleanProperty FEE_EXPORT_DATA_MemberName = addBool("fee-export-data-memberName", true);
+    public final BooleanProperty FEE_EXPORT_DATA_Betrag = addBool("fee-export-data-betrag", true);
+    public final BooleanProperty FEE_EXPORT_DATA_BetragInWords = addBool("fee-export-data-betrag-in-words", true);
+    public final BooleanProperty FEE_EXPORT_DATA_Jahr = addBool("fee-export-data-jahr", true);
+    public final BooleanProperty FEE_EXPORT_DATA_Zahlart = addBool("fee-export-data-zahlart", true);
+    public final BooleanProperty FEE_EXPORT_DATA_Bezahlt = addBool("fee-export-data-bezahlt", true);
+    public final BooleanProperty FEE_EXPORT_DATA_Rechnung = addBool("fee-export-data-rechnung", true);
+    public final BooleanProperty FEE_EXPORT_DATA_SpendenQ = addBool("fee-export-data-spendenQ", true);
+    public final BooleanProperty FEE_EXPORT_DATA_Erstelldatum = addBool("fee-export-data-Erstelldatum", true);
+    public final BooleanProperty FEE_EXPORT_DATA_Text = addBool("fee-export-data-text", true);
+
     //expport finance data
     public final BooleanProperty FINANCE_EXPORT_ALL = addBool("finance-export-all", false);
     public final BooleanProperty FINANCE_EXPORT_DATA_Nr = addBool("finance-export-data-nr", true);

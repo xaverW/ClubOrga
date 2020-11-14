@@ -16,8 +16,8 @@
 
 package de.p2tools.clubOrga.gui.guiFee;
 
-import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
@@ -106,7 +106,7 @@ public class GuiFeeInfoPane extends AnchorPane {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         int row = 0;
-        gridPane.add(new Label(FeeFieldNames.NO_), 0, row);
+        gridPane.add(new Label(FeeFieldNames.NR_), 0, row);
         gridPane.add(txtNr, 1, row);
 
         gridPane.add(new Label(FeeFieldNames.MEMBER_NO), 0, ++row);

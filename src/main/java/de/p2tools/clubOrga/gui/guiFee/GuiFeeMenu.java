@@ -19,6 +19,7 @@ package de.p2tools.clubOrga.gui.guiFee;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
+import de.p2tools.clubOrga.controller.export.csv.ExportCsvDialogController;
 import de.p2tools.clubOrga.controller.newsletter.Newsletter;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.gui.dialog.listDialog.BillForFeeDialogController;
@@ -74,12 +75,22 @@ public class GuiFeeMenu extends VBox {
         miNewsletterAkt.setOnAction(event -> feeNewsletterAkt());
         MenuItem miNewsletter = new MenuItem("für alle angezeigten Beiträge Serienbrief erstellen");
         miNewsletter.setOnAction(event -> feeNewsletter());
+
+        MenuItem miExportSel = new MenuItem("markierte Beiträge exportieren");
+        miExportSel.setOnAction(a -> exportFee(clubConfig.guiFee.getSelList()));
+        MenuItem miExportShown = new MenuItem("angezeigte Beiträge exportieren");
+        miExportShown.setOnAction(a -> exportFee(clubConfig.feeDataList.getFilteredList()));
+        MenuItem miExportAll = new MenuItem("alle Beiträge exportieren");
+        miExportAll.setOnAction(a -> exportFee(clubConfig.feeDataList));
+
         Menu mNewsletter = new Menu("Serienbrief");
         mNewsletter.getItems().addAll(miNewsletterAkt, miNewsletter);
+        Menu mExport = new Menu("Export");
+        mExport.getItems().addAll(miExportSel, miExportShown, miExportAll);
 
         mb.getItems().addAll(miChangeFee, miDelFee,
                 new SeparatorMenuItem(), miPayFee, miFeeBill, miSQ,
-                new SeparatorMenuItem(), mNewsletter);
+                new SeparatorMenuItem(), mNewsletter, mExport);
 
 
         // Buttons
@@ -131,6 +142,13 @@ public class GuiFeeMenu extends VBox {
         }
 
         new BillForFeeDialogController(clubConfig, list, type);
+    }
+
+    private void exportFee(List<FeeData> feeDataList) {
+        if (feeDataList != null && !feeDataList.isEmpty()) {
+            new ExportCsvDialogController(clubConfig.getStage(), clubConfig,
+                    null, feeDataList, null, null);
+        }
     }
 
     private void payFee() {

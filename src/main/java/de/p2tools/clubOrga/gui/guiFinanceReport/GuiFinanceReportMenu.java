@@ -68,7 +68,8 @@ public class GuiFinanceReportMenu extends VBox {
 
     private void exportFinances(List<FinanceReportData> financeReportDataList) {
         if (financeReportDataList != null && !financeReportDataList.isEmpty()) {
-            new ExportCsvDialogController(clubConfig.getStage(), clubConfig, null, financeReportDataList);
+            new ExportCsvDialogController(clubConfig.getStage(), clubConfig,
+                    null, null, null, financeReportDataList);
         }
     }
 }

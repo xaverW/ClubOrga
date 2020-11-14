@@ -20,7 +20,7 @@ package de.p2tools.clubOrga.data.feeData;
 public class FeeFieldNames {
 
     public static final String ID = "Id";
-    public static final String NO = "Nr";
+    public static final String NR = "Nr";
 
     public static final String MEMBER_ID = "M.Id";
     public static final String MEMBER_NO = "M.Nr";
@@ -38,7 +38,7 @@ public class FeeFieldNames {
 
 
     public static final String ID_ = ID + ":";
-    public static final String NO_ = NO + ":";
+    public static final String NR_ = NR + ":";
     public static final String MEMBER_NO_ = MEMBER_NO + ":";
     public static final String MEMBER_NAME_ = MEMBER_NAME + ":";
     public static final String BETRAG_ = BETRAG + ":";

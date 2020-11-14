@@ -22,6 +22,8 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.clubOrga.controller.ClubFactory;
+import de.p2tools.clubOrga.data.feeData.FeeData;
+import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.FinanceReportData;
@@ -59,42 +61,36 @@ public class ExportCsvDialogController extends PDialogExtra {
 
     private final ClubConfig clubConfig;
     private final List<MemberData> memberDataList;
+    private final List<FeeData> feeDataList;
     private final List<FinanceData> financeDataList;
     private final List<FinanceReportData> financeReportDataList;
     private boolean ok = false;
 
-    enum exporting {MEMBER, FINANCES, FINANCEREPORTS}
+    enum exporting {MEMBER, FEE, FINANCES, FINANCEREPORTS}
 
     private final exporting exportingWhat;
 
     public ExportCsvDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
-                                     List<MemberData> memberDataList) {
+                                     List<MemberData> memberDataList,
+                                     List<FeeData> feeDataList,
+                                     List<FinanceData> financeDataList,
+                                     List<FinanceReportData> financeReportDataList) {
+
 
         super(ownerForCenteringDialog, clubConfig.EXPORT_CSV_DIALOG_SIZE,
                 "Daten in CVS-Datei exportieren", true, true);
 
         this.clubConfig = clubConfig;
         this.memberDataList = memberDataList;
-        this.financeDataList = null;
-        this.financeReportDataList = null;
-
-        exportingWhat = exporting.MEMBER;
-        init(true);
-    }
-
-    public ExportCsvDialogController(Stage ownerForCenteringDialog, ClubConfig clubConfig,
-                                     List<FinanceData> financeDataList,
-                                     List<FinanceReportData> financeReportDataList) {
-
-        super(ownerForCenteringDialog, clubConfig.EXPORT_CSV_DIALOG_SIZE,
-                "Daten in CVS-Datei exportieren", true, true);
-
-        this.clubConfig = clubConfig;
-        this.memberDataList = null;
+        this.feeDataList = feeDataList;
         this.financeDataList = financeDataList; //aus Menü Finanzen
         this.financeReportDataList = financeReportDataList; //aus Menü Finanzübersicht: Konten..., Kategorien...
 
-        if (financeDataList != null) {
+        if (memberDataList != null) {
+            exportingWhat = exporting.MEMBER;
+        } else if (feeDataList != null) {
+            exportingWhat = exporting.FEE;
+        } else if (financeDataList != null) {
             exportingWhat = exporting.FINANCES;
         } else {
             exportingWhat = exporting.FINANCEREPORTS;
@@ -108,9 +104,24 @@ public class ExportCsvDialogController extends PDialogExtra {
 
     @Override
     protected void make() {
-        btnHelp = PButton.helpButton(getStage(), (exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
+        String text;
+        switch (exportingWhat) {
+            case MEMBER:
+                text = "Mitgliederdaten";
+                break;
+            case FEE:
+                text = "Beitragsdaten";
+                break;
+            case FINANCES:
+            case FINANCEREPORTS:
+                text = "Finanzdaten";
+                break;
+            default:
+                text = "Daten";
+        }
+        btnHelp = PButton.helpButton(getStage(), text +
                         " in CVS-Datei exportieren",
-                "Hier können die " + (exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
+                "Hier können die " + text +
                         " in eine CSV-Datei exportiert werden. " +
                         "Damit ist es möglich, die Daten auch in anderen Programmen zu verwenden." +
                         "\n\n" +
@@ -132,7 +143,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         cboExportDir.setMaxWidth(Double.MAX_VALUE);
         cboExportFile.setMaxWidth(Double.MAX_VALUE);
 
-        getHBoxTitle().getChildren().add(new Label((exportingWhat == exporting.MEMBER ? "Mitgliederdaten" : "Finanzdaten") +
+        getHBoxTitle().getChildren().add(new Label(text +
                 " in CVS-Datei exportieren"));
 
         final GridPane gridPane = new GridPane();
@@ -156,6 +167,8 @@ public class ExportCsvDialogController extends PDialogExtra {
         getvBoxCont().getChildren().addAll(gridPane);
         if (exportingWhat == exporting.MEMBER) {
             addMemberColumn();
+        } else if (exportingWhat == exporting.FEE) {
+            addFeeColumn();
         } else if (exportingWhat == exporting.FINANCES) {
             addFinanceColumn();
         }
@@ -275,6 +288,81 @@ public class ExportCsvDialogController extends PDialogExtra {
         getvBoxCont().getChildren().addAll(gridPane, hBox);
     }
 
+    private void addFeeColumn() {
+
+        final GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10));
+        gridPane.setVgap(10);
+        gridPane.setHgap(25);
+
+        int row = 0;
+        CheckBox chkNo = new CheckBox(FeeFieldNames.NR);
+        chkNo.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_Nr);
+        gridPane.add(chkNo, 0, row++);
+
+        CheckBox chkMemberNo = new CheckBox(FeeFieldNames.MEMBER_NO);
+        chkMemberNo.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_MemberNr);
+        gridPane.add(chkMemberNo, 0, row++);
+
+        CheckBox chkMembername = new CheckBox(FeeFieldNames.MEMBER_NAME);
+        chkMembername.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_MemberName);
+        gridPane.add(chkMembername, 0, row++);
+
+        CheckBox chkBetrag = new CheckBox(FeeFieldNames.BETRAG);
+        chkBetrag.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_Betrag);
+        gridPane.add(chkBetrag, 0, row++);
+
+        row = 0;
+        CheckBox chkBetragInWords = new CheckBox(FeeFieldNames.BETRAG_IN_WORDS);
+        chkBetragInWords.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_BetragInWords);
+        gridPane.add(chkBetragInWords, 1, row++);
+
+        CheckBox chkJahr = new CheckBox(FeeFieldNames.JAHR);
+        chkJahr.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_Jahr);
+        gridPane.add(chkJahr, 1, row++);
+
+        CheckBox chkZahlart = new CheckBox(FeeFieldNames.ZAHLART);
+        chkZahlart.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_Zahlart);
+        gridPane.add(chkZahlart, 1, row++);
+
+        CheckBox chkBezahlt = new CheckBox(FeeFieldNames.BEZAHLT);
+        chkBezahlt.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_Bezahlt);
+        gridPane.add(chkBezahlt, 1, row++);
+
+        row = 0;
+        CheckBox chkRechnung = new CheckBox(FeeFieldNames.RECHNUNG);
+        chkRechnung.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_Rechnung);
+        gridPane.add(chkRechnung, 2, row++);
+
+        CheckBox chkSpendenQ = new CheckBox(FeeFieldNames.SPENDEN_Q);
+        chkSpendenQ.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_SpendenQ);
+        gridPane.add(chkSpendenQ, 2, row++);
+
+        CheckBox chkErstelldatum = new CheckBox(FeeFieldNames.ERSTELLDATUM);
+        chkErstelldatum.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_Erstelldatum);
+        gridPane.add(chkErstelldatum, 2, row++);
+
+        CheckBox chkText = new CheckBox(FeeFieldNames.TEXT);
+        chkText.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_DATA_Text);
+        gridPane.add(chkText, 2, row++);
+
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcPrefSize());
+
+        PToggleSwitch tglAll = new PToggleSwitch("Alle Felder exportieren");
+        tglAll.selectedProperty().bindBidirectional(clubConfig.FEE_EXPORT_ALL);
+        gridPane.setDisable(tglAll.isSelected());
+        tglAll.selectedProperty().addListener((observable, oldValue, newValue) -> gridPane.setDisable(tglAll.isSelected()));
+
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(25, 10, 10, 10));
+        HBox.setHgrow(tglAll, Priority.ALWAYS);
+        hBox.getChildren().add(tglAll);
+
+        getvBoxCont().getChildren().addAll(gridPane, hBox);
+    }
+
     private void addFinanceColumn() {
 
         final GridPane gridPane = new GridPane();
@@ -382,6 +470,12 @@ public class ExportCsvDialogController extends PDialogExtra {
         switch (exportingWhat) {
             case MEMBER:
                 if (!CsvFactoryMember.exportMember(clubConfig, memberDataList, dFile)) {
+                    PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
+                    return false;
+                }
+                break;
+            case FEE:
+                if (!CsvFactoryFee.exportFee(clubConfig, feeDataList, dFile)) {
                     PAlert.showErrorAlert(getStage(), "CVS-Datei", "Die CVS-Datei konnte nicht erstellt werden.");
                     return false;
                 }
