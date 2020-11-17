@@ -136,7 +136,7 @@ public class InfoFactoryPdf {
         String padding = "";
         list.add(UNDERLINE);
         list.add(isActYear ? "Finanzen - aktuelles Jahr " + actYear : "Finanzen");
-        list.add(padding + "Anzahl Buchungen: " + (isActYear ? countEntrys : clubConfig.financeDataList.size()));
+        //----------------------------------
         list.add(padding + (isActYear ? "Saldo im Jahr " + actYear + ": " + 0.01 * clubConfig.financeDataList.getSaldo(actYear) :
                 "Saldo über den gesamten Zeitraum: " + 0.01 * clubConfig.financeDataList.getSaldo()));
 

@@ -49,7 +49,6 @@ public class ExportClubInfosDialogController extends PDialogExtra {
     private final Button btnProposeFileName = new Button();
 
     private final ClubConfig clubConfig;
-    public final ArrayList<String> infoslist;
     public String destDir = "";
     public String destFile = "";
 
@@ -61,7 +60,6 @@ public class ExportClubInfosDialogController extends PDialogExtra {
         super(clubConfig.getStage(), clubConfig.EXPORT_CLUB_INFOS_DIALOG_SIZE,
                 "Vereinsinfos exportieren", true, true);
         this.clubConfig = clubConfig;
-        this.infoslist = infoslist;
         init(true);
     }
 

@@ -19,8 +19,8 @@ package de.p2tools.clubOrga.gui.guiClub;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.controller.export.clubInfos.ExportClubInfosDialogController;
-import de.p2tools.clubOrga.controller.newsletter.document.pdfFile.CreateClubInfos;
 import de.p2tools.clubOrga.data.clubInfoData.ClubInfoData;
+import de.p2tools.clubOrga.data.clubInfoData.ExportVereinsinfo;
 import de.p2tools.clubOrga.data.clubInfoData.InfoFactory;
 import de.p2tools.clubOrga.data.clubInfoData.InfoFactoryPdf;
 import de.p2tools.p2Lib.P2LibConst;
@@ -83,9 +83,7 @@ public class GuiClubInfo extends AnchorPane {
 
         Button btnExport = new Button("Exportieren");
         btnExport.setTooltip(new Tooltip("Infos in Datei exportieren"));
-        btnExport.setOnAction(a -> {
-            exportInfos();
-        });
+        btnExport.setOnAction(a -> exportInfos());
         HBox hBox = new HBox(10);
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.getChildren().add(new Label("Infos in Datei schreiben:"));
@@ -98,10 +96,19 @@ public class GuiClubInfo extends AnchorPane {
     private void exportInfos() {
         ArrayList<String> list = new ArrayList<>();
         InfoFactoryPdf.generateInfoList(clubConfig, list);
-        ExportClubInfosDialogController infosDialogController =
-                new ExportClubInfosDialogController(clubConfig, list);
+        ExportClubInfosDialogController infosDialogController = new ExportClubInfosDialogController(clubConfig, list);
+
         if (infosDialogController.isOk()) {
-            if (!new CreateClubInfos(clubConfig).createPdf(infosDialogController.destDir, infosDialogController.destFile, list)) {
+//            if (!new CreateClubInfos(clubConfig).createPdf(infosDialogController.destDir, infosDialogController.destFile, list)) {
+//                PLog.errorLog(774196698, "Die Vereinsinfos konnten nicht in ein PDF geschrieben werden.");
+//
+//                Path pathExportFile = Paths.get(infosDialogController.destDir, infosDialogController.destFile);
+//                PAlert.showErrorAlert(clubConfig.getStage(), "Export der Vereinsinfos fehlgeschlagen",
+//                        "Das Schreiben der Verinsinfos:" + P2LibConst.LINE_SEPARATOR +
+//                                pathExportFile.toString() + P2LibConst.LINE_SEPARATOR +
+//                                "hat nicht geklappt");
+//            }
+            if (!new ExportVereinsinfo(clubConfig).createPdf(infosDialogController.destDir, infosDialogController.destFile, list)) {
                 PLog.errorLog(774196698, "Die Vereinsinfos konnten nicht in ein PDF geschrieben werden.");
 
                 Path pathExportFile = Paths.get(infosDialogController.destDir, infosDialogController.destFile);
