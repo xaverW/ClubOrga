@@ -33,6 +33,7 @@ import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
+import de.p2tools.p2Lib.tools.date.PDateFactory;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -46,6 +47,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClubStartFactory {
@@ -148,6 +151,7 @@ public class ClubStartFactory {
             clubConfig.setClubIsStarting(false);
             if (ret) {
                 showClubGui(clubConfig);
+                checkProgUpdate(clubConfig);
                 PDuration.onlyPing("startClub: geladen");
             }
 
@@ -179,14 +183,7 @@ public class ClubStartFactory {
                     ProgQuitFactory.quitClub(ProgData.getInstance(), clubConfig);
                 });
 
-                clubConfig.getStage().titleProperty().bind(
-                        Bindings.when(clubConfig.clubData.nameProperty().isEmpty())
-                                .then(ProgConst.PROGRAMNAME)
-                                .otherwise(
-                                        Bindings.concat(ProgConst.PROGRAMNAME,
-                                                " <@> ",
-                                                clubConfig.clubData.nameProperty()))
-                );
+                setTitel(clubConfig);
 
             } else {
                 //damit beim wiederholten starten des clubs die Größe stimmt
@@ -204,6 +201,63 @@ public class ClubStartFactory {
             PAlert.showErrorAlert((Stage) null, "Fehler beim Clubload", e.getLocalizedMessage());
             ClubStartFactory.startClubSelector();
         }
+    }
+
+    static void setTitel(ClubConfig clubConfig) {
+        setTitel(clubConfig, "");
+    }
+
+    static void setTitel(ClubConfig clubConfig, String title) {
+        if (!title.isEmpty()) {
+            clubConfig.getStage().titleProperty().unbind();
+            clubConfig.getStage().titleProperty().setValue(title);
+        } else {
+            clubConfig.getStage().titleProperty().bind(
+                    Bindings.when(clubConfig.clubData.nameProperty().isEmpty())
+                            .then(ProgConst.PROGRAMNAME)
+                            .otherwise(
+                                    Bindings.concat(ProgConst.PROGRAMNAME,
+                                            " <@> ",
+                                            clubConfig.clubData.nameProperty()))
+            );
+        }
+    }
+
+    private static void checkProgUpdate(ClubConfig clubConfig) {
+        // Prüfen obs ein Programmupdate gibt
+        PDuration.onlyPing("checkProgUpdate");
+
+        if (ProgConfig.SYSTEM_UPDATE_SEARCH.get() &&
+                !ProgConfig.SYSTEM_UPDATE_DATE.get().equals(PDateFactory.FORMATTER_yyyyMMdd.format(new Date()))) {
+            // nach Updates suchen
+            runUpdateCheck(clubConfig);
+
+        } else if (ProgData.debug) {
+            // damits bei jedem Start gemacht wird
+            PLog.sysLog("DEBUG: Update-Check");
+            runUpdateCheck(clubConfig);
+
+        } else {
+            // will der User nicht --oder-- wurde heute schon gemacht
+            List list = new ArrayList(5);
+            list.add("Kein Update-Check:");
+            if (!ProgConfig.SYSTEM_UPDATE_SEARCH.get()) {
+                list.add("  der User will nicht");
+            }
+            if (ProgConfig.SYSTEM_UPDATE_DATE.get().equals(PDateFactory.FORMATTER_yyyyMMdd.format(new Date()))) {
+                list.add("  heute schon gemacht");
+            }
+            PLog.sysLog(list);
+        }
+    }
+
+
+    private static void runUpdateCheck(ClubConfig clubConfig) {
+        Thread th = new Thread(() -> {
+            new SearchProgramUpdate(clubConfig.getStage(), clubConfig).searchNewProgramVersion();
+        });
+        th.setName("checkProgUpdate");
+        th.start();
     }
 
     public static boolean noClubStageIsRunning() {

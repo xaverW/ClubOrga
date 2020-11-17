@@ -34,14 +34,12 @@ public class SearchProgramUpdate {
 
     private final ClubConfig clubConfig;
     private final Stage stage;
-    private String title = "";
     private static final String TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE = "Programmversion ist aktuell";
     private static final String TITLE_TEXT_PROGRAMMUPDATE_EXISTS = "Ein Programmupdate ist verfügbar";
 
     public SearchProgramUpdate(Stage stage, ClubConfig clubConfig) {
         this.stage = stage;
         this.clubConfig = clubConfig;
-
     }
 
 
@@ -80,35 +78,8 @@ public class SearchProgramUpdate {
         return ret;
     }
 
-    private void setTitleInfo(boolean newVersion) {
-        title = clubConfig.getStage().getTitle();
-        if (newVersion) {
-            Platform.runLater(() -> setUpdateTitle());
-        } else {
-            Platform.runLater(() -> setNoUpdateTitle());
-        }
-        try {
-            sleep(10_000);
-        } catch (Exception ignore) {
-        }
-        Platform.runLater(() -> setOrgTitle());
-    }
-
-    private void setUpdateTitle() {
-        clubConfig.getStage().setTitle(TITLE_TEXT_PROGRAMMUPDATE_EXISTS);
-    }
-
-    private void setNoUpdateTitle() {
-        clubConfig.getStage().setTitle(TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE);
-    }
-
-    private void setOrgTitle() {
-        clubConfig.getStage().setTitle(title);
-    }
-
     public boolean searchNewVersionInfos() {
         // prüft auf neue Version und zeigts immer an, auch (wenn gewünscht) BETA-Version
-
         UpdateSearchData updateSearchData = new UpdateSearchData(ProgConst.URL_PROG_UPDATE,
                 ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
                 null,
@@ -129,59 +100,19 @@ public class SearchProgramUpdate {
         return new SearchProgUpdate(stage).checkAllUpdates(updateSearchData, updateSearchDataBeta, true);
     }
 
-//    /**
-//     * @param showError
-//     * @param showProgramInformation
-//     * @return
-//     */
-//    public boolean checkVersion(boolean showError, boolean showProgramInformation, boolean showUpdate) {
-//        // prüft auf neue Version,
-//        ProgConfig.SYSTEM_UPDATE_DATE.setValue(StringFormatters.FORMATTER_yyyyMMdd.format(new Date()));
-//
-////        return new SearchProgInfo(stage).checkUpdate(ProgConst.URL_PROG_UPDATE,
-////                ProgramTools.getProgVersionInt(),
-////                ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
-////                ProgConfig.SYSTEM_UPDATE_INFO_NR_SHOWN,
-////                ProgConfig.SYSTEM_UPDATE_SEARCH,
-////                showUpdate,
-////                showProgramInformation, showError);
-//
-//        return new SearchProgUpdate(stage).checkProgVersion(ProgConst.URL_PROG_UPDATE,
-//                ProgramTools.getProgVersionInt(),
-//                ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
-//                ProgConfig.SYSTEM_UPDATE_INFO_NR_SHOWN,
-//                ProgConfig.SYSTEM_UPDATE_SEARCH);
-//
-//    }
+    private void setTitleInfo(boolean newVersion) {
+        if (newVersion) {
+            Platform.runLater(() -> ClubStartFactory.setTitel(clubConfig, TITLE_TEXT_PROGRAMMUPDATE_EXISTS));
+        } else {
+            Platform.runLater(() -> ClubStartFactory.setTitel(clubConfig, TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE));
+        }
 
+        try {
+            sleep(10_000);
+        } catch (Exception ignore) {
+        }
 
-//    /**
-//     * @param showError
-//     * @param showProgramInformation
-//     * @return
-//     */
-//    public boolean checkBetaVersion(boolean showError, boolean showProgramInformation) {
-//        // prüft auf neue beta Version,
-//
-////        return new SearchProgInfo(stage).checkBetaUpdate(ProgConst.URL_PROG_BETA_UPDATE,
-////                ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
-////                ProgConfig.SYSTEM_UPDATE_BETA_VERSION_SHOWN,
-////                ProgConfig.SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN,
-////                ProgConfig.SYSTEM_UPDATE_BETA_SEARCH,
-////                showProgramInformation, showError);
-//
-//
-//        ProgConfig.SYSTEM_UPDATE_DATE.setValue(StringFormatters.FORMATTER_yyyyMMdd.format(new Date()));
-//
-//        return new SearchProgUpdate(stage).checkProgVersionBeta(ProgConst.URL_PROG_UPDATE,
-//                ProgConst.URL_PROG_BETA_UPDATE,
-//                ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
-//                ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
-//                ProgConfig.SYSTEM_UPDATE_INFO_NR_SHOWN,
-//                ProgConfig.SYSTEM_UPDATE_BETA_VERSION_SHOWN,
-//                ProgConfig.SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN,
-//                ProgConfig.SYSTEM_UPDATE_SEARCH,
-//                ProgConfig.SYSTEM_UPDATE_BETA_SEARCH);
-//    }
+        Platform.runLater(() -> ClubStartFactory.setTitel(clubConfig));
+    }
 
 }
