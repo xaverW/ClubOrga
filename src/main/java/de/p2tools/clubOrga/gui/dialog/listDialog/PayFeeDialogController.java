@@ -197,15 +197,13 @@ public class PayFeeDialogController extends abListDialogController {
     boolean check() {
         boolean ret = true;
 
+        // wenn SEPA, dann die Daten erstellen
         if (tglSepa.isSelected()) {
-            // wenn SEPA, dann die Daten erstellen
             Path sepa = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_FILE.getValue());
             Path sepaBegleit = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_BEGLEIT_FILE.getValue());
-
             if (!PFileUtils.checkFileToCreate(stage, sepa) || !PFileUtils.checkFileToCreate(stage, sepaBegleit)) {
                 ret = false;
             }
-
             // nur die Beiträge mit "Bankeinzug" nehmen
             ObservableList<FeeData> feeDataListSepa = FXCollections.observableArrayList();
             feeDataList.stream().forEach(feeData -> {
@@ -219,16 +217,14 @@ public class PayFeeDialogController extends abListDialogController {
         // Beiträge bezahlen
         feeDataList.stream().forEach(fee -> fee.payFeeData(pDatePickerFeeDateBuchungsdatum.getpLocalDate()));
 
+        // wenn Finanzen anlegen, dann die Infos dazu sammeln und anlegen
         if (tglFinances.isSelected()) {
-            // wenn Finanzen anlegen, dann die Infos dazu sammeln und anlegen
             List<FeeData> feeDataListTmp = new ArrayList<>();
-
             while (!feeDataList.isEmpty()) {
                 feeDataListTmp.clear();
                 FeeData fee = feeDataList.remove(0);
                 feeDataListTmp.add(fee);
                 getKonto(feeDataList, feeDataListTmp, fee.getPaymentTypeData().getId());
-
                 clubConfig.financeDataList.addFinanceFromPayedFee(clubConfig, feeDataListTmp, chkTransaction.isSelected(),
                         pDatePickerFeeDateBuchungsdatum.getpLocalDate(), pYearPickerFinanceDataGeschaeftsjahr.getValue(),
                         cboCategory.getSelValue());

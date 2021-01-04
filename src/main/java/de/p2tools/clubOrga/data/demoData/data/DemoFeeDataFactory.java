@@ -95,7 +95,7 @@ public class DemoFeeDataFactory {
             int year = feeData.getJahr();
             LocalDateTime dateTime = DemoDataFactory.getRandomDate(year);
 
-            feeData.getErstellDatum().setPDate(dateTime.toLocalDate());
+            feeData.getErstellDatum().setPLocalDate(dateTime.toLocalDate());
         }
 
         // nach Datum sortieren
@@ -201,7 +201,7 @@ public class DemoFeeDataFactory {
                     year = y;
                 } else if (year == y) {
                     PLocalDate pLocalDate = financeData.getBuchungsDatum();
-                    feeData.getErstellDatum().setPDate(pLocalDate.getLocalDate());
+                    feeData.getErstellDatum().setPLocalDate(pLocalDate.getLocalDate());
                     feeData.setBezahlt(pLocalDate);
                     feeData.setRechnung(pLocalDate);
 
@@ -233,8 +233,8 @@ public class DemoFeeDataFactory {
         FinanceData financeData = FinanceFactory.getNewFinanceDataForFeeData(clubConfig, feeData, pLocalDate,
                 feeData.getJahr(), financeCategoryData);
 
-        financeData.getBuchungsDatum().setPDate(pLocalDate.getLocalDate());
-        financeData.getErstellDatum().setPDate(pLocalDate.getLocalDate());
+        financeData.getBuchungsDatum().setPLocalDate(pLocalDate.getLocalDate());
+        financeData.getErstellDatum().setPLocalDate(pLocalDate.getLocalDate());
 
         return financeData;
     }

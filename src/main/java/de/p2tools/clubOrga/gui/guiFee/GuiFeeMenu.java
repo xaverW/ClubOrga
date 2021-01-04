@@ -22,8 +22,8 @@ import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.controller.export.csv.ExportCsvDialogController;
 import de.p2tools.clubOrga.controller.newsletter.Newsletter;
 import de.p2tools.clubOrga.data.feeData.FeeData;
+import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.clubOrga.gui.dialog.listDialog.BillForFeeDialogController;
-import de.p2tools.clubOrga.gui.dialog.listDialog.PayFeeDialogController;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PButton;
 import javafx.collections.FXCollections;
@@ -65,7 +65,7 @@ public class GuiFeeMenu extends VBox {
         miDelFee.setOnAction(a -> delFee());
 
         MenuItem miPayFee = new MenuItem("ausgewählte Beiträge bezahlen");
-        miPayFee.setOnAction(a -> payFee());
+        miPayFee.setOnAction(a -> FeeFactory.payFee(clubConfig));
         MenuItem miFeeBill = new MenuItem("Rechnung ausgewählter Beiträge erstellen");
         miFeeBill.setOnAction(a -> createBillForFee(BillForFeeDialogController.TYPE.BILL));
         MenuItem miSQ = new MenuItem("Spendenquittung ausgewählter Beiträge erstellen");
@@ -103,7 +103,7 @@ public class GuiFeeMenu extends VBox {
         btnChange.setOnAction(a -> guiFee.changeFee());
 
         Button btnPay = PButton.getButton(new ProgIcons().ICON_EURO, "markierte Beiträge bezahlen");
-        btnPay.setOnAction(a -> payFee());
+        btnPay.setOnAction(a -> FeeFactory.payFee(clubConfig));
         getChildren().addAll(mb, btnDel, btnChange, btnPay);
     }
 
@@ -149,29 +149,6 @@ public class GuiFeeMenu extends VBox {
             new ExportCsvDialogController(clubConfig.getStage(), clubConfig,
                     null, feeDataList, null, null);
         }
-    }
-
-    private void payFee() {
-        final ObservableList<FeeData> list = FXCollections.observableArrayList();
-        list.addAll(clubConfig.guiFee.getSelList());
-        if (list.isEmpty()) {
-            // leere Liste
-            return;
-        }
-
-        // checken ob bereits bezahlte dabei sind
-        boolean found = list.stream().filter(feeData -> feeData.isFeePayed()).findAny().isPresent();
-        if (found) {
-            PAlert.BUTTON button = PAlert.showAlert_yes_no(clubConfig.getStage(),
-                    "Beitrag bezahlen", "Beitrag bereits bezahlt",
-                    "Es sind bereits bezahlte Beiträge dabei. Sollen die nochmal bezahlt werden?");
-            if (button != PAlert.BUTTON.YES) {
-                return;
-            }
-        }
-
-        // dann jetzt den Bezahlendialog
-        new PayFeeDialogController(clubConfig, list);
     }
 
     private void feeNewsletterAkt() {

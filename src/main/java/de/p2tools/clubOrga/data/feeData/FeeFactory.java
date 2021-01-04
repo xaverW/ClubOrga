@@ -22,6 +22,7 @@ import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFactory;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.clubOrga.gui.dialog.listDialog.MissingFeeDialogController;
+import de.p2tools.clubOrga.gui.dialog.listDialog.PayFeeDialogController;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.tools.PIndex;
@@ -44,6 +45,38 @@ public class FeeFactory {
         list.add(memberData);
         generateMissingFeesForMembers(clubConfig, list);
     }
+
+    public static void payFee(ClubConfig clubConfig) {
+        payFee(clubConfig, null);
+    }
+
+    public static void payFee(ClubConfig clubConfig, FeeData feeData) {
+        final ObservableList<FeeData> list = FXCollections.observableArrayList();
+        if (feeData != null) {
+            list.add(feeData);
+        } else {
+            list.addAll(clubConfig.guiFee.getSelList());
+        }
+        if (list.isEmpty()) {
+            // leere Liste
+            return;
+        }
+
+        // checken ob bereits bezahlte dabei sind
+        boolean found = list.stream().filter(fd -> fd.isFeePayed()).findAny().isPresent();
+        if (found) {
+            PAlert.BUTTON button = PAlert.showAlert_yes_no(clubConfig.getStage(),
+                    "Beitrag bezahlen", "Beitrag bereits bezahlt",
+                    "Es sind bereits bezahlte Beiträge dabei. Sollen die nochmal bezahlt werden?");
+            if (button != PAlert.BUTTON.YES) {
+                return;
+            }
+        }
+
+        // dann jetzt den Bezahlendialog
+        new PayFeeDialogController(clubConfig, list);
+    }
+
 
     public static void generateMissingFeesForMembers(ClubConfig clubConfig, List<MemberData> list) {
         if (list.isEmpty()) {

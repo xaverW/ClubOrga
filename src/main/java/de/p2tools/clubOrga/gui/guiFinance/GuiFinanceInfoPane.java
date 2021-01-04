@@ -45,8 +45,6 @@ public class GuiFinanceInfoPane extends AnchorPane {
     private final PDatePropertyPicker pdpFinanceBuchungsdatum = new PDatePropertyPicker();
     private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
     private final TextArea txtFinanceText = new TextArea();
-//    private final TextField txtTrandactionText = new TextField();
-
 
     // TransactionData
     private final PTextFieldLong txtTransactionNr = new PTextFieldLong();
@@ -200,7 +198,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
             txtTransactionText.setText("");
             pYearPickerFinanceGeschaeftsjahr.unbind();
             cboAccount.unbindSelValueProperty();
-            pdpFinanceBuchungsdatum.clearDate();
+            pdpFinanceBuchungsdatum.unbindPDateProperty();
             return;
         }
 
@@ -208,7 +206,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
         txtFinanceBelegNr.textProperty().bindBidirectional(financeData.receiptNoProperty());
         txtFinanceText.textProperty().bindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.bindBidirectional(financeData.geschaeftsJahrProperty());
-        pdpFinanceBuchungsdatum.setpDateProperty(financeData.buchungsDatumProperty());
+        pdpFinanceBuchungsdatum.bindPDateProperty(financeData.buchungsDatumProperty());
         cboAccount.bindSelValueProperty(financeData.financeAccountDataProperty());
 
     }
@@ -223,7 +221,7 @@ public class GuiFinanceInfoPane extends AnchorPane {
         txtFinanceBelegNr.textProperty().unbindBidirectional(financeData.receiptNoProperty());
         txtFinanceText.textProperty().unbindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.unbind();
-        pdpFinanceBuchungsdatum.clearDate();
+        pdpFinanceBuchungsdatum.unbindPDateProperty();
         cboAccount.unbindSelValueProperty();
     }
 
@@ -250,7 +248,6 @@ public class GuiFinanceInfoPane extends AnchorPane {
         txtTransactionNr.unBind();
         txtTransactionBetrag.unBind();
         txtTransactionText.textProperty().unbindBidirectional(transactionData.textProperty());
-//        cboAccount.unbindSelValueProperty();
         cboCategory.unbindSelValueProperty();
     }
 }

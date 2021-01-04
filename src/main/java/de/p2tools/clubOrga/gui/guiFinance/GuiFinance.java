@@ -105,9 +105,9 @@ public class GuiFinance extends BorderPane {
     }
 
     public void refreshTable() {
-        tableView.setItems(null);
-        tableView.getColumns().clear();
-        initTable();
+//        tableView.setItems(null);
+//        tableView.getColumns().clear();
+//        initTable();
         tableView.refresh();
     }
 

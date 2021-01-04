@@ -117,8 +117,8 @@ public class DemoFinanceDataFactory {
             // Datum
             LocalDateTime dateTime = DemoDataFactory.getRandomDate();
             financeData.setGeschaeftsJahr(dateTime.getYear());
-            financeData.getBuchungsDatum().setPDate(dateTime.toLocalDate());
-            financeData.getErstellDatum().setPDate(dateTime.toLocalDate());
+            financeData.getBuchungsDatum().setPLocalDate(dateTime.toLocalDate());
+            financeData.getErstellDatum().setPLocalDate(dateTime.toLocalDate());
 
 
             // Transaktion

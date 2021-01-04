@@ -18,18 +18,14 @@ package de.p2tools.clubOrga.gui.guiFee;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.data.feeData.FeeData;
+import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
-import de.p2tools.p2Lib.guiTools.PColumnConstraints;
-import de.p2tools.p2Lib.guiTools.PDatePropertyPicker;
-import de.p2tools.p2Lib.guiTools.PTextField;
-import de.p2tools.p2Lib.guiTools.PTextFieldLong;
+import de.p2tools.p2Lib.guiTools.*;
 import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -58,7 +54,6 @@ public class GuiFeeInfoPane extends AnchorPane {
     public GuiFeeInfoPane(ClubConfig clubConfig) {
         this.clubConfig = clubConfig;
         progData = ProgData.getInstance();
-
         doublePropertyInfo = clubConfig.GUI_PANEL_FEE_DIVIDER_INFO;
 
         ScrollPane scrollPaneLeft = new ScrollPane();
@@ -98,23 +93,31 @@ public class GuiFeeInfoPane extends AnchorPane {
     private void initInfoLeft() {
         pDatePicker.setMaxWidth(Double.MAX_VALUE);
 
+        Button btnPay = PButton.getButton(new ProgIcons().ICON_EURO, "markierte Beiträge bezahlen");
+        btnPay.setOnAction(a -> {
+            if (feeData != null) {
+                FeeFactory.payFee(clubConfig, feeData);
+            }
+        });
+
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(5);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(10));
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
-                PColumnConstraints.getCcComputedSizeAndHgrow());
+                PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
 
         int row = 0;
         gridPane.add(new Label(FeeFieldNames.NR_), 0, row);
-        gridPane.add(txtNr, 1, row);
+        gridPane.add(txtNr, 1, row, 2, 1);
 
         gridPane.add(new Label(FeeFieldNames.MEMBER_NO), 0, ++row);
-        gridPane.add(txtMitgliedNr, 1, row);
+        gridPane.add(txtMitgliedNr, 1, row, 2, 1);
         gridPane.add(new Label(FeeFieldNames.MEMBER_NAME_), 0, ++row);
-        gridPane.add(txtMitgliedName, 1, row);
+        gridPane.add(txtMitgliedName, 1, row, 2, 1);
         gridPane.add(new Label(FeeFieldNames.BEZAHLT_), 0, ++row);
         gridPane.add(pDatePicker, 1, row);
+        gridPane.add(btnPay, 2, row);
 
         vbLeft.getChildren().add(gridPane);
     }
@@ -154,7 +157,7 @@ public class GuiFeeInfoPane extends AnchorPane {
     private void unbind() {
         setDisableAll();
         if (feeData == null) {
-            pDatePicker.clearDate();
+            pDatePicker.unbindPDateProperty();
             return;
         }
 
@@ -162,7 +165,7 @@ public class GuiFeeInfoPane extends AnchorPane {
         txtMitgliedNr.unBind();
         txtMitgliedName.textProperty().unbindBidirectional(feeData.memberNameProperty());
         txtText.textProperty().unbindBidirectional(feeData.textProperty());
-        pDatePicker.clearDate();
+        pDatePicker.unbindPDateProperty();
     }
 
     private void bind() {
@@ -179,6 +182,6 @@ public class GuiFeeInfoPane extends AnchorPane {
         txtMitgliedNr.bindBidirectional(feeData.memberNoProperty());
         txtMitgliedName.textProperty().bindBidirectional(feeData.memberNameProperty());
         txtText.textProperty().bindBidirectional(feeData.textProperty());
-        pDatePicker.setpDateProperty(feeData.bezahltProperty());
+        pDatePicker.bindPDateProperty(feeData.bezahltProperty());
     }
 }

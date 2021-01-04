@@ -25,6 +25,7 @@ import de.p2tools.clubOrga.gui.tools.GuiFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
 import javafx.beans.property.DoubleProperty;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
@@ -37,7 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class GuiFee extends BorderPane {
@@ -96,9 +97,6 @@ public class GuiFee extends BorderPane {
     }
 
     public void refreshTable() {
-        tableView.setItems(null);
-        tableView.getColumns().clear();
-        initTable();
         tableView.refresh();
     }
 
@@ -194,18 +192,13 @@ public class GuiFee extends BorderPane {
         }
     }
 
-    public ArrayList<FeeData> getSelList() {
-        final ArrayList<FeeData> ret = new ArrayList<>();
-        ret.addAll(tableView.getSelectionModel().getSelectedItems());
+    public List<FeeData> getSelList() {
+        final ObservableList<FeeData> ret = tableView.getSelectionModel().getSelectedItems();
         if (ret.isEmpty()) {
             new PAlert().showInfoNoSelection(clubConfig.getStage());
         }
         return ret;
     }
-
-//    public void updateTable() {
-//        tableView.refresh();
-//    }
 
     public void saveTable() {
         new ClubTable(clubConfig).saveTable(tableView, ClubTable.TABLE.FEE);
@@ -236,6 +229,7 @@ public class GuiFee extends BorderPane {
 
     public void updateFilteredList() {
         setFilter(false);
+        tableView.refresh();
     }
 
     private void setFilter(boolean onlySelected) {

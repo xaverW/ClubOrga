@@ -19,8 +19,10 @@ package de.p2tools.clubOrga.gui.dialog.dataDialog;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.data.extraData.ExtraData;
 import de.p2tools.clubOrga.data.feeData.FeeData;
+import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
@@ -33,11 +35,9 @@ import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -101,6 +101,30 @@ public class FeePane extends VBox {
 
                 } else if (config.getName().equals(FeeFieldNames.ZAHLART)) {
                     control = getPComboObject(feeData.paymentTypeDataProperty(), clubConfig.paymentTypeDataList);
+
+                } else if (config.getName().equals(FeeFieldNames.BEZAHLT)) {
+                    HBox hBox = new HBox(10);
+//                    Control c = getControl(config);
+//                    feeData.bezahltProperty().addListener((observable, oldValue, newValue) -> {
+//                        if (oldValue != null && newValue != null && !oldValue.equals(newValue)) {
+//                            ((PDatePicker) c).setDate(newValue);
+//                        }
+//                    });
+
+                    PDatePropertyPicker c = new PDatePropertyPicker();
+                    c.bindPDateProperty(feeData.bezahltProperty());
+
+                    c.setMaxWidth(Double.MAX_VALUE);
+                    Button btnPay = PButton.getButton(new ProgIcons().ICON_EURO, "markierte Beiträge bezahlen");
+                    btnPay.setOnAction(a -> FeeFactory.payFee(clubConfig, feeData));
+                    HBox.setHgrow(c, Priority.ALWAYS);
+                    hBox.getChildren().addAll(c, btnPay);
+                    GridPane.setHgrow(hBox, Priority.ALWAYS);
+
+                    gridPane.add(new Label(config.getName() + ":"), 0, row);
+                    gridPane.add(hBox, 1, row);
+                    ++row;
+                    continue;
 
                 } else if (config.getName().equals(FeeFieldNames.ERSTELLDATUM)) {
                     control = new PTextField(feeData.getErstellDatum().toString(), true);

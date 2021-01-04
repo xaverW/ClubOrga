@@ -163,10 +163,10 @@ public class DemoMemberDataFactory {
             // Datum
             LocalDateTime dateTime = DemoDataFactory.getRandomDate();
 
-            memberData.getBeitritt().setPDate(dateTime.toLocalDate());
-            memberData.getSepaBeginn().setPDate(dateTime.toLocalDate());
-            memberData.getErstellDatum().setPDate(dateTime.toLocalDate());
-            memberData.getZahlungsbeginn().setPDate(dateTime.toLocalDate());
+            memberData.getBeitritt().setPLocalDate(dateTime.toLocalDate());
+            memberData.getSepaBeginn().setPLocalDate(dateTime.toLocalDate());
+            memberData.getErstellDatum().setPLocalDate(dateTime.toLocalDate());
+            memberData.getZahlungsbeginn().setPLocalDate(dateTime.toLocalDate());
 
             newMemberList.add(memberData);
         }

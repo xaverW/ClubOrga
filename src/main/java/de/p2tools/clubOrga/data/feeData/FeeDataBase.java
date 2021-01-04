@@ -52,10 +52,11 @@ public class FeeDataBase extends PDataSample<FeeData> {
 
     private final IntegerProperty jahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
     private final LongProperty zahlart = new SimpleLongProperty(0);
-    private final PLocalDateProperty bezahlt = new PLocalDateProperty();
 
+    private final PLocalDateProperty bezahlt = new PLocalDateProperty();
     private final PLocalDateProperty rechnung = new PLocalDateProperty();
     private final PLocalDateProperty spendenQ = new PLocalDateProperty();
+
     private final PLocalDate erstellDatum = new PLocalDate();
 
     private final StringProperty text = new SimpleStringProperty("");

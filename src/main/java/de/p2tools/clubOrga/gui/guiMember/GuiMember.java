@@ -98,9 +98,9 @@ public class GuiMember extends BorderPane {
 
     public void refreshTable() {
 //        saveTable();
-        tableView.setItems(null);
-        tableView.getColumns().clear();
-        initTable();
+//        tableView.setItems(null);
+//        tableView.getColumns().clear();
+//        initTable();
 //        new ClubTable(clubConfig).setTable(tableView, ClubTable.TABLE.MEMBER);
 
         tableView.refresh();

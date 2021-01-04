@@ -62,13 +62,11 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
     private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
     private final TextArea txtFinanceText = new TextArea();
 
-
     // TransactionData
     private final ScrollPane scrollPaneTable = new ScrollPane();
     private final TableView<TransactionData> tableView = new TableView<>();
     private final PTextFieldLong txtTransactionNr = new PTextFieldLong();
     private final PTextFieldMoney txtTransactionBetrag = new PTextFieldMoney();
-    //    private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
     private final PComboBoxObject<FinanceCategoryData> cboCategory = new PComboBoxObject<>();
     private final TextArea txtTransactionText = new TextArea();
 
@@ -359,7 +357,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
             txtFinanceText.setText("");
             pYearPickerFinanceGeschaeftsjahr.unbind();
             cboAccount.unbindSelValueProperty();
-            pdpFinanceBuchungsdatum.clearDate();
+            pdpFinanceBuchungsdatum.unbindPDateProperty();
             return;
         }
 
@@ -368,7 +366,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
         txtFinanceBetrag.bindBidirectional(financeData.gesamtbetragProperty());
         txtFinanceText.textProperty().bindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.bindBidirectional(financeData.geschaeftsJahrProperty());
-        pdpFinanceBuchungsdatum.setpDateProperty(financeData.buchungsDatumProperty());
+        pdpFinanceBuchungsdatum.bindPDateProperty(financeData.buchungsDatumProperty());
         cboAccount.bindSelValueProperty(financeData.financeAccountDataProperty());
 
         tableView.setItems(financeData.getTransactionDataList());
@@ -388,7 +386,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
         txtFinanceBetrag.unBind();
         txtFinanceText.textProperty().unbindBidirectional(financeData.textProperty());
         pYearPickerFinanceGeschaeftsjahr.unbind();
-        pdpFinanceBuchungsdatum.clearDate();
+        pdpFinanceBuchungsdatum.unbindPDateProperty();
         cboAccount.unbindSelValueProperty();
 
         tableView.setItems(null);

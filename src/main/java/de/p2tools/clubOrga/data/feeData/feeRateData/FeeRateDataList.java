@@ -112,7 +112,8 @@ public class FeeRateDataList extends FeeRateDataListBase {
 
     private boolean checkRemove(Object obj) {
         if (((FeeRateData) obj).getId() < FeeRateFactory.RATE_TYPE_SIZE) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag löschen", "Das sind Standardbeiträge die nicht gelöscht werden können.");
+            PAlert.showErrorAlert(clubConfig.getStage(), "Beitragssatz löschen",
+                    "Das sind Standardbeitragssätze die nicht gelöscht werden können.");
             return false;
         }
 
@@ -120,9 +121,9 @@ public class FeeRateDataList extends FeeRateDataListBase {
         long id = ((FeeRateData) obj).getId();
         Optional<MemberData> optionalMemberData = clubConfig.memberDataList.stream().filter(m -> m.getFeeRateData().getId() == id).findAny();
         if (optionalMemberData.isPresent()) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag löschen",
-                    "Der Beitrag kann nicht gelöscht werden.\n" +
-                            "Es gibt noch Mitglieder mit diesem Beitrag!");
+            PAlert.showErrorAlert(clubConfig.getStage(), "Beitragssatz löschen",
+                    "Der Beitragssatz kann nicht gelöscht werden.\n" +
+                            "Es gibt noch Mitglieder mit diesem Beitragssatz!");
             return false;
         }
 

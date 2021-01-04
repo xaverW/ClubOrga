@@ -373,7 +373,7 @@ public class Sepa {
             Date date = new SimpleDateFormat("dd.MM.yyyy").parse(mitglied.getSepaBeginn().toString());
             genD = sdf.format(date);
         } catch (Exception ex) {
-            mitglied.getSepaBeginn().setPDateNow(); // todo??
+            mitglied.getSepaBeginn().setPLocalDateNow(); // todo??
             genD = sdf.format(new Date());
         }
         return genD;
