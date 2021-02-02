@@ -34,7 +34,9 @@ public class ExportSepa {
         Path sepaFile = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_FILE.getValue());
         Path sepaBegleit = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_BEGLEIT_FILE.getValue());
 
-        FinanceAccountData financeAccountData = null; // todo
+        //todo bei mehreren Giro
+        FinanceAccountData financeAccountData = clubConfig.financeAccountDataList.stream()
+                .filter(data -> data.isGiro()).findFirst().get();
 
         try {
             Sepa sepa = new Sepa(clubConfig, financeAccountData, feeDataList,
@@ -42,7 +44,7 @@ public class ExportSepa {
 
             if (sepa.write()) {
                 ret = true;
-                sepa.getZettel(sepaBegleit);
+                sepa.writeAddOnFile(sepaBegleit);
             }
 
         } catch (Exception ex) {

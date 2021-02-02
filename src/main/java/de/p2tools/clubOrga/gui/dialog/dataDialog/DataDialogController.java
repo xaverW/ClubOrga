@@ -263,7 +263,13 @@ public class DataDialogController extends PDialogExtra implements ActionInterfac
 
     private void addFeeTab() {
         if (feeDataOrg != null) {
-            feePane = new FeePane(clubConfig, feeDataCopy, memberDataCopy);
+            switch (open) {
+                case FEE_PANE:
+                    feePane = new FeePane(clubConfig, feeDataCopy, memberDataCopy, true);
+                    break;
+                default:
+                    feePane = new FeePane(clubConfig, feeDataCopy, memberDataCopy, false);
+            }
             feeTab = new Tab("Beitrag");
             feeTab.setClosable(false);
             feeTab.setContent(feePane);
@@ -300,6 +306,10 @@ public class DataDialogController extends PDialogExtra implements ActionInterfac
             return false;
         }
 
+        if (feePane != null) {
+            feePane.payFee();
+        }
+
         // geänderte Daten wieder auf ORG zurück kopieren
         if (financeDataOrg == null) {
             // dann gibts keine Finanzen und nix zum Umschalten im Dialog
@@ -315,12 +325,6 @@ public class DataDialogController extends PDialogExtra implements ActionInterfac
             // falls sich MittgliedDaten geändert haben
             clubConfig.feeDataList.stream().forEach(feeData -> feeData.initMemberName());
         }
-//        if (memberDataOrg != null) {
-//            memberDataOrg.initAfterLoad();
-//        }
-//        if (financeDataOrg != null) {
-//            financeDataOrg.initDataAfterClubLoad(clubConfig);
-//        }
 
         return true;
     }

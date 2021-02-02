@@ -19,7 +19,6 @@ package de.p2tools.clubOrga.gui.dialog.dataDialog;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.clubOrga.config.prog.ProgIcons;
 import de.p2tools.clubOrga.data.extraData.ExtraData;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.feeData.FeeFactory;
@@ -29,6 +28,7 @@ import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.configFile.config.ConfigIntPropExtra;
 import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
 import de.p2tools.p2Lib.guiTools.*;
+import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.PException;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -41,21 +41,25 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+import java.util.Optional;
+
 public class FeePane extends VBox {
 
     private final FeeData feeData;
     private final MemberData memberData;
     private final ComboBox<PDate> cboJahr = new ComboBox();
-
+    private boolean payFee = false;
+    private final boolean showPay;
 
     private final ProgData progData;
     private final ClubConfig clubConfig;
 
-    public FeePane(ClubConfig clubConfig, FeeData feeData, MemberData memberData) {
+    public FeePane(ClubConfig clubConfig, FeeData feeData, MemberData memberData, boolean showPay) {
 
         this.clubConfig = clubConfig;
         this.feeData = feeData;
         this.memberData = memberData;
+        this.showPay = showPay;
 
         this.progData = ProgData.getInstance();
         make();
@@ -78,6 +82,13 @@ public class FeePane extends VBox {
         scrollPane.setFitToWidth(true);
 
         getChildren().add(scrollPane);
+    }
+
+    public void payFee() {
+        //wenn auf bezahlen geklickt wurde, dann jetzt bezahlen (Dialog wírd mit OK beendet)
+        if (payFee) {
+            FeeFactory.payFee(clubConfig, feeData);
+        }
     }
 
     private void addFeeData(GridPane gridPane) {
@@ -104,26 +115,36 @@ public class FeePane extends VBox {
 
                 } else if (config.getName().equals(FeeFieldNames.BEZAHLT)) {
                     HBox hBox = new HBox(10);
-//                    Control c = getControl(config);
+                    Control c = getControl(config);
 //                    feeData.bezahltProperty().addListener((observable, oldValue, newValue) -> {
 //                        if (oldValue != null && newValue != null && !oldValue.equals(newValue)) {
 //                            ((PDatePicker) c).setDate(newValue);
 //                        }
 //                    });
-
-                    PDatePropertyPicker c = new PDatePropertyPicker();
-                    c.bindPDateProperty(feeData.bezahltProperty());
-
+//                    PDatePropertyPicker c = new PDatePropertyPicker();
+//                    c.bindPDateProperty(feeData.bezahltProperty());
                     c.setMaxWidth(Double.MAX_VALUE);
-                    Button btnPay = PButton.getButton(new ProgIcons().ICON_EURO, "markierte Beiträge bezahlen");
-                    btnPay.setOnAction(a -> FeeFactory.payFee(clubConfig, feeData));
-                    HBox.setHgrow(c, Priority.ALWAYS);
-                    hBox.getChildren().addAll(c, btnPay);
+                    GridPane.setHgrow(c, Priority.ALWAYS);
+
+                    PToggleSwitch tglPay = new PToggleSwitch();
+                    tglPay.setTooltip(new Tooltip("diesen Beitrag bezahlen"));
+                    tglPay.selectedProperty().addListener((o, ol, ne) -> payFee = true);
+                    Optional<FeeData> found = Optional.ofNullable(clubConfig.feeDataList.stream()
+                            .filter(f -> f.getId() == feeData.getId()).findAny().orElse(null));
+                    if (!found.isPresent()) {
+                        tglPay.setDisable(true);
+                    }
+
+                    tglPay.setMaxWidth(Double.MAX_VALUE);
+                    HBox.setHgrow(tglPay, Priority.ALWAYS);
+                    hBox.getChildren().addAll(new Label("Beitrag bezahlen"), tglPay);
                     GridPane.setHgrow(hBox, Priority.ALWAYS);
 
                     gridPane.add(new Label(config.getName() + ":"), 0, row);
-                    gridPane.add(hBox, 1, row);
-                    ++row;
+                    gridPane.add(c, 1, row++);
+                    if (showPay) {
+                        gridPane.add(hBox, 1, row++);
+                    }
                     continue;
 
                 } else if (config.getName().equals(FeeFieldNames.ERSTELLDATUM)) {

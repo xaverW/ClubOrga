@@ -57,8 +57,8 @@ public class MemberDataBase extends PDataSample<MemberData> {
     private final StringProperty land = new SimpleStringProperty("");
 
     private final LongProperty status = new SimpleLongProperty(0);
-    private final LongProperty beitrag = new SimpleLongProperty(0);
     private final LongProperty beitragssatz = new SimpleLongProperty(0);
+    private final LongProperty beitrag = new SimpleLongProperty(0);
     private final LongProperty paymentType = new SimpleLongProperty(0);
     private final StringProperty bank = new SimpleStringProperty("");
     private final StringProperty iban = new SimpleStringProperty("");
@@ -191,8 +191,8 @@ public class MemberDataBase extends PDataSample<MemberData> {
         list.add(new ConfigStringPropExtra("land", MemberFieldNames.LAND, land));
 
         list.add(new ConfigLongPropExtra("status", MemberFieldNames.STATUS, status));
-        list.add(new ConfigLongPropExtra("beitrag", MemberFieldNames.BEITRAG, beitrag));
         list.add(new ConfigLongPropExtra("beitragssatz", MemberFieldNames.BEITRAGSSATZ, beitragssatz));
+        list.add(new ConfigLongPropExtra("beitrag", MemberFieldNames.BEITRAG, beitrag));
         list.add(new ConfigStringPropExtra("bank", MemberFieldNames.BANK, bank));
         list.add(new ConfigStringPropExtra("iban", MemberFieldNames.IBAN, iban));
         list.add(new ConfigStringPropExtra("bic", MemberFieldNames.BIC, bic));

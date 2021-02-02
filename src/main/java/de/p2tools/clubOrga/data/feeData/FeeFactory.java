@@ -75,6 +75,7 @@ public class FeeFactory {
 
         // dann jetzt den Bezahlendialog
         new PayFeeDialogController(clubConfig, list);
+        clubConfig.guiFee.updateFilteredList();
     }
 
 
@@ -182,11 +183,11 @@ public class FeeFactory {
      * @param list
      * @return
      */
-    public static double getSumFee(List<FeeData> list) {
+    public static long getSumFee(List<FeeData> list) {
         if (list == null) {
             return 0;
         } else {
-            return list.stream().mapToDouble(fee -> fee.getBetrag()).sum();
+            return list.stream().mapToLong(fee -> fee.getBetrag()).sum();
         }
     }
 

@@ -20,6 +20,7 @@ package de.p2tools.clubOrga.controller.sepa;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.feeData.FeeFactory;
+import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
@@ -34,11 +35,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class Sepa {
 
@@ -51,6 +51,7 @@ public class Sepa {
 
     private final ClubConfig clubConfig;
     private final FinanceAccountData financeAccountData;
+    private final DecimalFormat DF_E = new DecimalFormat("##0.00", new DecimalFormatSymbols(Locale.ENGLISH));
 
     /**
      * @param feeDataList
@@ -91,9 +92,14 @@ public class Sepa {
 
     public String getSum() {
         // Die Gesamtsumme aller einzelnen Eurobeträge, die in der Nachricht enthalten sind, wird vom System angegeben.
-        String sum = FeeFactory.getSumFee(feeDataList) + "";
-        sum = normBetrag(sum);
-        return sum;
+        long sum = FeeFactory.getSumFee(feeDataList);
+        String formatted = DF_E.format(1.0 * sum / 100);
+        return formatted;
+    }
+
+    public String normBetrag(Long betrag) {
+        String formatted = DF_E.format(1.0 * betrag / 100);
+        return formatted;
     }
 
     public String normBetrag(String betrag) {
@@ -278,7 +284,7 @@ public class Sepa {
         tab();
         element("PmtId", "EndToEndId", "NOTPROVIDED");
         tab();
-        elementA("InstdAmt", "Ccy", "EUR", normBetrag(SepaFactory.parseBetragCent(beitrag.getBetrag() + "") + ""));
+        elementA("InstdAmt", "Ccy", "EUR", normBetrag(beitrag.getBetrag()));
 
         tab();
         writer.writeStartElement("DrctDbtTx");
@@ -482,7 +488,7 @@ public class Sepa {
      * @param file
      * @return
      */
-    public boolean getZettel(Path file) {
+    public boolean writeAddOnFile(Path file) {
 
         LinkedList<String> zettel = new LinkedList<>();
         String zeile;
@@ -506,13 +512,13 @@ public class Sepa {
         zettel.add("  - Eine Diskette ..................... : Nr. 1");
         zettel.add("  - Erstellungsdatum .................. : " + PDateFactory.getTodayStr());
         zettel.add("");
-        zettel.add("  - Anzahl der Datensätze C ........... : " + getCount());
-        zettel.add("  - Summe Euro der Datensätze C ....... : " + verlaengernBetrag(String.valueOf(getSum()), 0));
+        zettel.add("  - Anzahl der Datensätze ............. : " + getCount());
+        zettel.add("  - Summe Euro der Datensätze ......... : " + getSum());
         zettel.add("");
         zettel.add("");
-        zettel.add("  - Name des Auftraggebers............. : " + clubConfig.clubData.getName());
-        zettel.add("  - BIC des Auftraggebers..... : " + financeAccountData.getBic());
-        zettel.add("  - IBAN des Auftraggebers...... : " + financeAccountData.getIban());
+        zettel.add("  - Name des Auftraggebers ............. : " + clubConfig.clubData.getName());
+        zettel.add("  - BIC des Auftraggebers .............. : " + clubConfig.clubData.getBic());
+        zettel.add("  - IBAN des Auftraggebers ............. : " + clubConfig.clubData.getIban());
 
         try {
             OutputStreamWriter strWriter;
@@ -552,7 +558,14 @@ public class Sepa {
             if (i != 0 && i % 3 == 0) {
                 ret += "\n";
             }
-            String s = configs[i].getName() + ": " + configs[i].getActValueString();
+            String s;
+            if (configs[i].getName().equals(FeeFieldNames.BETRAG)) {
+                String formatted = DF_E.format(1.0 * Long.parseLong(configs[i].getActValueString()) / 100);
+                s = configs[i].getName() + ": " + formatted;
+            } else {
+                s = configs[i].getName() + ": " + configs[i].getActValueString();
+            }
+
             if (s.length() > laenge) {
                 s = s.substring(0, laenge);
             }

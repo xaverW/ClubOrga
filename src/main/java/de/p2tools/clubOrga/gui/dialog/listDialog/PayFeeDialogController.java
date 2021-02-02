@@ -24,6 +24,7 @@ import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 import de.p2tools.p2Lib.P2LibConst;
+import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.*;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
@@ -59,7 +60,7 @@ public class PayFeeDialogController extends abListDialogController {
     private final PComboBoxObjectId<FinanceCategoryData> cboCategory = new PComboBoxObjectId<>();
 
     // SEPA
-    private final PToggleSwitch tglSepa = new PToggleSwitch("SEPA Dateien erstellen (bei Bankeinzug)", true);
+    private final PToggleSwitch tglSepa = new PToggleSwitch("SEPA Dateien erstellen (bei Bankeinzug)", false);
     private final PComboBoxString cboSepaDirList = new PComboBoxString();
     private final PComboBoxString cboSepaFile = new PComboBoxString();
     private final PComboBoxString cboSepaBegleit = new PComboBoxString();
@@ -195,14 +196,19 @@ public class PayFeeDialogController extends abListDialogController {
 
     @Override
     boolean check() {
-        boolean ret = true;
+        if (tglSepa.isSelected() && (cboSepaDirList.getSelValue().isEmpty() ||
+                cboSepaFile.getSelValue().isEmpty() ||
+                cboSepaBegleit.getSelValue().isEmpty())) {
+            new PAlert().showErrorAlert(stage, "SEPA-Datei anlegen", "Es wurde keine Datei angegeben.");
+            return false;
+        }
 
         // wenn SEPA, dann die Daten erstellen
         if (tglSepa.isSelected()) {
             Path sepa = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_FILE.getValue());
             Path sepaBegleit = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_BEGLEIT_FILE.getValue());
             if (!PFileUtils.checkFileToCreate(stage, sepa) || !PFileUtils.checkFileToCreate(stage, sepaBegleit)) {
-                ret = false;
+                return false;
             }
             // nur die Beiträge mit "Bankeinzug" nehmen
             ObservableList<FeeData> feeDataListSepa = FXCollections.observableArrayList();
@@ -231,8 +237,7 @@ public class PayFeeDialogController extends abListDialogController {
             }
         }
 
-        clubConfig.guiFee.updateFilteredList();
-        return ret;
+        return true;
     }
 
     private void getKonto(List<FeeData> listFrom, List<FeeData> listTo, long paymentType) {

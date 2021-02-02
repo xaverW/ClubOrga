@@ -26,6 +26,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.AreaBreakType;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.controller.ClubFactory;
@@ -140,7 +141,8 @@ public class CreatePdfFile {
     private void replaceFile(List<ReplaceData> replaceDataList, String srcFileName) {
         List<String> lineList = CreateDocumentFactory.replaceFile(replaceDataList, srcFileName);
         PdfPage pdfPage = pdfDocument.addNewPage();
-
+        Paragraph paragraph = new Paragraph().setFontSize(9);
+        Text text = new Text("");
 
         if (newPage) {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
@@ -152,13 +154,31 @@ public class CreatePdfFile {
             for (String line : lineList) {
 
                 line = firstCheck(line, pdfPage);
+//                if (line.isEmpty()) {
+//                    // dann ists erledigt
+//                    continue;
+//                }
+
                 if (line.isEmpty()) {
-                    // dann ists erledigt
+                    // leere Zeile
+//                    Text title = new Text("\n");
+//                    paragraph.add(title);
+                    text.setText(text.getText() + "\n");
                     continue;
                 }
 
-                document.add(new Paragraph(line));
+                // Paragraph p = new Paragraph(line);
+                // paragraph.add(line);
+
+//                Text title = new Text(line + "\n");
+//                title.getChildren().add(line);
+//                paragraph.add(title);
+
+                text.setText(text.getText() + "\n" + line);
             }
+
+            paragraph.add(text);
+            document.add(paragraph);
         } catch (
                 Exception ex) {
             PLog.errorLog(987451202, ex);
@@ -167,10 +187,10 @@ public class CreatePdfFile {
 
     private String firstCheck(String line, PdfPage pdfPage) throws IOException {
 
-        if (line.equals("")) {
-            // leere Zeile
-            document.add(new Paragraph(" "));
-        }
+//        if (line.equals("")) {
+//            // leere Zeile
+//            document.add(new Paragraph(" "));
+//        }
 
         // Fonts
         if (line.contains(NewsletterFactory.TAG_FONT_COURIER)) {

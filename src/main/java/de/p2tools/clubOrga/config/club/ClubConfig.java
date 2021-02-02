@@ -85,14 +85,14 @@ public class ClubConfig extends PDataProgConfig {
     // Dialoge
     public StringProperty CLUB_CONFIG_DIALOG_SIZE = addStr("club-config-dialog-size", "800:600");
     public StringProperty CLUB_EXTRA_DATA_DIALOG_SIZE = addStr("club-extra-data-dialog-size", "500:700");
-    public StringProperty DATA_DIALOG_SIZE = addStr("data-dialog-size");
-    public StringProperty FEE_RATE_DATA_DIALOG_SIZE = addStr("fee-rate-data-dialog-size");
-    public StringProperty STATE_DATA_DIALOG_SIZE = addStr("state-data-dialog-size");
-    public StringProperty FINANCE_ACCOUNT_DATA_DIALOG_SIZE = addStr("finance-account-data-dialog-size");
+    public StringProperty DATA_DIALOG_SIZE = addStr("data-dialog-size", "500:700");
+    public StringProperty FEE_RATE_DATA_DIALOG_SIZE = addStr("fee-rate-data-dialog-size", "500:700");
+    public StringProperty STATE_DATA_DIALOG_SIZE = addStr("state-data-dialog-size", "500:700");
+    public StringProperty FINANCE_ACCOUNT_DATA_DIALOG_SIZE = addStr("finance-account-data-dialog-size", "500:700");
 
-    public StringProperty FINANCE_CATEGORY_DATA_DIALOG_SIZE = addStr("finance-category-data-dialog-size");
-    public StringProperty PAYMENT_TYPE_DATA_DIALOG_SIZE = addStr("payment-type-data-dialog-size");
-    public StringProperty ADD_DEMO_DATA_DIALOG_SIZE = addStr("add-demo-data-dialog-size");
+    public StringProperty FINANCE_CATEGORY_DATA_DIALOG_SIZE = addStr("finance-category-data-dialog-size", "500:700");
+    public StringProperty PAYMENT_TYPE_DATA_DIALOG_SIZE = addStr("payment-type-data-dialog-size", "500:700");
+    public StringProperty ADD_DEMO_DATA_DIALOG_SIZE = addStr("add-demo-data-dialog-size", "500:700");
     public StringProperty EXPORT_CSV_DIALOG_SIZE = addStr("export-member-csv-dialog-size", "700:400");
     public StringProperty EXPORT_FINANCE_REPORT = addStr("export-finance-report", "700:400");
     public StringProperty IMPORT_MEMBER_CSV_DIALOG_SIZE = addStr("import-member-csv-dialog-size", "700:400");
@@ -103,14 +103,14 @@ public class ClubConfig extends PDataProgConfig {
     public DoubleProperty MISSING_FEE_DIALOG_DIVIDER = addDouble("missing-fee-dialog-divider", 0.3);
     public StringProperty MISSING_FEE_DIALOG_SIZE = addStrC("Dialoge", "fee-dialog-size", "800:600");
     public DoubleProperty BILL_FOR_FEE_DIALOG_DIVIDER = addDouble("bill-for-fee-dialog-divider", 0.3);
-    public StringProperty BILL_FOR_FEE_DIALOG_SIZE = addStr("bill-for-fee-dialog-size");
+    public StringProperty BILL_FOR_FEE_DIALOG_SIZE = addStr("bill-for-fee-dialog-size", "500:700");
     public DoubleProperty PAY_FEE_DIALOG_DIVIDER = addDouble("pay-fee-dialog-divider", 0.3);
-    public StringProperty PAY_FEE_DIALOG_SIZE = addStr("pay-fee-dialog-size");
+    public StringProperty PAY_FEE_DIALOG_SIZE = addStr("pay-fee-dialog-size", "500:700");
 
     public BooleanProperty FEE_DIALOG_ADD_FINANCES = addBool("fee-dialog-add-finance", Boolean.TRUE);
     public BooleanProperty FEE_DIALOG_ADD_TRANSACTIONS = addBool("fee-dialog-add-transactions", Boolean.TRUE);
     public BooleanProperty FEE_DIALOG_ADD_DTAUS = addBool("fee-dialog-add-dtaus", Boolean.TRUE);
-    public StringProperty NEWSLETTER_TO_ODF_DIALOG_SIZE = addStr("newsletter-to-odf-dialog-size", "");
+    public StringProperty NEWSLETTER_TO_ODF_DIALOG_SIZE = addStr("newsletter-to-odf-dialog-size", "500:700");
     public BooleanProperty FEE_DIALOG_ADD_BILL = addBool("fee-dialog-add-bill", Boolean.TRUE);
     public BooleanProperty FEE_DIALOG_ADD_SQ = addBool("fee-dialog-add-sq", Boolean.TRUE);
 

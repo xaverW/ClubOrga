@@ -70,7 +70,7 @@ public class GuiMemberMenu extends VBox {
         miRemoveMember.setOnAction(a -> removeMember());
 
         // Beitrag
-        MenuItem miAddFee = new MenuItem("Beitrag für aktuelles Mitglied anlegen");
+        MenuItem miAddFee = new MenuItem("einen Beitrag für das aktuelle Mitglied anlegen");
         miAddFee.setOnAction(a -> FeeFactory.generateFeeForMember(clubConfig, clubConfig.guiMember.getSel()));
 
         MenuItem miMemberFee = new MenuItem("fehlende Beiträge für angezeigte Mitglieder anlegen");

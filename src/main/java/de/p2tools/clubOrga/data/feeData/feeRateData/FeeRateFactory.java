@@ -23,9 +23,9 @@ public class FeeRateFactory {
 
     public enum RATE_TYPE {
 
-        RATE_STANDARD(0, 1, 2500, "Standard", "Standardbeitrag"),
-        RATE_FREE(1, 2, 314, "Frei", "Freie Auswahl des Beitrags"),
-        RATE_WITHOUT(2, 3, 0, "Ohne", "Kein Beitrag");
+        RATE_STANDARD(0, 1, 2500, "Standardbeitrag", "das ist der Standardbeitrag"),
+        RATE_FREE(1, 2, 314, "freie Beitragswahl", "der Beitrag kann frei festgelegt werden"),
+        RATE_WITHOUT(2, 3, 0, "ohne Beitrag", "es muss kein Beitrag bezahlt werden");
 
         private final int id;
         private final int shownNo;
