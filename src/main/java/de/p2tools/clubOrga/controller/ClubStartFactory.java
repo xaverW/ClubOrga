@@ -228,7 +228,7 @@ public class ClubStartFactory {
         PDuration.onlyPing("checkProgUpdate");
 
         if (ProgConfig.SYSTEM_UPDATE_SEARCH.get() &&
-                !ProgConfig.SYSTEM_UPDATE_DATE.get().equals(PDateFactory.F_FORMATTER_yyyy_MM_dd.format(new Date()))) {
+                !ProgConfig.SYSTEM_UPDATE_DATE.get().equals(PDateFactory.F_FORMAT_yyyy_MM_dd.format(new Date()))) {
             // nach Updates suchen
             runUpdateCheck(clubConfig);
 
@@ -244,7 +244,7 @@ public class ClubStartFactory {
             if (!ProgConfig.SYSTEM_UPDATE_SEARCH.get()) {
                 list.add("  der User will nicht");
             }
-            if (ProgConfig.SYSTEM_UPDATE_DATE.get().equals(PDateFactory.F_FORMATTER_yyyy_MM_dd.format(new Date()))) {
+            if (ProgConfig.SYSTEM_UPDATE_DATE.get().equals(PDateFactory.F_FORMAT_yyyy_MM_dd.format(new Date()))) {
                 list.add("  heute schon gemacht");
             }
             PLog.sysLog(list);

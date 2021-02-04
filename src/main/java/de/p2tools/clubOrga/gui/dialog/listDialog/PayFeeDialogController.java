@@ -29,6 +29,7 @@ import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.*;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
+import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.file.PFileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,8 +51,10 @@ import java.util.List;
  */
 public class PayFeeDialogController extends abListDialogController {
 
-    final Label lblDatum = new Label("Buchungsdatum");
+    final Label lblDatum = new Label("Buchungsdatum:");
+    final Label lblSepaDatum = new Label("Sepa Ausführungsdatum:");
     final PDatePicker pDatePickerFeeDateBuchungsdatum = new PDatePicker();
+    final PDatePicker pDatePickerSepaDateBuchungsdatum = new PDatePicker(new PLocalDate(2));
 
     // Finanzen
     private final PToggleSwitch tglFinances = new PToggleSwitch("Eintrag in den Finanzen anlegen", true);
@@ -93,6 +96,9 @@ public class PayFeeDialogController extends abListDialogController {
         super.make();
 
         pDatePickerFeeDateBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
+        lblSepaDatum.disableProperty().bind(tglSepa.selectedProperty().not());
+        pDatePickerSepaDateBuchungsdatum.disableProperty().bind(tglSepa.selectedProperty().not());
+        pDatePickerSepaDateBuchungsdatum.setMaxWidth(Double.MAX_VALUE);
 
         tglFinances.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_FINANCES);
         chkTransaction.selectedProperty().bindBidirectional(clubConfig.FEE_DIALOG_ADD_TRANSACTIONS);
@@ -180,6 +186,9 @@ public class PayFeeDialogController extends abListDialogController {
         gridPane.add(tglSepa, 0, ++row, 3, 1);
         gridPane.add(new Label(" "), 0, ++row);
 
+        gridPane.add(lblSepaDatum, 0, ++row);
+        gridPane.add(pDatePickerSepaDateBuchungsdatum, 1, row, 2, 1);
+
         gridPane.add(lblOrdner, 0, ++row);
         gridPane.add(cboSepaDirList, 1, row);
         gridPane.add(btnSepaDirList, 2, row);
@@ -217,7 +226,7 @@ public class PayFeeDialogController extends abListDialogController {
                     feeDataListSepa.add(feeData);
                 }
             });
-            ExportSepa.createSepaFile(clubConfig, feeDataListSepa);
+            ExportSepa.createSepaFile(clubConfig, feeDataListSepa, pDatePickerSepaDateBuchungsdatum.getDate());
         }
 
         // Beiträge bezahlen

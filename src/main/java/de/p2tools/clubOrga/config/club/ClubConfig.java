@@ -222,7 +222,7 @@ public class ClubConfig extends PDataProgConfig {
     public StringProperty PAY_FEE_SEPA_FILE = addStr("pay-fee-sepa-file");
     public StringProperty PAY_FEE_SEPA_BEGLEIT_FILE = addStr("pay-fee-sepa-begleit-file");
 
-    public StringProperty PAY_FEE_SEPA_DATE = addStr("pay-fee-sepa-date");
+//    public StringProperty PAY_FEE_SEPA_DATE = addStr("pay-fee-sepa-date");
 
     // GuiFinance
     public StringProperty FINANCE_GUI_TABLE_WIDTH = addStrC("GuiFinance", "finance-gui-table-width");

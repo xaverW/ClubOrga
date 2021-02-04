@@ -21,7 +21,6 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
-import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.tools.date.PDate;
@@ -50,7 +49,6 @@ public class Sepa {
     private final List<FeeData> feeDataList;
 
     private final ClubConfig clubConfig;
-    private final FinanceAccountData financeAccountData;
     private final DecimalFormat DF_E = new DecimalFormat("##0.00", new DecimalFormatSymbols(Locale.ENGLISH));
 
     /**
@@ -58,10 +56,9 @@ public class Sepa {
      * @param sepaFile
      * @param executeDate
      */
-    public Sepa(ClubConfig clubConfig, FinanceAccountData financeAccountData, List<FeeData> feeDataList,
+    public Sepa(ClubConfig clubConfig, List<FeeData> feeDataList,
                 Path sepaFile, String executeDate) {
         this.clubConfig = clubConfig;
-        this.financeAccountData = financeAccountData;
         this.feeDataList = feeDataList;
         this.sepaFile = sepaFile.toFile();
         this.executeDate = new PDate(executeDate);
@@ -220,9 +217,9 @@ public class Sepa {
         tab();
         element("Cdtr", "Nm", clubConfig.clubData.getName());
         tab();
-        element("CdtrAcct", "Id", "IBAN", financeAccountData.getIban());
+        element("CdtrAcct", "Id", "IBAN", clubConfig.clubData.getIban());
         tab();
-        element("CdtrAgt", "FinInstnId", "BIC", financeAccountData.getBic());
+        element("CdtrAgt", "FinInstnId", "BIC", clubConfig.clubData.getBic());
         tab();
         element("ChrgBr", "SLEV");
 
@@ -340,7 +337,7 @@ public class Sepa {
 
     private String getMsgId() {
         // Das System generiert eine interne ID, die aus der Unternehmensnummer, Bankkontonummer und fortlaufenden Nummer (74/01) besteht. 	Maximal 35 Zeichen
-        String mId = financeAccountData.getBic();
+        String mId = clubConfig.clubData.getBic();
         if (mId.length() > 20) {
             mId = mId.substring(0, 15);
         }
@@ -559,7 +556,10 @@ public class Sepa {
                 ret += "\n";
             }
             String s;
-            if (configs[i].getName().equals(FeeFieldNames.BETRAG)) {
+            if (configs[i].getName().equals(FeeFieldNames.ZAHLART)) {
+                String zahlart = beitrag.getPaymentTypeData().getName();
+                s = configs[i].getName() + ": " + zahlart;
+            } else if (configs[i].getName().equals(FeeFieldNames.BETRAG)) {
                 String formatted = DF_E.format(1.0 * Long.parseLong(configs[i].getActValueString()) / 100);
                 s = configs[i].getName() + ": " + formatted;
             } else {

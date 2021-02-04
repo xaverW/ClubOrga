@@ -19,7 +19,6 @@ package de.p2tools.clubOrga.controller.sepa;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.feeData.FeeData;
-import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import java.nio.file.Path;
@@ -28,19 +27,14 @@ import java.util.List;
 
 public class ExportSepa {
 
-    public static boolean createSepaFile(ClubConfig clubConfig, List<FeeData> feeDataList) {
+    public static boolean createSepaFile(ClubConfig clubConfig, List<FeeData> feeDataList, String executeDate) {
         boolean ret = false;
 
         Path sepaFile = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_FILE.getValue());
         Path sepaBegleit = Paths.get(clubConfig.PAY_FEE_SEPA_DIR.getValue(), clubConfig.PAY_FEE_SEPA_BEGLEIT_FILE.getValue());
 
-        //todo bei mehreren Giro
-        FinanceAccountData financeAccountData = clubConfig.financeAccountDataList.stream()
-                .filter(data -> data.isGiro()).findFirst().get();
-
         try {
-            Sepa sepa = new Sepa(clubConfig, financeAccountData, feeDataList,
-                    sepaFile, clubConfig.PAY_FEE_SEPA_DATE.getValueSafe());
+            Sepa sepa = new Sepa(clubConfig, feeDataList, sepaFile, executeDate);
 
             if (sepa.write()) {
                 ret = true;
