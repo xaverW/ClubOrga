@@ -26,7 +26,7 @@ import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
+import de.p2tools.p2Lib.configFile.ReadConfigFile;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -87,7 +87,7 @@ public class ProgStartFactory {
 
         PLog.sysLog("Konfig lesen: " + xmlFilePath.toString());
 
-        ReadWriteConfigFile readWriteConfigFile = new ReadWriteConfigFile();
+        ReadConfigFile readWriteConfigFile = new ReadConfigFile();
         readWriteConfigFile.addConfigFile(configFile);
 
         boolean ret = readWriteConfigFile.readConfigFile(backupHeader, backupText);
@@ -133,7 +133,7 @@ public class ProgStartFactory {
 
         // ClubConfig und ClubData lesen
         PLog.sysLog("Konfig lesen: " + ProgInfos.getClubDataFileZip(clubConfig.getClubPath()));
-        ReadWriteConfigFile readWriteConfigFile = new ReadWriteConfigFile();
+        ReadConfigFile readWriteConfigFile = new ReadConfigFile();
 
         final ConfigFile configFileConf = getConfigClubConnfig(clubConfig);
         readWriteConfigFile.addConfigFile(configFileConf);

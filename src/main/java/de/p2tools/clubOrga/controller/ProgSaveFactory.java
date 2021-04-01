@@ -23,7 +23,7 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
+import de.p2tools.p2Lib.configFile.WriteConfigFile;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.log.PLog;
 
@@ -54,7 +54,7 @@ public class ProgSaveFactory {
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgData.getInstance().knownClubDataList);
 
-        ReadWriteConfigFile readWriteConfigFile = new ReadWriteConfigFile();
+        WriteConfigFile readWriteConfigFile = new WriteConfigFile();
         readWriteConfigFile.addConfigFile(configFile);
         readWriteConfigFile.writeConfigFile();
     }
@@ -73,7 +73,7 @@ public class ProgSaveFactory {
 
         getClubSizes(clubConfig);
 
-        ReadWriteConfigFile readWriteConfigFile = new ReadWriteConfigFile();
+        WriteConfigFile readWriteConfigFile = new WriteConfigFile();
 
         readWriteConfigFile.addConfigFile(ClubConfigFactory.getClubConfigData(clubConfig));
         readWriteConfigFile.addConfigFile(ClubConfigFactory.getClubData(clubConfig));
