@@ -338,6 +338,9 @@ public class ClubStartFactory {
 
                 src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_4);
                 Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_4), StandardCopyOption.REPLACE_EXISTING);
+
+                src = Club.class.getResourceAsStream(ProgConst.TEMPLATE_PATH + ProgConst.TEMPLATE_5);
+                Files.copy(src, templateFilePath.resolve(ProgConst.TEMPLATE_5), StandardCopyOption.REPLACE_EXISTING);
             }
 
             List<File> list = NewsletterFactory.getTemplates(clubConfig);
