@@ -137,8 +137,9 @@ public class FeeFactory {
 
         final MemberData memberData = optionalMemberData.get();
         if (memberData.memberIsFeeFree()) {
-            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag anlegen", "Das Mitglied ist, " +
-                    "Beitragsfrei. Für dieses wird kein Beitrag angelegt.");
+            PAlert.showErrorAlert(clubConfig.getStage(), "Beitrag anlegen", "Das Mitglied ist " +
+                    "beitragsfrei. Für dieses Mitglied kann kein Beitrag angelegt werden.");
+            return;
         }
 
         FeeData feeData = getNewFeeForMember(clubConfig, memberData);

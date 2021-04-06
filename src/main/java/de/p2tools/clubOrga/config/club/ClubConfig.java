@@ -103,13 +103,13 @@ public class ClubConfig extends PDataProgConfig {
     public DoubleProperty MISSING_FEE_DIALOG_DIVIDER = addDouble("missing-fee-dialog-divider", 0.3);
     public StringProperty MISSING_FEE_DIALOG_SIZE = addStrC("Dialoge", "fee-dialog-size", "800:600");
     public DoubleProperty BILL_FOR_FEE_DIALOG_DIVIDER = addDouble("bill-for-fee-dialog-divider", 0.3);
-    public StringProperty BILL_FOR_FEE_DIALOG_SIZE = addStr("bill-for-fee-dialog-size", "500:700");
+    public StringProperty BILL_FOR_FEE_DIALOG_SIZE = addStr("bill-for-fee-dialog-size", "700:700");
     public DoubleProperty PAY_FEE_DIALOG_DIVIDER = addDouble("pay-fee-dialog-divider", 0.3);
-    public StringProperty PAY_FEE_DIALOG_SIZE = addStr("pay-fee-dialog-size", "500:700");
+    public StringProperty PAY_FEE_DIALOG_SIZE = addStr("pay-fee-dialog-size", "700:700");
 
     public BooleanProperty FEE_DIALOG_ADD_FINANCES = addBool("fee-dialog-add-finance", Boolean.TRUE);
     public BooleanProperty FEE_DIALOG_ADD_TRANSACTIONS = addBool("fee-dialog-add-transactions", Boolean.TRUE);
-    public BooleanProperty FEE_DIALOG_ADD_DTAUS = addBool("fee-dialog-add-dtaus", Boolean.TRUE);
+    public BooleanProperty FEE_DIALOG_ADD_DTAUS = addBool("fee-dialog-add-dtaus", Boolean.FALSE);
     public StringProperty NEWSLETTER_TO_ODF_DIALOG_SIZE = addStr("newsletter-to-odf-dialog-size", "500:700");
     public BooleanProperty FEE_DIALOG_ADD_BILL = addBool("fee-dialog-add-bill", Boolean.TRUE);
     public BooleanProperty FEE_DIALOG_ADD_SQ = addBool("fee-dialog-add-sq", Boolean.TRUE);
