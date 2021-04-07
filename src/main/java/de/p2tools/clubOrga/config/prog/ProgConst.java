@@ -43,7 +43,6 @@ public class ProgConst {
     public static final String TEMPLATE_2 = "Vorlage-Rechnung.txt";
     public static final String TEMPLATE_3 = "Parameter-Test.txt";
     public static final String TEMPLATE_4 = "P2-Logo.png";
-    public static final String TEMPLATE_5 = "P2-Logo_k.png";
 
 
     public static final String CSS_FILE = "/de/p2tools/clubOrga/club.css";

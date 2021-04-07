@@ -1,6 +1,6 @@
 <<Faltmarke>>
 <<Adressfeld>>
-<<Bild url="P2-Logo_k.png", x="160", y="10", xx="40", yy="40">>
+<<Bild url="P2-Logo.png", x="160", y="10", xx="40", yy="40">>
 
 
 
