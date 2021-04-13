@@ -99,11 +99,89 @@ public class PdfFactory {
     }
 
     //Logo
-    public static void addLogo(PdfPage pdfPage, Document document, String tag, String srcFile) {
+    public static PdfImage getLogo(String tag, String srcFile) {
         try {
             // <<Bild url="", x="", y="", xx="", yy="">>
             // Seite h:842, w:595 [Pixel]
 
+            final int DPI = 72;
+            final float ZOLL = 25.4F;
+
+            String url = getUrl(tag, srcFile);
+            if (url.isEmpty()) {
+                return null;
+            }
+
+            final float x = getX(tag, "x");
+            final float y = getX(tag, "y");
+            if (x < 0 || y < 0) {
+                return null;
+            }
+
+            ImageData data = ImageDataFactory.create(url);
+            Image image = new Image(data);
+            final float xx = getX(tag, "xx");
+            final float yy = getX(tag, "yy");
+            if (xx > 0 && yy > 0) {
+                float imgW = xx * DPI / ZOLL;
+                float imgH = yy * DPI / ZOLL;
+                image.scaleToFit(imgW, imgH);
+            }
+            return new PdfImage(url, image);
+        } catch (Exception ex) {
+            PLog.errorLog(986532019, ex, "getLogo");
+        }
+
+        return null;
+    }
+
+    //Logo
+    public static void addLogo(Image image, PdfPage pdfPage, Document document, String tag, String srcFile) {
+        try {
+            // <<Bild url="", x="", y="", xx="", yy="">>
+            // Seite h:842, w:595 [Pixel]
+            final int DPI = 72;
+            final float ZOLL = 25.4F;
+//
+//            String url = getUrl(tag, srcFile);
+//            if (url.isEmpty()) {
+//                return;
+//            }
+//
+            final float x = getX(tag, "x");
+            final float y = getX(tag, "y");
+            if (x < 0 || y < 0) {
+                return;
+            }
+//
+//            ImageData data = ImageDataFactory.create(url);
+////            Image image = new Image(data);
+//            final float xx = getX(tag, "xx");
+//            final float yy = getX(tag, "yy");
+//            if (xx > 0 && yy > 0) {
+//                float imgW = xx * DPI / ZOLL;
+//                float imgH = yy * DPI / ZOLL;
+//                image.scaleToFit(imgW, imgH);
+//            }
+
+            float posX = x * DPI / ZOLL;
+            float posY = pdfPage.getPageSize().getHeight() - y * DPI / ZOLL;
+            float h = image.getImageScaledHeight();
+            float hy = posY - h;
+            image.setFixedPosition(posX, hy);
+
+            // Adding image to the document
+            document.add(image);
+        } catch (Exception ex) {
+            PLog.errorLog(1980807, ex, "addLogo");
+        }
+    }
+
+    //Logo
+    public static void addLogo(PdfPage pdfPage, Document document, String tag, String srcFile) {
+        try {
+            // <<Bild url="", x="", y="", xx="", yy="">>
+            // Seite h:842, w:595 [Pixel]
             final int DPI = 72;
             final float ZOLL = 25.4F;
 
@@ -137,11 +215,11 @@ public class PdfFactory {
             // Adding image to the document
             document.add(image);
         } catch (Exception ex) {
-            PLog.errorLog(1980807, ex, "image");
+            PLog.errorLog(1980807, ex, "addLogo");
         }
     }
 
-    private static String getUrl(String tag, String srcFile) {
+    public static String getUrl(String tag, String srcFile) {
         int i = tag.indexOf("url=\"");
         if (i < 0) {
             return "";

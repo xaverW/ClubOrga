@@ -71,8 +71,8 @@ public class Newsletter {
                                String destPath,
                                String destFile) {
 
-        new CreatePdfFile(clubConfig).createPdfNewsletter(memberDataList, feeDataList,
-                sourceFile, destPath, destFile);
+        new CreatePdfFile(clubConfig).
+                createPdfNewsletter(memberDataList, feeDataList, sourceFile, destPath, destFile);
     }
 
 }

@@ -42,6 +42,7 @@ import de.p2tools.p2Lib.tools.log.PLog;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CreatePdfFile {
 
@@ -78,31 +79,45 @@ public class CreatePdfFile {
 
         if (memberDataList != null) {
             // Mitgliedsdaten
-            memberDataList.stream().forEach(memberData -> {
+            List<PdfImage> images = new ArrayList<>();
+            Optional<MemberData> optionalMemberData = memberDataList.stream().findAny();
+            if (optionalMemberData.get() != null) {
+                final List<ReplaceData> replaceDataList =
+                        ReplaceFactory.getReplaceList(clubConfig.clubData, optionalMemberData.get());
+                getImages(images, replaceDataList, this.srcFile);
+            }
 
+            memberDataList.stream().forEach(memberData -> {
                 ReplaceFactory.getAddressData(addressList, clubConfig.clubData, memberData);
                 final List<ReplaceData> replaceDataList =
                         ReplaceFactory.getReplaceList(clubConfig.clubData, memberData);
-                replaceFile(replaceDataList, this.srcFile);
-
+                replaceFile(images, replaceDataList, this.srcFile);
             });
 
         } else if (feeDataList != null) {
             // Beitragsdaten
-            feeDataList.stream().forEach(feeData -> {
+            List<PdfImage> images = new ArrayList<>();
+            Optional<FeeData> optionalFeeData = feeDataList.stream().findAny();
+            if (optionalFeeData.get() != null) {
+                final List<ReplaceData> replaceDataList =
+                        ReplaceFactory.getReplaceList(clubConfig.clubData, optionalFeeData.get());
+                getImages(images, replaceDataList, this.srcFile);
+            }
 
+            feeDataList.stream().forEach(feeData -> {
                 ReplaceFactory.getAddressData(addressList, clubConfig.clubData, feeData.getMemberData());
                 final List<ReplaceData> replaceDataList =
                         ReplaceFactory.getReplaceList(clubConfig.clubData, feeData);
-                replaceFile(replaceDataList, this.srcFile);
-
+                replaceFile(images, replaceDataList, this.srcFile);
             });
 
         } else {
             // nur Vereinsdaten
+            List<PdfImage> images = new ArrayList<>();
             final List<ReplaceData> replaceDataList =
                     ReplaceFactory.getReplaceList(clubConfig.clubData);
-            replaceFile(replaceDataList, this.srcFile);
+            getImages(images, replaceDataList, this.srcFile);
+            replaceFile(images, replaceDataList, this.srcFile);
         }
 
         closeDocument();
@@ -138,7 +153,33 @@ public class CreatePdfFile {
         }
     }
 
-    private void replaceFile(List<ReplaceData> replaceDataList, String srcFileName) {
+    private void getImages(List<PdfImage> imageList, List<ReplaceData> replaceDataList, String srcFileName) {
+        List<String> lineList = CreateDocumentFactory.replaceFile(replaceDataList, srcFileName);
+
+        try {
+            for (String line : lineList) {
+                if (line.contains(NewsletterFactory.TAG_PICTURE)) {
+                    int i = line.indexOf(NewsletterFactory.TAG_PICTURE);
+                    if (i < 0) {
+                        continue;
+                    }
+
+                    int o = line.indexOf(">>", i);
+                    if (o < 0) {
+                        continue;
+                    }
+
+                    String tag = line.substring(i, o + ">>".length());
+                    PdfImage image = PdfFactory.getLogo(tag, srcFile);
+                    imageList.add(image);
+                }
+            }
+        } catch (Exception ex) {
+            PLog.errorLog(201450304, ex);
+        }
+    }
+
+    private void replaceFile(List<PdfImage> images, List<ReplaceData> replaceDataList, String srcFileName) {
         List<String> lineList = CreateDocumentFactory.replaceFile(replaceDataList, srcFileName);
         PdfPage pdfPage = pdfDocument.addNewPage();
         Paragraph paragraph = new Paragraph().setFontSize(9);
@@ -152,46 +193,24 @@ public class CreatePdfFile {
 
         try {
             for (String line : lineList) {
-
-                line = firstCheck(line, pdfPage);
-//                if (line.isEmpty()) {
-//                    // dann ists erledigt
-//                    continue;
-//                }
-
+                line = getLine(images, line, pdfPage);
                 if (line.isEmpty()) {
                     // leere Zeile
-//                    Text title = new Text("\n");
-//                    paragraph.add(title);
                     text.setText(text.getText() + "\n");
                     continue;
                 }
-
-                // Paragraph p = new Paragraph(line);
-                // paragraph.add(line);
-
-//                Text title = new Text(line + "\n");
-//                title.getChildren().add(line);
-//                paragraph.add(title);
 
                 text.setText(text.getText() + "\n" + line);
             }
 
             paragraph.add(text);
             document.add(paragraph);
-        } catch (
-                Exception ex) {
+        } catch (Exception ex) {
             PLog.errorLog(987451202, ex);
         }
     }
 
-    private String firstCheck(String line, PdfPage pdfPage) throws IOException {
-
-//        if (line.equals("")) {
-//            // leere Zeile
-//            document.add(new Paragraph(" "));
-//        }
-
+    private String getLine(List<PdfImage> image, String line, PdfPage pdfPage) throws IOException {
         // Fonts
         if (line.contains(NewsletterFactory.TAG_FONT_COURIER)) {
             line = line.replaceAll(NewsletterFactory.TAG_FONT_COURIER, "");
@@ -222,14 +241,38 @@ public class CreatePdfFile {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
         }
 
-        if (line.contains(NewsletterFactory.TAG_PICTURE_)) {
-            line = getLogoTag(line, pdfPage);
+        if (line.contains(NewsletterFactory.TAG_PICTURE)) {
+            line = getLogoTag(image, line, pdfPage);
+//            line = getLogoTag(line, pdfPage);
         }
         return line;
     }
 
+    private String getLogoTag(List<PdfImage> imageList, String line, PdfPage pdfPage) {
+        int i = line.indexOf(NewsletterFactory.TAG_PICTURE);
+        if (i < 0) {
+            return line;
+        }
+
+        int o = line.indexOf(">>", i);
+        if (o < 0) {
+            return line;
+        }
+
+        String tag = line.substring(i, o + ">>".length());
+        line = line.replaceAll(tag, "");
+
+        String url = PdfFactory.getUrl(tag, srcFile);
+        Optional<PdfImage> pdfImage = imageList.stream().filter(image -> image.getUrl().equals(url)).findFirst();
+        if (pdfImage.isPresent()) {
+            PdfFactory.addLogo(pdfImage.get().getImage(), pdfPage, document, tag, srcFile);
+        }
+
+        return line;
+    }
+
     private String getLogoTag(String line, PdfPage pdfPage) {
-        int i = line.indexOf(NewsletterFactory.TAG_PICTURE_);
+        int i = line.indexOf(NewsletterFactory.TAG_PICTURE);
         if (i < 0) {
             return line;
         }

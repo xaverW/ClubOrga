@@ -21,6 +21,7 @@ import de.p2tools.clubOrga.Club;
 import de.p2tools.clubOrga.ClubGuiController;
 import de.p2tools.clubOrga.ClubSelector;
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.config.club.ProgColorList;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
@@ -169,12 +170,16 @@ public class ClubStartFactory {
 
                 clubConfig.clubGuiController = new ClubGuiController();
                 clubConfig.clubGuiController.init(clubConfig);
-
                 Scene scene = new Scene(clubConfig.clubGuiController,
                         PGuiSize.getWidth(clubConfig.GUI_CLUB_PANEL),
                         PGuiSize.getHeight(clubConfig.GUI_CLUB_PANEL));
-                setTheme(scene);
-                ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> setTheme(scene));
+
+                ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
+                    addThemeCss(scene);
+                    ProgColorList.setColorTheme();
+                });
+                addThemeCss(scene);
+                ProgColorList.setColorTheme();
 
                 clubConfig.getStage().setScene(scene);
                 clubConfig.getStage().getIcons().add(GetIcon.getImage(ProgConst.P2_ICON_32, ProgConst.P2_ICON_PATH, 32, 32));
@@ -182,7 +187,6 @@ public class ClubStartFactory {
                     e.consume();
                     ProgQuitFactory.quitClub(ProgData.getInstance(), clubConfig);
                 });
-
                 setTitel(clubConfig);
 
             } else {
@@ -195,7 +199,6 @@ public class ClubStartFactory {
             clubConfig.getStage().show();
             clubConfig.getStage().toFront();
             PDuration.onlyPing("showClubGui: geladen");
-
         } catch (final Exception e) {
             PLog.errorLog(951747896, "showClubGui");
             PAlert.showErrorAlert((Stage) null, "Fehler beim Clubload", e.getLocalizedMessage());
@@ -297,7 +300,7 @@ public class ClubStartFactory {
 //        setTheme(scene);
 //    }
 
-    private static void setTheme(Scene scene) {
+    private static void addThemeCss(Scene scene) {
         if (ProgConfig.SYSTEM_DARK_THEME.get()) {
             P2LibInit.addCssFile(P2LibConst.CSS_GUI_DARK);
             P2LibInit.addCssFile(ProgConst.CSS_FILE_DARK_THEME);
@@ -305,7 +308,6 @@ public class ClubStartFactory {
             P2LibInit.removeCssFile(P2LibConst.CSS_GUI_DARK);
             P2LibInit.removeCssFile(ProgConst.CSS_FILE_DARK_THEME);
         }
-
         P2LibInit.addP2LibCssToScene(scene);
     }
 

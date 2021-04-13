@@ -37,8 +37,8 @@ public class NewsletterFactory {
     public static final String TAG_NEW_SITE = "<<####>>";
     public static final String TAG_FOLD_MARK = "<<Faltmarke>>";
     public static final String TAG_ADDRESS_FIELD = "<<Adressfeld>>";
-    public static final String TAG_PICTURE = "<<Bild>>"; // <<Bild url="", x="", y="", xx="", yy="">>
-    public static final String TAG_PICTURE_ = "<<Bild";
+    //    public static final String TAG_PICTURE = "<<Bild>>"; // <<Bild url="", x="", y="", xx="", yy="">>
+    public static final String TAG_PICTURE = "<<Bild";
 
     public static final String TAG_FONT_COURIER = "<<COURIER>>";
     public static final String TAG_FONT_HELVETICA = "<<HELVETICA>>";

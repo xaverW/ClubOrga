@@ -16,6 +16,7 @@
 package de.p2tools.clubOrga;
 
 import de.p2tools.clubOrga.clubStart.StartDialogController;
+import de.p2tools.clubOrga.config.club.ProgColorList;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
@@ -50,13 +51,18 @@ public class Club extends Application {
 
         initP2lib();
         final boolean firstProgramStart = ProgStartFactory.loadProgConfigData();
-
         if (firstProgramStart) {
             // Verein mit Standarddaten/Pfad anlegen
             initNewClub(primaryStage);
 
         } else {
+            ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
+                addThemeCss();
+                ProgColorList.setColorTheme();
+            });
+            ProgColorList.setColorTheme();
             addThemeCss();
+
             KnownClubData knownClubData = progData.knownClubDataList.getKnownClubForStart();
             if (ProgConfig.START_CLUB_SELECTOR_FIRST.get() || knownClubData == null) {
                 // dann mit der Auswahl starten
@@ -75,9 +81,7 @@ public class Club extends Application {
     }
 
     private void initP2lib() {
-//        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
-        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME,
-                "", ProgData.debug, ProgData.duration);
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME, "", ProgData.debug, ProgData.duration);
         P2LibInit.addCssFile(P2LibConst.CSS_GUI);
         P2LibInit.addCssFile(ProgConst.CSS_FILE);
     }

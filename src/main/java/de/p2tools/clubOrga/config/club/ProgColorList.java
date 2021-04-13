@@ -18,6 +18,7 @@
 package de.p2tools.clubOrga.config.club;
 
 
+import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.configFile.pConfData.PColorList;
 import de.p2tools.p2Lib.configFile.pData.PData;
@@ -25,7 +26,15 @@ import javafx.scene.paint.Color;
 
 public class ProgColorList extends PColorList {
 
-    public static final PColorData CLUB_AUTOSTART = addNewKey("club-autostart", Color.rgb(145, 200, 255), "Autostart Club");
+    public static final PColorData CLUB_AUTOSTART = addNewKey("club-autostart",
+            Color.rgb(145, 200, 255), Color.rgb(60, 185, 255), "Autostart Club");
+
+    public synchronized static void setColorTheme() {
+        final boolean dark = ProgConfig.SYSTEM_DARK_THEME.get();
+        for (int i = 0; i < getColorList().size(); ++i) {
+            getColorList().get(i).setColorTheme(dark);
+        }
+    }
 
     public static PData getConfigsData() {
         return PColorList.getPData();

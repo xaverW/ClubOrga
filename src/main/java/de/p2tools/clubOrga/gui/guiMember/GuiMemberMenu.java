@@ -27,6 +27,7 @@ import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFactory;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.p2Lib.guiTools.PButton;
+import de.p2tools.p2Lib.tools.duration.PDuration;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -125,7 +126,9 @@ public class GuiMemberMenu extends VBox {
 
     private void createNewsletter(List<MemberData> memberData) {
         if (!memberData.isEmpty()) {
+            PDuration.counterStart("createNewsletter");
             Newsletter.memberNewsletter(clubConfig, memberData);
+            PDuration.counterStopAndLog("createNewsletter");
         }
     }
 
