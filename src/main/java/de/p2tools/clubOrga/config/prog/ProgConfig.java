@@ -30,6 +30,12 @@ public class ProgConfig extends PDataProgConfig {
 
     private static final ArrayList<Config> arrayList = new ArrayList<>();
 
+    // Configs der Programmversion
+    public static StringProperty SYSTEM_PROG_VERSION = addStr("system-prog-version");
+    public static StringProperty SYSTEM_PROG_BUILD_NO = addStr("system-prog-build-no");
+    public static StringProperty SYSTEM_PROG_BUILD_DATE = addStr("system-prog-build-date");
+
+
     public static StringProperty SYSTEM_UPDATE_DATE = addStr("system-update-date"); // Datum der letzten Prüfung
     public static StringProperty SYSTEM_LOG_DIR = addStr("system-log-dir", "");
     public static BooleanProperty SYSTEM_UPDATE_SEARCH = addBool("system-update-search-prog-update", true);
