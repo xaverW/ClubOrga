@@ -18,9 +18,9 @@
 package de.p2tools.clubOrga.data.extraData;
 
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigBoolProp;
-import de.p2tools.p2Lib.configFile.config.ConfigLongProp;
-import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
+import de.p2tools.p2Lib.configFile.config.Config_boolProp;
+import de.p2tools.p2Lib.configFile.config.Config_longProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.*;
 
@@ -43,12 +43,12 @@ public class ExtraDataBase extends PDataSample<ExtraData> {
     @Override
     public Config[] getConfigsArr() {
         return new Config[]{
-                new ConfigLongProp("id", id),
-                new ConfigBoolProp("on", on),
-                new ConfigStringProp("kind", kind),
-                new ConfigStringProp("regEx", regEx),
-                new ConfigStringProp("name", name),
-                new ConfigStringProp("initValue", initValue)
+                new Config_longProp("id", id),
+                new Config_boolProp("on", on),
+                new Config_stringProp("kind", kind),
+                new Config_stringProp("regEx", regEx),
+                new Config_stringProp("name", name),
+                new Config_stringProp("initValue", initValue)
         };
     }
 

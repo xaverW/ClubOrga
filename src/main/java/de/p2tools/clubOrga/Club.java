@@ -24,7 +24,6 @@ import de.p2tools.clubOrga.controller.ClubStartFactory;
 import de.p2tools.clubOrga.controller.ProgStartFactory;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubDataFactory;
-import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.tools.duration.PDuration;
@@ -48,6 +47,7 @@ public class Club extends Application {
         PDuration.counterStart("Programmstart");
         PDuration.onlyPing("Programmstart");
         progData = ProgData.getInstance();
+        progData.primaryStage = primaryStage;
 
         initP2lib();
         final boolean firstProgramStart = ProgStartFactory.loadProgConfigData();
@@ -81,17 +81,15 @@ public class Club extends Application {
     }
 
     private void initP2lib() {
-        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME, "", ProgData.debug, ProgData.duration);
-        P2LibInit.addCssFile(P2LibConst.CSS_GUI);
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME, "", ProgConfig.SYSTEM_DARK_THEME,
+                ProgData.debug, ProgData.duration);
         P2LibInit.addCssFile(ProgConst.CSS_FILE);
     }
 
     private void addThemeCss() {
         if (ProgConfig.SYSTEM_DARK_THEME.get()) {
-            P2LibInit.addCssFile(P2LibConst.CSS_GUI_DARK);
             P2LibInit.addCssFile(ProgConst.CSS_FILE_DARK_THEME);
         } else {
-            P2LibInit.removeCssFile(P2LibConst.CSS_GUI_DARK);
             P2LibInit.removeCssFile(ProgConst.CSS_FILE_DARK_THEME);
         }
     }

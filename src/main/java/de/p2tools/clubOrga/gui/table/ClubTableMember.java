@@ -24,9 +24,8 @@ import de.p2tools.clubOrga.data.extraData.ExtraKind;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFieldNames;
-import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
+import de.p2tools.p2Lib.guiTools.pTable.CellCheckBox;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -34,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ClubTableMember {
@@ -106,13 +106,13 @@ public class ClubTableMember {
         final TableColumn<MemberData, String> kontoinhaberColumn = new TableColumn<>(MemberFieldNames.KONTOINHABER);
         kontoinhaberColumn.setCellValueFactory(new PropertyValueFactory<>("kontoinhaber"));
 
-        final TableColumn<MemberData, PLocalDate> ZahlungsbeginnColumn = new TableColumn<>(MemberFieldNames.ZAHLUNGSBEGINN);
+        final TableColumn<MemberData, LocalDate> ZahlungsbeginnColumn = new TableColumn<>(MemberFieldNames.ZAHLUNGSBEGINN);
         ZahlungsbeginnColumn.setCellValueFactory(new PropertyValueFactory<>("zahlungsbeginn"));
 
-        final TableColumn<MemberData, PLocalDate> beitrittColumn = new TableColumn<>(MemberFieldNames.BEITRITT);
+        final TableColumn<MemberData, LocalDate> beitrittColumn = new TableColumn<>(MemberFieldNames.BEITRITT);
         beitrittColumn.setCellValueFactory(new PropertyValueFactory<>("beitritt"));
 
-        final TableColumn<MemberData, PLocalDate> erstellDatumColumn = new TableColumn<>(MemberFieldNames.ERSTELLDATUM);
+        final TableColumn<MemberData, LocalDate> erstellDatumColumn = new TableColumn<>(MemberFieldNames.ERSTELLDATUM);
         erstellDatumColumn.setCellValueFactory(new PropertyValueFactory<>("erstellDatum"));
 
         tc.add(nrColumn);
@@ -174,7 +174,7 @@ public class ClubTableMember {
                 extraCol.setCellValueFactory((Callback<TableColumn.CellDataFeatures<MemberData, Boolean>, ObservableValue<Boolean>>)
                         p -> p.getValue().getExtraDataPropertyList().get(ii).getBoolProp()
                 );
-                extraCol.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+                extraCol.setCellFactory(new CellCheckBox().cellFactoryBool);
                 tc.add(extraCol);
 
             }

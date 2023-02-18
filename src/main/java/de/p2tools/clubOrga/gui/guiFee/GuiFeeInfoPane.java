@@ -41,7 +41,7 @@ public class GuiFeeInfoPane extends AnchorPane {
     private final PTextFieldLong txtMitgliedNr = new PTextFieldLong(true);
     private final PTextField txtMitgliedName = new PTextField(true);
 
-    private final PDatePropertyPicker pDatePicker = new PDatePropertyPicker();
+    private final PLDatePropertyPicker pDatePicker = new PLDatePropertyPicker();
     private final TextArea txtText = new TextArea();
 
 

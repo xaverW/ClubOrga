@@ -53,11 +53,11 @@ public class CsvFactoryFee {
         }
 
         // header
-        for (Config configExtra : feeDataList.get(0).getConfigsForNewsletter()) {
-            if (configExtra.getName().equals(FeeFieldNames.ID)) {
+        for (Config Config : feeDataList.get(0).getConfigsForNewsletter()) {
+            if (Config.getName().equals(FeeFieldNames.ID)) {
                 continue;
             }
-            addFeeNameToList(clubConfig, list, configExtra);
+            addFeeNameToList(clubConfig, list, Config);
         }
         String[] HEADERS = list.toArray(new String[]{});
 
@@ -67,12 +67,12 @@ public class CsvFactoryFee {
 
             for (FeeData feeData : feeDataList) {
                 list.clear();
-                for (Config configExtra : feeData.getConfigsForNewsletter()) {
-                    if (configExtra.getName().equals(FeeFieldNames.ID)) {
+                for (Config config : feeData.getConfigsForNewsletter()) {
+                    if (config.getName().equals(FeeFieldNames.ID)) {
                         continue;
                     }
 
-                    addFeeToList(clubConfig, list, configExtra, feeData);
+                    addFeeToList(clubConfig, list, config, feeData);
                 }
                 Object[] sArr = list.toArray(new String[]{});
                 printer.printRecord(sArr);

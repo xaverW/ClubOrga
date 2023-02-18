@@ -21,7 +21,6 @@ import de.p2tools.clubOrga.data.clubData.ClubData;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.tools.PException;
 
 import java.util.ArrayList;
@@ -122,9 +121,9 @@ public class ReplaceFactory {
 
     private static void addData(Config[] configs, List<ReplaceData> list, String prefix) {
         for (Config config : configs) {
-            if (!ConfigExtra.class.isAssignableFrom(config.getClass())) {
-                // nur die ConfigExtra haben Namen
-                PException.throwPException(874512036, "ReplayFactory: no ConfigExtra " + config.getKey());
+            if (!Config.class.isAssignableFrom(config.getClass())) {
+                // nur die Config haben Namen
+                PException.throwPException(874512036, "ReplayFactory: no Config " + config.getKey());
                 continue;
             }
 

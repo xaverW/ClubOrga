@@ -24,9 +24,9 @@ import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
 import de.p2tools.clubOrga.data.memberData.MemberData;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigIntPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
+import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.Config_intProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.guiTools.*;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.PException;
@@ -93,13 +93,13 @@ public class FeePane extends VBox {
 
     private void addFeeData(GridPane gridPane) {
         int row = 0;
-        ConfigExtra[] configs = feeData.getConfigsArr();
+        Config[] configs = feeData.getConfigsArr();
 
         try {
             outerloop:
             for (int i = 0; i < configs.length; ++i) {
                 Control control;
-                ConfigExtra config = configs[i];
+                Config config = configs[i];
 
                 if (config.getName().equals(FeeFieldNames.ID) ||
                         config.getName().equals(FeeFieldNames.MEMBER_ID)) {
@@ -107,7 +107,7 @@ public class FeePane extends VBox {
 
                 } else if (config.getName().equals(FeeFieldNames.JAHR)) {
                     PYearPicker pYearPicker = new PYearPicker();
-                    pYearPicker.bindBidirectional(((ConfigIntPropExtra) config).getProperty());
+                    pYearPicker.bindBidirectional(((Config_intProp) config).getProperty());
                     control = pYearPicker;
 
                 } else if (config.getName().equals(FeeFieldNames.ZAHLART)) {
@@ -171,7 +171,7 @@ public class FeePane extends VBox {
         }
     }
 
-    private Control getControl(ConfigExtra config) {
+    private Control getControl(Config config) {
         Control control;
         if (config.getName().equals(FeeFieldNames.MEMBER_NO)) {
             control = new PTextFieldLong(true);
@@ -192,8 +192,8 @@ public class FeePane extends VBox {
         return control;
     }
 
-    private PComboBoxString getPCombo(ConfigStringPropExtra configData, ObservableList<String> cbo_list) {
-        final ConfigStringPropExtra configData_ = configData;
+    private PComboBoxString getPCombo(Config_stringProp configData, ObservableList<String> cbo_list) {
+        final Config_stringProp configData_ = configData;
         final PComboBoxString pCombo = new PComboBoxString();
         pCombo.setMaxWidth(Double.MAX_VALUE);
         pCombo.init(cbo_list, (configData_.getProperty()));

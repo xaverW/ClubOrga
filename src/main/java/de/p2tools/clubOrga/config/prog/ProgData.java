@@ -23,6 +23,7 @@ import de.p2tools.p2Lib.guiTools.Listener;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class ProgData {
@@ -37,6 +38,7 @@ public class ProgData {
     public static String configDir; // Verzeichnis zum Speichern der Programmeinstellungen
 
     // Gui
+    public Stage primaryStage = null;
     public ClubSelector clubSelector = null;
 
     // Club
@@ -49,7 +51,7 @@ public class ProgData {
 
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000), ae -> {
-            Listener.notify(Listener.EREIGNIS_TIMER, ProgData.class.getName());
+            Listener.notify(Listener.EVENT_TIMER, ProgData.class.getName());
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.setDelay(Duration.seconds(5));

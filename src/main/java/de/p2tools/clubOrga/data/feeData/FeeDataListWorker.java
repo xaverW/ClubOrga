@@ -18,8 +18,8 @@ package de.p2tools.clubOrga.data.feeData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.memberData.MemberData;
+import de.p2tools.p2Lib.tools.date.DateFactory;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class FeeDataListWorker extends FeeDataListBase {
         int ret = 0;
 
         List<FeeData> list = getFeesForMember(memberData);
-        String startFee = memberData.getZahlungsbeginn().getDateTime(PLocalDate.FORMAT_yyyy);
+        String startFee = memberData.getZahlungsbeginn().format(DateFactory.DT_FORMATTER_yyyy);
         List<String> years = PDateFactory.getYearListSince(startFee);
 
         for (String year : years) {
@@ -86,7 +86,7 @@ public class FeeDataListWorker extends FeeDataListBase {
             getFeesForMember(feeList, memberData);
 
             try {
-                final String startFee = memberData.getZahlungsbeginn().getYear();
+                final String startFee = memberData.getZahlungsbeginn().getYear() + "";
                 final int start = Integer.parseInt(startFee);
                 List<Integer> years = PDateFactory.getYearListSince(start);
 

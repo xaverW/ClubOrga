@@ -21,7 +21,7 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFieldNames;
-import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
+import de.p2tools.p2Lib.guiTools.pTable.CellCheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -51,7 +51,7 @@ public class ClubTableFinanceAccount {
 
         final TableColumn<FinanceAccountData, Boolean> giroColumn = new TableColumn<>(FinanceAccountFieldNames.GIRO);
         giroColumn.setCellValueFactory(new PropertyValueFactory<>("giro"));
-        giroColumn.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+        giroColumn.setCellFactory(new CellCheckBox().cellFactoryBool);
 
 
         final TableColumn<FinanceAccountData, String> textColumn = new TableColumn<>(FinanceAccountFieldNames.DESCRIPTION);

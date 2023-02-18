@@ -26,11 +26,13 @@ import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.ConfigFile;
+import de.p2tools.p2Lib.configFile.ConfigReadFile;
 import de.p2tools.p2Lib.configFile.ReadConfigFile;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -60,17 +62,14 @@ public class ProgStartFactory {
         list.add("Programmpfad: " + ProgInfos.getPathJar());
         list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
 
-        LogMessage.startMsg(ProgConst.PROGRAMNAME, list);
+        LogMessage.startMsg(ProgConst.PROGRAM_NAME, list);
     }
 
     public static boolean loadProgConfigData() {
         PDuration.onlyPing("ProgStartFactory.loadProgConfigData");
         boolean found;
         startMsg();
-        final Path path = ProgInfos.getSettingsFile();
-        PLog.sysLog("Programmstart und Progconfig laden: " + path.toString());
-
-        if (found = loadProgConfig(path) == false) {
+        if (found = loadProgConfig() == false) {
             //todo? teils geladene Reste entfernen
             PLog.sysLog("->konnte nicht geladen werden!");
         }
@@ -79,24 +78,42 @@ public class ProgStartFactory {
         return found;
     }
 
-    private static boolean loadProgConfig(Path xmlFilePath) {
-        ProgData progData = ProgData.getInstance();
-        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
-        configFile.addConfigs(ProgConfig.getInstance());
-        configFile.addConfigs(progData.knownClubDataList);
+    private static boolean loadProgConfig() {
+        final Path xmlFilePath = new ProgInfos().getSettingsFile();
+        PDuration.onlyPing("ProgStartFactory.loadProgConfigData");
+        try {
+            if (!Files.exists(xmlFilePath)) {
+                //dann gibts das Konfig-File gar nicht
+                PLog.sysLog("Konfig existiert nicht!");
+                return false;
+            }
 
-        PLog.sysLog("Konfig lesen: " + xmlFilePath.toString());
+            PLog.sysLog("Programmstart und ProgConfig laden von: " + xmlFilePath);
+            ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
+            configFile.addConfigs(ProgConfig.getInstance());
+            configFile.addConfigs(ProgData.getInstance().knownClubDataList);
+            configFile.setBackupHeader(backupHeader);
+            configFile.setBackupText(backupText);
 
-        ReadConfigFile readWriteConfigFile = new ReadConfigFile();
-        readWriteConfigFile.addConfigFile(configFile);
+            if (ConfigReadFile.readConfig(configFile)) {
+                PLog.sysLog("Konfig wurde geladen!");
+                return true;
 
-        boolean ret = readWriteConfigFile.readConfigFile(backupHeader, backupText);
-
-        return ret;
+            } else {
+                // dann hat das Laden nicht geklappt
+                PLog.sysLog("Konfig konnte nicht geladen werden!");
+                return false;
+            }
+        } catch (final Exception ex) {
+            PLog.errorLog(915470101, ex);
+        }
+        return false;
     }
 
+
     private static void initP2Lib() {
-        P2LibInit.initLib(null, ProgConst.PROGRAMNAME, ProgInfos.getUserAgent(),
+        P2LibInit.initLib(null, ProgConst.PROGRAM_NAME, ProgInfos.getUserAgent(),
+                ProgConfig.SYSTEM_DARK_THEME,
                 ProgData.debug, ProgData.duration);
         P2LibInit.addCssFile(ProgConst.CSS_FILE);
 //        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));

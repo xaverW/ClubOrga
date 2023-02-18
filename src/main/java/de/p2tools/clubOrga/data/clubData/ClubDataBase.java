@@ -18,12 +18,13 @@
 package de.p2tools.clubOrga.data.clubData;
 
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigLocalDateExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
+import de.p2tools.p2Lib.configFile.config.Config_lDate;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
+import java.time.LocalDate;
 
 public class ClubDataBase extends PDataSample<ClubData> {
 
@@ -44,8 +45,7 @@ public class ClubDataBase extends PDataSample<ClubData> {
     private final StringProperty bank = new SimpleStringProperty("");
 
     private final StringProperty glaeubigerId = new SimpleStringProperty("");
-    private final PLocalDate erstellDatum = new PLocalDate();
-
+    private LocalDate erstellDatum = LocalDate.now();
 
     @Override
     public String getTag() {
@@ -55,19 +55,24 @@ public class ClubDataBase extends PDataSample<ClubData> {
     @Override
     public Config[] getConfigsArr() {
         return new Config[]{
-                new ConfigStringPropExtra("name", ClubFieldNames.NAME, name),
-                new ConfigStringPropExtra("ort", ClubFieldNames.ORT, ort),
-                new ConfigStringPropExtra("plz", ClubFieldNames.PLZ, plz),
-                new ConfigStringPropExtra("strasse", ClubFieldNames.STRASSE, strasse),
-                new ConfigStringPropExtra("telefon", ClubFieldNames.TELEFON, telefon),
-                new ConfigStringPropExtra("email", ClubFieldNames.EMAIL, email),
-                new ConfigStringPropExtra("website", ClubFieldNames.WEBSITE, website),
-                new ConfigStringPropExtra("kontoNr", ClubFieldNames.KONTONR, kontoNr),
-                new ConfigStringPropExtra("Bic", ClubFieldNames.BIC, bic),
-                new ConfigStringPropExtra("Iban", ClubFieldNames.IBAN, iban),
-                new ConfigStringPropExtra("Bank", ClubFieldNames.BANK, bank),
-                new ConfigStringPropExtra("glaeubigerId", ClubFieldNames.GLAEUBIGER_ID, glaeubigerId),
-                new ConfigLocalDateExtra("erstellDatum", ClubFieldNames.ERSTELLDATUM, erstellDatum),
+                new Config_stringProp("name", ClubFieldNames.NAME, name),
+                new Config_stringProp("ort", ClubFieldNames.ORT, ort),
+                new Config_stringProp("plz", ClubFieldNames.PLZ, plz),
+                new Config_stringProp("strasse", ClubFieldNames.STRASSE, strasse),
+                new Config_stringProp("telefon", ClubFieldNames.TELEFON, telefon),
+                new Config_stringProp("email", ClubFieldNames.EMAIL, email),
+                new Config_stringProp("website", ClubFieldNames.WEBSITE, website),
+                new Config_stringProp("kontoNr", ClubFieldNames.KONTONR, kontoNr),
+                new Config_stringProp("Bic", ClubFieldNames.BIC, bic),
+                new Config_stringProp("Iban", ClubFieldNames.IBAN, iban),
+                new Config_stringProp("Bank", ClubFieldNames.BANK, bank),
+                new Config_stringProp("glaeubigerId", ClubFieldNames.GLAEUBIGER_ID, glaeubigerId),
+                new Config_lDate("erstellDatum", ClubFieldNames.ERSTELLDATUM, erstellDatum) {
+                    @Override
+                    public void setUsedValue(LocalDate act) {
+                        erstellDatum = act;
+                    }
+                },
         };
     }
 
@@ -216,7 +221,7 @@ public class ClubDataBase extends PDataSample<ClubData> {
         this.glaeubigerId.set(glaeubigerId);
     }
 
-    public PLocalDate getErstellDatum() {
+    public LocalDate getErstellDatum() {
         return erstellDatum;
     }
 }

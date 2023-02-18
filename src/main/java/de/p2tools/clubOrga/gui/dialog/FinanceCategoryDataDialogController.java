@@ -22,7 +22,6 @@ import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryFactory;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryFieldNames;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextField;
@@ -51,7 +50,7 @@ public class FinanceCategoryDataDialogController extends PDialogExtra {
 
     public FinanceCategoryDataDialogController(ClubConfig clubConfig, FinanceCategoryData dataOrg) {
         super(clubConfig.getStage(), clubConfig.FINANCE_CATEGORY_DATA_DIALOG_SIZE,
-                "Daten ändern", true, true, DECO.NONE);
+                "Daten ändern", true, true, DECO.NO_BORDER);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -90,7 +89,7 @@ public class FinanceCategoryDataDialogController extends PDialogExtra {
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize());
 
         addData(gridPane);
-        getvBoxCont().getChildren().add(gridPane);
+        getVBoxCont().getChildren().add(gridPane);
     }
 
     private void addData(GridPane gridPane) {
@@ -114,8 +113,8 @@ public class FinanceCategoryDataDialogController extends PDialogExtra {
                 GridPane.setVgrow(control, Priority.ALWAYS);
                 ((TextArea) control).textProperty().bindBidirectional(dataCopy.descriptionProperty());
 
-            } else if (configData instanceof ConfigExtra) {
-                control = ((ConfigExtra) configData).getControl();
+            } else if (configData instanceof Config) {
+                control = ((Config) configData).getControl();
 
             } else {
                 throw new PException("FinanceCategoryDataDialogController.addData");

@@ -24,8 +24,8 @@ import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
 import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFeeWorker;
 import de.p2tools.clubOrga.data.memberData.MemberFieldNames;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
+import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.guiTools.*;
 import de.p2tools.p2Lib.tools.PException;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -84,13 +84,13 @@ public class MemberPane extends VBox {
         memberFeeWorker.bind(memberData);
 
         int row = 0;
-        ConfigExtra[] configs = memberData.getConfigsArr();
+        Config[] configs = memberData.getConfigsArr();
 
         try {
             outerloop:
             for (int i = 0; i < configs.length; ++i) {
                 Control control;
-                ConfigExtra config = configs[i];
+                Config config = configs[i];
 
                 if (config.getName().equals(MemberFieldNames.ID)) {
                     continue;
@@ -102,19 +102,19 @@ public class MemberPane extends VBox {
                     control = getPComboObject(memberData.feeRateDataProperty(), clubConfig.feeRateDataList);
 
                 } else if (config.getName().equals(MemberFieldNames.ANREDE)) {
-                    control = getPCombo((ConfigStringPropExtra) config, clubConfig.CBO_LIST_ANREDE);
+                    control = getPCombo((Config_stringProp) config, clubConfig.CBO_LIST_ANREDE);
 
                 } else if (config.getName().equals(MemberFieldNames.PLZ)) {
-                    final ConfigStringPropExtra configData_ = (ConfigStringPropExtra) config;
+                    final Config_stringProp configData_ = (Config_stringProp) config;
                     final PComboBoxString pCombo = getPCombo(configData_, clubConfig.CBO_LIST_PLZ);
                     pCombo.setRegEx(configData_.getRegEx());
                     control = pCombo;
 
                 } else if (config.getName().equals(MemberFieldNames.ORT)) {
-                    control = getPCombo((ConfigStringPropExtra) config, clubConfig.CBO_LIST_ORT);
+                    control = getPCombo((Config_stringProp) config, clubConfig.CBO_LIST_ORT);
 
                 } else if (config.getName().equals(MemberFieldNames.LAND)) {
-                    control = getPCombo((ConfigStringPropExtra) config, clubConfig.CBO_LIST_LAND);
+                    control = getPCombo((Config_stringProp) config, clubConfig.CBO_LIST_LAND);
 
                 } else if (config.getName().equals(MemberFieldNames.STATUS)) {
                     control = getPComboObject(memberData.stateDataProperty(), clubConfig.stateDataList);
@@ -148,7 +148,7 @@ public class MemberPane extends VBox {
         }
     }
 
-    private PComboBoxString getPCombo(ConfigStringPropExtra configData, ObservableList<String> cbo_list) {
+    private PComboBoxString getPCombo(Config_stringProp configData, ObservableList<String> cbo_list) {
         final PComboBoxString pCombo = new PComboBoxString();
         pCombo.setMaxWidth(Double.MAX_VALUE);
         pCombo.init(cbo_list, (configData.getProperty()));

@@ -26,11 +26,11 @@ import de.p2tools.clubOrga.gui.dialog.listDialog.PayFeeDialogController;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.tools.PIndex;
-import de.p2tools.p2Lib.tools.date.PDateFactory;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -155,7 +155,7 @@ public class FeeFactory {
      * @param memberData
      */
     public static FeeData getNewFeeForMember(ClubConfig clubConfig, MemberData memberData) {
-        return getNewFeeForMember(clubConfig, memberData, PDateFactory.getAktYearInt());
+        return getNewFeeForMember(clubConfig, memberData, LocalDate.now().getYear());
     }
 
     /**

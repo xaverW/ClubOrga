@@ -19,8 +19,8 @@ package de.p2tools.clubOrga.gui.dialog.clubConfigDialog;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.gui.tools.HelpText;
-import de.p2tools.p2Lib.configFile.pConfData.PColorData;
-import de.p2tools.p2Lib.configFile.pConfData.PColorList;
+import de.p2tools.p2Lib.data.PColorData;
+import de.p2tools.p2Lib.data.PColorList;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
@@ -122,7 +122,7 @@ public class ColorPane {
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         tableView.getColumns().addAll(textColumn, changeColumn, colorColumn, colorOrgColumn, resetColumn);
-        tableView.setItems(PColorList.getColorList());
+        tableView.setItems(PColorList.getInst());
     }
 
     private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryChange

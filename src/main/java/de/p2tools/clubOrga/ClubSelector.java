@@ -52,7 +52,7 @@ public class ClubSelector extends PDialogExtra {
 
     public ClubSelector(Stage stage) {
         super(stage, ProgConfig.CLUB_SELECTOR_GUI_SIZE, "Verein auswählen",
-                false, false, DECO.SMALL);
+                false, false, DECO.BORDER_SMALL);
         this.progData = ProgData.getInstance();
         init(true);
     }
@@ -96,7 +96,7 @@ public class ClubSelector extends PDialogExtra {
         tilePane.setAlignment(Pos.CENTER_LEFT);
         tilePane.setHgap(10);
         tilePane.setVgap(5);
-        getvBoxCont().getChildren().addAll(tilePane);
+        getVBoxCont().getChildren().addAll(tilePane);
     }
 
     private void addOk() {
@@ -119,7 +119,7 @@ public class ClubSelector extends PDialogExtra {
     }
 
     private void initTable() {
-        getvBoxCont().getChildren().addAll(tableView);
+        getVBoxCont().getChildren().addAll(tableView);
         tableView.setMaxHeight(Double.MAX_VALUE);
         tableView.setTableMenuButtonVisible(false);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -176,7 +176,7 @@ public class ClubSelector extends PDialogExtra {
 
                             if (item.booleanValue()) {
                                 // ist ein Autostart-Club
-                                String style = ProgColorList.CLUB_AUTOSTART.getCssBackgroundSel();
+                                String style = ProgColorList.CLUB_AUTOSTART.getCssBackgroundAndSel();
                                 currentRow.setStyle(style);
                             } else {
                                 currentRow.setStyle("");

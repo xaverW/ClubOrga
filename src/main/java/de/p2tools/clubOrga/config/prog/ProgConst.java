@@ -18,9 +18,7 @@ package de.p2tools.clubOrga.config.prog;
 
 public class ProgConst {
 
-    public static final String P2_PROGRAMNAME = "P2Tools - ClubOrga";
-    public static final String P2_PROGRAMMNAME_SELECTOR = "P2Tools - Vereinsauswahl";
-    public static final String PROGRAMNAME = "ClubOrga";
+    public static final String PROGRAM_NAME = "ClubOrga";
 
     // Config dir/file
     public static final String CONFIG_FILE = "cluborga.xml";
@@ -49,9 +47,15 @@ public class ProgConst {
     public static final String CSS_FILE_DARK_THEME = "/de/p2tools/clubOrga/club-dark.css";
     public static final String LOG_DIR = "Log";
 
+    // Website
+    public static final String URL_WEBSITE = "https://www.p2tools.de/";
+    public static final String URL_WEBSITE_CLUB = "https://www.p2tools.de/cluborga/";
+    public static final String URL_WEBSITE_DOWNLOAD = "https://www.p2tools.de/p2radio/download.html";
+    public static final String URL_WEBSITE_HELP = "https://www.p2tools.de/cluborga/manual/";
+    public static final String URL_WEBSITE_DONATE = "https://www.p2tools.de/donate.html";
+
+
     public static final String WEBSITE_P2 = "https://www.p2tools.de";
-    public static final String WEBSITE_CLUB = "https://www.p2tools.de/cluborga/";
-    public static final String WEBSITE_CLUB_HELP = "https://www.p2tools.de/cluborga/manual/";
 
     public static final String URL_PROG_UPDATE = "https://www.p2tools.de/extra/cluborga-info.xml";
     public static final String URL_PROG_BETA_UPDATE = "https://www.p2tools.de/extra/cluborga-beta-info.xml";

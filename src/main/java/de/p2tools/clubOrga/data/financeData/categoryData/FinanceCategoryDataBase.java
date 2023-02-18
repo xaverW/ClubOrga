@@ -18,11 +18,10 @@
 package de.p2tools.clubOrga.data.financeData.categoryData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
+import de.p2tools.clubOrga.data.PDataId;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigLongPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
-import de.p2tools.p2Lib.configFile.pData.PDataId;
+import de.p2tools.p2Lib.configFile.config.Config_longProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -48,19 +47,19 @@ public class FinanceCategoryDataBase extends PDataSample<FinanceCategoryData> im
     }
 
     @Override
-    public ConfigExtra[] getConfigsArr() {
+    public Config[] getConfigsArr() {
         ArrayList<Config> list = new ArrayList<>();
         list.addAll(Arrays.asList(getConfigs()));
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
     private Config[] getConfigs() {
         return new Config[]{
-                new ConfigLongPropExtra("id", FinanceCategoryFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FinanceCategoryFieldNames.NO, no),
-                new ConfigStringPropExtra("kategorie", FinanceCategoryFieldNames.CATEGORY, category),
-                new ConfigStringPropExtra("beschreibung", FinanceCategoryFieldNames.DESCRIPTION, description),
+                new Config_longProp("id", FinanceCategoryFieldNames.ID, id),
+                new Config_longProp("nr", FinanceCategoryFieldNames.NO, no),
+                new Config_stringProp("kategorie", FinanceCategoryFieldNames.CATEGORY, category),
+                new Config_stringProp("beschreibung", FinanceCategoryFieldNames.DESCRIPTION, description),
         };
     }
 

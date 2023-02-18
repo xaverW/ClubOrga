@@ -19,9 +19,9 @@ package de.p2tools.clubOrga.config.club;
 
 
 import de.p2tools.clubOrga.config.prog.ProgConfig;
-import de.p2tools.p2Lib.configFile.pConfData.PColorData;
-import de.p2tools.p2Lib.configFile.pConfData.PColorList;
 import de.p2tools.p2Lib.configFile.pData.PData;
+import de.p2tools.p2Lib.data.PColorData;
+import de.p2tools.p2Lib.data.PColorList;
 import javafx.scene.paint.Color;
 
 public class ProgColorList extends PColorList {
@@ -31,13 +31,14 @@ public class ProgColorList extends PColorList {
 
     public synchronized static void setColorTheme() {
         final boolean dark = ProgConfig.SYSTEM_DARK_THEME.get();
-        for (int i = 0; i < getColorList().size(); ++i) {
-            getColorList().get(i).setColorTheme(dark);
+        for (int i = 0; i < PColorList.getInst().size(); ++i) {
+            PColorList.getInst().get(i).setColorTheme(dark);
         }
     }
 
     public static PData getConfigsData() {
-        return PColorList.getPData();
+        //todo PColor hat sich geänder!!!!!!!!!!!!!
+        return PColorList.getInst().getNewItem();
     }
 
 }

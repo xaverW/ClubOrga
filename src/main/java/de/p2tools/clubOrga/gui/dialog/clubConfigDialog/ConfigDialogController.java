@@ -45,12 +45,12 @@ public class ConfigDialogController extends PDialogExtra {
 
 
     public ConfigDialogController(ClubConfig clubConfig) {
-        super(clubConfig.getStage(), clubConfig.CLUB_CONFIG_DIALOG_SIZE, "Einstellungen", true, false, DECO.NONE);
+        super(clubConfig.getStage(), clubConfig.CLUB_CONFIG_DIALOG_SIZE, "Einstellungen", true, false, DECO.NO_BORDER);
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
 
         VBox.setVgrow(tabPane, Priority.ALWAYS);
-        getvBoxCont().getChildren().add(tabPane);
+        getVBoxCont().getChildren().add(tabPane);
 
         addOkButton(btnOk);
         init(true);

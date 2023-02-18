@@ -25,6 +25,7 @@ import de.p2tools.clubOrga.gui.tools.PPredicate;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
+import java.time.LocalDate;
 import java.util.function.Predicate;
 
 public class FeeFilterPredicate {
@@ -85,17 +86,17 @@ public class FeeFilterPredicate {
 
         if (!searchBezahltOff) {
             filtered.set(true);
-            predicate = predicate.and(feeData -> (searchBezahlt ? !feeData.getBezahlt().isEmpty() : feeData.getBezahlt().isEmpty()));
+            predicate = predicate.and(feeData -> (searchBezahlt ? !feeData.getBezahlt().isEqual(LocalDate.MIN) : feeData.getBezahlt().isEqual(LocalDate.MIN)));
         }
 
         if (!searchRechnungOff) {
             filtered.set(true);
-            predicate = predicate.and(feeData -> (searchRechnung ? !feeData.getRechnung().isEmpty() : feeData.getRechnung().isEmpty()));
+            predicate = predicate.and(feeData -> (searchRechnung ? !feeData.getRechnung().isEqual(LocalDate.MIN) : feeData.getRechnung().isEqual(LocalDate.MIN)));
         }
 
         if (!searchSqOff) {
             filtered.set(true);
-            predicate = predicate.and(feeData -> (searchSq ? !feeData.getSpendenQ().isEmpty() : feeData.getSpendenQ().isEmpty()));
+            predicate = predicate.and(feeData -> (searchSq ? !feeData.getSpendenQ().isEqual(LocalDate.MIN) : feeData.getSpendenQ().isEqual(LocalDate.MIN)));
         }
 
         return predicate;

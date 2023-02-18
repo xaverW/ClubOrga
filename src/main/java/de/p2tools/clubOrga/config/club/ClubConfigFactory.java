@@ -40,7 +40,7 @@ public class ClubConfigFactory {
     public static ConfigFile getClubConfigData(ClubConfig clubConfig) {
         // sind die Einstellungen der Clubfelder, Fenster, ..
         final Path xmlFilePath = ProgInfos.getClubConfigFile(clubConfig.getClubPath());
-        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
+        ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
 
         configFile.addConfigs(clubConfig);
         configFile.addConfigs(ProgColorList.getConfigsData());
@@ -53,7 +53,7 @@ public class ClubConfigFactory {
     public static ConfigFile getClubData(ClubConfig clubConfig) {
         // sind die Clubdaten: Mitglieder, Beiträge, Finanzen
         final Path xmlFilePath = ProgInfos.getClubDataFile(clubConfig.getClubPath());
-        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
+        ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), false);
 
         configFile.addConfigs(clubConfig.clubData);
         configFile.addConfigs(clubConfig.memberDataList);

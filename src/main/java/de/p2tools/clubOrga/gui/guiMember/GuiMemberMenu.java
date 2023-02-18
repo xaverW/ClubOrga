@@ -128,7 +128,7 @@ public class GuiMemberMenu extends VBox {
         if (!memberData.isEmpty()) {
             PDuration.counterStart("createNewsletter");
             Newsletter.memberNewsletter(clubConfig, memberData);
-            PDuration.counterStopAndLog("createNewsletter");
+            PDuration.counterStop("createNewsletter");
         }
     }
 

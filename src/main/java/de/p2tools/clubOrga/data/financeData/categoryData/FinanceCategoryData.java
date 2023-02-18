@@ -19,13 +19,14 @@ package de.p2tools.clubOrga.data.financeData.categoryData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
+import de.p2tools.clubOrga.data.PDataId;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.tools.PIndex;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class FinanceCategoryData extends FinanceCategoryDataBase {
+public class FinanceCategoryData extends FinanceCategoryDataBase implements PDataId {
 
     public FinanceCategoryData() {
         setId(getNewId());

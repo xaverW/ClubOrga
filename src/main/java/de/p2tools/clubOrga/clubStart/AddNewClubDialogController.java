@@ -118,7 +118,7 @@ public class AddNewClubDialogController extends PDialogExtra {
                 PColumnConstraints.getCcPrefSize());
 
         VBox.setVgrow(gridPane, Priority.ALWAYS);
-        getvBoxCont().getChildren().add(gridPane);
+        getVBoxCont().getChildren().add(gridPane);
 
         initListener();
     }

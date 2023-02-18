@@ -18,7 +18,7 @@
 package de.p2tools.clubOrga.config.prog;
 
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.pData.PDataProgConfig;
+import de.p2tools.p2Lib.data.PDataProgConfig;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -31,20 +31,33 @@ public class ProgConfig extends PDataProgConfig {
     private static final ArrayList<Config> arrayList = new ArrayList<>();
 
     // Configs der Programmversion
-    public static StringProperty SYSTEM_PROG_VERSION = addStr("system-prog-version");
-    public static StringProperty SYSTEM_PROG_BUILD_NO = addStr("system-prog-build-no");
-    public static StringProperty SYSTEM_PROG_BUILD_DATE = addStr("system-prog-build-date");
+    public static StringProperty SYSTEM_PROG_VERSION = addStrProp("system-prog-version");
+    public static StringProperty SYSTEM_PROG_BUILD_NO = addStrProp("system-prog-build-no");
+    public static StringProperty SYSTEM_PROG_BUILD_DATE = addStrProp("system-prog-build-date");
 
+    // Configs zur Programmupdatesuche
+    public static StringProperty SYSTEM_UPDATE_DATE = addStrProp("system-update-date"); // Datum der letzten Prüfung
+    public static StringProperty SYSTEM_UPDATE_PROGSET_VERSION = addStrProp("system-update-progset-version");
 
-    public static StringProperty SYSTEM_UPDATE_DATE = addStr("system-update-date"); // Datum der letzten Prüfung
-    public static StringProperty SYSTEM_LOG_DIR = addStr("system-log-dir", "");
-    public static BooleanProperty SYSTEM_UPDATE_SEARCH = addBool("system-update-search-prog-update", true);
-    public static BooleanProperty SYSTEM_UPDATE_BETA_SEARCH = addBool("system-update-beta-search", false);
-    public static IntegerProperty SYSTEM_UPDATE_VERSION_SHOWN = addInt("system-update-version-shown", 0);
-    public static IntegerProperty SYSTEM_UPDATE_INFO_NR_SHOWN = addInt("system-update-info-nr-shown", 0);
-    public static IntegerProperty SYSTEM_UPDATE_BETA_VERSION_SHOWN = addInt("system-update-beta-version-shown", 0);
-    public static IntegerProperty SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN = addInt("system-update-beta-build-nr-shown", 0);
-    public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBool("config_dialog-accordion", true);
+    public static BooleanProperty SYSTEM_UPDATE_SEARCH_ACT = addBoolProp("system-update-search-act", true); //Infos und Programm
+    public static BooleanProperty SYSTEM_UPDATE_SEARCH_BETA = addBoolProp("system-update-search-beta", false); //beta suchen
+    public static BooleanProperty SYSTEM_UPDATE_SEARCH_DAILY = addBoolProp("system-update-search-daily", false); //daily suchen
+
+    public static StringProperty SYSTEM_UPDATE_LAST_INFO = addStrProp("system-update-last-info");
+    public static StringProperty SYSTEM_UPDATE_LAST_ACT = addStrProp("system-update-last-act");
+    public static StringProperty SYSTEM_UPDATE_LAST_BETA = addStrProp("system-update-last-beta");
+    public static StringProperty SYSTEM_UPDATE_LAST_DAILY = addStrProp("system-update-last-daily");
+
+    public static StringProperty SYSTEM_DOWNLOAD_DIR_NEW_VERSION = addStrProp("system-download-dir-new-version", "");
+
+    public static StringProperty SYSTEM_LOG_DIR = addStrProp("system-log-dir", "");
+    public static BooleanProperty SYSTEM_UPDATE_SEARCH = addBoolProp("system-update-search-prog-update", true);
+    public static BooleanProperty SYSTEM_UPDATE_BETA_SEARCH = addBoolProp("system-update-beta-search", false);
+    public static IntegerProperty SYSTEM_UPDATE_VERSION_SHOWN = addIntProp("system-update-version-shown", 0);
+    public static IntegerProperty SYSTEM_UPDATE_INFO_NR_SHOWN = addIntProp("system-update-info-nr-shown", 0);
+    public static IntegerProperty SYSTEM_UPDATE_BETA_VERSION_SHOWN = addIntProp("system-update-beta-version-shown", 0);
+    public static IntegerProperty SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN = addIntProp("system-update-beta-build-nr-shown", 0);
+    public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBoolProp("config_dialog-accordion", true);
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_CONFIG = new SimpleIntegerProperty(-1);
 
 //    public static MLConfigs SYSTEM_UPDATE_BETA_VERSION_SHOWN = addNewKey("system-update-beta-version-shown"); // zuletzt angezeigtes Update mit versionNo
@@ -53,40 +66,22 @@ public class ProgConfig extends PDataProgConfig {
 
 
     // GuiStart
-    public static StringProperty CLUB_SELECTOR_GUI_SIZE = addStr("club-selector-gui-size", "800:500");
+    public static StringProperty CLUB_SELECTOR_GUI_SIZE = addStrProp("club-selector-gui-size", "800:500");
 
     // ConfigDialog
-    public static BooleanProperty START_CLUB_SELECTOR_FIRST = addBool("start-club-slector-first", false);
-    public static StringProperty IMPORT_DIR_CLUB_DIALOG_SIZE = addStr("import-dir-club-dialog-size", "700:400");
-    public static StringProperty IMPORT_ZIP_CLUB_DIALOG_SIZE = addStr("import-zip-club-dialog-size", "700:400");
-    public static StringProperty ADD_NEW_CLUB_DIALOG_SIZE = addStr("add-new-club-dialog-size", "700:400");
-    public static BooleanProperty SYSTEM_DARK_THEME = addBool("system-dark-theme", false);
-
+    public static BooleanProperty START_CLUB_SELECTOR_FIRST = addBoolProp("start-club-slector-first", false);
+    public static StringProperty IMPORT_DIR_CLUB_DIALOG_SIZE = addStrProp("import-dir-club-dialog-size", "700:400");
+    public static StringProperty IMPORT_ZIP_CLUB_DIALOG_SIZE = addStrProp("import-zip-club-dialog-size", "700:400");
+    public static StringProperty ADD_NEW_CLUB_DIALOG_SIZE = addStrProp("add-new-club-dialog-size", "700:400");
+    public static BooleanProperty SYSTEM_DARK_THEME = addBoolProp("system-dark-theme", false);
 
     private static ProgConfig instance;
 
     private ProgConfig() {
-        super(arrayList, "ProgConfig");
+        super("ProgConfig");
     }
 
     public static final ProgConfig getInstance() {
         return instance == null ? instance = new ProgConfig() : instance;
     }
-
-    private static StringProperty addStr(String key) {
-        return addStrProp(arrayList, key);
-    }
-
-    private static StringProperty addStr(String key, String init) {
-        return addStrProp(arrayList, key, init);
-    }
-
-    private static IntegerProperty addInt(String key, int init) {
-        return addIntProp(arrayList, key, init);
-    }
-
-    private static BooleanProperty addBool(String key, boolean init) {
-        return addBoolProp(arrayList, key, init);
-    }
-
 }

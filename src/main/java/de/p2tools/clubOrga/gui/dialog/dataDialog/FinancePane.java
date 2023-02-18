@@ -24,8 +24,7 @@ import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.TransactionDataList;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigIntPropExtra;
+import de.p2tools.p2Lib.configFile.config.Config_intProp;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxObject;
 import de.p2tools.p2Lib.guiTools.PTextField;
@@ -95,11 +94,11 @@ public class FinancePane extends VBox {
 
                 } else if (config.getName().equals(FinanceFieldNames.GESCHAEFTSJAHR)) {
                     PYearPicker pYearPicker = new PYearPicker();
-                    pYearPicker.bindBidirectional(((ConfigIntPropExtra) config).getProperty());
+                    pYearPicker.bindBidirectional(((Config_intProp) config).getProperty());
                     control = pYearPicker;
 
                 } else if (config.getName().equals(FinanceFieldNames.GESAMTBETRAG)) {
-                    control = ((ConfigExtra) config).getControl();
+                    control = ((Config) config).getControl();
 
                 } else if (config.getName().equals(FinanceFieldNames.KONTO)) {
                     control = getPComboObject(financeData.financeAccountDataProperty(), clubConfig.financeAccountDataList);
@@ -110,7 +109,7 @@ public class FinancePane extends VBox {
                 } else if (config.getName().equals(FinanceFieldNames.ERSTELLDATUM)) {
                     control = new PTextField(financeData.getErstellDatum().toString(), true);
 
-                } else if (config instanceof ConfigExtra) {
+                } else if (config instanceof Config) {
                     // rest
                     for (ExtraData ex : clubConfig.extraDataListFinance) {
                         // ExtraData die ausgeschaltet sind
@@ -118,7 +117,7 @@ public class FinancePane extends VBox {
                             continue outerloop;
                         }
                     }
-                    control = ((ConfigExtra) config).getControl();
+                    control = ((Config) config).getControl();
 
                 } else {
                     throw new PException("FinancePane.addFinanceData");

@@ -60,11 +60,11 @@ public class CsvFactoryFinance {
 
             for (FinanceData financeData : financeDataList) {
                 list.clear();
-                for (Config configExtra : financeData.getConfigsArr()) {
-                    if (configExtra.getName().equals(FinanceFieldNames.ID)) {
+                for (Config Config : financeData.getConfigsArr()) {
+                    if (Config.getName().equals(FinanceFieldNames.ID)) {
                         continue;
                     }
-                    addFinanceToList(clubConfig, list, configExtra, financeData);
+                    addFinanceToList(clubConfig, list, Config, financeData);
                 }
                 Object[] sArr = list.toArray(new String[]{});
                 printer.printRecord(sArr);
@@ -81,29 +81,29 @@ public class CsvFactoryFinance {
     private static String[] getFinanceDataHeaderArr(ClubConfig clubConfig, FinanceData financeData) {
         ArrayList<String> list = new ArrayList<>();
 
-        for (Config configExtra : financeData.getConfigsArr()) {
-            if (configExtra.getName().equals(FinanceFieldNames.ID)) {
+        for (Config config : financeData.getConfigsArr()) {
+            if (config.getName().equals(FinanceFieldNames.ID)) {
                 continue;
             }
-            if (configExtra.getName().equals(TransactionDataListBase.TAG)) {
+            if (config.getName().equals(TransactionDataListBase.TAG)) {
                 continue;
             }
 
             if (!clubConfig.FINANCE_EXPORT_ALL.get()) {
-                if (configExtra.getName().equals(FinanceFieldNames.NR) && clubConfig.FINANCE_EXPORT_DATA_Nr.get() ||
-                        configExtra.getName().equals(FinanceFieldNames.BELEG_NR) && clubConfig.FINANCE_EXPORT_DATA_BelegNr.get() ||
-                        configExtra.getName().equals(FinanceFieldNames.GESAMTBETRAG) && clubConfig.FINANCE_EXPORT_DATA_Gesamtbetrag.get() ||
-                        configExtra.getName().equals(FinanceFieldNames.KONTO) && clubConfig.FINANCE_EXPORT_DATA_Konto.get() ||
-                        configExtra.getName().equals(FinanceFieldNames.KATEGORIE) && clubConfig.FINANCE_EXPORT_DATA_Kategorie.get() ||
-                        configExtra.getName().equals(FinanceFieldNames.GESCHAEFTSJAHR) && clubConfig.FINANCE_EXPORT_DATA_Geschäftsjahr.get() ||
-                        configExtra.getName().equals(FinanceFieldNames.BUCHUNGSDATUM) && clubConfig.FINANCE_EXPORT_DATA_Buchungsdatum.get() ||
-                        configExtra.getName().equals(FinanceFieldNames.ERSTELLDATUM) && clubConfig.FINANCE_EXPORT_DATA_Erstelldatum.get() ||
-                        configExtra.getName().equals(FinanceFieldNames.TEXT) && clubConfig.FINANCE_EXPORT_DATA_Text.get()) {
-                    list.add(configExtra.getName());
+                if (config.getName().equals(FinanceFieldNames.NR) && clubConfig.FINANCE_EXPORT_DATA_Nr.get() ||
+                        config.getName().equals(FinanceFieldNames.BELEG_NR) && clubConfig.FINANCE_EXPORT_DATA_BelegNr.get() ||
+                        config.getName().equals(FinanceFieldNames.GESAMTBETRAG) && clubConfig.FINANCE_EXPORT_DATA_Gesamtbetrag.get() ||
+                        config.getName().equals(FinanceFieldNames.KONTO) && clubConfig.FINANCE_EXPORT_DATA_Konto.get() ||
+                        config.getName().equals(FinanceFieldNames.KATEGORIE) && clubConfig.FINANCE_EXPORT_DATA_Kategorie.get() ||
+                        config.getName().equals(FinanceFieldNames.GESCHAEFTSJAHR) && clubConfig.FINANCE_EXPORT_DATA_Geschäftsjahr.get() ||
+                        config.getName().equals(FinanceFieldNames.BUCHUNGSDATUM) && clubConfig.FINANCE_EXPORT_DATA_Buchungsdatum.get() ||
+                        config.getName().equals(FinanceFieldNames.ERSTELLDATUM) && clubConfig.FINANCE_EXPORT_DATA_Erstelldatum.get() ||
+                        config.getName().equals(FinanceFieldNames.TEXT) && clubConfig.FINANCE_EXPORT_DATA_Text.get()) {
+                    list.add(config.getName());
                 }
             } else {
                 //export all
-                list.add(configExtra.getName());
+                list.add(config.getName());
             }
         }
 

@@ -164,7 +164,7 @@ public class ExportCsvDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
 
-        getvBoxCont().getChildren().addAll(gridPane);
+        getVBoxCont().getChildren().addAll(gridPane);
         if (exportingWhat == exporting.MEMBER) {
             addMemberColumn();
         } else if (exportingWhat == exporting.FEE) {
@@ -285,7 +285,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         HBox.setHgrow(tglAll, Priority.ALWAYS);
         hBox.getChildren().add(tglAll);
 
-        getvBoxCont().getChildren().addAll(gridPane, hBox);
+        getVBoxCont().getChildren().addAll(gridPane, hBox);
     }
 
     private void addFeeColumn() {
@@ -360,7 +360,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         HBox.setHgrow(tglAll, Priority.ALWAYS);
         hBox.getChildren().add(tglAll);
 
-        getvBoxCont().getChildren().addAll(gridPane, hBox);
+        getVBoxCont().getChildren().addAll(gridPane, hBox);
     }
 
     private void addFinanceColumn() {
@@ -423,7 +423,7 @@ public class ExportCsvDialogController extends PDialogExtra {
         HBox.setHgrow(tglAll, Priority.ALWAYS);
         hBox.getChildren().add(tglAll);
 
-        getvBoxCont().getChildren().addAll(gridPane, hBox);
+        getVBoxCont().getChildren().addAll(gridPane, hBox);
     }
 
 

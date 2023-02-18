@@ -22,11 +22,10 @@ import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigPDataList;
+import de.p2tools.p2Lib.configFile.config.Config_pDataList;
 import de.p2tools.p2Lib.tools.PIndex;
-import de.p2tools.p2Lib.tools.date.PDateFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class FinanceFactory {
@@ -53,7 +52,7 @@ public class FinanceFactory {
      * @param financeCategoryData
      */
     public static FinanceData getNewFinanceData(ClubConfig clubConfig,
-                                                PLocalDate buchungsDatum, long betrag,
+                                                LocalDate buchungsDatum, long betrag,
                                                 FinanceAccountData financeAccountData,
                                                 FinanceCategoryData financeCategoryData) {
 
@@ -62,7 +61,7 @@ public class FinanceFactory {
         financeData.setNo(clubConfig.financeDataList.getNextNr());
         financeData.setReceiptNo(financeData.getNo() + "");
         financeData.setBuchungsDatum(buchungsDatum);
-        financeData.setGeschaeftsJahr(PDateFactory.getAktYearInt());
+        financeData.setGeschaeftsJahr(LocalDate.now().getYear());
         financeData.setFinanceAccountData(financeAccountData);
 
         TransactionDataList transactionDataList = financeData.getTransactionDataList();
@@ -77,7 +76,7 @@ public class FinanceFactory {
     }
 
     public static FinanceData getNewFinanceDataForFeeData(ClubConfig clubConfig, List<FeeData> feeDataList,
-                                                          PLocalDate buchungsDatum, int geschaeftsjahr,
+                                                          LocalDate buchungsDatum, int geschaeftsjahr,
                                                           FinanceAccountData financeAccountData, FinanceCategoryData financeCategoryData) {
 
         FinanceData financeData = getNewFinanceWithId(clubConfig);
@@ -85,7 +84,7 @@ public class FinanceFactory {
         financeData.setNo(clubConfig.financeDataList.getNextNr());
         financeData.setReceiptNo(financeData.getNo() + "");
         financeData.setBuchungsDatum(buchungsDatum);
-        financeData.setGeschaeftsJahr(PDateFactory.getAktYearInt());
+        financeData.setGeschaeftsJahr(LocalDate.now().getYear());
         financeData.setFinanceAccountData(financeAccountData);
 
         TransactionDataList transactionDataList = financeData.getTransactionDataList();
@@ -105,7 +104,7 @@ public class FinanceFactory {
     }
 
     public static FinanceData getNewFinanceDataForFeeData(ClubConfig clubConfig, FeeData feeData,
-                                                          PLocalDate buchungsDatum, int geschaeftsjahr,
+                                                          LocalDate buchungsDatum, int geschaeftsjahr,
                                                           FinanceAccountData financeAccountData,
                                                           FinanceCategoryData financeCategoryData) {
 
@@ -132,7 +131,7 @@ public class FinanceFactory {
     }
 
     public static FinanceData getNewFinanceDataForFeeData(ClubConfig clubConfig, FeeData feeData,
-                                                          PLocalDate buchungsDatum, int geschaeftsjahr,
+                                                          LocalDate buchungsDatum, int geschaeftsjahr,
                                                           FinanceCategoryData financeCategoryData) {
 
         FinanceData financeData = getNewFinanceData(clubConfig, buchungsDatum, feeData.getBetrag(),
@@ -163,7 +162,7 @@ public class FinanceFactory {
         Config[] configsCopy = dataTo.getConfigsArr();
         for (int i = 0; i < configs.length; ++i) {
 
-            if (configs[i] instanceof ConfigPDataList) {
+            if (configs[i] instanceof Config_pDataList) {
                 TransactionFactory.copyTransactionDataList(clubConfig,
                         dataFrom.getTransactionDataList(), dataTo.getTransactionDataList());
             } else {

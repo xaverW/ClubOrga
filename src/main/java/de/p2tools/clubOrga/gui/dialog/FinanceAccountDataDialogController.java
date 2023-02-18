@@ -22,7 +22,6 @@ import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFactory;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFieldNames;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextField;
@@ -52,7 +51,7 @@ public class FinanceAccountDataDialogController extends PDialogExtra {
 
     public FinanceAccountDataDialogController(ClubConfig clubConfig, FinanceAccountData dataOrg) {
         super(clubConfig.getStage(), clubConfig.FINANCE_ACCOUNT_DATA_DIALOG_SIZE,
-                "Daten ändern", true, true, DECO.NONE);
+                "Daten ändern", true, true, DECO.NO_BORDER);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -92,7 +91,7 @@ public class FinanceAccountDataDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         addData(gridPane);
-        getvBoxCont().getChildren().add(gridPane);
+        getVBoxCont().getChildren().add(gridPane);
     }
 
     private void addData(GridPane gridPane) {
@@ -136,7 +135,7 @@ public class FinanceAccountDataDialogController extends PDialogExtra {
             } else if (configData.getName().equals(FinanceAccountFieldNames.BIC) ||
                     configData.getName().equals(FinanceAccountFieldNames.IBAN) ||
                     configData.getName().equals(FinanceAccountFieldNames.BANK)) {
-                control = ((ConfigExtra) configData).getControl();
+                control = ((Config) configData).getControl();
                 control.disableProperty().bind(tglGiro.selectedProperty().not());
 
             } else if (configData.getName().equals(FinanceAccountFieldNames.DESCRIPTION)) {
@@ -144,8 +143,8 @@ public class FinanceAccountDataDialogController extends PDialogExtra {
                 GridPane.setVgrow(control, Priority.ALWAYS);
                 ((TextArea) control).textProperty().bindBidirectional(dataCopy.descriptionProperty());
 
-            } else if (configData instanceof ConfigExtra) {
-                control = ((ConfigExtra) configData).getControl();
+            } else if (configData instanceof Config) {
+                control = ((Config) configData).getControl();
 
             } else {
                 throw new PException("FinanceAccountDataDialogController.addData");

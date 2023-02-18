@@ -103,7 +103,7 @@ public class DeleteAllDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         VBox.setVgrow(gridPane, Priority.ALWAYS);
-        getvBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
+        getVBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
     }
 
     private boolean check() {

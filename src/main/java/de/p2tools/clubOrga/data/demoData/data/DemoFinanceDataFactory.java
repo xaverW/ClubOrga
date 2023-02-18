@@ -27,6 +27,7 @@ import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFactory;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
@@ -117,8 +118,8 @@ public class DemoFinanceDataFactory {
             // Datum
             LocalDateTime dateTime = DemoDataFactory.getRandomDate();
             financeData.setGeschaeftsJahr(dateTime.getYear());
-            financeData.getBuchungsDatum().setPLocalDate(dateTime.toLocalDate());
-            financeData.getErstellDatum().setPLocalDate(dateTime.toLocalDate());
+            financeData.setBuchungsDatum(LocalDate.from(dateTime));
+            financeData.setErstellDatum(LocalDate.from(dateTime));
 
 
             // Transaktion

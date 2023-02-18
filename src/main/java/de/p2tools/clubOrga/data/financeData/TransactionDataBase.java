@@ -22,9 +22,9 @@ import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigLongPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigMoneyPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
+import de.p2tools.p2Lib.configFile.config.Config_longProp;
+import de.p2tools.p2Lib.configFile.config.Config_moneyProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.*;
 import javafx.util.converter.NumberStringConverter;
@@ -76,14 +76,14 @@ public class TransactionDataBase extends PDataSample<TransactionDataBase> {
         initFeeData();
 
         return new Config[]{
-                new ConfigLongPropExtra("id", FinanceFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FinanceFieldNames.NR, no),
-                new ConfigLongPropExtra("feeId", FinanceFieldNames.FEED_ID, feeId),
+                new Config_longProp("id", FinanceFieldNames.ID, id),
+                new Config_longProp("nr", FinanceFieldNames.NR, no),
+                new Config_longProp("feeId", FinanceFieldNames.FEED_ID, feeId),
 
-                new ConfigMoneyPropExtra("betrag", FinanceFieldNames.BETRAG, betrag),
-                new ConfigLongPropExtra("kategorie", FinanceFieldNames.KATEGORIE, category),
+                new Config_moneyProp("betrag", FinanceFieldNames.BETRAG, betrag),
+                new Config_longProp("kategorie", FinanceFieldNames.KATEGORIE, category),
 
-                new ConfigStringPropExtra("text", FinanceFieldNames.TEXT, text)
+                new Config_stringProp("text", FinanceFieldNames.TEXT, text)
         };
     }
 

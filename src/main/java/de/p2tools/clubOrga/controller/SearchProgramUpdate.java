@@ -16,103 +16,106 @@
 
 package de.p2tools.clubOrga.controller;
 
-import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
-import de.p2tools.clubOrga.gui.tools.StringFormatters;
-import de.p2tools.p2Lib.checkForUpdates.SearchProgUpdate;
-import de.p2tools.p2Lib.checkForUpdates.UpdateSearchData;
-import de.p2tools.p2Lib.tools.ProgramTools;
+import de.p2tools.clubOrga.config.prog.ProgData;
+import de.p2tools.p2Lib.checkForActInfos.FoundAll;
+import de.p2tools.p2Lib.checkForActInfos.FoundSearchData;
+import de.p2tools.p2Lib.tools.ProgramToolsFactory;
+import de.p2tools.p2Lib.tools.date.PDate;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-
-import java.util.Date;
 
 import static java.lang.Thread.sleep;
 
 public class SearchProgramUpdate {
 
-    private final ClubConfig clubConfig;
-    private final Stage stage;
     private static final String TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE = "Programmversion ist aktuell";
     private static final String TITLE_TEXT_PROGRAMMUPDATE_EXISTS = "Ein Programmupdate ist verfügbar";
+    private final ProgData progData;
+    private Stage stage;
+    private String title = "";
 
-    public SearchProgramUpdate(Stage stage, ClubConfig clubConfig) {
-        this.stage = stage;
-        this.clubConfig = clubConfig;
+    public SearchProgramUpdate(ProgData progData) {
+        this.progData = progData;
+        this.stage = progData.primaryStage;
     }
 
+    public SearchProgramUpdate(ProgData progData, Stage stage) {
+        this.progData = progData;
+        this.stage = stage;
+    }
 
     /**
      * @return
      */
-    public boolean searchNewProgramVersion() {
-        // prüft auf neue Version, ProgVersion und auch (wenn gewünscht) BETA-Version
-        boolean ret;
-        ProgConfig.SYSTEM_UPDATE_DATE.setValue(StringFormatters.FORMATTER_yyyyMMdd.format(new Date()));
-
-        if (!ProgConfig.SYSTEM_UPDATE_SEARCH.get()) {
-            // dann ist es nicht gewünscht
-            return false;
+    public void searchNewProgramVersion(boolean showAllways) {
+        final String SEARCH_URL;
+        final String SEARCH_URL_DOWNLOAD;
+        if (ProgData.debug) {
+            SEARCH_URL = "http://p2.localhost:8080";
+            SEARCH_URL_DOWNLOAD = "http://p2.localhost:8080/download/";
+        } else {
+            SEARCH_URL = "https://www.p2tools.de";
+            SEARCH_URL_DOWNLOAD = "https://www.p2tools.de/download/";
         }
 
-        UpdateSearchData updateSearchData = new UpdateSearchData(ProgConst.URL_PROG_UPDATE,
-                ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
-                ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
-                null,
-                ProgConfig.SYSTEM_UPDATE_INFO_NR_SHOWN,
-                ProgConfig.SYSTEM_UPDATE_SEARCH);
+        final PDate pd = new PDate(ProgramToolsFactory.getCompileDate());
+        String buildDate = pd.get_yyyy_MM_dd();
 
-        UpdateSearchData updateSearchDataBeta = null;
-        if (ProgConfig.SYSTEM_UPDATE_BETA_SEARCH.get()) {
-            updateSearchDataBeta = new UpdateSearchData(ProgConst.URL_PROG_BETA_UPDATE,
-                    ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
-                    ProgConfig.SYSTEM_UPDATE_BETA_VERSION_SHOWN,
-                    ProgConfig.SYSTEM_UPDATE_BETA_BUILD_NO_SHOWN,
-                    null,
-                    ProgConfig.SYSTEM_UPDATE_BETA_SEARCH);
-        }
+        FoundSearchData foundSearchData = new FoundSearchData(
+                stage,
+                SEARCH_URL,
+                SEARCH_URL_DOWNLOAD,
 
-        ret = new SearchProgUpdate(stage).checkAllUpdates(updateSearchData, updateSearchDataBeta, false);
-        setTitleInfo(ret);
-        return ret;
-    }
+                ProgConfig.SYSTEM_UPDATE_SEARCH_ACT,
+                ProgConfig.SYSTEM_UPDATE_SEARCH_BETA,
+                ProgConfig.SYSTEM_UPDATE_SEARCH_DAILY,
 
-    public boolean searchNewVersionInfos() {
-        // prüft auf neue Version und zeigts immer an, auch (wenn gewünscht) BETA-Version
-        UpdateSearchData updateSearchData = new UpdateSearchData(ProgConst.URL_PROG_UPDATE,
-                ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
-                null,
-                null,
-                null,
-                null);
+                ProgConfig.SYSTEM_UPDATE_LAST_INFO,
+                ProgConfig.SYSTEM_UPDATE_LAST_ACT,
+                ProgConfig.SYSTEM_UPDATE_LAST_BETA,
+                ProgConfig.SYSTEM_UPDATE_LAST_DAILY,
 
-        UpdateSearchData updateSearchDataBeta = null;
-        if (ProgConfig.SYSTEM_UPDATE_BETA_SEARCH.get()) {
-            updateSearchDataBeta = new UpdateSearchData(ProgConst.URL_PROG_BETA_UPDATE,
-                    ProgramTools.getProgVersionInt(), ProgramTools.getBuildInt(),
-                    null,
-                    null,
-                    null,
-                    null);
-        }
+                ProgConst.URL_WEBSITE,
+                ProgConst.URL_WEBSITE_DOWNLOAD,
+                ProgConst.PROGRAM_NAME,
+                ProgramToolsFactory.getProgVersion(),
+                ProgramToolsFactory.getBuild(),
+                buildDate,
+                ProgConfig.SYSTEM_DOWNLOAD_DIR_NEW_VERSION,
+                showAllways
+        );
 
-        return new SearchProgUpdate(stage).checkAllUpdates(updateSearchData, updateSearchDataBeta, true);
+        new Thread(() -> {
+            FoundAll.foundAll(foundSearchData);
+            setTitleInfo(foundSearchData.foundNewVersionProperty().getValue());
+        }).start();
     }
 
     private void setTitleInfo(boolean newVersion) {
+        title = progData.primaryStage.getTitle();
         if (newVersion) {
-            Platform.runLater(() -> ClubStartFactory.setTitel(clubConfig, TITLE_TEXT_PROGRAMMUPDATE_EXISTS));
+            Platform.runLater(() -> setUpdateTitle());
         } else {
-            Platform.runLater(() -> ClubStartFactory.setTitel(clubConfig, TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE));
+            Platform.runLater(() -> setNoUpdateTitle());
         }
-
         try {
             sleep(10_000);
         } catch (Exception ignore) {
         }
-
-        Platform.runLater(() -> ClubStartFactory.setTitel(clubConfig));
+        Platform.runLater(() -> setOrgTitle());
     }
 
+    private void setUpdateTitle() {
+        progData.primaryStage.setTitle(TITLE_TEXT_PROGRAMMUPDATE_EXISTS);
+    }
+
+    private void setNoUpdateTitle() {
+        progData.primaryStage.setTitle(TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE);
+    }
+
+    private void setOrgTitle() {
+        progData.primaryStage.setTitle(title);
+    }
 }

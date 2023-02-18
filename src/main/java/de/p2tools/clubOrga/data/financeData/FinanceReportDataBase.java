@@ -18,11 +18,11 @@
 package de.p2tools.clubOrga.data.financeData;
 
 import de.p2tools.p2Lib.tools.date.PDateFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
-import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
+import de.p2tools.p2Lib.tools.date.PLDateProperty;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class FinanceReportDataBase {
@@ -33,9 +33,9 @@ public class FinanceReportDataBase {
     private final StringProperty text = new SimpleStringProperty("");
 
     private final LongProperty gesamtbetrag = new SimpleLongProperty(0);
-    private final IntegerProperty geschaeftsJahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
+    private final IntegerProperty geschaeftsJahr = new SimpleIntegerProperty(PDateFactory.getActYearInt());
 
-    private final PLocalDateProperty buchungsDatum = new PLocalDateProperty();
+    private final PLDateProperty buchungsDatum = new PLDateProperty();
 
 
     private final List<FinanceReportAccountData> accountList;
@@ -130,15 +130,15 @@ public class FinanceReportDataBase {
         this.geschaeftsJahr.set(geschaeftsJahr);
     }
 
-    public PLocalDate getBuchungsDatum() {
+    public LocalDate getBuchungsDatum() {
         return buchungsDatum.get();
     }
 
-    public PLocalDateProperty buchungsDatumProperty() {
+    public PLDateProperty buchungsDatumProperty() {
         return buchungsDatum;
     }
 
-    public void setBuchungsDatum(PLocalDate buchungsDatum) {
+    public void setBuchungsDatum(LocalDate buchungsDatum) {
         this.buchungsDatum.set(buchungsDatum);
     }
 

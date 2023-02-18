@@ -85,7 +85,7 @@ public class MenuController {
 
         // Menü Hilfe
         MenuItem miUpdate = new MenuItem("Gibt es ein Update?");
-        miUpdate.setOnAction(event -> new SearchProgramUpdate(clubConfig.getStage(), clubConfig).searchNewVersionInfos());
+        miUpdate.setOnAction(event -> new SearchProgramUpdate(progData, progData.primaryStage).searchNewProgramVersion(true));
         MenuItem miAbout = new MenuItem("Über dieses Programm");
         miAbout.setOnAction(event -> new AboutDialogController(clubConfig));
 
@@ -105,7 +105,7 @@ public class MenuController {
             });
 
             final MenuItem miInfo = new MenuItem("Programminfos");
-            miInfo.setOnAction(event -> new ProgInfoDialog());
+            miInfo.setOnAction(event -> new ProgInfoDialog(true));
 
             menuHelp.getItems().addAll(new SeparatorMenuItem(), miTest, miInfo);
         }

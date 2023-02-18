@@ -21,7 +21,7 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeNames;
-import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
+import de.p2tools.p2Lib.guiTools.pTable.CellCheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -54,7 +54,7 @@ public class ClubTablePaymentTypeData {
 
         final TableColumn<PaymentTypeData, Boolean> einzugColumn = new TableColumn<>(PaymentTypeNames.DIRECT_DEBIT);
         einzugColumn.setCellValueFactory(new PropertyValueFactory<>("directDebit"));
-        einzugColumn.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+        einzugColumn.setCellFactory(new CellCheckBox().cellFactoryBool);
 
         final TableColumn<PaymentTypeData, String> textColumn = new TableColumn<>(PaymentTypeNames.DESCRIPTION);
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));

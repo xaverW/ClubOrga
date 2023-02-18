@@ -115,7 +115,7 @@ public class ExportZipDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
 
-        getvBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
+        getVBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
 
         initListener();
     }

@@ -25,7 +25,7 @@ import de.p2tools.clubOrga.controller.newsletter.NewsletterFactory;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
-import de.p2tools.p2Lib.guiTools.PDatePicker;
+import de.p2tools.p2Lib.guiTools.PLDatePicker;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.beans.property.BooleanProperty;
@@ -42,7 +42,7 @@ import javafx.scene.control.Tooltip;
 public class BillForFeeDialogController extends abListDialogController {
 
     final Label lblDatum = new Label("Buchungsdatum");
-    final PDatePicker pDatePickerFeeDateBuchungsdatum = new PDatePicker();
+    final PLDatePicker pDatePickerFeeDateBuchungsdatum = new PLDatePicker();
 
     private final PToggleSwitch tglBill = new PToggleSwitch("Rechnung erstellen", true);
 
@@ -184,14 +184,14 @@ public class BillForFeeDialogController extends abListDialogController {
 //        getProposedFileName();
 
         btnOk.disableProperty().bind(tglBill.selectedProperty().and(
-                pCboTemplate.getSelectionModel().selectedItemProperty().isNull()
-                        .or(pCboTemplate.getSelectionModel().selectedItemProperty().isEqualTo(""))
+                        pCboTemplate.getSelectionModel().selectedItemProperty().isNull()
+                                .or(pCboTemplate.getSelectionModel().selectedItemProperty().isEqualTo(""))
 
-                        .or(pCboNewsletterPath.getSelectionModel().selectedItemProperty().isNull())
-                        .or(pCboNewsletterPath.getSelectionModel().selectedItemProperty().isEqualTo(""))
+                                .or(pCboNewsletterPath.getSelectionModel().selectedItemProperty().isNull())
+                                .or(pCboNewsletterPath.getSelectionModel().selectedItemProperty().isEqualTo(""))
 
-                        .or(pCboNewsletterName.getSelectionModel().selectedItemProperty().isNull())
-                        .or(pCboNewsletterName.getSelectionModel().selectedItemProperty().isEqualTo(""))
+                                .or(pCboNewsletterName.getSelectionModel().selectedItemProperty().isNull())
+                                .or(pCboNewsletterName.getSelectionModel().selectedItemProperty().isEqualTo(""))
                 )
         );
 
@@ -250,11 +250,11 @@ public class BillForFeeDialogController extends abListDialogController {
 
         switch (type) {
             case BILL:
-                feeDataList.stream().forEach(fee -> fee.setBill(pDatePickerFeeDateBuchungsdatum.getpLocalDate()));
+                feeDataList.stream().forEach(fee -> fee.setBill(pDatePickerFeeDateBuchungsdatum.getDateLDate()));
                 break;
             case SQ:
             default:
-                feeDataList.stream().forEach(fee -> fee.setSQ(pDatePickerFeeDateBuchungsdatum.getpLocalDate()));
+                feeDataList.stream().forEach(fee -> fee.setSQ(pDatePickerFeeDateBuchungsdatum.getDateLDate()));
         }
 
         clubConfig.guiFee.updateFilteredList();

@@ -24,7 +24,6 @@ import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeNames;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxObject;
@@ -57,7 +56,7 @@ public class PaymentTypeDataDialogController extends PDialogExtra {
 
     public PaymentTypeDataDialogController(ClubConfig clubConfig, PaymentTypeData paymentTypeDataOrg) {
         super(clubConfig.getStage(), clubConfig.PAYMENT_TYPE_DATA_DIALOG_SIZE,
-                "Daten ändern", true, true, DECO.NONE);
+                "Daten ändern", true, true, DECO.NO_BORDER);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -98,7 +97,7 @@ public class PaymentTypeDataDialogController extends PDialogExtra {
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize());
 
         addStateData(gridPane);
-        getvBoxCont().getChildren().add(gridPane);
+        getVBoxCont().getChildren().add(gridPane);
     }
 
     private void addStateData(GridPane gridPane) {
@@ -139,9 +138,9 @@ public class PaymentTypeDataDialogController extends PDialogExtra {
                 GridPane.setVgrow(control, Priority.ALWAYS);
                 ((TextArea) control).textProperty().bindBidirectional(paymentTypeDataCopy.textProperty());
 
-            } else if (configData instanceof ConfigExtra) {
+            } else if (configData instanceof Config) {
                 // rest
-                control = ((ConfigExtra) configData).getControl();
+                control = ((Config) configData).getControl();
 
             } else {
                 throw new PException("StateDataDialogController.addStateData");

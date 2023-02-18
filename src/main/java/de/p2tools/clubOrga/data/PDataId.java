@@ -1,6 +1,6 @@
 /*
  * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
- * http://zdfmediathk.sourceforge.net/
+ * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
@@ -15,26 +15,8 @@
  */
 
 
-package de.p2tools.clubOrga.data.feeData;
+package de.p2tools.clubOrga.data;
 
-import java.time.LocalDate;
-
-public class FeeDataWorker extends FeeDataBase {
-
-    public void setBill(LocalDate pDate) {
-        setRechnung(pDate);
-    }
-
-    public void payFeeData(LocalDate pDate) {
-        setBezahlt(pDate);
-    }
-
-    public void setSQ(LocalDate pDate) {
-        setSpendenQ(pDate);
-    }
-
-    public boolean isFeePayed() {
-        return !getBezahlt().isEqual(LocalDate.MIN);
-    }
-
+public interface PDataId {
+    long getId();
 }

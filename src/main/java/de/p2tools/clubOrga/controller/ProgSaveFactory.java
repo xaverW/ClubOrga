@@ -19,13 +19,12 @@ package de.p2tools.clubOrga.controller;
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.config.club.ClubConfigFactory;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
-import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.WriteConfigFile;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
-import de.p2tools.p2Lib.tools.ProgramTools;
+import de.p2tools.p2Lib.tools.ProgramToolsFactory;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import java.nio.file.Path;
@@ -50,12 +49,12 @@ public class ProgSaveFactory {
 //        getProgConfigSizes();
 
         final Path xmlFilePath = ProgInfos.getSettingsFile();
-        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
+        ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
 
-        ProgConfig.SYSTEM_PROG_VERSION.set(ProgramTools.getProgVersion());
-        ProgConfig.SYSTEM_PROG_BUILD_NO.set(ProgramTools.getBuild());
-        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(ProgramTools.getCompileDate());
-        
+        ProgConfig.SYSTEM_PROG_VERSION.set(ProgramToolsFactory.getProgVersion());
+        ProgConfig.SYSTEM_PROG_BUILD_NO.set(ProgramToolsFactory.getBuild());
+        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(ProgramToolsFactory.getCompileDate());
+
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgData.getInstance().knownClubDataList);
 
@@ -89,7 +88,7 @@ public class ProgSaveFactory {
 
     private static void getClubSizes(ClubConfig clubConfig) {
         // Clubfenster
-        PGuiSize.getSizeScene(clubConfig.GUI_CLUB_PANEL, clubConfig.getStage());
+        PGuiSize.getSizeStage(clubConfig.GUI_CLUB_PANEL, clubConfig.getStage());
 
         if (clubConfig.guiMember != null) {
             clubConfig.guiMember.saveTable();

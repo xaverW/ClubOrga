@@ -25,6 +25,7 @@ import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.clubOrga.data.memberData.MemberFactory;
 import de.p2tools.clubOrga.data.memberData.stateData.StateDataFactory;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -163,10 +164,10 @@ public class DemoMemberDataFactory {
             // Datum
             LocalDateTime dateTime = DemoDataFactory.getRandomDate();
 
-            memberData.getBeitritt().setPLocalDate(dateTime.toLocalDate());
-            memberData.getSepaBeginn().setPLocalDate(dateTime.toLocalDate());
-            memberData.getErstellDatum().setPLocalDate(dateTime.toLocalDate());
-            memberData.getZahlungsbeginn().setPLocalDate(dateTime.toLocalDate());
+            memberData.setBeitritt(LocalDate.from(dateTime));
+            memberData.setSepaBeginn(LocalDate.from(dateTime));
+            memberData.setErstellDatum(LocalDate.from(dateTime));
+            memberData.setZahlungsbeginn(LocalDate.from(dateTime));
 
             newMemberList.add(memberData);
         }

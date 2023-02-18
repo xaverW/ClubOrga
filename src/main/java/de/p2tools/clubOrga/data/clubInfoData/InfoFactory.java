@@ -18,9 +18,9 @@
 package de.p2tools.clubOrga.data.clubInfoData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.p2Lib.tools.date.PDateFactory;
 import javafx.scene.control.TreeItem;
 
+import java.time.LocalDate;
 import java.util.TreeMap;
 
 public class InfoFactory {
@@ -102,13 +102,13 @@ public class InfoFactory {
         ciRechnungOk.setName("erstellt");
         ciRechnungOk.setText("Rechnung wurde erstellt");
         ciRechnungOk.setAmount(clubConfig.feeDataList.stream()
-                .filter(data -> !data.getRechnung().isEmpty()).count());
+                .filter(data -> !data.getRechnung().isEqual(LocalDate.MIN)).count());
         treeItemFee.getChildren().add(new TreeItem<>(ciRechnungOk));
         ClubInfoData ciRechnung = new ClubInfoData();
         ciRechnung.setName("fehlt");
         ciRechnung.setText("Rechnung wurde nicht erstellt");
         ciRechnung.setAmount(clubConfig.feeDataList.stream()
-                .filter(data -> data.getRechnung().isEmpty()).count());
+                .filter(data -> data.getRechnung().isEqual(LocalDate.MIN)).count());
         treeItemFee.getChildren().add(new TreeItem<>(ciRechnung));
 
         TreeItem<ClubInfoData> treeItemPayed = createGroup("Bezahlt");
@@ -116,13 +116,13 @@ public class InfoFactory {
         ciBezahlt.setName("bezahlt");
         ciBezahlt.setText("Beitrag ist bezahlt");
         ciBezahlt.setAmount(clubConfig.feeDataList.stream()
-                .filter(data -> !data.getBezahlt().isEmpty()).count());
+                .filter(data -> !data.getBezahlt().isEqual(LocalDate.MIN)).count());
         treeItemPayed.getChildren().add(new TreeItem<>(ciBezahlt));
         ClubInfoData ciNichtBezahlt = new ClubInfoData();
         ciNichtBezahlt.setName("nicht bezahlt");
         ciNichtBezahlt.setText("Beitrag ist nicht bezahlt");
         ciNichtBezahlt.setAmount((int) clubConfig.feeDataList.stream()
-                .filter(data -> data.getBezahlt().isEmpty()).count());
+                .filter(data -> data.getBezahlt().isEqual(LocalDate.MIN)).count());
         treeItemPayed.getChildren().add(new TreeItem<>(ciNichtBezahlt));
 
         TreeItem<ClubInfoData> treeItemSq = createGroup("Spendenquittung");
@@ -130,13 +130,13 @@ public class InfoFactory {
         ciSqOk.setName("erstellt");
         ciSqOk.setText("Spendenquittung wurde erstellt");
         ciSqOk.setAmount(clubConfig.feeDataList.stream()
-                .filter(data -> !data.getSpendenQ().isEmpty()).count());
+                .filter(data -> !data.getSpendenQ().isEqual(LocalDate.MIN)).count());
         treeItemSq.getChildren().add(new TreeItem<>(ciSqOk));
         ClubInfoData ciSq = new ClubInfoData();
         ciSq.setName("fehlt");
         ciSq.setText("Spendenquittung wurde nicht erstellt");
         ciSq.setAmount(clubConfig.feeDataList.stream()
-                .filter(data -> data.getSpendenQ().isEmpty()).count());
+                .filter(data -> data.getSpendenQ().isEqual(LocalDate.MIN)).count());
         treeItemSq.getChildren().add(new TreeItem<>(ciSq));
 
         treeItemFeeInfo.getChildren().addAll(treeItemFee, treeItemPayed, treeItemSq);
@@ -203,7 +203,7 @@ public class InfoFactory {
     }
 
     private static TreeItem<ClubInfoData> generateFinanceInfoActYear() {
-        final int actYear = PDateFactory.getAktYearInt();
+        final int actYear = LocalDate.now().getYear();
         long countEntrys = clubConfig.financeDataList.stream()
                 .filter(financeData -> financeData.getGeschaeftsJahr() == actYear).count();
 

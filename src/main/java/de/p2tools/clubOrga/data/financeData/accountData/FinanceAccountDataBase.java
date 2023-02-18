@@ -18,8 +18,11 @@
 package de.p2tools.clubOrga.data.financeData.accountData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.p2Lib.configFile.config.*;
-import de.p2tools.p2Lib.configFile.pData.PDataId;
+import de.p2tools.clubOrga.data.PDataId;
+import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.Config_boolProp;
+import de.p2tools.p2Lib.configFile.config.Config_longProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.*;
 
@@ -47,26 +50,27 @@ public class FinanceAccountDataBase extends PDataSample<FinanceAccountData> impl
     }
 
     @Override
-    public ConfigExtra[] getConfigsArr() {
+    public Config[] getConfigsArr() {
         ArrayList<Config> list = new ArrayList<>();
         list.addAll(Arrays.asList(getConfigs()));
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
     private Config[] getConfigs() {
         return new Config[]{
-                new ConfigLongPropExtra("id", FinanceAccountFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FinanceAccountFieldNames.NO, no),
-                new ConfigStringPropExtra("name", FinanceAccountFieldNames.NAME, name),
-                new ConfigStringPropExtra("beschreibung", FinanceAccountFieldNames.DESCRIPTION, description),
-                new ConfigBoolPropExtra("giro", FinanceAccountFieldNames.GIRO, giro),
-                new ConfigStringPropExtra("bic", FinanceAccountFieldNames.BIC, bic),
-                new ConfigStringPropExtra("iban", FinanceAccountFieldNames.IBAN, iban),
-                new ConfigStringPropExtra("bank", FinanceAccountFieldNames.BANK, bank),
+                new Config_longProp("id", FinanceAccountFieldNames.ID, id),
+                new Config_longProp("nr", FinanceAccountFieldNames.NO, no),
+                new Config_stringProp("name", FinanceAccountFieldNames.NAME, name),
+                new Config_stringProp("beschreibung", FinanceAccountFieldNames.DESCRIPTION, description),
+                new Config_boolProp("giro", FinanceAccountFieldNames.GIRO, giro),
+                new Config_stringProp("bic", FinanceAccountFieldNames.BIC, bic),
+                new Config_stringProp("iban", FinanceAccountFieldNames.IBAN, iban),
+                new Config_stringProp("bank", FinanceAccountFieldNames.BANK, bank),
         };
     }
 
+    @Override
     public long getId() {
         return id.get();
     }

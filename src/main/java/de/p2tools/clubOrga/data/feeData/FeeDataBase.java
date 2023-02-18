@@ -26,12 +26,12 @@ import de.p2tools.clubOrga.data.memberData.MemberData;
 import de.p2tools.p2Lib.configFile.config.*;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
-import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
+import de.p2tools.p2Lib.tools.date.PLDateProperty;
 import javafx.beans.property.*;
 import javafx.util.converter.NumberStringConverter;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class FeeDataBase extends PDataSample<FeeData> {
@@ -50,14 +50,14 @@ public class FeeDataBase extends PDataSample<FeeData> {
     private final StringProperty memberName = new SimpleStringProperty("");
     private final LongProperty betrag = new SimpleLongProperty(0);
 
-    private final IntegerProperty jahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
+    private final IntegerProperty jahr = new SimpleIntegerProperty(PDateFactory.getActYearInt());
     private final LongProperty zahlart = new SimpleLongProperty(0);
 
-    private final PLocalDateProperty bezahlt = new PLocalDateProperty();
-    private final PLocalDateProperty rechnung = new PLocalDateProperty();
-    private final PLocalDateProperty spendenQ = new PLocalDateProperty();
+    private final PLDateProperty bezahlt = new PLDateProperty();
+    private final PLDateProperty rechnung = new PLDateProperty();
+    private final PLDateProperty spendenQ = new PLDateProperty();
 
-    private final PLocalDate erstellDatum = new PLocalDate();
+    private LocalDate erstellDatum = LocalDate.now();
 
     private final StringProperty text = new SimpleStringProperty("");
 
@@ -88,16 +88,16 @@ public class FeeDataBase extends PDataSample<FeeData> {
         }
     }
 
-    public ConfigExtra[] getConfigsForNewsletter() {
-        ConfigExtra[] arr = getConfigsArr();
+    public Config[] getConfigsForNewsletter() {
+        Config[] arr = getConfigsArr();
         ArrayList<Config> list = new ArrayList<>();
 
-        for (ConfigExtra config : arr) {
+        for (Config config : arr) {
             if (config.getName().equals(FeeFieldNames.BETRAG)) {
                 StringProperty st = new SimpleStringProperty();
                 double d = 0.01 * getBetrag();
                 st.setValue(new NumberStringConverter(DF).toString(d));
-                ConfigStringPropExtra conf = new ConfigStringPropExtra("betrag",
+                Config_stringProp conf = new Config_stringProp("betrag",
                         FeeFieldNames.BETRAG, st);
                 list.add(conf);
 
@@ -105,14 +105,14 @@ public class FeeDataBase extends PDataSample<FeeData> {
                 String inWords = ExportFactory.inWorten(st.get());
                 StringProperty stWord = new SimpleStringProperty();
                 stWord.setValue(inWords);
-                ConfigStringPropExtra confInWords = new ConfigStringPropExtra("betragInWords",
+                Config_stringProp confInWords = new Config_stringProp("betragInWords",
                         FeeFieldNames.BETRAG_IN_WORDS, stWord);
                 list.add(confInWords);
 
             } else if (config.getName().equals(FeeFieldNames.ZAHLART)) {
                 StringProperty st = new SimpleStringProperty();
                 st.setValue(paymentTypeData.get().getName());
-                ConfigStringPropExtra conf = new ConfigStringPropExtra("zahlart",
+                Config_stringProp conf = new Config_stringProp("zahlart",
                         FeeFieldNames.ZAHLART, st);
                 list.add(conf);
 
@@ -121,28 +121,33 @@ public class FeeDataBase extends PDataSample<FeeData> {
             }
         }
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
 
     @Override
-    public ConfigExtra[] getConfigsArr() {
+    public Config[] getConfigsArr() {
         ArrayList<Config> list = new ArrayList<>();
-        list.add(new ConfigLongPropExtra("id", FeeFieldNames.ID, id));
-        list.add(new ConfigLongPropExtra("memberId", FeeFieldNames.MEMBER_ID, memberId));
-        list.add(new ConfigLongPropExtra("nr", FeeFieldNames.NR, no));
-        list.add(new ConfigLongPropExtra("mitgliedNr", FeeFieldNames.MEMBER_NO, memberNo));
-        list.add(new ConfigStringPropExtra("mitgliedName", FeeFieldNames.MEMBER_NAME, memberName));
-        list.add(new ConfigMoneyPropExtra("betrag", FeeFieldNames.BETRAG, betrag));
-        list.add(new ConfigIntPropExtra("jahr", FeeFieldNames.JAHR, jahr));
+        list.add(new Config_longProp("id", FeeFieldNames.ID, id));
+        list.add(new Config_longProp("memberId", FeeFieldNames.MEMBER_ID, memberId));
+        list.add(new Config_longProp("nr", FeeFieldNames.NR, no));
+        list.add(new Config_longProp("mitgliedNr", FeeFieldNames.MEMBER_NO, memberNo));
+        list.add(new Config_stringProp("mitgliedName", FeeFieldNames.MEMBER_NAME, memberName));
+        list.add(new Config_moneyProp("betrag", FeeFieldNames.BETRAG, betrag));
+        list.add(new Config_intProp("jahr", FeeFieldNames.JAHR, jahr));
 
-        list.add(new ConfigLongPropExtra("zahlart", FeeFieldNames.ZAHLART, zahlart));
-        list.add(new ConfigLocalDatePropExtra("bezahlt", FeeFieldNames.BEZAHLT, bezahlt));
-        list.add(new ConfigLocalDatePropExtra("rechnung", FeeFieldNames.RECHNUNG, rechnung));
-        list.add(new ConfigLocalDatePropExtra("spendenQ", FeeFieldNames.SPENDEN_Q, spendenQ));
-        list.add(new ConfigLocalDateExtra("erstellDatum", FeeFieldNames.ERSTELLDATUM, erstellDatum));
+        list.add(new Config_longProp("zahlart", FeeFieldNames.ZAHLART, zahlart));
+        list.add(new Config_lDateProp("bezahlt", FeeFieldNames.BEZAHLT, bezahlt));
+        list.add(new Config_lDateProp("rechnung", FeeFieldNames.RECHNUNG, rechnung));
+        list.add(new Config_lDateProp("spendenQ", FeeFieldNames.SPENDEN_Q, spendenQ));
+        list.add(new Config_lDate("erstellDatum", FeeFieldNames.ERSTELLDATUM, erstellDatum) {
+            @Override
+            public void setUsedValue(LocalDate act) {
+                erstellDatum = act;
+            }
+        });
 
-        list.add(new ConfigStringPropExtra("text", FeeFieldNames.TEXT, text));
+        list.add(new Config_stringProp("text", FeeFieldNames.TEXT, text));
 
         for (int i = 0; i < clubConfig.extraDataListFee.size(); ++i) {
             ExtraData extraData = clubConfig.extraDataListFee.get(i);
@@ -150,7 +155,7 @@ public class FeeDataBase extends PDataSample<FeeData> {
             list.add(extraData.getConfig(extraDataProperty));
         }
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
     public ArrayList<ExtraDataProperty> getExtraDataPropertyList() {
@@ -291,44 +296,48 @@ public class FeeDataBase extends PDataSample<FeeData> {
         this.zahlart.set(zahlart);
     }
 
-    public PLocalDate getBezahlt() {
+    public LocalDate getBezahlt() {
         return bezahlt.get();
     }
 
-    public PLocalDateProperty bezahltProperty() {
+    public PLDateProperty bezahltProperty() {
         return bezahlt;
     }
 
-    public void setBezahlt(PLocalDate bezahlt) {
+    public void setBezahlt(LocalDate bezahlt) {
         this.bezahlt.set(bezahlt);
     }
 
-    public PLocalDate getRechnung() {
+    public LocalDate getRechnung() {
         return rechnung.get();
     }
 
-    public PLocalDateProperty rechnungProperty() {
+    public PLDateProperty rechnungProperty() {
         return rechnung;
     }
 
-    public void setRechnung(PLocalDate rechnung) {
+    public void setRechnung(LocalDate rechnung) {
         this.rechnung.set(rechnung);
     }
 
-    public PLocalDate getSpendenQ() {
+    public LocalDate getSpendenQ() {
         return spendenQ.get();
     }
 
-    public PLocalDateProperty spendenQProperty() {
+    public PLDateProperty spendenQProperty() {
         return spendenQ;
     }
 
-    public void setSpendenQ(PLocalDate spendenQ) {
+    public void setSpendenQ(LocalDate spendenQ) {
         this.spendenQ.set(spendenQ);
     }
 
-    public PLocalDate getErstellDatum() {
+    public LocalDate getErstellDatum() {
         return erstellDatum;
+    }
+
+    public void setErstellDatum(LocalDate erstellDatum) {
+        this.erstellDatum = erstellDatum;
     }
 
     public String getText() {

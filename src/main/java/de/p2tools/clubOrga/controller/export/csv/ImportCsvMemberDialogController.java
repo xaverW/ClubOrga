@@ -120,7 +120,7 @@ public class ImportCsvMemberDialogController extends PDialogExtra {
 //        scDir.setContent(gridPane);
 //        VBox.setVgrow(scDir, Priority.ALWAYS);
 
-        getvBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
+        getVBoxCont().getChildren().addAll(/*hBoxTitle,*/ gridPane);
 
         initListener();
     }

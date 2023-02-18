@@ -28,7 +28,7 @@ import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
-import de.p2tools.p2Lib.tools.ProgramTools;
+import de.p2tools.p2Lib.tools.ProgramToolsFactory;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -73,7 +73,7 @@ public class AboutDialogController extends PDialogExtra {
 
     public void make() {
         btnOk.setOnAction(a -> close());
-        btnCheck.setOnAction(a -> new SearchProgramUpdate(this.getStage(), clubConfig).searchNewVersionInfos());
+        btnCheck.setOnAction(a -> new SearchProgramUpdate(progData, progData.primaryStage).searchNewProgramVersion(true));
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
@@ -88,7 +88,7 @@ public class AboutDialogController extends PDialogExtra {
         hBox.setAlignment(Pos.CENTER);
         HBox.setHgrow(gridPane, Priority.ALWAYS);
         hBox.getStyleClass().add("dialog-about");
-        getvBoxCont().getChildren().add(hBox);
+        getVBoxCont().getChildren().add(hBox);
 
 
         int row = 0;
@@ -101,15 +101,15 @@ public class AboutDialogController extends PDialogExtra {
         gridPane.add(iv, 0, row, 1, 2);
 
         // top
-        Text text1 = new Text(ProgConst.PROGRAMNAME);
+        Text text1 = new Text(ProgConst.PROGRAM_NAME);
         text1.setFont(Font.font(null, FontWeight.BOLD, 40));
         gridPane.add(text1, 1, row);
         GridPane.setValignment(text1, VPos.TOP);
         GridPane.setHalignment(text1, HPos.CENTER);
 
-        Text text2 = new Text(P2LibConst.LINE_SEPARATOR + "Version: " + ProgramTools.getProgVersion());
+        Text text2 = new Text(P2LibConst.LINE_SEPARATOR + "Version: " + ProgramToolsFactory.getProgVersion());
         text2.setFont(new Font(18));
-        Text text3 = new Text("[ Build: " + ProgramTools.getBuild() + " vom " + ProgramTools.getCompileDate() + " ]");
+        Text text3 = new Text("[ Build: " + ProgramToolsFactory.getBuild() + " vom " + ProgramToolsFactory.getCompileDate() + " ]");
 
         VBox vBox = new VBox(5);
         vBox.getChildren().addAll(text2, text3);
@@ -124,7 +124,7 @@ public class AboutDialogController extends PDialogExtra {
         gridPane.setHgap(5);
         gridPane.setVgap(5);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
-        getvBoxCont().getChildren().add(gridPane);
+        getVBoxCont().getChildren().add(gridPane);
 
         row = 0;
         final int c = 0;
@@ -143,10 +143,10 @@ public class AboutDialogController extends PDialogExtra {
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, c, ++row, 2, 1);
 
-        PHyperlink hyperlinkWeb = new PHyperlink(ProgConst.WEBSITE_CLUB);
+        PHyperlink hyperlinkWeb = new PHyperlink(ProgConst.URL_WEBSITE_CLUB);
         hyperlinkWeb.setStyle("-fx-font-size: 15px;");
 
-        PHyperlink hyperlinkHelp = new PHyperlink(ProgConst.WEBSITE_CLUB_HELP);
+        PHyperlink hyperlinkHelp = new PHyperlink(ProgConst.URL_WEBSITE_HELP);
         hyperlinkHelp.setStyle("-fx-font-size: 15px;");
 
         text = new Text("Website:");

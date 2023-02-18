@@ -22,7 +22,6 @@ import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateFactory;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateFieldNames;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextFieldMoney;
@@ -51,7 +50,7 @@ public class FeeRateDataDialogController extends PDialogExtra {
     private boolean ok = false;
 
     public FeeRateDataDialogController(ClubConfig clubConfig, FeeRateData memberDataOrg) {
-        super(clubConfig.getStage(), clubConfig.FEE_RATE_DATA_DIALOG_SIZE, "Daten ändern", true, true, DECO.NONE);
+        super(clubConfig.getStage(), clubConfig.FEE_RATE_DATA_DIALOG_SIZE, "Daten ändern", true, true, DECO.NO_BORDER);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -91,7 +90,7 @@ public class FeeRateDataDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         addFeeRateData(gridPane);
-        getvBoxCont().getChildren().add(gridPane);
+        getVBoxCont().getChildren().add(gridPane);
     }
 
     private void addFeeRateData(GridPane gridPane) {
@@ -112,16 +111,16 @@ public class FeeRateDataDialogController extends PDialogExtra {
                 ((TextArea) control).textProperty().bindBidirectional(feeRateDataCopy.textProperty());
 
             } else if (configData.getName().equals(FeeRateFieldNames.BETRAG) && id == FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId()) {
-                control = ((ConfigExtra) configData).getControl();
+                control = ((Config) configData).getControl();
                 ((PTextFieldMoney) control).setLabelLike(true);
 
             } else if (configData.getName().equals(FeeRateFieldNames.NO) && id <= FeeRateFactory.RATE_TYPE.RATE_WITHOUT.getId()) {
                 control = new Label();
                 ((Label) control).setText(feeRateDataCopy.getNo() + "");
 
-            } else if (configData instanceof ConfigExtra) {
+            } else if (configData instanceof Config) {
                 // rest
-                control = ((ConfigExtra) configData).getControl();
+                control = ((Config) configData).getControl();
 
             } else {
                 throw new PException("FeeRateDataDialogController.addFeeRateData");

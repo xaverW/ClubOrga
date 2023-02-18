@@ -21,8 +21,8 @@ import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 import de.p2tools.p2Lib.alert.PAlert;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -57,7 +57,7 @@ public class FinanceDataList extends FinanceDataListWorker {
      * @param financeCategoryData
      */
     public void addFinanceFromPayedFee(ClubConfig clubConfig, List<FeeData> list, boolean onlyTransaction,
-                                       PLocalDate buchungsDatum, int geschaeftsjahr,
+                                       LocalDate buchungsDatum, int geschaeftsjahr,
                                        FinanceCategoryData financeCategoryData) {
 
 

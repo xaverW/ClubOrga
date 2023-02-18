@@ -45,6 +45,7 @@ import javafx.util.converter.NumberStringConverter;
 
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -112,7 +113,7 @@ public class ExportVereinsinfo {
     private boolean writeFile(List<String> lineList) {
         try {
             boolean ret = false;
-            final int actYear = PDateFactory.getAktYearInt();
+            final int actYear = LocalDate.now().getYear();
             int faktor = 3; //faktor 3 = 75 dpi / 2,54 Zoll *10mm
             com.itextpdf.kernel.colors.Color farbe0 = new DeviceRgb(255, 106, 0);
             com.itextpdf.kernel.colors.Color farbe1 = new DeviceRgb(255, 174, 0);
@@ -201,7 +202,7 @@ public class ExportVereinsinfo {
                     3, style3, ColorConstants.WHITE, false);
             addText(table,
                     new NumberStringConverter(DF).toString(0.01 * clubConfig.feeDataList.stream()
-                            .filter(data -> data.getJahr() == PDateFactory.getAktYearInt())
+                            .filter(data -> data.getJahr() == LocalDate.now().getYear())
                             .collect(Collectors.summingLong(FeeData::getBetrag)))
                     , 1, style3, ColorConstants.WHITE, true);
 
@@ -210,7 +211,7 @@ public class ExportVereinsinfo {
             addText(table, "Anzahl nicht bezahlter Beiträge",
                     3, style3, ColorConstants.WHITE, false);
             addText(table, clubConfig.feeDataList.stream()
-                            .filter(data -> data.getBezahlt().isEmpty()).count() + "",
+                            .filter(data -> data.getBezahlt().isEqual(LocalDate.MIN)).count() + "",
                     1, style3, ColorConstants.WHITE, true);
 
             //----------------------------------
@@ -219,8 +220,8 @@ public class ExportVereinsinfo {
                     3, style3, ColorConstants.WHITE, false);
             addText(table,
                     new NumberStringConverter(DF).toString(0.01 * clubConfig.feeDataList.stream()
-                            .filter(data -> data.getJahr() == PDateFactory.getAktYearInt())
-                            .filter(data -> data.getBezahlt().isEmpty())
+                            .filter(data -> data.getJahr() == LocalDate.now().getYear())
+                            .filter(data -> data.getBezahlt().isEqual(LocalDate.MIN))
                             .collect(Collectors.summingLong(FeeData::getBetrag)))
                     , 1, style3, ColorConstants.WHITE, true);
 
@@ -405,7 +406,7 @@ public class ExportVereinsinfo {
     }
 
     private TreeMap<String, Long> generateFinanceInfoActYearCategory() {
-        final int actYear = PDateFactory.getAktYearInt();
+        final int actYear = LocalDate.now().getYear();
         TreeMap<String, Long> treeMapCategory = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         clubConfig.financeDataList.stream()
                 .filter(financeData -> financeData.getGeschaeftsJahr() == actYear)
@@ -425,7 +426,7 @@ public class ExportVereinsinfo {
     }
 
     private TreeMap<String, Long> generateFinanceInfoActYearAccount() {
-        final int actYear = PDateFactory.getAktYearInt();
+        final int actYear = LocalDate.now().getYear();
         TreeMap<String, Long> treeMapAccount = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         clubConfig.financeDataList.stream()
                 .filter(financeData -> financeData.getGeschaeftsJahr() == actYear)

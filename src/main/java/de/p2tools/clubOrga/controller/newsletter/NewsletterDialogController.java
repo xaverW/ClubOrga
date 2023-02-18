@@ -137,7 +137,7 @@ public class NewsletterDialogController extends PDialogExtra {
                 PColumnConstraints.getCcPrefSize());
 
         vBoxCont.getChildren().add(gridPane);
-        getvBoxCont().getChildren().add(vBoxCont);
+        getVBoxCont().getChildren().add(vBoxCont);
 
         initListener();
     }

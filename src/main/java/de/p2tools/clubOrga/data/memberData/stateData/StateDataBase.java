@@ -19,9 +19,8 @@ package de.p2tools.clubOrga.data.memberData.stateData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigLongPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
+import de.p2tools.p2Lib.configFile.config.Config_longProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -47,19 +46,19 @@ public class StateDataBase extends PDataSample<StateData> {
     }
 
     @Override
-    public ConfigExtra[] getConfigsArr() {
+    public Config[] getConfigsArr() {
         ArrayList<Config> list = new ArrayList<>();
         list.addAll(Arrays.asList(getConfigs()));
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
     private Config[] getConfigs() {
         return new Config[]{
-                new ConfigLongPropExtra("id", StateFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", StateFieldNames.NO, no),
-                new ConfigStringPropExtra("name", StateFieldNames.NAME, name),
-                new ConfigStringPropExtra("text", StateFieldNames.DESCRIPTION, text),
+                new Config_longProp("id", StateFieldNames.ID, id),
+                new Config_longProp("nr", StateFieldNames.NO, no),
+                new Config_stringProp("name", StateFieldNames.NAME, name),
+                new Config_stringProp("text", StateFieldNames.DESCRIPTION, text),
         };
     }
 

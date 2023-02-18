@@ -18,8 +18,8 @@
 package de.p2tools.clubOrga.data.clubInfoData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.p2Lib.tools.date.PDateFactory;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -101,35 +101,35 @@ public class InfoFactoryPdf {
         padding += PADDING;
         list.add(padding + "Rechnung wurde erstellt: " +
                 clubConfig.feeDataList.stream()
-                        .filter(data -> !data.getRechnung().isEmpty()).count());
+                        .filter(data -> !data.getRechnung().isEqual(LocalDate.MIN)).count());
         list.add(padding + "Rechnung wurde nicht erstellt: " +
                 clubConfig.feeDataList.stream()
-                        .filter(data -> data.getRechnung().isEmpty()).count());
+                        .filter(data -> data.getRechnung().isEqual(LocalDate.MIN)).count());
 
         padding = tmp;
         list.add(padding + "Bezahlt");
         padding += PADDING;
         list.add(padding + "Beitrag ist bezahlt: " +
                 clubConfig.feeDataList.stream()
-                        .filter(data -> !data.getBezahlt().isEmpty()).count());
+                        .filter(data -> !data.getBezahlt().isEqual(LocalDate.MIN)).count());
         list.add(padding + "Beitrag ist nicht bezahlt: " +
                 (int) clubConfig.feeDataList.stream()
-                        .filter(data -> data.getBezahlt().isEmpty()).count());
+                        .filter(data -> data.getBezahlt().isEqual(LocalDate.MIN)).count());
 
         padding = tmp;
         list.add("Spendenquittung");
         padding += PADDING;
         list.add(padding + "Spendenquittung wurde erstellt: " +
                 clubConfig.feeDataList.stream()
-                        .filter(data -> !data.getSpendenQ().isEmpty()).count());
+                        .filter(data -> !data.getSpendenQ().isEqual(LocalDate.MIN)).count());
         list.add(padding + "Spendenquittung wurde nicht erstellt: " +
                 clubConfig.feeDataList.stream()
-                        .filter(data -> data.getSpendenQ().isEmpty()).count());
+                        .filter(data -> data.getSpendenQ().isEqual(LocalDate.MIN)).count());
     }
 
 
     private static void generateFinanceInfo(ArrayList<String> list, boolean isActYear) {
-        final int actYear = PDateFactory.getAktYearInt();
+        final int actYear = LocalDate.now().getYear();
         long countEntrys = clubConfig.financeDataList.stream()
                 .filter(financeData -> financeData.getGeschaeftsJahr() == actYear).count();
 
@@ -189,7 +189,7 @@ public class InfoFactoryPdf {
     }
 
     private static TreeMap<String, Long> generateFinanceInfoActYearCategory() {
-        final int actYear = PDateFactory.getAktYearInt();
+        final int actYear = LocalDate.now().getYear();
         TreeMap<String, Long> treeMapCategory = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         clubConfig.financeDataList.stream()
                 .filter(financeData -> financeData.getGeschaeftsJahr() == actYear)
@@ -209,7 +209,7 @@ public class InfoFactoryPdf {
     }
 
     private static TreeMap<String, Long> generateFinanceInfoActYearAccount() {
-        final int actYear = PDateFactory.getAktYearInt();
+        final int actYear = LocalDate.now().getYear();
         TreeMap<String, Long> treeMapAccount = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         clubConfig.financeDataList.stream()
                 .filter(financeData -> financeData.getGeschaeftsJahr() == actYear)

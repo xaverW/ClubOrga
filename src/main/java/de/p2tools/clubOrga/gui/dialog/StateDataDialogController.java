@@ -22,7 +22,6 @@ import de.p2tools.clubOrga.data.memberData.stateData.StateData;
 import de.p2tools.clubOrga.data.memberData.stateData.StateDataFactory;
 import de.p2tools.clubOrga.data.memberData.stateData.StateFieldNames;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.tools.PException;
@@ -50,7 +49,7 @@ public class StateDataDialogController extends PDialogExtra {
     private boolean ok = false;
 
     public StateDataDialogController(ClubConfig clubConfig, StateData stateDataOrg) {
-        super(clubConfig.getStage(), clubConfig.STATE_DATA_DIALOG_SIZE, "Daten ändern", true, true, DECO.NONE);
+        super(clubConfig.getStage(), clubConfig.STATE_DATA_DIALOG_SIZE, "Daten ändern", true, true, DECO.NO_BORDER);
 
         this.progData = ProgData.getInstance();
         this.clubConfig = clubConfig;
@@ -90,7 +89,7 @@ public class StateDataDialogController extends PDialogExtra {
                 PColumnConstraints.getCcComputedSizeAndHgrow());
 
         addStateData(gridPane);
-        getvBoxCont().getChildren().add(gridPane);
+        getVBoxCont().getChildren().add(gridPane);
     }
 
     private void addStateData(GridPane gridPane) {
@@ -114,9 +113,9 @@ public class StateDataDialogController extends PDialogExtra {
                 control = new Label();
                 ((Label) control).setText(stateDataCopy.getNo() + "");
 
-            } else if (configData instanceof ConfigExtra) {
+            } else if (configData instanceof Config) {
                 // rest
-                control = ((ConfigExtra) configData).getControl();
+                control = ((Config) configData).getControl();
 
             } else {
                 throw new PException("StateDataDialogController.addStateData");

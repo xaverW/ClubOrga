@@ -25,7 +25,6 @@ import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFactory;
 import de.p2tools.clubOrga.gui.dialog.dataDialog.DataDialogController;
 import de.p2tools.p2Lib.guiTools.PButton;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -34,6 +33,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class GuiFinanceMenu extends VBox {
@@ -101,7 +101,7 @@ public class GuiFinanceMenu extends VBox {
     }
 
     private void addNewFinance() {
-        FinanceData financeData = FinanceFactory.getNewFinanceData(clubConfig, new PLocalDate(),
+        FinanceData financeData = FinanceFactory.getNewFinanceData(clubConfig, LocalDate.now(),
                 0, clubConfig.financeAccountDataList.get(0), clubConfig.financeCategoryDataList.get(0));
 
         if (new DataDialogController(clubConfig, DataDialogController.OPEN.FINANCE_PANE,

@@ -112,8 +112,8 @@ public class DataDialogController extends PDialogExtra implements ActionInterfac
 
     @Override
     public void make() {
-        getvBoxCont().setPadding(new Insets(0));
-        getvBoxCont().getChildren().add(tabPane);
+        getVBoxCont().setPadding(new Insets(0));
+        getVBoxCont().getChildren().add(tabPane);
         VBox.setVgrow(tabPane, Priority.ALWAYS);
         tabPane.setPadding(new Insets(15));
         addOkCancelButtons(btnOk, btnCancel);

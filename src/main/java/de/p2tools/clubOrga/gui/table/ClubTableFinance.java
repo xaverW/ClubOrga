@@ -24,16 +24,16 @@ import de.p2tools.clubOrga.data.extraData.ExtraData;
 import de.p2tools.clubOrga.data.extraData.ExtraKind;
 import de.p2tools.clubOrga.data.financeData.FinanceData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
-import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
-import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
+import de.p2tools.p2Lib.guiTools.pTable.CellCheckBox;
+import de.p2tools.p2Lib.tools.date.PLDateProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ClubTableFinance {
@@ -73,10 +73,10 @@ public class ClubTableFinance {
         final TableColumn<FinanceData, Integer> geschaeftsJahrColumn = new TableColumn<>(FinanceFieldNames.GESCHAEFTSJAHR);
         geschaeftsJahrColumn.setCellValueFactory(new PropertyValueFactory<>("geschaeftsJahr"));
 
-        final TableColumn<FinanceData, PLocalDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGSDATUM);
+        final TableColumn<FinanceData, PLDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGSDATUM);
         buchungsDatumColumn.setCellValueFactory(new PropertyValueFactory<>("buchungsDatum"));
 
-        final TableColumn<FinanceData, PLocalDate> erstellDatumColumn = new TableColumn<>(FinanceFieldNames.ERSTELLDATUM);
+        final TableColumn<FinanceData, LocalDate> erstellDatumColumn = new TableColumn<>(FinanceFieldNames.ERSTELLDATUM);
         erstellDatumColumn.setCellValueFactory(new PropertyValueFactory<>("erstellDatum"));
 
         tc.add(noColumn);
@@ -125,7 +125,7 @@ public class ClubTableFinance {
                 extraCol.setCellValueFactory((Callback<TableColumn.CellDataFeatures<FinanceData, Boolean>, ObservableValue<Boolean>>)
                         p -> p.getValue().getExtraDataPropertyList().get(ii).getBoolProp()
                 );
-                extraCol.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+                extraCol.setCellFactory(new CellCheckBox().cellFactoryBool);
                 tc.add(extraCol);
 
             }

@@ -17,10 +17,10 @@
 
 package de.p2tools.clubOrga.data.extraData;
 
-import de.p2tools.p2Lib.configFile.config.ConfigBoolPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigIntPropExtra;
-import de.p2tools.p2Lib.configFile.config.ConfigStringPropExtra;
+import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.Config_boolProp;
+import de.p2tools.p2Lib.configFile.config.Config_intProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.tools.PException;
 import de.p2tools.p2Lib.tools.PIndex;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -84,17 +84,17 @@ public class ExtraData extends ExtraDataBase {
     }
 
 
-    public ConfigExtra getConfig(ExtraDataProperty property) {
-        ConfigExtra config;
+    public Config getConfig(ExtraDataProperty property) {
+        Config config;
 
         if (getKindSave().equals(ExtraKind.EXTRA_KIND.STRING.toString())) {
-            config = new ConfigStringPropExtra(getKey(), getName(), getRegEx(), property.getStringProp());
+            config = new Config_stringProp(getKey(), getName(), getRegEx(), property.getStringProp());
 
         } else if (getKindSave().equals(ExtraKind.EXTRA_KIND.INTEGER.toString())) {
-            config = new ConfigIntPropExtra(getKey(), getName(), property.getIntProp());
+            config = new Config_intProp(getKey(), getName(), property.getIntProp());
 
         } else if (getKindSave().equals(ExtraKind.EXTRA_KIND.BOOLEAN.toString())) {
-            config = new ConfigBoolPropExtra(getKey(), getName(), property.getBoolProp());
+            config = new Config_boolProp(getKey(), getName(), property.getBoolProp());
 
         } else {
             throw new PException("ExtraData getConfig");

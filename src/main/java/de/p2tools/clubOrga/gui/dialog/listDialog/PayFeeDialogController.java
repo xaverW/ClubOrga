@@ -23,13 +23,16 @@ import de.p2tools.clubOrga.controller.sepa.ExportSepa;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
+import de.p2tools.clubOrga.gui.tools.PComboBoxObjectId;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
-import de.p2tools.p2Lib.guiTools.*;
+import de.p2tools.p2Lib.guiTools.PButton;
+import de.p2tools.p2Lib.guiTools.PComboBoxString;
+import de.p2tools.p2Lib.guiTools.PLDatePicker;
+import de.p2tools.p2Lib.guiTools.PYearPicker;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 import de.p2tools.p2Lib.tools.file.PFileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,6 +43,7 @@ import javafx.scene.control.Tooltip;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,8 +57,8 @@ public class PayFeeDialogController extends abListDialogController {
 
     final Label lblDatum = new Label("Buchungsdatum:");
     final Label lblSepaDatum = new Label("Sepa Ausführungsdatum:");
-    final PDatePicker pDatePickerFeeDateBuchungsdatum = new PDatePicker();
-    final PDatePicker pDatePickerSepaDateBuchungsdatum = new PDatePicker(new PLocalDate(2));
+    final PLDatePicker pDatePickerFeeDateBuchungsdatum = new PLDatePicker();
+    final PLDatePicker pDatePickerSepaDateBuchungsdatum = new PLDatePicker(LocalDate.now().plusDays(2));
 
     // Finanzen
     private final PToggleSwitch tglFinances = new PToggleSwitch("Eintrag in den Finanzen anlegen", true);
@@ -226,11 +230,11 @@ public class PayFeeDialogController extends abListDialogController {
                     feeDataListSepa.add(feeData);
                 }
             });
-            ExportSepa.createSepaFile(clubConfig, feeDataListSepa, pDatePickerSepaDateBuchungsdatum.getDate());
+            ExportSepa.createSepaFile(clubConfig, feeDataListSepa, pDatePickerSepaDateBuchungsdatum.getDateStr());
         }
 
         // Beiträge bezahlen
-        feeDataList.stream().forEach(fee -> fee.payFeeData(pDatePickerFeeDateBuchungsdatum.getpLocalDate()));
+        feeDataList.stream().forEach(fee -> fee.payFeeData(pDatePickerFeeDateBuchungsdatum.getDateLDate()));
 
         // wenn Finanzen anlegen, dann die Infos dazu sammeln und anlegen
         if (tglFinances.isSelected()) {
@@ -241,7 +245,7 @@ public class PayFeeDialogController extends abListDialogController {
                 feeDataListTmp.add(fee);
                 getKonto(feeDataList, feeDataListTmp, fee.getPaymentTypeData().getId());
                 clubConfig.financeDataList.addFinanceFromPayedFee(clubConfig, feeDataListTmp, chkTransaction.isSelected(),
-                        pDatePickerFeeDateBuchungsdatum.getpLocalDate(), pYearPickerFinanceDataGeschaeftsjahr.getValue(),
+                        pDatePickerFeeDateBuchungsdatum.getDateLDate(), pYearPickerFinanceDataGeschaeftsjahr.getValue(),
                         cboCategory.getSelValue());
             }
         }

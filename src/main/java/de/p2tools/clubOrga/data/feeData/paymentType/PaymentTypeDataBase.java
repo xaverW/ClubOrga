@@ -19,7 +19,10 @@ package de.p2tools.clubOrga.data.feeData.paymentType;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
-import de.p2tools.p2Lib.configFile.config.*;
+import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.Config_boolProp;
+import de.p2tools.p2Lib.configFile.config.Config_longProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.*;
 
@@ -53,21 +56,21 @@ public class PaymentTypeDataBase extends PDataSample<PaymentTypeData> {
     }
 
     @Override
-    public ConfigExtra[] getConfigsArr() {
+    public Config[] getConfigsArr() {
         ArrayList<Config> list = new ArrayList<>();
         list.addAll(Arrays.asList(getConfigs()));
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
     private Config[] getConfigs() {
         return new Config[]{
-                new ConfigLongPropExtra("id", PaymentTypeNames.ID, id),
-                new ConfigLongPropExtra("no", PaymentTypeNames.NO, no),
-                new ConfigStringPropExtra("name", PaymentTypeNames.NAME, name),
-                new ConfigLongPropExtra("konto", PaymentTypeNames.ACCOUNT, account),
-                new ConfigBoolPropExtra("directDebit", PaymentTypeNames.DIRECT_DEBIT, directDebit),
-                new ConfigStringPropExtra("text", PaymentTypeNames.DESCRIPTION, text),
+                new Config_longProp("id", PaymentTypeNames.ID, id),
+                new Config_longProp("no", PaymentTypeNames.NO, no),
+                new Config_stringProp("name", PaymentTypeNames.NAME, name),
+                new Config_longProp("konto", PaymentTypeNames.ACCOUNT, account),
+                new Config_boolProp("directDebit", PaymentTypeNames.DIRECT_DEBIT, directDebit),
+                new Config_stringProp("text", PaymentTypeNames.DESCRIPTION, text),
         };
     }
 

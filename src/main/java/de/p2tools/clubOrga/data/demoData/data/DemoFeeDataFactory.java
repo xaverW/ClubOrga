@@ -30,8 +30,8 @@ import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountFactory;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryData;
 import de.p2tools.clubOrga.data.financeData.categoryData.FinanceCategoryFactory;
 import de.p2tools.clubOrga.data.memberData.MemberData;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -95,7 +95,7 @@ public class DemoFeeDataFactory {
             int year = feeData.getJahr();
             LocalDateTime dateTime = DemoDataFactory.getRandomDate(year);
 
-            feeData.getErstellDatum().setPLocalDate(dateTime.toLocalDate());
+            feeData.setErstellDatum(LocalDate.from(dateTime));
         }
 
         // nach Datum sortieren
@@ -200,8 +200,8 @@ public class DemoFeeDataFactory {
                     financeDataList.add(financeData);
                     year = y;
                 } else if (year == y) {
-                    PLocalDate pLocalDate = financeData.getBuchungsDatum();
-                    feeData.getErstellDatum().setPLocalDate(pLocalDate.getLocalDate());
+                    LocalDate pLocalDate = financeData.getBuchungsDatum();
+                    feeData.setErstellDatum(LocalDate.from(pLocalDate));
                     feeData.setBezahlt(pLocalDate);
                     feeData.setRechnung(pLocalDate);
 
@@ -226,15 +226,15 @@ public class DemoFeeDataFactory {
         FinanceCategoryData financeCategoryData =
                 clubConfig.financeCategoryDataList.getCategoryDataStandard(FinanceCategoryFactory.CATEGORY_TYPE.CATEGORY_BEITRAG);
 
-        PLocalDate pLocalDate = feeData.getErstellDatum();
+        LocalDate pLocalDate = feeData.getErstellDatum();
         feeData.setBezahlt(pLocalDate);
         feeData.setRechnung(pLocalDate);
 
         FinanceData financeData = FinanceFactory.getNewFinanceDataForFeeData(clubConfig, feeData, pLocalDate,
                 feeData.getJahr(), financeCategoryData);
 
-        financeData.getBuchungsDatum().setPLocalDate(pLocalDate.getLocalDate());
-        financeData.getErstellDatum().setPLocalDate(pLocalDate.getLocalDate());
+        financeData.setBuchungsDatum(LocalDate.from(pLocalDate));
+        financeData.setErstellDatum(LocalDate.from(pLocalDate));
 
         return financeData;
     }

@@ -33,6 +33,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class GuiFeeMenu extends VBox {
@@ -125,9 +126,9 @@ public class GuiFeeMenu extends VBox {
         // checken ob bereits erledigte dabei sind
         boolean found;
         if (type == BillForFeeDialogController.TYPE.BILL) {
-            found = list.stream().filter(feeData -> !feeData.getRechnung().isEmpty()).findAny().isPresent();
+            found = list.stream().filter(feeData -> !feeData.getRechnung().isEqual(LocalDate.MIN)).findAny().isPresent();
         } else {
-            found = list.stream().filter(feeData -> !feeData.getSpendenQ().isEmpty()).findAny().isPresent();
+            found = list.stream().filter(feeData -> !feeData.getSpendenQ().isEqual(LocalDate.MIN)).findAny().isPresent();
         }
         if (found) {
             String s1 = type == BillForFeeDialogController.TYPE.BILL ? "Rechnung" : "Spendenquittung";

@@ -20,6 +20,7 @@ import de.p2tools.clubOrga.config.club.ClubConfig;
 import de.p2tools.clubOrga.data.clubInfoData.ClubInfoData;
 import de.p2tools.p2Lib.alert.PAlert;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -68,14 +69,14 @@ public class FeeDataList extends FeeDataListWorker {
         ciRechnungOk.setText("Rechnung wurde erstellt");
         this.stream().forEach(feeData -> {
             ciRechnungOk.setAmount((int) this.stream()
-                    .filter(data -> !data.getRechnung().isEmpty()).count());
+                    .filter(data -> !data.getRechnung().isEqual(LocalDate.MIN)).count());
         });
         list.add(ciRechnungOk);
         ClubInfoData ciRechnung = new ClubInfoData();
         ciRechnung.setText("Rechnung wurde nicht erstellt");
         this.stream().forEach(feeData -> {
             ciRechnung.setAmount((int) this.stream()
-                    .filter(data -> data.getRechnung().isEmpty()).count());
+                    .filter(data -> data.getRechnung().isEqual(LocalDate.MIN)).count());
         });
         list.add(ciRechnung);
 
@@ -84,14 +85,14 @@ public class FeeDataList extends FeeDataListWorker {
         ciBezahlt.setText("Beitrag ist bezahlt");
         this.stream().forEach(feeData -> {
             ciBezahlt.setAmount((int) this.stream()
-                    .filter(data -> !data.getBezahlt().isEmpty()).count());
+                    .filter(data -> !data.getBezahlt().isEqual(LocalDate.MIN)).count());
         });
         list.add(ciBezahlt);
         ClubInfoData ciNichtBezahlt = new ClubInfoData();
         ciNichtBezahlt.setName("Beitrag ist nicht bezahlt");
         this.stream().forEach(feeData -> {
             ciNichtBezahlt.setAmount((int) this.stream()
-                    .filter(data -> data.getBezahlt().isEmpty()).count());
+                    .filter(data -> data.getBezahlt().isEqual(LocalDate.MIN)).count());
         });
         list.add(ciNichtBezahlt);
 
@@ -100,14 +101,14 @@ public class FeeDataList extends FeeDataListWorker {
         ciSqOk.setText("Spendenquittung wurde erstellt");
         this.stream().forEach(feeData -> {
             ciSqOk.setAmount((int) this.stream()
-                    .filter(data -> !data.getSpendenQ().isEmpty()).count());
+                    .filter(data -> !data.getSpendenQ().isEqual(LocalDate.MIN)).count());
         });
         list.add(ciSqOk);
         ClubInfoData ciSq = new ClubInfoData();
         ciSq.setText("Spendenquittung nicht erstellt");
         this.stream().forEach(feeData -> {
             ciSq.setAmount((int) this.stream()
-                    .filter(data -> data.getSpendenQ().isEmpty()).count());
+                    .filter(data -> data.getSpendenQ().isEqual(LocalDate.MIN)).count());
         });
         list.add(ciSq);
 

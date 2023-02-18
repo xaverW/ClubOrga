@@ -25,10 +25,10 @@ import de.p2tools.clubOrga.data.financeData.accountData.FinanceAccountData;
 import de.p2tools.p2Lib.configFile.config.*;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
-import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
+import de.p2tools.p2Lib.tools.date.PLDateProperty;
 import javafx.beans.property.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class FinanceDataBase extends PDataSample<FinanceData> {
@@ -42,10 +42,10 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
     private final LongProperty gesamtbetrag = new SimpleLongProperty(0);
     private final LongProperty konto = new SimpleLongProperty(ProgConst.STANDARD_FIELD);
     private final StringProperty category = new SimpleStringProperty("");
-    private final IntegerProperty geschaeftsJahr = new SimpleIntegerProperty(PDateFactory.getAktYearInt());
+    private final IntegerProperty geschaeftsJahr = new SimpleIntegerProperty(PDateFactory.getActYearInt());
 
-    private final PLocalDateProperty buchungsDatum = new PLocalDateProperty();
-    private final PLocalDate erstellDatum = new PLocalDate();
+    private final PLDateProperty buchungsDatum = new PLDateProperty();
+    private LocalDate erstellDatum = LocalDate.now();
     private final StringProperty text = new SimpleStringProperty("");
 
     private ArrayList<ExtraDataProperty> extraDataPropertyList = new ArrayList<>();
@@ -78,20 +78,25 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
             konto.set(ProgConst.STANDARD_FIELD);
         }
 
-        list.add(new ConfigLongPropExtra("id", FinanceFieldNames.ID, id));
-        list.add(new ConfigLongPropExtra("nr", FinanceFieldNames.NR, no));
-        list.add(new ConfigStringPropExtra("belegNr", FinanceFieldNames.BELEG_NR, receiptNo));
+        list.add(new Config_longProp("id", FinanceFieldNames.ID, id));
+        list.add(new Config_longProp("nr", FinanceFieldNames.NR, no));
+        list.add(new Config_stringProp("belegNr", FinanceFieldNames.BELEG_NR, receiptNo));
 
-        list.add(new ConfigMoneyPropExtra("gesamtbetrag", FinanceFieldNames.GESAMTBETRAG, gesamtbetrag, true));
-        list.add(new ConfigLongPropExtra("konto", FinanceFieldNames.KONTO, konto));
-        list.add(new ConfigStringPropExtra("kategorie", FinanceFieldNames.KATEGORIE, category));
-        list.add(new ConfigIntPropExtra("geschaeftsJahr", FinanceFieldNames.GESCHAEFTSJAHR, geschaeftsJahr));
+        list.add(new Config_moneyProp("gesamtbetrag", FinanceFieldNames.GESAMTBETRAG, gesamtbetrag, true));
+        list.add(new Config_longProp("konto", FinanceFieldNames.KONTO, konto));
+        list.add(new Config_stringProp("kategorie", FinanceFieldNames.KATEGORIE, category));
+        list.add(new Config_intProp("geschaeftsJahr", FinanceFieldNames.GESCHAEFTSJAHR, geschaeftsJahr));
 
-        list.add(new ConfigLocalDatePropExtra("buchungsDatum", FinanceFieldNames.BUCHUNGSDATUM, buchungsDatum));
-        list.add(new ConfigLocalDateExtra("erstellDatum", FinanceFieldNames.ERSTELLDATUM, erstellDatum));
+        list.add(new Config_lDateProp("buchungsDatum", FinanceFieldNames.BUCHUNGSDATUM, buchungsDatum));
+        list.add(new Config_lDate("erstellDatum", FinanceFieldNames.ERSTELLDATUM, erstellDatum) {
+            @Override
+            public void setUsedValue(LocalDate act) {
+                erstellDatum = act;
+            }
+        });
 
-        list.add(new ConfigStringPropExtra("text", FinanceFieldNames.TEXT, text));
-        list.add(new ConfigPDataList(transactionDataList));
+        list.add(new Config_stringProp("text", FinanceFieldNames.TEXT, text));
+        list.add(new Config_pDataList(transactionDataList));
 
         for (int i = 0; i < clubConfig.extraDataListFinance.size(); ++i) {
             ExtraData extraData = clubConfig.extraDataListFinance.get(i);
@@ -238,20 +243,24 @@ public class FinanceDataBase extends PDataSample<FinanceData> {
         this.geschaeftsJahr.set(geschaeftsJahr);
     }
 
-    public PLocalDate getBuchungsDatum() {
+    public LocalDate getBuchungsDatum() {
         return buchungsDatum.get();
     }
 
-    public PLocalDateProperty buchungsDatumProperty() {
+    public PLDateProperty buchungsDatumProperty() {
         return buchungsDatum;
     }
 
-    public void setBuchungsDatum(PLocalDate buchungsDatum) {
+    public void setBuchungsDatum(LocalDate buchungsDatum) {
         this.buchungsDatum.set(buchungsDatum);
     }
 
-    public PLocalDate getErstellDatum() {
+    public LocalDate getErstellDatum() {
         return erstellDatum;
+    }
+
+    public void setErstellDatum(LocalDate erstellDatum) {
+        this.erstellDatum = erstellDatum;
     }
 
     public String getText() {

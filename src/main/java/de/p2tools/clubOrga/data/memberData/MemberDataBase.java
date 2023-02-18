@@ -23,13 +23,16 @@ import de.p2tools.clubOrga.data.extraData.ExtraDataProperty;
 import de.p2tools.clubOrga.data.feeData.feeRateData.FeeRateData;
 import de.p2tools.clubOrga.data.feeData.paymentType.PaymentTypeData;
 import de.p2tools.clubOrga.data.memberData.stateData.StateData;
-import de.p2tools.p2Lib.configFile.config.*;
+import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.Config_lDate;
+import de.p2tools.p2Lib.configFile.config.Config_longProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
 import javafx.beans.property.*;
 import javafx.util.converter.NumberStringConverter;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MemberDataBase extends PDataSample<MemberData> {
@@ -64,10 +67,10 @@ public class MemberDataBase extends PDataSample<MemberData> {
     private final StringProperty iban = new SimpleStringProperty("");
     private final StringProperty bic = new SimpleStringProperty("");
     private final StringProperty kontoinhaber = new SimpleStringProperty("");
-    private final PLocalDate zahlungsbeginn = new PLocalDate();
-    private final PLocalDate sepaBeginn = new PLocalDate();
-    private final PLocalDate beitritt = new PLocalDate();
-    private final PLocalDate erstellDatum = new PLocalDate();
+    private LocalDate zahlungsbeginn = LocalDate.now();
+    private LocalDate sepaBeginn = LocalDate.now();
+    private LocalDate beitritt = LocalDate.now();
+    private LocalDate erstellDatum = LocalDate.now();
 
     private ArrayList<ExtraDataProperty> extraDataPropertyList = new ArrayList<>();
 
@@ -118,7 +121,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
         ArrayList<Config> list = new ArrayList<>();
 
         if (!csvExport) {
-            list.add(new ConfigStringPropExtra("iban", MemberFieldNames.IBAN_SHORT,
+            list.add(new Config_stringProp("iban", MemberFieldNames.IBAN_SHORT,
                     new SimpleStringProperty(MemberFactory.getShortIban(iban.getValueSafe()))));
         }
 
@@ -127,28 +130,28 @@ public class MemberDataBase extends PDataSample<MemberData> {
                 StringProperty st = new SimpleStringProperty();
                 double d = 0.01 * getBeitrag();
                 st.setValue(new NumberStringConverter(DF).toString(d));
-                ConfigStringPropExtra conf = new ConfigStringPropExtra("beitrag",
+                Config_stringProp conf = new Config_stringProp("beitrag",
                         MemberFieldNames.BEITRAG, st);
                 list.add(conf);
 
             } else if (config.getName().equals(MemberFieldNames.STATUS)) {
                 StringProperty st = new SimpleStringProperty();
                 st.setValue(stateData.get().getName());
-                ConfigStringPropExtra conf = new ConfigStringPropExtra("status",
+                Config_stringProp conf = new Config_stringProp("status",
                         MemberFieldNames.STATUS, st);
                 list.add(conf);
 
             } else if (config.getName().equals(MemberFieldNames.BEITRAGSSATZ)) {
                 StringProperty st = new SimpleStringProperty();
                 st.setValue(feeRateData.get().getName());
-                ConfigStringPropExtra conf = new ConfigStringPropExtra("beitragssatz",
+                Config_stringProp conf = new Config_stringProp("beitragssatz",
                         MemberFieldNames.BEITRAGSSATZ, st);
                 list.add(conf);
 
             } else if (config.getName().equals(MemberFieldNames.ZAHLART)) {
                 StringProperty st = new SimpleStringProperty();
                 st.setValue(paymentTypeData.get().getName());
-                ConfigStringPropExtra conf = new ConfigStringPropExtra("zahlart",
+                Config_stringProp conf = new Config_stringProp("zahlart",
                         MemberFieldNames.ZAHLART, st);
                 list.add(conf);
 
@@ -157,11 +160,11 @@ public class MemberDataBase extends PDataSample<MemberData> {
             }
         }
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
     @Override
-    public ConfigExtra[] getConfigsArr() {
+    public Config[] getConfigsArr() {
         if (getStateData() != null) {
             setStatus(getStateData().getId());
         }
@@ -175,33 +178,53 @@ public class MemberDataBase extends PDataSample<MemberData> {
         }
 
         ArrayList<Config> list = new ArrayList<>();
-        list.add(new ConfigLongPropExtra("id", MemberFieldNames.ID, id));
-        list.add(new ConfigLongPropExtra("nr", MemberFieldNames.NR, no));
-        list.add(new ConfigStringPropExtra("nachname", MemberFieldNames.NACHNAME, nachname));
-        list.add(new ConfigStringPropExtra("vorname", MemberFieldNames.VORNAME, vorname));
+        list.add(new Config_longProp("id", MemberFieldNames.ID, id));
+        list.add(new Config_longProp("nr", MemberFieldNames.NR, no));
+        list.add(new Config_stringProp("nachname", MemberFieldNames.NACHNAME, nachname));
+        list.add(new Config_stringProp("vorname", MemberFieldNames.VORNAME, vorname));
 
-        list.add(new ConfigStringPropExtra("anrede", MemberFieldNames.ANREDE, anrede));
-        list.add(new ConfigStringPropExtra("text", MemberFieldNames.TEXT, text));
-        list.add(new ConfigStringPropExtra("email", MemberFieldNames.EMAIL, email));
-        list.add(new ConfigStringPropExtra("telefon", MemberFieldNames.TELEFON, telefon));
+        list.add(new Config_stringProp("anrede", MemberFieldNames.ANREDE, anrede));
+        list.add(new Config_stringProp("text", MemberFieldNames.TEXT, text));
+        list.add(new Config_stringProp("email", MemberFieldNames.EMAIL, email));
+        list.add(new Config_stringProp("telefon", MemberFieldNames.TELEFON, telefon));
 
-        list.add(new ConfigStringPropExtra("strasse", MemberFieldNames.STRASSE, strasse));
-        list.add(new ConfigStringPropExtra("plz", MemberFieldNames.PLZ, MemberFieldNames.PLZ_REGEX, plz));
-        list.add(new ConfigStringPropExtra("ort", MemberFieldNames.ORT, ort));
-        list.add(new ConfigStringPropExtra("land", MemberFieldNames.LAND, land));
+        list.add(new Config_stringProp("strasse", MemberFieldNames.STRASSE, strasse));
+        list.add(new Config_stringProp("plz", MemberFieldNames.PLZ, MemberFieldNames.PLZ_REGEX, plz));
+        list.add(new Config_stringProp("ort", MemberFieldNames.ORT, ort));
+        list.add(new Config_stringProp("land", MemberFieldNames.LAND, land));
 
-        list.add(new ConfigLongPropExtra("status", MemberFieldNames.STATUS, status));
-        list.add(new ConfigLongPropExtra("beitragssatz", MemberFieldNames.BEITRAGSSATZ, beitragssatz));
-        list.add(new ConfigLongPropExtra("beitrag", MemberFieldNames.BEITRAG, beitrag));
-        list.add(new ConfigStringPropExtra("bank", MemberFieldNames.BANK, bank));
-        list.add(new ConfigStringPropExtra("iban", MemberFieldNames.IBAN, iban));
-        list.add(new ConfigStringPropExtra("bic", MemberFieldNames.BIC, bic));
-        list.add(new ConfigStringPropExtra("kontoinhaber", MemberFieldNames.KONTOINHABER, kontoinhaber));
-        list.add(new ConfigLongPropExtra("zahlart", MemberFieldNames.ZAHLART, paymentType));
-        list.add(new ConfigLocalDateExtra("zahlungsbeginn", MemberFieldNames.ZAHLUNGSBEGINN, zahlungsbeginn));
-        list.add(new ConfigLocalDateExtra("sepabeginn", MemberFieldNames.SEPABEGINN, sepaBeginn));
-        list.add(new ConfigLocalDateExtra("beitritt", MemberFieldNames.BEITRITT, beitritt));
-        list.add(new ConfigLocalDateExtra("erstellDatum", MemberFieldNames.ERSTELLDATUM, erstellDatum));
+        list.add(new Config_longProp("status", MemberFieldNames.STATUS, status));
+        list.add(new Config_longProp("beitragssatz", MemberFieldNames.BEITRAGSSATZ, beitragssatz));
+        list.add(new Config_longProp("beitrag", MemberFieldNames.BEITRAG, beitrag));
+        list.add(new Config_stringProp("bank", MemberFieldNames.BANK, bank));
+        list.add(new Config_stringProp("iban", MemberFieldNames.IBAN, iban));
+        list.add(new Config_stringProp("bic", MemberFieldNames.BIC, bic));
+        list.add(new Config_stringProp("kontoinhaber", MemberFieldNames.KONTOINHABER, kontoinhaber));
+        list.add(new Config_longProp("zahlart", MemberFieldNames.ZAHLART, paymentType));
+        list.add(new Config_lDate("zahlungsbeginn", MemberFieldNames.ZAHLUNGSBEGINN, zahlungsbeginn) {
+            @Override
+            public void setUsedValue(LocalDate act) {
+                zahlungsbeginn = act;
+            }
+        });
+        list.add(new Config_lDate("sepabeginn", MemberFieldNames.SEPABEGINN, sepaBeginn) {
+            @Override
+            public void setUsedValue(LocalDate act) {
+                sepaBeginn = act;
+            }
+        });
+        list.add(new Config_lDate("beitritt", MemberFieldNames.BEITRITT, beitritt) {
+            @Override
+            public void setUsedValue(LocalDate act) {
+                beitritt = act;
+            }
+        });
+        list.add(new Config_lDate("erstellDatum", MemberFieldNames.ERSTELLDATUM, erstellDatum) {
+            @Override
+            public void setUsedValue(LocalDate act) {
+                erstellDatum = act;
+            }
+        });
 
         for (int i = 0; i < clubConfig.extraDataListMember.size(); ++i) {
             ExtraData extraData = clubConfig.extraDataListMember.get(i);
@@ -209,7 +232,7 @@ public class MemberDataBase extends PDataSample<MemberData> {
             list.add(extraData.getConfig(extraDataProperty));
         }
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
     public ArrayList<ExtraDataProperty> getExtraDataPropertyList() {
@@ -503,19 +526,35 @@ public class MemberDataBase extends PDataSample<MemberData> {
         this.kontoinhaber.set(kontoinhaber);
     }
 
-    public PLocalDate getZahlungsbeginn() {
+    public LocalDate getZahlungsbeginn() {
         return zahlungsbeginn;
     }
 
-    public PLocalDate getSepaBeginn() {
+    public void setZahlungsbeginn(LocalDate zahlungsbeginn) {
+        this.zahlungsbeginn = zahlungsbeginn;
+    }
+
+    public LocalDate getSepaBeginn() {
         return sepaBeginn;
     }
 
-    public PLocalDate getBeitritt() {
+    public void setSepaBeginn(LocalDate sepaBeginn) {
+        this.sepaBeginn = sepaBeginn;
+    }
+
+    public LocalDate getBeitritt() {
         return beitritt;
     }
 
-    public PLocalDate getErstellDatum() {
+    public void setBeitritt(LocalDate beitritt) {
+        this.beitritt = beitritt;
+    }
+
+    public void setErstellDatum(LocalDate erstellDatum) {
+        this.erstellDatum = erstellDatum;
+    }
+
+    public LocalDate getErstellDatum() {
         return erstellDatum;
     }
 }

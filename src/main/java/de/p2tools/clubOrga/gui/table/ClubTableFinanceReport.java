@@ -22,7 +22,7 @@ import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.FinanceReportData;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
+import de.p2tools.p2Lib.tools.date.PLDateProperty;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.scene.control.TableColumn;
@@ -59,7 +59,7 @@ public class ClubTableFinanceReport {
         final TableColumn<FinanceReportData, Integer> geschaeftsJahrColumn = new TableColumn<>(FinanceFieldNames.GESCHAEFTSJAHR);
         geschaeftsJahrColumn.setCellValueFactory(new PropertyValueFactory<>("geschaeftsJahr"));
 
-        final TableColumn<FinanceReportData, PLocalDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGSDATUM);
+        final TableColumn<FinanceReportData, PLDateProperty> buchungsDatumColumn = new TableColumn<>(FinanceFieldNames.BUCHUNGSDATUM);
         buchungsDatumColumn.setCellValueFactory(new PropertyValueFactory<>("buchungsDatum"));
 
         final TableColumn<FinanceReportData, Long> gesamtbetragColumn = new TableColumn<>(FinanceFieldNames.GESAMTBETRAG);

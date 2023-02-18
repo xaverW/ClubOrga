@@ -22,7 +22,7 @@ import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.feeData.FeeFactory;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
 import de.p2tools.clubOrga.data.memberData.MemberData;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
+import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.date.PDateFactory;
 
@@ -37,6 +37,7 @@ import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Sepa {
@@ -376,7 +377,7 @@ public class Sepa {
             Date date = new SimpleDateFormat("dd.MM.yyyy").parse(mitglied.getSepaBeginn().toString());
             genD = sdf.format(date);
         } catch (Exception ex) {
-            mitglied.getSepaBeginn().setPLocalDateNow(); // todo??
+            mitglied.setSepaBeginn(LocalDate.now()); // todo??
             genD = sdf.format(new Date());
         }
         return genD;
@@ -545,7 +546,7 @@ public class Sepa {
         String ret = "";
         int laenge = 25;
 
-        ConfigExtra[] configs = beitrag.getConfigsArr();
+        Config[] configs = beitrag.getConfigsArr();
 
         for (int i = 0; i < configs.length; ++i) {
             if (i >= 11) {

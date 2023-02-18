@@ -58,7 +58,7 @@ public class GuiFinanceInfoPaneTrTable extends AnchorPane {
     private final TextField txtFinanceBelegNr = new TextField();
     private final PYearPicker pYearPickerFinanceGeschaeftsjahr = new PYearPicker();
     private final PTextFieldMoney txtFinanceBetrag = new PTextFieldMoney(true);
-    private final PDatePropertyPicker pdpFinanceBuchungsdatum = new PDatePropertyPicker();
+    private final PLDatePropertyPicker pdpFinanceBuchungsdatum = new PLDatePropertyPicker();
     private final PComboBoxObject<FinanceAccountData> cboAccount = new PComboBoxObject<>();
     private final TextArea txtFinanceText = new TextArea();
 

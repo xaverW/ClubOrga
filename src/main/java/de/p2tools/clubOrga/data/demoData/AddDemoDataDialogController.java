@@ -152,7 +152,7 @@ public class AddDemoDataDialogController extends PDialogExtra {
         tabFinances.setClosable(false);
         tabPane.getTabs().addAll(tabClub, tabMember, tabFinances);
         VBox.setVgrow(tabPane, Priority.ALWAYS);
-        getvBoxCont().getChildren().add(tabPane);
+        getVBoxCont().getChildren().add(tabPane);
     }
 
     private void initTabClub() {

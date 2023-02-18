@@ -18,7 +18,10 @@
 package de.p2tools.clubOrga.data.feeData.feeRateData;
 
 import de.p2tools.clubOrga.config.club.ClubConfig;
-import de.p2tools.p2Lib.configFile.config.*;
+import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.Config_longProp;
+import de.p2tools.p2Lib.configFile.config.Config_moneyProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -45,20 +48,20 @@ public class FeeRateDataBase extends PDataSample<FeeRateData> {
     }
 
     @Override
-    public ConfigExtra[] getConfigsArr() {
+    public Config[] getConfigsArr() {
         ArrayList<Config> list = new ArrayList<>();
         list.addAll(Arrays.asList(getConfigs()));
 
-        return list.toArray(new ConfigExtra[]{});
+        return list.toArray(new Config[]{});
     }
 
     private Config[] getConfigs() {
         return new Config[]{
-                new ConfigLongPropExtra("id", FeeRateFieldNames.ID, id),
-                new ConfigLongPropExtra("nr", FeeRateFieldNames.NO, no),
-                new ConfigStringPropExtra("name", FeeRateFieldNames.NAME, name),
-                new ConfigMoneyPropExtra("betrag", FeeRateFieldNames.BETRAG, betrag),
-                new ConfigStringPropExtra("text", FeeRateFieldNames.DESCRIPTION, text),
+                new Config_longProp("id", FeeRateFieldNames.ID, id),
+                new Config_longProp("nr", FeeRateFieldNames.NO, no),
+                new Config_stringProp("name", FeeRateFieldNames.NAME, name),
+                new Config_moneyProp("betrag", FeeRateFieldNames.BETRAG, betrag),
+                new Config_stringProp("text", FeeRateFieldNames.DESCRIPTION, text),
         };
     }
 

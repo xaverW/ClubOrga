@@ -133,7 +133,7 @@ public abstract class abListDialogController extends PDialogExtra {
 
 
         vBox.getChildren().add(gridPane);
-        getvBoxCont().getChildren().add(splitPane);
+        getVBoxCont().getChildren().add(splitPane);
 
         initTable();
     }

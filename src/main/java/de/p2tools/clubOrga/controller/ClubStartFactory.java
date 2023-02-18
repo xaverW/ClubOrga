@@ -30,11 +30,10 @@ import de.p2tools.clubOrga.controller.newsletter.NewsletterFactory;
 import de.p2tools.clubOrga.data.demoData.DemoData;
 import de.p2tools.clubOrga.data.knownClubData.KnownClubData;
 import de.p2tools.clubOrga.icon.GetIcon;
-import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
-import de.p2tools.p2Lib.tools.date.PDateFactory;
+import de.p2tools.p2Lib.tools.date.DateFactory;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -152,7 +151,7 @@ public class ClubStartFactory {
             clubConfig.setClubIsStarting(false);
             if (ret) {
                 showClubGui(clubConfig);
-                checkProgUpdate(clubConfig);
+                checkProgUpdate(ProgData.getInstance());
                 PDuration.onlyPing("startClub: geladen");
             }
 
@@ -195,7 +194,8 @@ public class ClubStartFactory {
                 clubConfig.getStage().setWidth(PGuiSize.getWidth(clubConfig.GUI_CLUB_PANEL));
             }
 
-            PGuiSize.setPos(clubConfig.GUI_CLUB_PANEL, clubConfig.getStage());
+            PGuiSize.setOnlyPos(clubConfig.GUI_CLUB_PANEL, clubConfig.getStage());
+
             clubConfig.getStage().show();
             clubConfig.getStage().toFront();
             PDuration.onlyPing("showClubGui: geladen");
@@ -211,56 +211,60 @@ public class ClubStartFactory {
     }
 
     static void setTitel(ClubConfig clubConfig, String title) {
+        //todo DEBUG anzeigen
         if (!title.isEmpty()) {
             clubConfig.getStage().titleProperty().unbind();
             clubConfig.getStage().titleProperty().setValue(title);
         } else {
             clubConfig.getStage().titleProperty().bind(
                     Bindings.when(clubConfig.clubData.nameProperty().isEmpty())
-                            .then(ProgConst.PROGRAMNAME)
+                            .then(ProgConst.PROGRAM_NAME)
                             .otherwise(
-                                    Bindings.concat(ProgConst.PROGRAMNAME,
+                                    Bindings.concat(ProgConst.PROGRAM_NAME,
                                             " <@> ",
                                             clubConfig.clubData.nameProperty()))
             );
         }
     }
 
-    private static void checkProgUpdate(ClubConfig clubConfig) {
+    private static void checkProgUpdate(ProgData progData) {
         // Prüfen obs ein Programmupdate gibt
         PDuration.onlyPing("checkProgUpdate");
 
-        if (ProgConfig.SYSTEM_UPDATE_SEARCH.get() &&
-                !ProgConfig.SYSTEM_UPDATE_DATE.get().equals(PDateFactory.F_FORMAT_yyyy_MM_dd.format(new Date()))) {
-            // nach Updates suchen
-            runUpdateCheck(clubConfig);
 
-        } else if (ProgData.debug) {
+        if (ProgData.debug) {
             // damits bei jedem Start gemacht wird
             PLog.sysLog("DEBUG: Update-Check");
-            runUpdateCheck(clubConfig);
+            runUpdateCheck(progData, true);
+
+        } else if (ProgConfig.SYSTEM_UPDATE_SEARCH_ACT.get() &&
+                !updateCheckTodayDone()) {
+            // nach Updates suchen
+            runUpdateCheck(progData, false);
 
         } else {
             // will der User nicht --oder-- wurde heute schon gemacht
             List list = new ArrayList(5);
             list.add("Kein Update-Check:");
-            if (!ProgConfig.SYSTEM_UPDATE_SEARCH.get()) {
+            if (!ProgConfig.SYSTEM_UPDATE_SEARCH_ACT.get()) {
                 list.add("  der User will nicht");
             }
-            if (ProgConfig.SYSTEM_UPDATE_DATE.get().equals(PDateFactory.F_FORMAT_yyyy_MM_dd.format(new Date()))) {
+            if (updateCheckTodayDone()) {
                 list.add("  heute schon gemacht");
             }
             PLog.sysLog(list);
         }
     }
 
+    private static boolean updateCheckTodayDone() {
+        return ProgConfig.SYSTEM_UPDATE_DATE.get().equals(DateFactory.F_FORMAT_yyyy_MM_dd.format(new Date()));
+    }
 
-    private static void runUpdateCheck(ClubConfig clubConfig) {
-        Thread th = new Thread(() -> {
-            new SearchProgramUpdate(clubConfig.getStage(), clubConfig).searchNewProgramVersion();
-        });
-        th.setName("checkProgUpdate");
-        th.start();
+
+    private static void runUpdateCheck(ProgData progData, boolean showAlways) {
+        //prüft auf neue Version, ProgVersion und auch (wenn gewünscht) BETA-Version, ..
+        ProgConfig.SYSTEM_UPDATE_DATE.setValue(DateFactory.F_FORMAT_yyyy_MM_dd.format(new Date()));
+        new SearchProgramUpdate(progData).searchNewProgramVersion(showAlways);
     }
 
     public static boolean noClubStageIsRunning() {
@@ -302,13 +306,11 @@ public class ClubStartFactory {
 
     private static void addThemeCss(Scene scene) {
         if (ProgConfig.SYSTEM_DARK_THEME.get()) {
-            P2LibInit.addCssFile(P2LibConst.CSS_GUI_DARK);
             P2LibInit.addCssFile(ProgConst.CSS_FILE_DARK_THEME);
         } else {
-            P2LibInit.removeCssFile(P2LibConst.CSS_GUI_DARK);
             P2LibInit.removeCssFile(ProgConst.CSS_FILE_DARK_THEME);
         }
-        P2LibInit.addP2LibCssToScene(scene);
+        P2LibInit.addP2CssToScene(scene);
     }
 
     private static boolean initFirstClubStart(ClubConfig clubConfig) {

@@ -27,7 +27,7 @@ import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
-import de.p2tools.p2Lib.guiTools.PDatePicker;
+import de.p2tools.p2Lib.guiTools.PLDatePicker;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.beans.property.BooleanProperty;
@@ -46,7 +46,7 @@ public class MissingFeeDialogController extends abListDialogController {
     private final PToggleSwitch tglBill = new PToggleSwitch("Rechnung erstellen", true);
 
     private final Label lblFeeDate = new Label("Rechnungsdatum");
-    private final PDatePicker pDatePickerDate = new PDatePicker();
+    private final PLDatePicker pDatePickerDate = new PLDatePicker();
 
     private final PComboBoxString pCboTemplate = new PComboBoxString();
     private final PComboBoxString pCboNewsletterPath = new PComboBoxString();
@@ -197,14 +197,14 @@ public class MissingFeeDialogController extends abListDialogController {
         });
 
         btnOk.disableProperty().bind(tglBill.selectedProperty().and(
-                pCboTemplate.getSelectionModel().selectedItemProperty().isNull()
-                        .or(pCboTemplate.getSelectionModel().selectedItemProperty().isEqualTo(""))
+                        pCboTemplate.getSelectionModel().selectedItemProperty().isNull()
+                                .or(pCboTemplate.getSelectionModel().selectedItemProperty().isEqualTo(""))
 
-                        .or(pCboNewsletterPath.getSelectionModel().selectedItemProperty().isNull())
-                        .or(pCboNewsletterPath.getSelectionModel().selectedItemProperty().isEqualTo(""))
+                                .or(pCboNewsletterPath.getSelectionModel().selectedItemProperty().isNull())
+                                .or(pCboNewsletterPath.getSelectionModel().selectedItemProperty().isEqualTo(""))
 
-                        .or(pCboNewsletterName.getSelectionModel().selectedItemProperty().isNull())
-                        .or(pCboNewsletterName.getSelectionModel().selectedItemProperty().isEqualTo(""))
+                                .or(pCboNewsletterName.getSelectionModel().selectedItemProperty().isNull())
+                                .or(pCboNewsletterName.getSelectionModel().selectedItemProperty().isEqualTo(""))
                 )
         );
 
@@ -236,7 +236,7 @@ public class MissingFeeDialogController extends abListDialogController {
                     null, feeDataList,
                     sourceFile, destP, destF);
 
-            feeDataList.stream().forEach(fee -> fee.setBill(pDatePickerDate.getpLocalDate()));
+            feeDataList.stream().forEach(fee -> fee.setBill(pDatePickerDate.getDateLDate()));
         }
 
         return true;

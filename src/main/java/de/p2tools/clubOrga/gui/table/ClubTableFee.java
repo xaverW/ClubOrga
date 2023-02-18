@@ -24,10 +24,9 @@ import de.p2tools.clubOrga.data.extraData.ExtraData;
 import de.p2tools.clubOrga.data.extraData.ExtraKind;
 import de.p2tools.clubOrga.data.feeData.FeeData;
 import de.p2tools.clubOrga.data.feeData.FeeFieldNames;
-import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.guiTools.PTableFactory;
-import de.p2tools.p2Lib.tools.date.PLocalDate;
-import de.p2tools.p2Lib.tools.date.PLocalDateProperty;
+import de.p2tools.p2Lib.guiTools.pTable.CellCheckBox;
+import de.p2tools.p2Lib.tools.date.PLDateProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -35,6 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ClubTableFee {
@@ -72,16 +72,16 @@ public class ClubTableFee {
         final TableColumn<FeeData, String> zahlartColumn = new TableColumn<>(FeeFieldNames.ZAHLART);
         zahlartColumn.setCellValueFactory(new PropertyValueFactory<>("paymentTypeData"));
 
-        final TableColumn<FeeData, PLocalDateProperty> bezahltColumn = new TableColumn<>(FeeFieldNames.BEZAHLT);
+        final TableColumn<FeeData, PLDateProperty> bezahltColumn = new TableColumn<>(FeeFieldNames.BEZAHLT);
         bezahltColumn.setCellValueFactory(new PropertyValueFactory<>("bezahlt"));
 
-        final TableColumn<FeeData, PLocalDateProperty> rechnungColumn = new TableColumn<>(FeeFieldNames.RECHNUNG);
+        final TableColumn<FeeData, PLDateProperty> rechnungColumn = new TableColumn<>(FeeFieldNames.RECHNUNG);
         rechnungColumn.setCellValueFactory(new PropertyValueFactory<>("rechnung"));
 
-        final TableColumn<FeeData, PLocalDateProperty> spendenQColumn = new TableColumn<>(FeeFieldNames.SPENDEN_Q);
+        final TableColumn<FeeData, PLDateProperty> spendenQColumn = new TableColumn<>(FeeFieldNames.SPENDEN_Q);
         spendenQColumn.setCellValueFactory(new PropertyValueFactory<>("spendenQ"));
 
-        final TableColumn<FeeData, PLocalDate> erstellDatumColumn = new TableColumn<>(FeeFieldNames.ERSTELLDATUM);
+        final TableColumn<FeeData, LocalDate> erstellDatumColumn = new TableColumn<>(FeeFieldNames.ERSTELLDATUM);
         erstellDatumColumn.setCellValueFactory(new PropertyValueFactory<>("erstellDatum"));
 
         tc.add(nrColumn);
@@ -131,7 +131,7 @@ public class ClubTableFee {
                 extraCol.setCellValueFactory((Callback<TableColumn.CellDataFeatures<FeeData, Boolean>, ObservableValue<Boolean>>)
                         p -> p.getValue().getExtraDataPropertyList().get(ii).getBoolProp()
                 );
-                extraCol.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+                extraCol.setCellFactory(new CellCheckBox().cellFactoryBool);
                 tc.add(extraCol);
 
             }

@@ -116,11 +116,11 @@ public class GeneralController extends PAccordionPane {
                         "Das Programm wird aber nicht ungefragt ersetzt.");
 
         //jetzt suchen
-        btnNow.setOnAction(event -> new SearchProgramUpdate(clubConfig.getStage(), clubConfig).searchNewVersionInfos());
+        btnNow.setOnAction(event -> new SearchProgramUpdate(progData, progData.primaryStage).searchNewProgramVersion(true));
         checkBeta();
         tglSearch.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
-        PHyperlink hyperlink = new PHyperlink(ProgConst.WEBSITE_CLUB);
+        PHyperlink hyperlink = new PHyperlink(ProgConst.URL_WEBSITE_CLUB);
         HBox hBoxHyper = new HBox();
         hBoxHyper.setAlignment(Pos.CENTER_LEFT);
         hBoxHyper.setPadding(new Insets(10, 0, 0, 0));

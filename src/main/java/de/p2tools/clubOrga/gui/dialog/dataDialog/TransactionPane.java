@@ -24,7 +24,6 @@ import de.p2tools.clubOrga.data.financeData.FinanceFieldNames;
 import de.p2tools.clubOrga.data.financeData.TransactionData;
 import de.p2tools.clubOrga.data.financeData.TransactionDataList;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigExtra;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxObject;
 import de.p2tools.p2Lib.guiTools.PTextField;
@@ -145,14 +144,14 @@ public class TransactionPane extends VBox {
                     continue;
 
                 } else if (config.getName().equals(FinanceFieldNames.BETRAG)) {
-                    control = ((ConfigExtra) config).getControl();
+                    control = ((Config) config).getControl();
 
                 } else if (config.getName().equals(FinanceFieldNames.KATEGORIE)) {
                     control = getPComboObject(transactionData.financeCategoryDataProperty(), clubConfig.financeCategoryDataList);
 
-                } else if (config instanceof ConfigExtra) {
+                } else if (config instanceof Config) {
                     // rest
-                    control = ((ConfigExtra) config).getControl();
+                    control = ((Config) config).getControl();
 
                 } else {
                     throw new PException("FinancePane.addTransactionData");

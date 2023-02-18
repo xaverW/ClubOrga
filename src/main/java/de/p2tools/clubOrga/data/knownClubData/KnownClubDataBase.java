@@ -18,8 +18,8 @@
 package de.p2tools.clubOrga.data.knownClubData;
 
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigBoolProp;
-import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
+import de.p2tools.p2Lib.configFile.config.Config_boolProp;
+import de.p2tools.p2Lib.configFile.config.Config_stringProp;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -45,9 +45,9 @@ public class KnownClubDataBase extends PDataSample<KnownClubData> {
     @Override
     public Config[] getConfigsArr() {
         return new Config[]{
-                new ConfigStringProp("clubname", clubname),
-                new ConfigStringProp("clubpath", clubpath),
-                new ConfigBoolProp("autostart", autostart),
+                new Config_stringProp("clubname", clubname),
+                new Config_stringProp("clubpath", clubpath),
+                new Config_boolProp("autostart", autostart),
         };
     }
 
