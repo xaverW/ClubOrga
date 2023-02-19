@@ -19,7 +19,6 @@ package de.p2tools.clubOrga.controller;
 import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgConst;
 import de.p2tools.clubOrga.config.prog.ProgData;
-import de.p2tools.p2Lib.checkForActInfos.FoundAll;
 import de.p2tools.p2Lib.checkForActInfos.FoundSearchData;
 import de.p2tools.p2Lib.tools.ProgramToolsFactory;
 import de.p2tools.p2Lib.tools.date.PDate;
@@ -33,17 +32,17 @@ public class SearchProgramUpdate {
     private static final String TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE = "Programmversion ist aktuell";
     private static final String TITLE_TEXT_PROGRAMMUPDATE_EXISTS = "Ein Programmupdate ist verfügbar";
     private final ProgData progData;
-    private Stage stage;
+    private Stage stage = null;//todo
     private String title = "";
 
     public SearchProgramUpdate(ProgData progData) {
         this.progData = progData;
-        this.stage = progData.primaryStage;
+//        this.stage = progData.primaryStage;
     }
 
     public SearchProgramUpdate(ProgData progData, Stage stage) {
         this.progData = progData;
-        this.stage = stage;
+//        this.stage = stage;
     }
 
     /**
@@ -87,10 +86,11 @@ public class SearchProgramUpdate {
                 showAllways
         );
 
-        new Thread(() -> {
-            FoundAll.foundAll(foundSearchData);
-            setTitleInfo(foundSearchData.foundNewVersionProperty().getValue());
-        }).start();
+        //todo
+//        new Thread(() -> {
+//            FoundAll.foundAll(foundSearchData);
+//            setTitleInfo(foundSearchData.foundNewVersionProperty().getValue());
+//        }).start();
     }
 
     private void setTitleInfo(boolean newVersion) {

@@ -22,12 +22,13 @@ import de.p2tools.clubOrga.config.prog.ProgConfig;
 import de.p2tools.clubOrga.config.prog.ProgData;
 import de.p2tools.clubOrga.config.prog.ProgInfos;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.configFile.WriteConfigFile;
+import de.p2tools.p2Lib.configFile.ConfigWriteFile;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.ProgramToolsFactory;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class ProgSaveFactory {
 
@@ -45,7 +46,7 @@ public class ProgSaveFactory {
 
     private static void saveProgConfig() {
         // ist die Clubauswahl und der Dialog dazu
-        PLog.sysLog("save progConfig");
+        PLog.sysLog("Alle Programmeinstellungen sichern");
 //        getProgConfigSizes();
 
         final Path xmlFilePath = ProgInfos.getSettingsFile();
@@ -58,9 +59,7 @@ public class ProgSaveFactory {
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgData.getInstance().knownClubDataList);
 
-        WriteConfigFile readWriteConfigFile = new WriteConfigFile();
-        readWriteConfigFile.addConfigFile(configFile);
-        readWriteConfigFile.writeConfigFile();
+        ConfigWriteFile.writeConfigFile(configFile);
     }
 
 //    private static void getProgConfigSizes() {
@@ -74,16 +73,20 @@ public class ProgSaveFactory {
 
     public static void saveClub(ClubConfig clubConfig) {
         PLog.sysLog("save club: " + clubConfig.clubData.getName());
-
         getClubSizes(clubConfig);
 
-        WriteConfigFile readWriteConfigFile = new WriteConfigFile();
-
-        readWriteConfigFile.addConfigFile(ClubConfigFactory.getClubConfigData(clubConfig));
-        readWriteConfigFile.addConfigFile(ClubConfigFactory.getClubData(clubConfig));
-
         final Path xmlFilePathZip = ProgInfos.getClubDataFileZip(clubConfig.getClubPath());
-        readWriteConfigFile.writeConfigFileZip(xmlFilePathZip);
+        ArrayList<ConfigFile> cFileList = new ArrayList<>();
+
+        ConfigFile configFile = new ConfigFile("", false);
+        ClubConfigFactory.getClubConfigData(clubConfig, configFile);
+        cFileList.add(configFile);
+
+        configFile = new ConfigFile("", false);
+        ClubConfigFactory.getClubData(clubConfig, configFile);
+        cFileList.add(configFile);
+
+        ConfigWriteFile.writeConfigFileZip(xmlFilePathZip, cFileList);
     }
 
     private static void getClubSizes(ClubConfig clubConfig) {

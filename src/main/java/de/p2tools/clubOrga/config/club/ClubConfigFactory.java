@@ -37,23 +37,24 @@ public class ClubConfigFactory {
 
     }
 
-    public static ConfigFile getClubConfigData(ClubConfig clubConfig) {
+    public static void getClubConfigData(ClubConfig clubConfig, ConfigFile configFile) {
         // sind die Einstellungen der Clubfelder, Fenster, ..
         final Path xmlFilePath = ProgInfos.getClubConfigFile(clubConfig.getClubPath());
-        ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
+        configFile.setFilePath(xmlFilePath.toString());
+//        ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
 
         configFile.addConfigs(clubConfig);
         configFile.addConfigs(ProgColorList.getConfigsData());
         configFile.addConfigs(clubConfig.extraDataListMember);
         configFile.addConfigs(clubConfig.extraDataListFee);
         configFile.addConfigs(clubConfig.extraDataListFinance);
-        return configFile;
     }
 
-    public static ConfigFile getClubData(ClubConfig clubConfig) {
+    public static void getClubData(ClubConfig clubConfig, ConfigFile configFile) {
         // sind die Clubdaten: Mitglieder, Beiträge, Finanzen
         final Path xmlFilePath = ProgInfos.getClubDataFile(clubConfig.getClubPath());
-        ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), false);
+        configFile.setFilePath(xmlFilePath.toString());
+//        ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), false);
 
         configFile.addConfigs(clubConfig.clubData);
         configFile.addConfigs(clubConfig.memberDataList);
@@ -64,8 +65,6 @@ public class ClubConfigFactory {
         configFile.addConfigs(clubConfig.financeDataList);
         configFile.addConfigs(clubConfig.financeAccountDataList);
         configFile.addConfigs(clubConfig.financeCategoryDataList);
-
-        return configFile;
     }
 
     public static void initFilter(ClubConfig clubConfig) {

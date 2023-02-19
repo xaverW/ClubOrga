@@ -27,7 +27,7 @@ import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.ConfigReadFile;
-import de.p2tools.p2Lib.configFile.ReadConfigFile;
+import de.p2tools.p2Lib.configFile.ConfigReadZipFile;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -147,22 +147,29 @@ public class ProgStartFactory {
         // beim Vereinswechsel müssen die Daten erst gelöscht werden
         clearClubData(clubConfig);
 
-
-        // ClubConfig und ClubData lesen
+        boolean ret;
         PLog.sysLog("Konfig lesen: " + ProgInfos.getClubDataFileZip(clubConfig.getClubPath()));
-        ReadConfigFile readWriteConfigFile = new ReadConfigFile();
-
-        final ConfigFile configFileConf = getConfigClubConnfig(clubConfig);
-        readWriteConfigFile.addConfigFile(configFileConf);
-        PLog.sysLog("Konfig lesen: " + configFileConf.getConfigFile().toString());
-
-        ConfigFile configFileData = ClubConfigFactory.getClubData(clubConfig);
-        readWriteConfigFile.addConfigFile(configFileData);
-        PLog.sysLog("Konfig lesen: " + configFileData.getConfigFile().toString());
-
         final Path xmlFilePathZip = ProgInfos.getClubDataFileZip(clubConfig.getClubPath());
-        boolean ret = readWriteConfigFile.readConfigFileZip(xmlFilePathZip, backupHeaderClub, backupTextClub);
 
+        ArrayList<ConfigFile> cFileList = new ArrayList<>();
+
+        ConfigFile configFile = new ConfigFile("", false);
+        getConfigClubConnfig(clubConfig, configFile);
+        cFileList.add(configFile);
+
+        configFile = new ConfigFile("", false);
+        ClubConfigFactory.getClubData(clubConfig, configFile);
+        cFileList.add(configFile);
+
+        if (ConfigReadZipFile.readConfig(xmlFilePathZip, cFileList)) {
+            PLog.sysLog("Konfig wurde geladen!");
+            ret = true;
+
+        } else {
+            // dann hat das Laden nicht geklappt
+            PLog.sysLog("Konfig konnte nicht geladen werden!");
+            ret = false;
+        }
 
         // Clubinit
         PDuration.onlyPing("ClubLoadFactory.initListsAfterClubLoad: initListsAfterClubLoad");
@@ -173,16 +180,14 @@ public class ProgStartFactory {
         return ret;
     }
 
-    private static ConfigFile getConfigClubConnfig(ClubConfig clubConfig) {
+    private static void getConfigClubConnfig(ClubConfig clubConfig, ConfigFile configFile) {
         // beim Vereinswechsel müssen die Daten erst gelöscht werden
         clubConfig.extraDataListMember.clear();
         clubConfig.extraDataListFee.clear();
         clubConfig.extraDataListFinance.clear();
 
-        ConfigFile configFile = ClubConfigFactory.getClubConfigData(clubConfig);
-        PLog.sysLog("Konfig lesen: " + configFile.getConfigFile().toString());
-
-        return configFile;
+        ClubConfigFactory.getClubConfigData(clubConfig, configFile);
+        PLog.sysLog("Konfig lesen: " + configFile.getFilePath());
     }
 
     public static synchronized void resetClubData(ClubConfig clubConfig) {
